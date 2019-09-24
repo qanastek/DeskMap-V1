@@ -12,6 +12,7 @@ public class Launcher
 {	
 	/**
 	 * Launches the game.
+	 * Add things for testing
 	 * 
 	 * @param args
 	 * 		Not used here.
