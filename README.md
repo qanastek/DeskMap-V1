@@ -37,6 +37,10 @@ The project relies on the following librarie:
 * xxxxx : this library was used to...
 * yyyyy: ...
 
+## Development environement
+* JavaFX
+    * https://o7planning.org/fr/10619/installation-de-e-fx-clipse-sur-eclipse
+
 ## References
 During development, we use the following bibliographic resources:
 * Webpage x: it explains the rules of the game.
