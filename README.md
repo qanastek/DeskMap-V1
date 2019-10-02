@@ -39,7 +39,8 @@ The project relies on the following librarie:
 
 ## Development environement
 * JavaFX
-    * https://o7planning.org/fr/10619/installation-de-e-fx-clipse-sur-eclipse
+    * Install JavaFX (only if java is under v8) : https://o7planning.org/fr/10619/installation-de-e-fx-clipse-sur-eclipse
+    * Start a JavaFx project : https://www.youtube.com/watch?v=FLkOX4Eez6o
 
 ## References
 During development, we use the following bibliographic resources:
