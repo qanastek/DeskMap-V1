@@ -1,17 +1,17 @@
 package fr.univavignon.ceri.deskmap;
 
 /**
- * This class is used to launch the game.
+ * This class is used to launch the software.
  * 
- * @author Author 1
- * @author Author 2
- * @author Author 3
- * @author Author 4
+ * @author Mohamed BEN YAMNA
+ * @author Quentin Capdepon
+ * @author Yanis Labrak
+ * @author Zihao Zheng
  */
 public class Launcher
 {	
 	/**
-	 * Launches the game.
+	 * Launches the software.
 	 * Add things for testing
 	 * 
 	 * @param args
