@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.deskmap.FXMLDocumentController">
+   <children>
+      <SplitPane dividerPositions="0.2852941176470588" prefHeight="455.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TextField layoutX="23.0" layoutY="17.0" prefHeight="31.0" prefWidth="113.0" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="98.0" />
+                  <TextField fx:id="cityName" layoutX="23.0" layoutY="17.0" prefHeight="31.0" prefWidth="185.0" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="17.0" />
+                  <ComboBox layoutX="151.0" layoutY="98.0" prefHeight="31.0" prefWidth="113.0" AnchorPane.leftAnchor="151.0" AnchorPane.topAnchor="57.0" />
+                  <Button layoutX="23.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#Searching" prefHeight="75.0" prefWidth="113.0" text="SEARCH" AnchorPane.leftAnchor="149.0" AnchorPane.topAnchor="142.0" />
+                  <Button layoutX="23.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#Reset" prefHeight="75.0" prefWidth="113.0" text="RESET" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="142.0" />
+                  <ComboBox layoutX="151.0" layoutY="98.0" prefHeight="31.0" prefWidth="113.0" AnchorPane.leftAnchor="151.0" AnchorPane.topAnchor="98.0" />
+                  <TextField layoutX="23.0" layoutY="57.0" prefHeight="31.0" prefWidth="113.0" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="57.0" />
+                  <Button layoutX="218.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#SetCity" prefHeight="31.0" prefWidth="45.0" text="GO" AnchorPane.leftAnchor="218.0" AnchorPane.topAnchor="17.0" />
+                  <TextArea disable="true" layoutX="23.0" layoutY="230.0" prefHeight="134.0" prefWidth="241.0" text="Je suis un test" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="230.0" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="150.0" prefHeight="447.0" prefWidth="716.0" style="-fx-background-color: pink;">
+               <children>
+                  <Button layoutX="683.0" layoutY="396.0" mnemonicParsing="false" text="-" AnchorPane.bottomAnchor="153.0" AnchorPane.rightAnchor="14.0" />
+                  <Slider layoutX="689.0" layoutY="306.0" orientation="VERTICAL" prefHeight="75.0" prefWidth="17.0" AnchorPane.bottomAnchor="72.0" AnchorPane.rightAnchor="18.0" />
+                  <Button layoutX="682.0" layoutY="393.0" mnemonicParsing="false" text="+" AnchorPane.bottomAnchor="29.0" AnchorPane.rightAnchor="12.0" />
+                  <Button layoutX="680.0" layoutY="43.0" mnemonicParsing="false" text="&gt;" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="43.0" />
+                  <Button layoutX="612.0" layoutY="43.0" mnemonicParsing="false" text="&lt;" AnchorPane.rightAnchor="82.0" AnchorPane.topAnchor="43.0" />
+                  <Button layoutX="643.0" layoutY="12.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="37.0" text="ʌ" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="12.0" />
+                  <Button layoutX="643.0" layoutY="74.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="37.0" text="v" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="74.0" />
+                  <Button layoutX="14.0" layoutY="408.0" mnemonicParsing="false" onMouseClicked="#SetFullscreen" text="FULL" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
