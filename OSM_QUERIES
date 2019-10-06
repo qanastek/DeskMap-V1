@@ -8,6 +8,9 @@ nwr(area)[railway=station];
 out;
 
 // Toutes les villes de france
+/*
+City ne suffit pas il faut aussi mettre: town, village et hamlet
+*/
 
 [out:json];
 area[name="France"];
@@ -19,15 +22,13 @@ out;
 // Récupéré pour ses villes les infos suivantes
 
 [out:csv(
+  	"name",
   	::id,
 	::lat,
-  	::lon,
-  	"name",
-  	"addr:postcode",
-  	"rank"
+  	::lon
 )];
 area[name="France"];
 (
-  node[place="city"](area);
+  node[place~"city|town|village|hamlet"](area);
 );
 out;
