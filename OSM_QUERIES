@@ -1,0 +1,33 @@
+// Testé sur http://overpass-turbo.eu/
+
+// Exemple 1
+
+[out:csv(::id, ::type, "name")];
+area[name="Bonn"];
+nwr(area)[railway=station];
+out;
+
+// Toutes les villes de france
+
+[out:json];
+area[name="France"];
+(
+	node[place="city"](area);
+);
+out;
+
+// Récupéré pour ses villes les infos suivantes
+
+[out:csv(
+  	::id,
+	::lat,
+  	::lon,
+  	"name",
+  	"addr:postcode",
+  	"rank"
+)];
+area[name="France"];
+(
+  node[place="city"](area);
+);
+out;
