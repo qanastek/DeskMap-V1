@@ -1,5 +1,7 @@
 package fr.univavignon.ceri.deskmap;
 
+import java.awt.geom.Point2D;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,6 +27,15 @@ import javafx.stage.Stage;
  */
 public class Launcher extends Application
 {
+	/**
+	 * Coordonées de la ville
+	 */
+	public static Point2D.Double cityCoordinate = new Point2D.Double(43.93009, 4.84706);
+	
+	/**
+	 * Lien de l'API de Overpass FR
+	 */
+	public static String URL_OSM = new String("http://overpass.openstreetmap.fr/api/interpreter");
 	
 	/**
 	 * Launches the software.
@@ -47,7 +58,13 @@ public class Launcher extends Application
 
 		Scene my_scene = new Scene(layout, layout.getLayoutY(), layout.getLayoutX());
 		
-		primaryStage.setTitle("DESKMAP V1.0.5");
+		primaryStage.setTitle("DESKMAP V1.0.6");
+		
+		// Définit la largeur minimal de la fenêtre à la moitié de la largeur de l'écran
+		primaryStage.setMinWidth(screenBounds.getWidth() * 0.5);
+		
+		// Définit la hauteur minimal de la fenêtre à la moitié de la hauteur de l'écran
+		primaryStage.setMinHeight(screenBounds.getHeight() * 0.5);
 		
 		primaryStage.setScene(my_scene);
 		primaryStage.show();

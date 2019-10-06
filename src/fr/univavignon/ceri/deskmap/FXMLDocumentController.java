@@ -22,16 +22,6 @@ public class FXMLDocumentController implements Initializable {
 	@FXML private TextField cityName;
 	
 	/**
-	 * Coordonées de la ville
-	 */
-	public static Point2D.Double cityCoordinate = new Point2D.Double(43.93009, 4.84706);
-	
-	/**
-	 * Lien de l'APIs
-	 */
-	public static String URL_OSM = new String("https://master.apis.dev.openstreetmap.org");
-	
-	/**
 	 * Lorsque l'ont clique sur fullscreen
 	 * @param event évènement
 	 */
