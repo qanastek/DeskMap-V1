@@ -46,7 +46,7 @@ The project relies on the following librarie:
 During development, we use the following bibliographic resources:
 * Webpage x: it explains the rules of the game.
 * Book xxxx: it describes how to write an artifical agent in Java.
-* etc.
+* etc...
 * 
 
 
