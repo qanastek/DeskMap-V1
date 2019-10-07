@@ -29,6 +29,6 @@ out;
 )];
 area[name="France"];
 (
-  node[place~"city|town|village|hamlet"](area);
+  node[place~"city|town"](area);
 );
 out;

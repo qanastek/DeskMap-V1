@@ -5,10 +5,12 @@ import java.awt.geom.Point2D;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -52,6 +54,20 @@ public class FXMLDocumentController implements Initializable {
 	private void Searching(MouseEvent event)
     {		
 		System.out.println("Searching clicked");
+    }
+	
+	/**
+	 * Checking if its a integer
+	 * @param event e
+	 */
+	@FXML
+	private void checkInput(KeyEvent event)
+    {		
+		char value = event.getCharacter().charAt(0);
+		
+		if (!Character.isDigit(value)) {
+			event.consume();
+		}
     }
 	
 	/**
