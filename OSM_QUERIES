@@ -9,15 +9,8 @@ out;
 
 // Toutes les villes de france
 /*
-City ne suffit pas il faut aussi mettre: town, village et hamlet
+City ne suffit pas il faut aussi mettre: town
 */
-
-[out:json];
-area[name="France"];
-(
-	node[place="city"](area);
-);
-out;
 
 // Récupéré pour ses villes les infos suivantes
 
@@ -29,6 +22,6 @@ out;
 )];
 area[name="France"];
 (
-  node[place~"city|town|village|hamlet"](area);
+  node[place~"city|town"](area);
 );
 out;
