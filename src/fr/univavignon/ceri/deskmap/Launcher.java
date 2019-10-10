@@ -26,16 +26,11 @@ import javafx.stage.Stage;
  * @author Zihao Zheng
  */
 public class Launcher extends Application
-{
+{	
 	/**
-	 * Coordonées de la ville
+	 * URL de Overpass API
 	 */
-	public static Point2D.Double cityCoordinate = new Point2D.Double(43.93009, 4.84706);
-	
-	/**
-	 * Lien de l'API de Overpass FR
-	 */
-	public static String URL_OSM = new String("http://overpass.openstreetmap.fr/api/interpreter");
+	public static String URL_OSM = new String("https://lz4.overpass-api.de/api/interpreter?data=");
 	
 	/**
 	 * Launches the software.
@@ -58,7 +53,7 @@ public class Launcher extends Application
 
 		Scene my_scene = new Scene(layout, layout.getLayoutY(), layout.getLayoutX());
 		
-		primaryStage.setTitle("DESKMAP V1.0.14");
+		primaryStage.setTitle("DESKMAP V1.0.15");
 		
 		// Définit la largeur minimal de la fenêtre à la moitié de la largeur de l'écran
 		primaryStage.setMinWidth(screenBounds.getWidth() * 0.5);
