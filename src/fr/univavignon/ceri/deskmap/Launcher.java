@@ -58,7 +58,7 @@ public class Launcher extends Application
 
 		Scene my_scene = new Scene(layout, layout.getLayoutY(), layout.getLayoutX());
 		
-		primaryStage.setTitle("DESKMAP V1.0.6");
+		primaryStage.setTitle("DESKMAP V1.0.14");
 		
 		// Définit la largeur minimal de la fenêtre à la moitié de la largeur de l'écran
 		primaryStage.setMinWidth(screenBounds.getWidth() * 0.5);
