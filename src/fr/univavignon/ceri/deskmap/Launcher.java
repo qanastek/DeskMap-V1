@@ -11,6 +11,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
@@ -49,6 +50,9 @@ public class Launcher extends Application
 		
 		// Set the title of the window
 		primaryStage.setTitle("DESKMAP V1.0.17");
+
+		// Set a favicon to the window
+		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
 
 		// Get the dimensions of the monitor
 	    Rectangle2D screenBounds = Screen.getPrimary().getBounds();
