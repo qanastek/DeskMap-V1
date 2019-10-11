@@ -9,24 +9,24 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.deskmap.main_viewController">
    <children>
-      <SplitPane dividerPositions="0.2852941176470588" prefHeight="455.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.2853" prefHeight="455.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #1a247f;">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="300.0" style="-fx-background-color: #1a247f;">
                <children>
                   <TextField fx:id="toNumber" disable="true" layoutX="23.0" layoutY="17.0" onKeyTyped="#checkInputTo" prefHeight="31.0" prefWidth="127.0" promptText="N° Rue D'arrivé" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="98.0" />
                   <TextField fx:id="cityName" layoutX="23.0" layoutY="17.0" onKeyReleased="#KeyPressCity" onKeyTyped="#checkInputIsLetter" prefHeight="31.0" prefWidth="194.0" promptText="Nom de la ville" style="-fx-background-color: #2d389f; -fx-text-inner-color: #dce1e8;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="17.0" />
                   <ComboBox fx:id="fromName" disable="true" layoutX="155.0" layoutY="57.0" prefHeight="31.0" prefWidth="113.0" promptText="Rue" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="57.0" />
-                  <Button fx:id="SearchBtn" disable="true" layoutX="153.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#Searching" prefHeight="75.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="SEARCH" textFill="WHITE" AnchorPane.leftAnchor="153.0" AnchorPane.topAnchor="142.0">
+                  <Button fx:id="SearchBtn" disable="true" layoutX="153.0" layoutY="142.0" mnemonicParsing="false" onAction="#Searching" prefHeight="75.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="SEARCH" textFill="WHITE" AnchorPane.leftAnchor="153.0" AnchorPane.topAnchor="142.0">
                      <font>
                         <Font name="Roboto Medium" size="21.0" />
                      </font></Button>
-                  <Button fx:id="resetBtn" disable="true" layoutX="23.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#Reset" prefHeight="75.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="RESET" textFill="WHITE" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="142.0">
+                  <Button fx:id="resetBtn" disable="true" layoutX="23.0" layoutY="142.0" mnemonicParsing="false" onAction="#Reset" prefHeight="75.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="RESET" textFill="WHITE" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="142.0">
                      <font>
                         <Font name="Roboto Medium" size="21.0" />
                      </font></Button>
                   <ComboBox fx:id="toName" disable="true" layoutX="155.0" layoutY="98.0" prefHeight="31.0" prefWidth="113.0" promptText="Rue" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="98.0" />
                   <TextField fx:id="fromNumber" disable="true" layoutX="23.0" layoutY="57.0" onKeyTyped="#checkInputFrom" prefHeight="31.0" prefWidth="127.0" promptText="N° Rue Départ" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="57.0" />
-                  <Button fx:id="cityButton" disable="true" layoutX="223.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#SetCity" prefHeight="31.0" prefWidth="45.0" style="-fx-background-color: #8799ff;" text="GO" textFill="WHITE" AnchorPane.leftAnchor="223.0" AnchorPane.topAnchor="17.0">
+                  <Button fx:id="cityButton" disable="true" layoutX="223.0" layoutY="17.0" mnemonicParsing="false" onAction="#SetCity" prefHeight="31.0" prefWidth="45.0" style="-fx-background-color: #8799ff;" text="GO" textFill="WHITE" AnchorPane.leftAnchor="223.0" AnchorPane.topAnchor="17.0">
                      <font>
                         <Font name="Roboto Black" size="15.0" />
                      </font></Button>
@@ -35,35 +35,45 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="150.0" prefHeight="447.0" prefWidth="716.0" style="-fx-background-color: pink;">
                <children>
-                  <Button layoutX="672.0" layoutY="390.0" mnemonicParsing="false" onMouseClicked="#zoomDown" style="-fx-background-color: white;" text="-" textAlignment="CENTER" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="13.0">
+                  <Button layoutX="672.0" layoutY="390.0" mnemonicParsing="false" onAction="#zoomDown" style="-fx-background-color: white;" text="-" textAlignment="CENTER" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="13.0">
                      <font>
                         <Font name="Roboto Black" size="15.0" />
                      </font></Button>
                   <Slider fx:id="slider" layoutX="689.0" layoutY="306.0" orientation="VERTICAL" prefHeight="75.0" prefWidth="17.0" AnchorPane.bottomAnchor="72.0" AnchorPane.rightAnchor="18.0" />
-                  <Button layoutX="670.0" layoutY="275.0" mnemonicParsing="false" onMouseClicked="#zoomUp" style="-fx-background-color: white;" text="+" textAlignment="CENTER" AnchorPane.bottomAnchor="147.0" AnchorPane.rightAnchor="11.0">
+                  <Button layoutX="670.0" layoutY="275.0" mnemonicParsing="false" onAction="#zoomUp" style="-fx-background-color: white;" text="+" textAlignment="CENTER" AnchorPane.bottomAnchor="147.0" AnchorPane.rightAnchor="11.0">
                      <font>
                         <Font name="Roboto Black" size="15.0" />
                      </font></Button>
-                  <Button layoutX="680.0" layoutY="43.0" mnemonicParsing="false" onMouseClicked="#right" style="-fx-background-color: white;" text="&gt;" textFill="#666666" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="43.0">
+                  <Button layoutX="680.0" layoutY="43.0" mnemonicParsing="false" onAction="#right" style="-fx-background-color: white;" text="&gt;" textFill="#666666" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="43.0">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font></Button>
-                  <Button layoutX="612.0" layoutY="43.0" mnemonicParsing="false" onMouseClicked="#left" style="-fx-background-color: white;" text="&lt;" textFill="#666666" AnchorPane.rightAnchor="82.0" AnchorPane.topAnchor="43.0">
+                  <Button layoutX="612.0" layoutY="43.0" mnemonicParsing="false" onAction="#left" style="-fx-background-color: white;" text="&lt;" textFill="#666666" AnchorPane.rightAnchor="82.0" AnchorPane.topAnchor="43.0">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font></Button>
-                  <Button layoutX="643.0" layoutY="12.0" mnemonicParsing="false" onMouseClicked="#up" prefHeight="31.0" prefWidth="37.0" style="-fx-background-color: white;" text="ʌ" textFill="#666666" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="12.0">
+                  <Button layoutX="643.0" layoutY="12.0" mnemonicParsing="false" onAction="#up" prefHeight="31.0" prefWidth="37.0" style="-fx-background-color: white;" text="ʌ" textFill="#666666" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="12.0">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font></Button>
-                  <Button layoutX="643.0" layoutY="74.0" mnemonicParsing="false" onMouseClicked="#down" prefHeight="31.0" prefWidth="37.0" style="-fx-background-color: white;" text="v" textFill="#666666" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="74.0">
+                  <Button layoutX="643.0" layoutY="74.0" mnemonicParsing="false" onAction="#down" prefHeight="31.0" prefWidth="37.0" style="-fx-background-color: white;" text="v" textFill="#666666" AnchorPane.rightAnchor="45.0" AnchorPane.topAnchor="74.0">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font></Button>
-                  <Button layoutX="14.0" layoutY="12.0" mnemonicParsing="false" onMouseClicked="#SetFullscreen" style="-fx-background-color: white;" text="FULL" textFill="#666666" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="12.0">
+                  <Button layoutX="14.0" layoutY="12.0" mnemonicParsing="false" onAction="#SetFullscreen" style="-fx-background-color: white;" text="FULL" textFill="#666666" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="12.0">
                      <font>
                         <Font name="Roboto Light" size="15.0" />
                      </font></Button>
+                  <Button fx:id="showLeft" layoutX="9.0" layoutY="406.0" mnemonicParsing="false" onAction="#showLeft" style="-fx-background-color: white;" text="&gt;" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="9.0">
+                     <font>
+                        <Font name="Roboto Black" size="15.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="hideLeft" layoutX="9.0" layoutY="367.0" mnemonicParsing="false" onAction="#hideLeft" style="-fx-background-color: white;" text="&lt;" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="9.0">
+                     <font>
+                        <Font name="Roboto Black" size="15.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
         </items>

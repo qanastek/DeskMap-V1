@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.TextField;
@@ -42,12 +43,16 @@ public class main_viewController {
 	private Button resetBtn;
 	@FXML
 	private Button SearchBtn;
+	@FXML
+	private Button hideLeft;
+	@FXML
+	private Button showLeft;
 	
 	/**
 	 * Action trigged when we click on the fullscreen button
 	 * @param event évènement
 	 */
-	private void FullScreen(MouseEvent event)
+	private void FullScreen(ActionEvent event)
     {
 		Node source = (Node) event.getSource();
 	    Window theStage = source.getScene().getWindow();
@@ -98,7 +103,7 @@ public class main_viewController {
 	 * @throws Exception
 	 */
 	@FXML
-	public void Searching(MouseEvent event) throws Exception {
+	public void Searching(ActionEvent event) throws Exception {
 		if (this.fromNumber.getText().isEmpty()) {
 			System.out.println("Numéro de rue de départ vide");
 		}
@@ -116,7 +121,7 @@ public class main_viewController {
 	 * @param event
 	 */
 	@FXML
-	public void Reset(MouseEvent event) {
+	public void Reset(ActionEvent event) {
 		System.out.println("Reset clicked");
 	}
 	
@@ -191,7 +196,7 @@ public class main_viewController {
 	 * @param event
 	 */
 	@FXML
-	public void SetCity(MouseEvent event)
+	public void SetCity(ActionEvent event)
 	{
 		// Si le nom de la ville est pas renseigné
 		if (!this.cityName.getText().isEmpty()) {
@@ -239,43 +244,57 @@ public class main_viewController {
 	
 	// Event Listener on Button.onMouseClicked
 	@FXML
-	public void zoomDown(MouseEvent event) {
+	public void zoomDown(ActionEvent event) {
 		System.out.println("Zoom Down");
 	}
 	
 	// Event Listener on Button.onMouseClicked
 	@FXML
-	public void zoomUp(MouseEvent event) {
+	public void zoomUp(ActionEvent event) {
 		System.out.println("Zoom UP");
 	}
 	
 	// Event Listener on Button.onMouseClicked
 	@FXML
-	public void right(MouseEvent event) {
+	public void right(ActionEvent event) {
 		System.out.println("Right Move");
 	}
 	
 	// Event Listener on Button.onMouseClicked
 	@FXML
-	public void left(MouseEvent event) {
+	public void left(ActionEvent event) {
 		System.out.println("Left Move");
 	}
 	
 	// Event Listener on Button.onMouseClicked
 	@FXML
-	public void up(MouseEvent event) {
+	public void up(ActionEvent event) {
 		System.out.println("UP Move");
 	}
 	
 	// Event Listener on Button.onMouseClicked
 	@FXML
-	public void down(MouseEvent event) {
+	public void down(ActionEvent event) {
 		System.out.println("Down Move");
 	}
 	
 	// Event Listener on Button.onMouseClicked
 	@FXML
-	public void SetFullscreen(MouseEvent event) {
+	public void SetFullscreen(ActionEvent event) {
 		this.FullScreen(event);
+	}
+	
+	@FXML
+	public void hideLeft(ActionEvent event)
+	{
+
+		System.out.println("hideLeft");
+	}
+	
+	@FXML
+	public void showLeft(ActionEvent event)
+	{
+
+		System.out.println("showLeft");
 	}
 }
