@@ -46,19 +46,27 @@ public class Launcher extends Application
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		
+		// Set the title of the window
+		primaryStage.setTitle("DESKMAP V1.0.17");
 
+		// Get the dimensions of the monitor
 	    Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 		
+	    // Create and link the layout to a FXML file
+	    // This is the 'WINDOW' of the app
 	    Parent layout = FXMLLoader.load(getClass().getClassLoader().getResource("main_view.fxml"));
 
+	    // The area inside of the layout
 		Scene my_scene = new Scene(layout, layout.getLayoutY(), layout.getLayoutX());
 		
-		primaryStage.setTitle("DESKMAP V1.0.17");
+		// Link to the scene a CSS stylesheet for all the styles
+		my_scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
-		// Définit la largeur minimal de la fenêtre à la moitié de la largeur de l'écran
+		// Set the width of the window to the half of the monitor width
 		primaryStage.setMinWidth(screenBounds.getWidth() * 0.5);
-		
-		// Définit la hauteur minimal de la fenêtre à la moitié de la hauteur de l'écran
+
+		// Set the height of the window to the half of the monitor height
 		primaryStage.setMinHeight(screenBounds.getHeight() * 0.5);
 		
 		primaryStage.setScene(my_scene);

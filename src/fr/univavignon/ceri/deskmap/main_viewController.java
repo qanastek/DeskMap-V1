@@ -44,7 +44,7 @@ public class main_viewController {
 	private Button SearchBtn;
 	
 	/**
-	 * Lorsque l'ont clique sur fullscreen
+	 * Action trigged when we click on the fullscreen button
 	 * @param event évènement
 	 */
 	private void FullScreen(MouseEvent event)
@@ -54,6 +54,10 @@ public class main_viewController {
 	    ((Stage) theStage).setFullScreen(true);
     }
 	
+	/**
+	 * Send the HTTP GET request to the Overpass API
+	 * @throws Exception
+	 */
 	private void sendGet() throws Exception {
 
 		String url = "https://lz4.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(area[name=\"Avignon\"];)->.SA;(node[\"tourism\"=\"museum\"](area.SA);way[\"tourism\"=\"museum\"](area.SA););out;";
@@ -72,23 +76,27 @@ public class main_viewController {
 		System.out.println("\nSending 'GET' request to URL : " + url);
 		System.out.println("Response Code : " + responseCode);
 
-		// Ouvre un flux vers la connection (ouverture d'un socket)
+		// Open a socket between the endpoint and the app
 		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		String inputLine;
 		StringBuffer response = new StringBuffer();
 
-		// Ajouter chaque ligne du fichier recu dans response
+		// Add every single line of the file to the response
 		while ((inputLine = in.readLine()) != null) {
 			response.append(inputLine);
 		}
 		in.close();
 
-		//print result
+		// Display result
 		System.out.println(response.toString());
 
 	}
 	
-	// Event Listener on Button.onMouseClicked
+	/**
+	 * Method trigged when the user click on the search button
+	 * @param event
+	 * @throws Exception
+	 */
 	@FXML
 	public void Searching(MouseEvent event) throws Exception {
 		if (this.fromNumber.getText().isEmpty()) {
@@ -103,12 +111,20 @@ public class main_viewController {
 		}
 	}
 	
-	// Event Listener on Button.onMouseClicked
+	/**
+	 * Method trigged when the user click on the reset button
+	 * @param event
+	 */
 	@FXML
 	public void Reset(MouseEvent event) {
 		System.out.println("Reset clicked");
 	}
 	
+	/**
+	 * The method which check if all the field are filled.
+	 * If not, disable all the buttons
+	 * Else, enable them
+	 */
 	private void checkAllFields() {
 		if (this.fromNumber.getText().isEmpty() || 
 			this.toNumber.getText().isEmpty() || 
@@ -124,7 +140,7 @@ public class main_viewController {
 	}
 
 	/**
-	 * Checking if its a integer
+	 * Check if the event is a integer
 	 * @param event e
 	 */
 	private void checkInputIsInteger(KeyEvent event)
@@ -137,7 +153,7 @@ public class main_viewController {
     }
 	
 	/**
-	 * Checking if its a letter
+	 * Check if the event is a letter
 	 * @param event e
 	 */
 	@FXML
@@ -149,22 +165,31 @@ public class main_viewController {
 			event.consume();
 		}
     }
+	
+	/**
+	 * Everytime a key is pressed inside the 'FROM' field we check if its a integer and enable/disable all buttons
+	 * @param event
+	 */
+	@FXML
+	public void checkInputFrom(KeyEvent event) {
+		this.checkInputIsInteger(event);
+		this.checkAllFields();
+	}
 
-	// Event Listener on TextField[#toNumber].onKeyTyped
+	/**
+	 * Everytime a key is pressed inside the 'TO' field we check if its a integer and enable/disable all buttons
+	 * @param event
+	 */
 	@FXML
 	public void checkInputTo(KeyEvent event) {
 		this.checkInputIsInteger(event);
 		this.checkAllFields();
 	}
 	
-	// Event Listener on TextField[#fromNumber].onKeyTyped
-	@FXML
-	public void checkInputFrom(KeyEvent event) {
-		this.checkInputIsInteger(event);
-		this.checkAllFields();
-	}
-	
-	// Event Listener on Button.onMouseClicked
+	/**
+	 * Method trigged when the 'GO' button beside of the city field is pressed
+	 * @param event
+	 */
 	@FXML
 	public void SetCity(MouseEvent event)
 	{
@@ -177,6 +202,10 @@ public class main_viewController {
 		}
 	}
 	
+	/**
+	 * Method trigged when the user press a key inside the cityName field
+	 * @param event
+	 */
 	@FXML
 	public void KeyPressCity(KeyEvent event) {
 
