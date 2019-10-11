@@ -135,6 +135,20 @@ public class main_viewController {
 			event.consume();
 		}
     }
+	
+	/**
+	 * Checking if its a letter
+	 * @param event e
+	 */
+	@FXML
+	public void checkInputIsLetter(KeyEvent event)
+    {		
+		char value = event.getCharacter().charAt(0);
+		
+		if (!Character.isLetter(value)) {
+			event.consume();
+		}
+    }
 
 	// Event Listener on TextField[#toNumber].onKeyTyped
 	@FXML
@@ -185,9 +199,9 @@ public class main_viewController {
 			this.toName.setDisable(true);
 			
 			this.fromNumber.setText("");
-			this.fromName.setValue(null);
+			this.fromName.setValue("");
 			this.toNumber.setText("");
-			this.toName.setValue(null);
+			this.toName.setValue("");
 			
 			this.resetBtn.setDisable(true);
 			this.SearchBtn.setDisable(true);
