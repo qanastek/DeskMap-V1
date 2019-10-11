@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 import javafx.scene.control.Slider;
+import javafx.scene.control.SplitPane;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -47,6 +48,8 @@ public class main_viewController {
 	private Button hideLeft;
 	@FXML
 	private Button showLeft;
+	@FXML
+	private SplitPane splitPane;
 	
 	/**
 	 * Action trigged when we click on the fullscreen button
@@ -287,14 +290,14 @@ public class main_viewController {
 	@FXML
 	public void hideLeft(ActionEvent event)
 	{
-
 		System.out.println("hideLeft");
+		this.splitPane.setDividerPositions(0.0);
 	}
 	
 	@FXML
 	public void showLeft(ActionEvent event)
 	{
-
 		System.out.println("showLeft");
+		this.splitPane.setDividerPositions(0.29);
 	}
 }
