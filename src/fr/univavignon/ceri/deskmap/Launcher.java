@@ -1,8 +1,9 @@
 package fr.univavignon.ceri.deskmap;
 
-import java.awt.geom.Point2D;
 
 import javafx.application.Application;
+
+
 
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -22,28 +23,11 @@ import javafx.stage.Stage;
  */
 public class Launcher extends Application
 {	
-	/**
-	 * URL de Overpass API
-	 */
-	public static String URL_OSM = new String("https://lz4.overpass-api.de/api/interpreter?data=");
-	
-	/**
-	 * Launches the software.
-	 * Add things for testing
-	 * 
-	 * @param args
-	 * 		Not used here.
-	 */
-	public static void main(String[] args)
-	{
-		launch(args);
-	}
-	
-	@Override
-	public void start(Stage primaryStage) throws Exception {
+
+public void start(Stage primaryStage) throws Exception {
 		
 		// Set the title of the window
-		primaryStage.setTitle("DESKMAP V1.0.18");
+		primaryStage.setTitle("DESKMAP GUI V1.0.0");
 
 		// Set a favicon to the window
 		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
@@ -70,5 +54,11 @@ public class Launcher extends Application
 		primaryStage.setScene(my_scene);
 		primaryStage.show();
 		
-	}	
+	}
+	
+	public static void main(String[] args)
+	{
+		launch(args);
+	}
+	
 }
