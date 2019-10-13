@@ -1,5 +1,17 @@
 package fr.univavignon.ceri.deskmap;
 
+import java.awt.geom.Point2D;
+
+import javafx.application.Application;
+
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+
 /**
  * This class is used to launch the software.
  * 
@@ -8,29 +20,55 @@ package fr.univavignon.ceri.deskmap;
  * @author Yanis Labrak
  * @author Zihao Zheng
  */
-
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-
-
-public class Launcher extends Application {
-
-	 @Override
-	public void start(Stage primaryStage) {
-		try {
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
+public class Launcher extends Application
+{	
+	/**
+	 * URL de Overpass API
+	 */
+	public static String URL_OSM = new String("https://lz4.overpass-api.de/api/interpreter?data=");
 	
-	public static void main(String[] args) {
+	/**
+	 * Launches the software.
+	 * Add things for testing
+	 * 
+	 * @param args
+	 * 		Not used here.
+	 */
+	public static void main(String[] args)
+	{
 		launch(args);
 	}
+	
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		
+		// Set the title of the window
+		primaryStage.setTitle("DESKMAP V1.0.18");
+
+		// Set a favicon to the window
+		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
+
+		// Get the dimensions of the monitor
+	    Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+		
+	    // Create and link the layout to a FXML file
+	    // This is the 'WINDOW' of the app
+	    Parent layout = FXMLLoader.load(getClass().getClassLoader().getResource("main_view.fxml"));
+
+	    // The area inside of the layout
+		Scene my_scene = new Scene(layout, layout.getLayoutY(), layout.getLayoutX());
+		
+		// Link to the scene a CSS stylesheet for all the styles
+		my_scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		
+		// Set the width of the window to the half of the monitor width
+		primaryStage.setMinWidth(screenBounds.getWidth() * 0.5);
+
+		// Set the height of the window to the half of the monitor height
+		primaryStage.setMinHeight(screenBounds.getHeight() * 0.5);
+		
+		primaryStage.setScene(my_scene);
+		primaryStage.show();
+		
+	}	
 }
