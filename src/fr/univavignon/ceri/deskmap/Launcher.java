@@ -1,18 +1,5 @@
 package fr.univavignon.ceri.deskmap;
 
-
-import javafx.application.Application;
-
-
-
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
-
 /**
  * This class is used to launch the software.
  * 
@@ -21,44 +8,29 @@ import javafx.stage.Stage;
  * @author Yanis Labrak
  * @author Zihao Zheng
  */
-public class Launcher extends Application
-{	
 
-public void start(Stage primaryStage) throws Exception {
-		
-		// Set the title of the window
-		primaryStage.setTitle("DESKMAP GUI V1.0.0");
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 
-		// Set a favicon to the window
-		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
 
-		// Get the dimensions of the monitor
-	    Rectangle2D screenBounds = Screen.getPrimary().getBounds();
-		
-	    // Create and link the layout to a FXML file
-	    // This is the 'WINDOW' of the app
-	    Parent layout = FXMLLoader.load(getClass().getClassLoader().getResource("main_view.fxml"));
+public class Launcher extends Application {
 
-	    // The area inside of the layout
-		Scene my_scene = new Scene(layout, layout.getLayoutY(), layout.getLayoutX());
-		
-		// Link to the scene a CSS stylesheet for all the styles
-		my_scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		
-		// Set the width of the window to the half of the monitor width
-		primaryStage.setMinWidth(screenBounds.getWidth() * 0.5);
-
-		// Set the height of the window to the half of the monitor height
-		primaryStage.setMinHeight(screenBounds.getHeight() * 0.5);
-		
-		primaryStage.setScene(my_scene);
-		primaryStage.show();
-		
+	 @Override
+	public void start(Stage primaryStage) {
+		try {
+			BorderPane root = new BorderPane();
+			Scene scene = new Scene(root,400,400);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		launch(args);
 	}
-	
 }
