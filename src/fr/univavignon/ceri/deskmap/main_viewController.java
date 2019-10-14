@@ -4,10 +4,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
 import javafx.scene.control.Slider;
@@ -23,33 +26,60 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.scene.input.KeyEvent;
 
-public class main_viewController {
+public class main_viewController implements Initializable {
 	@FXML
 	private TextField toNumber;
+	
 	@FXML
 	private TextField cityName;
+	
 	@FXML
 	private ComboBox fromName;
+	
+	ObservableList<String> listFrom = FXCollections.observableArrayList("Jean", "Guy", "Pierre");
+	
 	@FXML
 	private ComboBox toName;
+	
 	@FXML
 	private TextField fromNumber;
+	
 	@FXML
 	private TextArea trajet;
+	
 	@FXML
 	private Slider slider;
+	
 	@FXML
 	private Button cityButton;
+	
 	@FXML
 	private Button resetBtn;
+	
 	@FXML
 	private Button SearchBtn;
+	
 	@FXML
 	private Button hideLeft;
+	
 	@FXML
 	private Button showLeft;
+	
 	@FXML
 	private SplitPane splitPane;
+	
+	/**
+	 * URL de Overpass API
+	 */
+	public static String URL_OSM = new String("https://lz4.overpass-api.de/api/interpreter?data=");
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		System.out.println("Initalise");
+		
+		this.fromName.setItems(listFrom);
+		this.toName.setItems(listFrom);
+	}
 	
 	/**
 	 * Action trigged when we click on the fullscreen button
@@ -132,6 +162,8 @@ public class main_viewController {
 	 * The method which check if all the field are filled.
 	 * If not, disable all the buttons
 	 * Else, enable them
+	 * 
+	 * Ajouter la prise en charge des combobox vides
 	 */
 	private void checkAllFields() {
 		if (this.fromNumber.getText().isEmpty() || 

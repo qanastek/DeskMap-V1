@@ -47,3 +47,17 @@ out meta qt;
 out body;
 >;
 out skel qt;
+
+// Récupère toutes les voies d'avignon
+// https://wiki.openstreetmap.org/wiki/Key:highway
+
+[out:json][timeout:50];
+{{geocodeArea:Avignon}}->.SA; (
+   node["highway"="primary"](area.SA);
+   node["highway"="secondary"](area.SA);
+   node["highway"="tertiary"](area.SA);
+   node["highway"="residential"](area.SA);
+   node["highway"="unclassified"](area.SA);
+ way["highway"](area.SA);
+);
+out;

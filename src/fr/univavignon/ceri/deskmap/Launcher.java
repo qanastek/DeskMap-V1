@@ -3,6 +3,8 @@ package fr.univavignon.ceri.deskmap;
 import java.awt.geom.Point2D;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,6 +13,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -27,12 +30,7 @@ import javafx.stage.Stage;
  * @author Zihao Zheng
  */
 public class Launcher extends Application
-{	
-	/**
-	 * URL de Overpass API
-	 */
-	public static String URL_OSM = new String("https://lz4.overpass-api.de/api/interpreter?data=");
-	
+{		
 	/**
 	 * Launches the software.
 	 * Add things for testing
