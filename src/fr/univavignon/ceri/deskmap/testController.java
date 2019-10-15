@@ -28,7 +28,11 @@ public class testController implements Initializable {
 	@FXML Button btn;
 	@FXML AnchorPane anchorPane1,anchorPane2;
 	ObservableList<String> originalItems;
-
+	ObservableList<String> filteredList;
+	/**
+	 * filter for combobox
+	 */
+	String filter = "";
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
     	anchorPane1.setMinWidth(345);
@@ -40,6 +44,7 @@ public class testController implements Initializable {
 
 		this.cbb.setEditable(true);
 		this.originalItems= FXCollections.observableArrayList(this.cbb.getItems());
+		System.out.println(originalItems);
 //		new ComboBoxAutoComplete<String>(cbb);
 
 	}
@@ -77,18 +82,26 @@ public class testController implements Initializable {
 	@FXML
 	private void comboboxToStreet(KeyEvent event){
 
-		ObservableList<String> filteredList = FXCollections.observableArrayList();
+		this.filteredList = FXCollections.observableArrayList();
 
-		String filter = cbb.getEditor().getText();
-
+		this.filter = this.cbb.getEditor().getText();
 
 		if (event.getCode().equals(KeyCode.BACK_SPACE) && filter.length() > 0) {
 			filter = filter.substring(0, filter.length() - 1);
 			this.cbb.getItems().setAll(originalItems);
 		}
-		System.out.println(filter);
-		if(filter.length() != 0){
-			Stream<String> itens = cbb.getItems().stream();
+		if (event.getCode().equals(KeyCode.ESCAPE)) {
+			filter = "";
+		}
+		if (event.getCode().equals(KeyCode.SPACE)) {
+			filter += ' ';
+		}
+		System.out.println("filter is :" +filter);
+		if (filter.length() == 0) {
+			this.filteredList = this.originalItems;
+		}
+		if(filter.length() >= 0){
+			Stream<String> itens = this.cbb.getItems().stream();
 			String txtUsr = filter.toString().toLowerCase();
 			itens.filter(el -> el.toString().toLowerCase().contains(txtUsr)).forEach(filteredList::add);
 
