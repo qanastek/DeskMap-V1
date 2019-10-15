@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.deskmap.MainViewController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Open" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As" />
+            <MenuItem mnemonicParsing="false" text="Revert" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem fx:id="AboutUs" mnemonicParsing="false" onAction="#AboutUs" text="About DESKMAP" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="368.0" prefWidth="288.0" VBox.vgrow="ALWAYS">
+      <children>
+            <SplitPane fx:id="splitPane" dividerPositions="0.5" prefHeight="368.0" prefWidth="640.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                     <children>
+                        <TextField fx:id="cityName" layoutX="44.0" layoutY="14.0" onKeyPressed="#cityNameInput" prefHeight="31.0" prefWidth="217.0" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="54.0" />
+                        <TextField fx:id="fromName" layoutX="44.0" layoutY="57.0" onKeyPressed="#fromVerif" prefHeight="31.0" prefWidth="100.0" AnchorPane.leftAnchor="44.0" />
+                        <TextField fx:id="toName" layoutX="44.0" layoutY="100.0" onKeyPressed="#toVerif" prefHeight="31.0" prefWidth="100.0" AnchorPane.leftAnchor="44.0" />
+                        <ComboBox fx:id="fromCombo" layoutX="151.0" layoutY="57.0" prefHeight="31.0" prefWidth="111.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="54.0" />
+                        <ComboBox fx:id="toCombo" layoutX="151.0" layoutY="100.0" prefHeight="31.0" prefWidth="111.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="54.0" />
+                        <Button fx:id="search" layoutX="44.0" layoutY="152.0" mnemonicParsing="false" onAction="#search" prefHeight="31.0" prefWidth="100.0" text="Chercher" AnchorPane.leftAnchor="44.0" />
+                        <Button fx:id="reset" layoutX="151.0" layoutY="152.0" mnemonicParsing="false" onAction="#reset" prefHeight="31.0" prefWidth="111.0" text="Reset" AnchorPane.leftAnchor="150.0" />
+                        <TextArea fx:id="itineraire" layoutX="58.0" layoutY="206.0" prefHeight="146.0" prefWidth="200.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="206.0" />
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+              </items>
+            </SplitPane>
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>
