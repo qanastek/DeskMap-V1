@@ -4,7 +4,7 @@
 
 [out:csv(::id, ::type, "name")];
 area[name="Bonn"];
-nwr(area)[railway=station];
+node(area)[railway=station];
 out;
 
 // Toutes les villes de france
