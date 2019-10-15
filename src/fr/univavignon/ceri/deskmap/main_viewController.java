@@ -1,8 +1,10 @@
 package fr.univavignon.ceri.deskmap;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
@@ -25,6 +27,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class main_viewController implements Initializable {
@@ -59,6 +62,9 @@ public class main_viewController implements Initializable {
 	private Button resetBtn;
 	
 	@FXML
+	private Button fullscreen;
+	
+	@FXML
 	private Button SearchBtn;
 	
 	@FXML
@@ -79,30 +85,21 @@ public class main_viewController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		System.out.println("Initalise");
 		
+		try {
+			this.getStreet("Avignon");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		this.fromName.setItems(listFrom);
 		this.toName.setItems(listFrom);
+		
 	}
 	
-	/**
-	 * Action trigged when we click on the fullscreen button
-	 * @param event évènement
-	 */
-	private void FullScreen(ActionEvent event)
-    {
-		Node source = (Node) event.getSource();
-	    Window theStage = source.getScene().getWindow();
-	    ((Stage) theStage).setFullScreen(true);
-    }
-	
-	/**
-	 * Send the HTTP GET request to the Overpass API
-	 * @throws Exception
-	 */
-	private void sendGet() throws Exception {
-
-		String url = "https://lz4.overpass-api.de/api/interpreter?data=[out:json][timeout:25];(area[name=\"Avignon\"];)->.SA;(node[\"tourism\"=\"museum\"](area.SA);way[\"tourism\"=\"museum\"](area.SA););out;";
+	private void getStreet(String city) throws Exception {
+		String query = this.URL_OSM + "[out:json][timeout:50];{{geocodeArea:" + city + "}}->.SA;(node[\"highway\"=\"primary\"](area.SA);node[\"highway\"=\"secondary\"](area.SA);node[\"highway\"=\"tertiary\"](area.SA);node[\"highway\"=\"residential\"](area.SA);node[\"highway\"=\"unclassified\"](area.SA); way[\"highway\"](area.SA););out;";
 		
-		URL obj = new URL(url);
+		URL obj = new URL(query);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
 		// optional default is GET
@@ -113,7 +110,64 @@ public class main_viewController implements Initializable {
 
 		int responseCode = con.getResponseCode();
 		
-		System.out.println("\nSending 'GET' request to URL : " + url);
+		System.out.println("\nSending 'GET' request to URL : " + query);
+		System.out.println("Response Code : " + responseCode);
+
+		// Open a socket between the endpoint and the app
+		// BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		// String inputLine;
+		// StringBuffer response = new StringBuffer();
+
+		// Add every single line of the file to the response
+		// while ((inputLine = in.readLine()) != null) {
+		// response.append(inputLine);
+		// }
+		// in.close();
+
+		// Display result
+		// System.out.println(response.toString());
+	}
+	
+	/**
+	 * Action trigged when we click on the fullscreen button
+	 * @param event évènement
+	 */
+	private void FullScreen(ActionEvent event)
+    {
+		Node source = (Node) event.getSource();
+	    Window theStage = source.getScene().getWindow();
+	    
+	    // Switch between FULL / NROMAL mode
+	    if (this.fullscreen.getText().equals("FULL")) {		    
+		    ((Stage) theStage).setFullScreen(true);	
+		    this.fullscreen.setText("NORMAL");		
+		}
+	    else {
+		    ((Stage) theStage).setFullScreen(false);
+		    this.fullscreen.setText("FULL");
+		}
+    }
+	
+	/**
+	 * Send the HTTP GET request to the Overpass API
+	 * @throws Exception
+	 */
+	private void sendGet() throws Exception {
+
+		String query = this.URL_OSM + "[out:json][timeout:25];(area[name=\"Avignon\"];)->.SA;(node[\"tourism\"=\"museum\"](area.SA);way[\"tourism\"=\"museum\"](area.SA););out;";
+		
+		URL obj = new URL(query);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+		// optional default is GET
+		con.setRequestMethod("GET");
+
+		//add request header
+		// con.setRequestProperty("User-Agent", USER_AGENT);
+
+		int responseCode = con.getResponseCode();
+		
+		System.out.println("\nSending 'GET' request to URL : " + query);
 		System.out.println("Response Code : " + responseCode);
 
 		// Open a socket between the endpoint and the app
@@ -335,29 +389,49 @@ public class main_viewController implements Initializable {
 		this.splitPane.setDividerPositions(0.29);
 	}
 	
+	/**
+	 * Autocomplete for comboBox
+	 * @param event
+	 */
 	@FXML
 	public void autoCompleteFrom(KeyEvent event) {
 		
-		// Value of the comboxbox text
+		// Current value of the comboBox from/to street
 		String current_value = this.fromName.getEditor().getText();	
 		
+		// If the user write nothing
 		if (!current_value.isEmpty()) {
 			
-			System.out.println("current_value:");	
-			System.out.println(current_value);
-			
-			this.listFrom.clear();
-			
-			for (String street : this.listFromStart) {
-				System.out.println("street");
-				System.out.println(street.toLowerCase());
+			// If the last pressed key is TAB
+			if (event.getCode() == KeyCode.CONTROL) {
 				
-				if (street.toLowerCase().contains(current_value)) {
-					this.listFrom.add(street.toLowerCase());
+				if (this.listFrom.size() > 0) {
+					// Set the current value to the first element of the list which contain the current word
+					this.fromName.setValue(this.listFrom.get(0));
 				}
+				
+				// Dont read this char
+				event.consume();
+				
+			} else {
+
+				this.listFrom.clear();
+				
+				for (String street : this.listFromStart) {					
+					if (street.toLowerCase().contains(current_value)) {
+						this.listFrom.add(street.toLowerCase());
+					}
+				}
+				
+				// If no result
+				if (this.listFrom.size() <= 0) {
+					this.fromName.getStyleClass().add("warning");
+					System.out.println("Warning");
+				}
+				
+				System.out.println(this.listFrom);
+				
 			}
-			
-			System.out.println(this.listFrom);
 			
 		}
 		else {

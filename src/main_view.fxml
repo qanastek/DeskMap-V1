@@ -17,12 +17,19 @@
                <children>
                   <VBox prefHeight="455.0" prefWidth="292.0" style="-fx-pref-height: 100%; -fx-pref-width: 100%;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0" style="-fx-pref-width: 100%;">
+                        <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0" style="-fx-pref-width: 100%;" VBox.vgrow="ALWAYS">
                            <children>
                               <TextField fx:id="cityName" layoutX="23.0" layoutY="17.0" onKeyReleased="#KeyPressCity" onKeyTyped="#checkInputIsLetter" prefHeight="31.0" prefWidth="100.0" promptText="Nom de la ville" style="-fx-background-color: #2d389f; -fx-text-inner-color: #dce1e8;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="17.0" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
+                                 <contextMenu>
+                                    <ContextMenu>
+                                      <items>
+                                        <MenuItem mnemonicParsing="false" text="exemple1" />
+                                      </items>
+                                    </ContextMenu>
+                                 </contextMenu>
                               </TextField>
                               <Button fx:id="cityButton" disable="true" layoutX="223.0" layoutY="17.0" mnemonicParsing="false" onAction="#SetCity" prefHeight="31.0" prefWidth="45.0" style="-fx-background-color: #8799ff;" text="GO" textFill="WHITE" AnchorPane.leftAnchor="223.0" AnchorPane.topAnchor="17.0" HBox.hgrow="ALWAYS">
                                  <font>
@@ -37,7 +44,7 @@
                               <Insets left="15.0" right="15.0" top="20.0" />
                            </padding>
                         </HBox>
-                        <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0">
+                        <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0" VBox.vgrow="ALWAYS">
                            <children>
                               <TextField fx:id="fromNumber" disable="true" layoutX="23.0" layoutY="57.0" onKeyTyped="#checkInputFrom" prefHeight="31.0" prefWidth="100.0" promptText="N° Rue Départ" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="57.0" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
@@ -50,7 +57,7 @@
                               <Insets left="15.0" right="15.0" top="10.0" />
                            </padding>
                         </HBox>
-                        <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0">
+                        <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0" VBox.vgrow="ALWAYS">
                            <children>
                               <TextField fx:id="toNumber" disable="true" layoutX="23.0" layoutY="17.0" onKeyTyped="#checkInputTo" prefHeight="31.0" prefWidth="119.0" promptText="N° Rue D'arrivé" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="98.0" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
@@ -63,7 +70,7 @@
                               <Insets left="15.0" right="15.0" top="10.0" />
                            </padding>
                         </HBox>
-                        <HBox minHeight="0.0" minWidth="0.0" prefHeight="50.0" prefWidth="214.0" spacing="5.0">
+                        <HBox minHeight="0.0" minWidth="0.0" prefHeight="50.0" prefWidth="214.0" spacing="5.0" VBox.vgrow="ALWAYS">
                            <children>
                               <Button fx:id="resetBtn" disable="true" layoutX="23.0" layoutY="142.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#Reset" prefHeight="39.0" prefWidth="128.0" style="-fx-background-color: #8799ff;" text="RESET" textFill="WHITE" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="142.0" HBox.hgrow="ALWAYS">
                                  <font>
@@ -83,9 +90,9 @@
                               <Insets left="15.0" right="15.0" top="10.0" />
                            </padding>
                         </HBox>
-                        <HBox prefHeight="271.0" prefWidth="292.0" style="-fx-pref-width: 100%;">
+                        <HBox prefHeight="271.0" prefWidth="292.0" style="-fx-pref-width: 100%;" VBox.vgrow="ALWAYS">
                            <children>
-                              <TextArea fx:id="trajet" disable="true" minHeight="0.0" minWidth="0.0" prefHeight="271.0" prefWidth="320.0" style="-fx-background-color: #1a247f;" text="Informations de trajet ..." HBox.hgrow="ALWAYS" />
+                              <TextArea fx:id="trajet" editable="false" minHeight="0.0" minWidth="0.0" prefHeight="271.0" prefWidth="320.0" text="Informations about the path..." HBox.hgrow="ALWAYS" />
                            </children>
                            <padding>
                               <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
@@ -142,7 +149,7 @@
                         <Font name="System Bold" size="15.0" />
                      </font>
                   </Button>
-                  <Button layoutX="15.0" layoutY="410.0" mnemonicParsing="false" onAction="#SetFullscreen" style="-fx-background-color: white;" text="FULL" textFill="#666666" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="15.0">
+                  <Button fx:id="fullscreen" layoutX="15.0" layoutY="410.0" mnemonicParsing="false" onAction="#SetFullscreen" style="-fx-background-color: white;" text="FULL" textFill="#666666" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="15.0">
                      <font>
                         <Font name="Roboto Light" size="15.0" />
                      </font></Button>
@@ -167,6 +174,12 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <AnchorPane layoutY="595.0" prefHeight="130.0" prefWidth="1028.0" style="-fx-background-color: tomato;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+      <AnchorPane layoutY="595.0" prefHeight="130.0" prefWidth="1028.0" style="-fx-background-color: #1a247f;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <TextArea editable="false" layoutX="13.0" layoutY="18.0" prefHeight="95.0" prefWidth="995.0" text="No errors..." AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding></AnchorPane>
    </children>
 </AnchorPane>

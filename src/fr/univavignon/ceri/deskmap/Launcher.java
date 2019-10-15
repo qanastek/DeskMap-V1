@@ -47,7 +47,7 @@ public class Launcher extends Application
 	public void start(Stage primaryStage) throws Exception {
 		
 		// Set the title of the window
-		primaryStage.setTitle("DESKMAP V1.0.21");
+		primaryStage.setTitle("DESKMAP V1.0.26");
 
 		// Set a favicon to the window
 		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
@@ -66,10 +66,10 @@ public class Launcher extends Application
 		my_scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
 		// Set the width of the window to the half of the monitor width
-		primaryStage.setMinWidth(screenBounds.getWidth() * 0.5);
+		primaryStage.setMinWidth(screenBounds.getWidth() * 0.6);
 
 		// Set the height of the window to the half of the monitor height
-		primaryStage.setMinHeight(screenBounds.getHeight() * 0.5);
+		primaryStage.setMinHeight(screenBounds.getHeight() * 0.6);
 		
 		primaryStage.setScene(my_scene);
 		primaryStage.show();
