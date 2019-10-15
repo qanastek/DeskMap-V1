@@ -1,5 +1,9 @@
 // Testé sur http://overpass-turbo.eu/
 
+// Liens utiles:
+https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL#By_area_.28area.29
+
+
 // Exemple 1
 
 [out:csv(::id, ::type, "name")];
