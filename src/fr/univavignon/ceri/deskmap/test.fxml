@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="anchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.deskmap.testController">
+   <children>
+      <SplitPane fx:id="splitPane" dividerPositions="0.2913188647746244" layoutX="-6.0" prefHeight="700.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane fx:id="anchorPane1" maxWidth="345.0" minHeight="0.0" minWidth="0.0" prefWidth="345.0">
+               <children>
+                  <TextField fx:id="nomVille" layoutX="30.0" layoutY="60.0" onKeyPressed="#checkVille" onKeyReleased="#checkVille" prefHeight="30.0" prefWidth="165.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="45.0" />
+                  <TextField fx:id="nStreet" layoutX="30.0" layoutY="100.0" onKeyTyped="#TextType" prefHeight="30.0" prefWidth="115.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="100.0" />
+                  <TextField layoutX="30.0" layoutY="189.0" onKeyTyped="#TextType" prefHeight="30.0" prefWidth="115.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="155.0" />
+                  <TextArea layoutX="30.0" layoutY="329.0" prefHeight="200.0" prefWidth="285.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="330.0" />
+                  <Button fx:id="btn" layoutX="239.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#okClick" prefHeight="30.0" prefWidth="97.0" text="OK" AnchorPane.leftAnchor="220.0" AnchorPane.topAnchor="45.0" />
+                  <Button layoutX="30.0" layoutY="213.0" mnemonicParsing="false" onMouseClicked="#SetCity" prefHeight="80.0" prefWidth="115.0" text="SetCity" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="210.0" />
+                  <Button layoutX="200.0" layoutY="210.0" mnemonicParsing="false" onMouseClicked="#Searching" prefHeight="81.0" prefWidth="115.0" text="Rearching" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="210.0" />
+                  <ComboBox fx:id="cbb" layoutX="169.0" layoutY="100.0" onKeyReleased="#comboboxToStreet" prefHeight="30.0" prefWidth="145.0" />
+                  <ComboBox layoutX="169.0" layoutY="155.0" prefHeight="30.0" prefWidth="145.0" promptText="Hi" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="855.0">
+               <children>
+                  <Button layoutX="218.0" layoutY="75.0" mnemonicParsing="false" text="◄" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="55.0" />
+                  <Button layoutX="259.0" layoutY="36.0" mnemonicParsing="false" text="▲" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0" />
+                  <Button layoutX="302.0" layoutY="75.0" mnemonicParsing="false" text="►" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="55.0" />
+                  <Button layoutX="259.0" layoutY="113.0" mnemonicParsing="false" text="▼" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="90.0" />
+                  <Slider layoutX="285.0" layoutY="488.0" opacity="0.92" orientation="VERTICAL" value="50.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="20.0" />
+                  <ToggleButton layoutX="34.0" layoutY="25.0" mnemonicParsing="false" text="ss" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
