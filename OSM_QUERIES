@@ -4,7 +4,7 @@
 
 [out:csv(::id, ::type, "name")];
 area[name="Bonn"];
-nwr(area)[railway=station];
+node(area)[railway=station];
 out;
 
 // Toutes les villes de france
@@ -53,6 +53,17 @@ out skel qt;
 
 [out:json][timeout:50];
 {{geocodeArea:Avignon}}->.SA; (
+   node["highway"="primary"](area.SA);
+   node["highway"="secondary"](area.SA);
+   node["highway"="tertiary"](area.SA);
+   node["highway"="residential"](area.SA);
+   node["highway"="unclassified"](area.SA);
+ way["highway"](area.SA);
+);
+out;
+
+[out:json][timeout:50];
+area(3600102478)->.SA; (
    node["highway"="primary"](area.SA);
    node["highway"="secondary"](area.SA);
    node["highway"="tertiary"](area.SA);
