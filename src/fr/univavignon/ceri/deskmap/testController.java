@@ -86,25 +86,14 @@ public class testController implements Initializable {
 
 		this.filter = this.cbb.getEditor().getText();
 
-		if (event.getCode().equals(KeyCode.BACK_SPACE) && filter.length() > 0) {
-			filter = filter.substring(0, filter.length() - 1);
+		if (event.getCode().equals(KeyCode.BACK_SPACE)) {
 			this.cbb.getItems().setAll(originalItems);
 		}
-		if (event.getCode().equals(KeyCode.ESCAPE)) {
-			filter = "";
-		}
-		if (event.getCode().equals(KeyCode.SPACE)) {
-			filter += ' ';
-		}
-		System.out.println("filter is :" +filter);
-		if (filter.length() == 0) {
-			this.filteredList = this.originalItems;
-		}
+
 		if(filter.length() >= 0){
 			Stream<String> itens = this.cbb.getItems().stream();
 			String txtUsr = filter.toString().toLowerCase();
 			itens.filter(el -> el.toString().toLowerCase().contains(txtUsr)).forEach(filteredList::add);
-
 			cbb.show();
 		}
 
@@ -121,7 +110,7 @@ public class testController implements Initializable {
 	@FXML
 	private void SetCity(MouseEvent event)
     {
-		System.out.println(nStreet.getText());
+		System.out.println("Set city clicked");
 
     }
 
