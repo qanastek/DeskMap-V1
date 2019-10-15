@@ -9,22 +9,22 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.deskmap.main_viewController">
+<AnchorPane prefHeight="585.0" prefWidth="1022.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.deskmap.main_viewController">
    <children>
-      <SplitPane fx:id="splitPane" dividerPositions="0.29" prefHeight="455.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane fx:id="splitPane" dividerPositions="0.29" prefHeight="455.0" prefWidth="1022.0" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="300.0" style="-fx-background-color: #1a247f;">
                <children>
-                  <VBox prefHeight="455.0" prefWidth="292.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox prefHeight="455.0" prefWidth="292.0" style="-fx-pref-height: 100%; -fx-pref-width: 100%;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0">
+                        <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0" style="-fx-pref-width: 100%;">
                            <children>
-                              <TextField fx:id="cityName" layoutX="23.0" layoutY="17.0" onKeyReleased="#KeyPressCity" onKeyTyped="#checkInputIsLetter" prefHeight="31.0" prefWidth="194.0" promptText="Nom de la ville" style="-fx-background-color: #2d389f; -fx-text-inner-color: #dce1e8;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="17.0">
+                              <TextField fx:id="cityName" layoutX="23.0" layoutY="17.0" onKeyReleased="#KeyPressCity" onKeyTyped="#checkInputIsLetter" prefHeight="31.0" prefWidth="100.0" promptText="Nom de la ville" style="-fx-background-color: #2d389f; -fx-text-inner-color: #dce1e8;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="17.0" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </TextField>
-                              <Button fx:id="cityButton" disable="true" layoutX="223.0" layoutY="17.0" mnemonicParsing="false" onAction="#SetCity" prefHeight="31.0" prefWidth="45.0" style="-fx-background-color: #8799ff;" text="GO" textFill="WHITE" AnchorPane.leftAnchor="223.0" AnchorPane.topAnchor="17.0">
+                              <Button fx:id="cityButton" disable="true" layoutX="223.0" layoutY="17.0" mnemonicParsing="false" onAction="#SetCity" prefHeight="31.0" prefWidth="45.0" style="-fx-background-color: #8799ff;" text="GO" textFill="WHITE" AnchorPane.leftAnchor="223.0" AnchorPane.topAnchor="17.0" HBox.hgrow="ALWAYS">
                                  <font>
                                     <Font name="Roboto Black" size="15.0" />
                                  </font>
@@ -39,12 +39,12 @@
                         </HBox>
                         <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0">
                            <children>
-                              <TextField fx:id="fromNumber" disable="true" layoutX="23.0" layoutY="57.0" onKeyTyped="#checkInputFrom" prefHeight="31.0" prefWidth="127.0" promptText="N° Rue Départ" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="57.0">
+                              <TextField fx:id="fromNumber" disable="true" layoutX="23.0" layoutY="57.0" onKeyTyped="#checkInputFrom" prefHeight="31.0" prefWidth="100.0" promptText="N° Rue Départ" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="57.0" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </TextField>
-                              <ComboBox fx:id="fromName" disable="true" layoutX="155.0" layoutY="57.0" prefHeight="31.0" prefWidth="113.0" promptText="Rue" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="57.0" />
+                              <ComboBox fx:id="fromName" disable="true" editable="true" layoutX="155.0" layoutY="57.0" onKeyReleased="#autoCompleteFrom" prefHeight="31.0" prefWidth="113.0" promptText="Rue" style="-fx-background-color: #2d389f; -fx-text-inner-color: #2d389f;" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="57.0" HBox.hgrow="ALWAYS" />
                            </children>
                            <padding>
                               <Insets left="15.0" right="15.0" top="10.0" />
@@ -52,12 +52,12 @@
                         </HBox>
                         <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0">
                            <children>
-                              <TextField fx:id="toNumber" disable="true" layoutX="23.0" layoutY="17.0" onKeyTyped="#checkInputTo" prefHeight="31.0" prefWidth="127.0" promptText="N° Rue D'arrivé" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="98.0">
+                              <TextField fx:id="toNumber" disable="true" layoutX="23.0" layoutY="17.0" onKeyTyped="#checkInputTo" prefHeight="31.0" prefWidth="119.0" promptText="N° Rue D'arrivé" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="98.0" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
                               </TextField>
-                              <ComboBox fx:id="toName" disable="true" layoutX="155.0" layoutY="98.0" prefHeight="31.0" prefWidth="113.0" promptText="Rue" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="98.0" />
+                              <ComboBox fx:id="toName" disable="true" editable="true" layoutX="155.0" layoutY="98.0" onKeyReleased="#autoCompleteFrom" prefHeight="31.0" prefWidth="113.0" promptText="Rue" style="-fx-background-color: #2d389f; -fx-text-inner-color: #2d389f;" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="98.0" HBox.hgrow="ALWAYS" />
                            </children>
                            <padding>
                               <Insets left="15.0" right="15.0" top="10.0" />
@@ -65,7 +65,7 @@
                         </HBox>
                         <HBox minHeight="0.0" minWidth="0.0" prefHeight="50.0" prefWidth="214.0" spacing="5.0">
                            <children>
-                              <Button fx:id="resetBtn" disable="true" layoutX="23.0" layoutY="142.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#Reset" prefHeight="39.0" prefWidth="128.0" style="-fx-background-color: #8799ff;" text="RESET" textFill="WHITE" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="142.0">
+                              <Button fx:id="resetBtn" disable="true" layoutX="23.0" layoutY="142.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#Reset" prefHeight="39.0" prefWidth="128.0" style="-fx-background-color: #8799ff;" text="RESET" textFill="WHITE" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="142.0" HBox.hgrow="ALWAYS">
                                  <font>
                                     <Font name="Roboto Medium" size="21.0" />
                                  </font>
@@ -73,7 +73,7 @@
                                     <Insets />
                                  </HBox.margin>
                               </Button>
-                              <Button fx:id="SearchBtn" disable="true" layoutX="153.0" layoutY="142.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#Searching" prefHeight="39.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="SEARCH" textFill="WHITE" AnchorPane.leftAnchor="153.0" AnchorPane.topAnchor="142.0">
+                              <Button fx:id="SearchBtn" disable="true" layoutX="153.0" layoutY="142.0" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#Searching" prefHeight="39.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="SEARCH" textFill="WHITE" AnchorPane.leftAnchor="153.0" AnchorPane.topAnchor="142.0" HBox.hgrow="ALWAYS">
                                  <font>
                                     <Font name="Roboto Medium" size="21.0" />
                                  </font>
@@ -83,9 +83,9 @@
                               <Insets left="15.0" right="15.0" top="10.0" />
                            </padding>
                         </HBox>
-                        <HBox prefHeight="271.0" prefWidth="292.0">
+                        <HBox prefHeight="271.0" prefWidth="292.0" style="-fx-pref-width: 100%;">
                            <children>
-                              <TextArea fx:id="trajet" disable="true" minHeight="0.0" minWidth="0.0" prefHeight="271.0" prefWidth="320.0" style="-fx-background-color: #1a247f;" text="Informations de trajet ..." />
+                              <TextArea fx:id="trajet" disable="true" minHeight="0.0" minWidth="0.0" prefHeight="271.0" prefWidth="320.0" style="-fx-background-color: #1a247f;" text="Informations de trajet ..." HBox.hgrow="ALWAYS" />
                            </children>
                            <padding>
                               <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
@@ -167,5 +167,6 @@
             </AnchorPane>
         </items>
       </SplitPane>
+      <AnchorPane layoutY="595.0" prefHeight="130.0" prefWidth="1028.0" style="-fx-background-color: tomato;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
    </children>
 </AnchorPane>

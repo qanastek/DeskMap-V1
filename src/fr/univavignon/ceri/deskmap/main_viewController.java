@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -36,7 +37,8 @@ public class main_viewController implements Initializable {
 	@FXML
 	private ComboBox fromName;
 	
-	ObservableList<String> listFrom = FXCollections.observableArrayList("Jean", "Guy", "Pierre");
+	ObservableList<String> listFromStart = FXCollections.observableArrayList("Jean", "Guy", "Pierre");	
+	ObservableList<String> listFrom = FXCollections.observableArrayList(this.listFromStart);
 	
 	@FXML
 	private ComboBox toName;
@@ -201,7 +203,7 @@ public class main_viewController implements Initializable {
     {		
 		char value = event.getCharacter().charAt(0);
 		
-		if (!Character.isLetter(value)) {
+		if (value != ' ' && value != '-' && !Character.isLetter(value)) {
 			event.consume();
 		}
     }
@@ -267,9 +269,9 @@ public class main_viewController implements Initializable {
 			this.toNumber.setDisable(true);
 			this.toName.setDisable(true);
 			
-			this.fromNumber.setText("");
+			this.fromNumber.clear();
 			this.fromName.setValue("");
-			this.toNumber.setText("");
+			this.toNumber.clear();
 			this.toName.setValue("");
 			
 			this.resetBtn.setDisable(true);
@@ -331,5 +333,36 @@ public class main_viewController implements Initializable {
 	{
 		System.out.println("showLeft");
 		this.splitPane.setDividerPositions(0.29);
+	}
+	
+	@FXML
+	public void autoCompleteFrom(KeyEvent event) {
+		
+		// Value of the comboxbox text
+		String current_value = this.fromName.getEditor().getText();	
+		
+		if (!current_value.isEmpty()) {
+			
+			System.out.println("current_value:");	
+			System.out.println(current_value);
+			
+			this.listFrom.clear();
+			
+			for (String street : this.listFromStart) {
+				System.out.println("street");
+				System.out.println(street.toLowerCase());
+				
+				if (street.toLowerCase().contains(current_value)) {
+					this.listFrom.add(street.toLowerCase());
+				}
+			}
+			
+			System.out.println(this.listFrom);
+			
+		}
+		else {
+			this.listFrom.setAll(this.listFromStart);
+			System.out.println(this.listFrom);
+		}
 	}
 }
