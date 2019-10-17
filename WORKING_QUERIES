@@ -1,0 +1,22 @@
+// All the cities (and smallest town) for a specefic area like France, Vaucluse, Avignon
+
+[out:json][timeout:25];
+(area[name="Vaucluse"];)->.SA;
+(
+	node["place"~"city|town"](area.SA);
+	way["place"~"city|town"](area.SA);
+);
+out;
+
+// Get all the streets of a specefic area
+
+[out:json][timeout:50];
+area(3600102478)->.SA; (
+   node["highway"="primary"](area.SA);
+   node["highway"="secondary"](area.SA);
+   node["highway"="tertiary"](area.SA);
+   node["highway"="residential"](area.SA);
+   node["highway"="unclassified"](area.SA);
+ way["highway"](area.SA);
+);
+out;
