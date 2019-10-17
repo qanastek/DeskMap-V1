@@ -1,19 +1,13 @@
+// utilisé le serveur production de overpass
+https://lz4.overpass-api.de/api/interpreter?data=[out:json][timeout:50];(area[name=%22France%22];)-%3E.SA;(node[%22place%22~%22city|town%22](area.SA););out;
+
+
 // All the cities (and smallest town) for a specefic area like France, Vaucluse, Avignon
 
 [out:json][timeout:25];
 (area[name="France"];)->.SA;
 (
-	node["place"~"city"](area.SA);
-);
-out;
-
-OR
-
-[out:json][timeout:25];
-(area[name="Vaucluse"];)->.SA;
-(
 	node["place"~"city|town"](area.SA);
-	way["place"~"city|town"](area.SA);
 );
 out;
 
