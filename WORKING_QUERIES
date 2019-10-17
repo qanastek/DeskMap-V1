@@ -1,6 +1,15 @@
 // All the cities (and smallest town) for a specefic area like France, Vaucluse, Avignon
 
 [out:json][timeout:25];
+(area[name="France"];)->.SA;
+(
+	node["place"~"city"](area.SA);
+);
+out;
+
+OR
+
+[out:json][timeout:25];
 (area[name="Vaucluse"];)->.SA;
 (
 	node["place"~"city|town"](area.SA);
