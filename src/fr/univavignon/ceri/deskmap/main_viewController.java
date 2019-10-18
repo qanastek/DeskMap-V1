@@ -97,8 +97,8 @@ public class main_viewController implements Initializable {
 	}
 	
 	private void getStreet(String city) throws Exception {
-		String query = this.URL_OSM + "[out:json][timeout:50];{{geocodeArea:" + city + "}}->.SA;(node[\"highway\"=\"primary\"](area.SA);node[\"highway\"=\"secondary\"](area.SA);node[\"highway\"=\"tertiary\"](area.SA);node[\"highway\"=\"residential\"](area.SA);node[\"highway\"=\"unclassified\"](area.SA); way[\"highway\"](area.SA););out;";
-		
+		// String query = this.URL_OSM + "[out:json][timeout:50];{{geocodeArea:" + city + "}}->.SA;(node[\"highway\"=\"primary\"](area.SA);node[\"highway\"=\"secondary\"](area.SA);node[\"highway\"=\"tertiary\"](area.SA);node[\"highway\"=\"residential\"](area.SA);node[\"highway\"=\"unclassified\"](area.SA); way[\"highway\"](area.SA););out;";
+		String query = this.URL_OSM + "[out:json][timeout:50]; area(3600102478)->.SA; ( node[\"highway\"=\"primary\"](area.SA); node[\"highway\"=\"secondary\"](area.SA); node[\"highway\"=\"tertiary\"](area.SA); node[\"highway\"=\"residential\"](area.SA); node[\"highway\"=\"unclassified\"](area.SA); way[\"highway\"](area.SA); ); out;";
 		URL obj = new URL(query);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -152,10 +152,9 @@ public class main_viewController implements Initializable {
 	 * Send the HTTP GET request to the Overpass API
 	 * @throws Exception
 	 */
-	private void sendGet() throws Exception {
+	private void getAllCityFrance() throws Exception {
 
-		String query = this.URL_OSM + "[out:json][timeout:25];(area[name=\"Avignon\"];)->.SA;(node[\"tourism\"=\"museum\"](area.SA);way[\"tourism\"=\"museum\"](area.SA););out;";
-		
+		String query = this.URL_OSM + "[out:json][timeout:25]; (area[name=\"France\"];)->.SA; ( node[\"place\"~\"city|town\"](area.SA); ); out;";
 		URL obj = new URL(query);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -201,7 +200,7 @@ public class main_viewController implements Initializable {
 		}
 		else {
 			System.out.println("Search done. Waiting for the response...");
-			this.sendGet();
+			this.getAllCityFrance();
 		}
 	}
 	
