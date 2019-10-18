@@ -40,8 +40,9 @@ public class main_viewController implements Initializable {
 	@FXML
 	private ComboBox fromName;
 	
-	ObservableList<String> listFromStart = FXCollections.observableArrayList("Jean", "Guy", "Pierre");	
-	ObservableList<String> listFrom = FXCollections.observableArrayList(this.listFromStart);
+	ObservableList<String> listCityName = FXCollections.observableArrayList("Jean", "Guy", "Pierre");	
+	ObservableList<String> listCityNameSortedFrom = FXCollections.observableArrayList(this.listCityName);
+	ObservableList<String> listCityNameSortedTo = FXCollections.observableArrayList(this.listCityName);
 	
 	@FXML
 	private ComboBox toName;
@@ -91,8 +92,8 @@ public class main_viewController implements Initializable {
 			e.printStackTrace();
 		}
 		
-		this.fromName.setItems(listFrom);
-		this.toName.setItems(listFrom);
+		this.fromName.setItems(listCityNameSortedFrom);
+		this.toName.setItems(listCityNameSortedTo);
 		
 	}
 	
@@ -225,11 +226,9 @@ public class main_viewController implements Initializable {
 			this.toNumber.getText().isEmpty() || 
 			this.cityName.getText().isEmpty()
 		) {
-			this.resetBtn.setDisable(true);
 			this.SearchBtn.setDisable(true);
 		}
 		else {			
-			this.resetBtn.setDisable(false);
 			this.SearchBtn.setDisable(false);
 		}
 	}
@@ -307,7 +306,8 @@ public class main_viewController implements Initializable {
 		System.out.println("PRESS:" + this.cityName.getText());
 		
 		if (!this.cityName.getText().isEmpty()) {
-			this.cityButton.setDisable(false);
+
+			this.resetBtn.setDisable(false);
 			
 			this.fromNumber.setDisable(false);
 			this.fromName.setDisable(false);
@@ -327,8 +327,8 @@ public class main_viewController implements Initializable {
 			this.toNumber.clear();
 			this.toName.setValue("");
 			
-			this.resetBtn.setDisable(true);
 			this.SearchBtn.setDisable(true);
+			this.resetBtn.setDisable(true);
 		}
 	}
 	
@@ -404,9 +404,9 @@ public class main_viewController implements Initializable {
 			// If the last pressed key is TAB
 			if (event.getCode() == KeyCode.CONTROL) {
 				
-				if (this.listFrom.size() > 0) {
+				if (this.listCityNameSortedFrom.size() > 0) {
 					// Set the current value to the first element of the list which contain the current word
-					this.fromName.setValue(this.listFrom.get(0));
+					this.fromName.setValue(this.listCityNameSortedFrom.get(0));
 				}
 				
 				// Dont read this char
@@ -414,28 +414,79 @@ public class main_viewController implements Initializable {
 				
 			} else {
 
-				this.listFrom.clear();
+				this.listCityNameSortedFrom.clear();
 				
-				for (String street : this.listFromStart) {					
+				for (String street : this.listCityName) {					
 					if (street.toLowerCase().contains(current_value)) {
-						this.listFrom.add(street.toLowerCase());
+						this.listCityNameSortedFrom.add(street.toLowerCase());
 					}
 				}
 				
 				// If no result
-				if (this.listFrom.size() <= 0) {
+				if (this.listCityNameSortedFrom.size() <= 0) {
 					this.fromName.getStyleClass().add("warning");
 					System.out.println("Warning");
 				}
 				
-				System.out.println(this.listFrom);
+				System.out.println(this.listCityNameSortedFrom);
 				
 			}
 			
 		}
 		else {
-			this.listFrom.setAll(this.listFromStart);
-			System.out.println(this.listFrom);
+			this.listCityNameSortedFrom.setAll(this.listCityName);
+			System.out.println(this.listCityNameSortedFrom);
+		}
+	}
+	
+	/**
+	 * Autocomplete for comboBox
+	 * @param event
+	 */
+	@FXML
+	public void autoCompleteTo(KeyEvent event) {
+		
+		// Current value of the comboBox from/to street
+		String current_value = this.toName.getEditor().getText();	
+		
+		// If the user write nothing
+		if (!current_value.isEmpty()) {
+			
+			// If the last pressed key is TAB
+			if (event.getCode() == KeyCode.CONTROL) {
+				
+				if (this.listCityNameSortedTo.size() > 0) {
+					// Set the current value to the first element of the list which contain the current word
+					this.toName.setValue(this.listCityNameSortedTo.get(0));
+				}
+				
+				// Dont read this char
+				event.consume();
+				
+			} else {
+
+				this.listCityNameSortedTo.clear();
+				
+				for (String street : this.listCityName) {
+					if (street.toLowerCase().contains(current_value)) {
+						this.listCityNameSortedTo.add(street.toLowerCase());
+					}
+				}
+				
+				// If no result
+				if (this.listCityNameSortedTo.size() <= 0) {
+					this.toName.getStyleClass().add("warning");
+					System.out.println("Warning");
+				}
+				
+				System.out.println(this.listCityNameSortedTo);
+				
+			}
+			
+		}
+		else {
+			this.listCityNameSortedTo.setAll(this.listCityName);
+			System.out.println(this.listCityNameSortedTo);
 		}
 	}
 }

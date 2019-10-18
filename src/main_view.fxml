@@ -64,7 +64,7 @@
                                     <Insets />
                                  </HBox.margin>
                               </TextField>
-                              <ComboBox fx:id="toName" disable="true" editable="true" layoutX="155.0" layoutY="98.0" onKeyReleased="#autoCompleteFrom" prefHeight="31.0" prefWidth="113.0" promptText="Rue" style="-fx-background-color: #2d389f; -fx-text-inner-color: #2d389f;" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="98.0" HBox.hgrow="ALWAYS" />
+                              <ComboBox fx:id="toName" disable="true" editable="true" layoutX="155.0" layoutY="98.0" onKeyReleased="#autoCompleteTo" prefHeight="31.0" prefWidth="113.0" promptText="Rue" style="-fx-background-color: #2d389f; -fx-text-inner-color: #2d389f;" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="98.0" HBox.hgrow="ALWAYS" />
                            </children>
                            <padding>
                               <Insets left="15.0" right="15.0" top="10.0" />
