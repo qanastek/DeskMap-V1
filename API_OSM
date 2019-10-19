@@ -1,10 +1,2 @@
-[out:csv("name")][timeout:50];
-{{geocodeArea:Avignon}}->.SA; (
-   node["highway"="primary"](area.SA);
-   node["highway"="secondary"](area.SA);
-   node["highway"="tertiary"](area.SA);
-   node["highway"="residential"](area.SA);
-   node["highway"="unclassified"](area.SA);
- way["highway"](area.SA);
-);
-out;
+[out:json][timeout:50]; area(3600102478)->.SA; ( node['highway'='primary'](area.SA); node['highway'='secondary'](area.SA); node['highway'='tertiary'](area.SA); node['highway'='residential'](area.SA); node['highway'='unclassified'](area.SA); way['highway'](area.SA); ); out;
+[out:csv('name')][timeout:50]; area(3600102478)->.SA; ( node['highway'='primary'](area.SA); node['highway'='secondary'](area.SA); node['highway'='tertiary'](area.SA); node['highway'='residential'](area.SA); node['highway'='unclassified'](area.SA); way['highway'](area.SA); ); out;
