@@ -252,8 +252,10 @@ public class main_viewController implements Initializable {
 			this.getCitiesFile(query, CITIES_FILE);	
 		}
 
+		// Load the cities from the file
 		List<City> listeVille = this.getCities();
 		
+		// Send them to the view
 		System.out.println("Name:" + listeVille.get(0).name);
 
 	}
