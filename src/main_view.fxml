@@ -24,9 +24,10 @@
                                     <Insets />
                                  </HBox.margin>
                                  <contextMenu>
-                                    <ContextMenu>
+                                    <ContextMenu autoHide="false">
                                       <items>
                                         <MenuItem mnemonicParsing="false" text="exemple1" />
+                                          <MenuItem mnemonicParsing="false" text="exemple1" />
                                       </items>
                                     </ContextMenu>
                                  </contextMenu>

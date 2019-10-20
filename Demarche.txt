@@ -1,0 +1,2 @@
+Problèmes rencontrées:
+* Dans les classes des villes et des rues l'id ne doivent pas être un Integer car celui-ci est trop petit il faut donc opter pour un Long. Cependant, le compilateur Java ne distingue pas par defaut les Long des Integers. Pour que cette distinction ce fasse, nous devont ajouter un "L" à la fin du nombre. J'ai donc pris l'initiative de convertir dans le contructeur l'id reçu sous forme de String en Long pour évité les problèmes de compilation.

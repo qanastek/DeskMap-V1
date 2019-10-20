@@ -58,14 +58,17 @@ public class main_viewController implements Initializable {
 	private TextField cityName;
 	
 	@FXML
-	private ComboBox fromName;
-	
-	ObservableList<String> listCityName = FXCollections.observableArrayList("Jean", "Guy", "Pierre");	
-	ObservableList<String> listCityNameSortedFrom = FXCollections.observableArrayList(this.listCityName);
-	ObservableList<String> listCityNameSortedTo = FXCollections.observableArrayList(this.listCityName);
+	private ComboBox<Street> fromName;
 	
 	@FXML
-	private ComboBox toName;
+	private ComboBox<Street> toName;
+	
+	ObservableList<Street> listStreetName;
+	ObservableList<Street> listStreetNameSortedFrom;
+	ObservableList<Street> listStreetNameSortedTo;
+	
+	ObservableList<City> listeVille;
+	ObservableList<City> listeVilleSorted;
 	
 	@FXML
 	private TextField fromNumber;
@@ -112,41 +115,30 @@ public class main_viewController implements Initializable {
 			e.printStackTrace();
 		}
 		
-		this.fromName.setItems(listCityNameSortedFrom);
-		this.toName.setItems(listCityNameSortedTo);
+		this.fromName.setItems(this.listStreetNameSortedFrom);
+		this.toName.setItems(this.listStreetNameSortedTo);
 		
 	}
 	
-	private void getStreet(String city) throws Exception {
-		// String query = this.URL_OSM + "[out:json][timeout:50];{{geocodeArea:" + city + "}}->.SA;(node[\"highway\"=\"primary\"](area.SA);node[\"highway\"=\"secondary\"](area.SA);node[\"highway\"=\"tertiary\"](area.SA);node[\"highway\"=\"residential\"](area.SA);node[\"highway\"=\"unclassified\"](area.SA); way[\"highway\"](area.SA););out;";
-		String query = this.URL_OSM + "[out:json][timeout:50]; area(3600102478)->.SA; ( node[\"highway\"=\"primary\"](area.SA); node[\"highway\"=\"secondary\"](area.SA); node[\"highway\"=\"tertiary\"](area.SA); node[\"highway\"=\"residential\"](area.SA); node[\"highway\"=\"unclassified\"](area.SA); way[\"highway\"](area.SA); ); out;";
-		URL obj = new URL(query);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-		// optional default is GET
-		con.setRequestMethod("GET");
-
-		//add request header
-		// con.setRequestProperty("User-Agent", USER_AGENT);
-
-		int responseCode = con.getResponseCode();
+	private void getAllStreet(City city) throws Exception {
+		String query = this.URL_OSM + "[out:csv(::id,\"name\";false;\"|\")][timeout:50];area(" + city.id + ")->.SA;(node[\"highway\"=\"primary\"](area.SA);node[\"highway\"=\"secondary\"](area.SA);node[\"highway\"=\"tertiary\"](area.SA);node[\"highway\"=\"residential\"](area.SA);node[\"highway\"=\"unclassified\"](area.SA);way[\"highway\"](area.SA););out;";
 		
-		System.out.println("\nSending 'GET' request to URL : " + query);
-		System.out.println("Response Code : " + responseCode);
+		final String STREET_FILE = city.name + ".csv";
+		
+		System.out.println("Query created: " + query);
+		
+		final Path path = Files.createTempFile(city.name, ".csv");
+		File f = new File(STREET_FILE);
+		
+		if (!f.exists()) {
+			System.out.println("Fichier non trouvé.");
+			this.laodQueryInFile(query, STREET_FILE);	
+		}
 
-		// Open a socket between the endpoint and the app
-		// BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		// String inputLine;
-		// StringBuffer response = new StringBuffer();
-
-		// Add every single line of the file to the response
-		// while ((inputLine = in.readLine()) != null) {
-		// response.append(inputLine);
-		// }
-		// in.close();
-
-		// Display result
-		// System.out.println(response.toString());
+		// Load the cities from the file		
+		this.listStreetName = FXCollections.observableArrayList(this.getStreet(city));
+		this.listStreetNameSortedFrom = FXCollections.observableArrayList(this.listStreetName);
+		this.listStreetNameSortedTo = FXCollections.observableArrayList(this.listStreetName);
 	}
 	
 	/**
@@ -173,7 +165,7 @@ public class main_viewController implements Initializable {
 	 * @param query
 	 * @param outputName
 	 */
-	private void getCitiesFile(String query, String outputName) {
+	private void laodQueryInFile(String query, String outputName) {
 		
 		System.out.println("Création du fichier...");
 		
@@ -183,13 +175,13 @@ public class main_viewController implements Initializable {
 			URL queryUrl = new URL(query);
 			
 			// Open the stream
-			ReadableByteChannel rbc = Channels.newChannel(queryUrl.openStream());
+			ReadableByteChannel stream = Channels.newChannel(queryUrl.openStream());
 			
 			// Create the output file
-			FileOutputStream fos = new FileOutputStream(outputName);
+			FileOutputStream outputFile = new FileOutputStream(outputName);
 			
 			// Copy the line into the output file
-			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+			outputFile.getChannel().transferFrom(stream, 0, Long.MAX_VALUE);
 			
 			System.out.println("Fichier créer.");
 		    
@@ -212,18 +204,64 @@ public class main_viewController implements Initializable {
 		    	// Escape the separator
 		        String[] values = line.split("\\|");
 		        
-		        City city = new City(
-	        		Integer.parseInt(values[0]),
-	        		Double.parseDouble(values[1]),
-	        		Double.parseDouble(values[2]),
-	        		values[3]
-		        );
-		        
-		        records.add(city);
-		        
-		        // System.out.println(city);
+		        if (!values[0].isEmpty() && !values[1].isEmpty() && !values[2].isEmpty() && !values[3].isEmpty()) {
+		        	City city = new City(
+		        		values[0],
+		        		Double.parseDouble(values[1]),
+		        		Double.parseDouble(values[2]),
+		        		values[3]
+			        );
+			        
+			        records.add(city);
+			        
+			        // System.out.println(city);
+				}
 		        
 		    }
+		    
+		}
+		catch (Exception e) {
+			System.err.println(e);
+		}
+		
+		return records;
+	}
+	
+	private List<Street> getStreet(City city) throws Exception {		
+		List<Street> records = new ArrayList<Street>();
+		
+		try {
+			System.out.println("Open the file " + city.name + ".csv");
+			BufferedReader br = new BufferedReader(new FileReader(city.name + ".csv"));
+					
+		    String line;
+		    
+		    System.out.println("Start reading");
+		    
+		    // While the file have lines
+		    while ((line = br.readLine()) != null) {
+		    	
+		    	// Escape the separator
+		        String[] values = line.split("\\|");
+		        
+		        if (values.length == 2 && !values[0].isEmpty()) {
+		        	
+//				    	System.out.println(line);
+			        	
+			        	Street street = new Street(
+			        		values[0],
+			        		values[1]
+				        );
+				        
+				        records.add(street);
+				        
+				        System.out.println(street);
+					
+				}
+		        
+		    }
+		    
+		    System.out.println("End reading");
 		    
 		}
 		catch (Exception e) {
@@ -249,15 +287,12 @@ public class main_viewController implements Initializable {
 		
 		if (!f.exists()) {
 			System.out.println("Fichier non trouvé.");
-			this.getCitiesFile(query, CITIES_FILE);	
+			this.laodQueryInFile(query, CITIES_FILE);	
 		}
 
-		// Load the cities from the file
-		List<City> listeVille = this.getCities();
-		
-		// Send them to the view
-		System.out.println("Name:" + listeVille.get(0).name);
-
+		// Load the cities from the file		
+		this.listeVille = FXCollections.observableArrayList(this.getCities());
+		this.listeVilleSorted= FXCollections.observableArrayList(this.listeVille);
 	}
 	
 	/**
@@ -285,7 +320,23 @@ public class main_viewController implements Initializable {
 	 */
 	@FXML
 	public void Reset(ActionEvent event) {
-		System.out.println("Reset clicked");
+		this.cityName.clear();
+		this.cityButton.setDisable(true);
+		
+		this.fromNumber.setDisable(true);
+		this.fromName.setDisable(true);
+		this.toNumber.setDisable(true);
+		this.toName.setDisable(true);
+		
+		this.fromNumber.clear();
+//		this.fromName.setValue("");
+		this.toNumber.clear();
+//		this.toName.setValue("");
+		
+		this.SearchBtn.setDisable(true);
+		this.resetBtn.setDisable(true);
+		
+		System.out.println("Reseted");
 	}
 	
 	/**
@@ -365,7 +416,34 @@ public class main_viewController implements Initializable {
 		// Si le nom de la ville est pas renseigné
 		if (!this.cityName.getText().isEmpty()) {
 			System.out.println("Value: " + this.cityName.getText());
-			this.getStreet(this.cityName.getText());
+//			this.getStreet(this.cityName.getText());
+			this.getAllStreet(new City("3600102478", 48.8566969, 2.3514616, "Paris"));
+			
+			if (!this.cityName.getText().isEmpty()) {
+				this.cityButton.setDisable(false);
+				this.resetBtn.setDisable(false);
+				
+				this.fromNumber.setDisable(false);
+				this.fromName.setDisable(false);
+				this.toNumber.setDisable(false);
+				this.toName.setDisable(false);
+			}
+			else {
+				this.cityButton.setDisable(true);
+				
+				this.fromNumber.setDisable(true);
+				this.fromName.setDisable(true);
+				this.toNumber.setDisable(true);
+				this.toName.setDisable(true);
+				
+				this.fromNumber.clear();
+//				this.fromName.setValue("");
+				this.toNumber.clear();
+//				this.toName.setValue("");
+				
+				this.SearchBtn.setDisable(true);
+				this.resetBtn.setDisable(true);
+			}
 		}
 		else {
 			System.out.println("Empty field");
@@ -382,13 +460,8 @@ public class main_viewController implements Initializable {
 		System.out.println("CITY KEY PRESSED:" + this.cityName.getText());
 		
 		if (!this.cityName.getText().isEmpty()) {
-
+			this.cityButton.setDisable(false);
 			this.resetBtn.setDisable(false);
-			
-			this.fromNumber.setDisable(false);
-			this.fromName.setDisable(false);
-			this.toNumber.setDisable(false);
-			this.toName.setDisable(false);
 		}
 		else {
 			this.cityButton.setDisable(true);
@@ -399,9 +472,9 @@ public class main_viewController implements Initializable {
 			this.toName.setDisable(true);
 			
 			this.fromNumber.clear();
-			this.fromName.setValue("");
+//			this.fromName.setValue("");
 			this.toNumber.clear();
-			this.toName.setValue("");
+//			this.toName.setValue("");
 			
 			this.SearchBtn.setDisable(true);
 			this.resetBtn.setDisable(true);
@@ -480,9 +553,9 @@ public class main_viewController implements Initializable {
 			// If the last pressed key is TAB
 			if (event.getCode() == KeyCode.CONTROL) {
 				
-				if (this.listCityNameSortedFrom.size() > 0) {
+				if (this.listStreetNameSortedFrom.size() > 0) {
 					// Set the current value to the first element of the list which contain the current word
-					this.fromName.setValue(this.listCityNameSortedFrom.get(0));
+					this.fromName.setValue(this.listStreetNameSortedFrom.get(0));
 				}
 				
 				// Dont read this char
@@ -490,28 +563,28 @@ public class main_viewController implements Initializable {
 				
 			} else {
 
-				this.listCityNameSortedFrom.clear();
+				this.listStreetNameSortedFrom.clear();
 				
-				for (String street : this.listCityName) {					
+				for (String street : this.listStreetName) {					
 					if (street.toLowerCase().contains(current_value)) {
-						this.listCityNameSortedFrom.add(street.toLowerCase());
+						this.listStreetNameSortedFrom.add(street.toLowerCase());
 					}
 				}
 				
 				// If no result
-				if (this.listCityNameSortedFrom.size() <= 0) {
+				if (this.listStreetNameSortedFrom.size() <= 0) {
 					this.fromName.getStyleClass().add("warning");
 					System.out.println("Warning");
 				}
 				
-				System.out.println(this.listCityNameSortedFrom);
+				System.out.println(this.listStreetNameSortedFrom);
 				
 			}
 			
 		}
 		else {
-			this.listCityNameSortedFrom.setAll(this.listCityName);
-			System.out.println(this.listCityNameSortedFrom);
+			this.listStreetNameSortedFrom.setAll(this.listStreetName);
+			System.out.println(this.listStreetNameSortedFrom);
 		}
 	}
 	
@@ -531,9 +604,9 @@ public class main_viewController implements Initializable {
 			// If the last pressed key is TAB
 			if (event.getCode() == KeyCode.CONTROL) {
 				
-				if (this.listCityNameSortedTo.size() > 0) {
+				if (this.listStreetNameSortedTo.size() > 0) {
 					// Set the current value to the first element of the list which contain the current word
-					this.toName.setValue(this.listCityNameSortedTo.get(0));
+					this.toName.setValue(this.listStreetNameSortedTo.get(0));
 				}
 				
 				// Dont read this char
@@ -541,28 +614,28 @@ public class main_viewController implements Initializable {
 				
 			} else {
 
-				this.listCityNameSortedTo.clear();
+				this.listStreetNameSortedTo.clear();
 				
-				for (String street : this.listCityName) {
-					if (street.toLowerCase().contains(current_value)) {
-						this.listCityNameSortedTo.add(street.toLowerCase());
+				for (Street street : this.listStreetName) {
+					if (street.name.toLowerCase().contains(current_value)) {
+						this.listStreetNameSortedTo.add(street);
 					}
 				}
 				
 				// If no result
-				if (this.listCityNameSortedTo.size() <= 0) {
+				if (this.listStreetNameSortedTo.size() <= 0) {
 					this.toName.getStyleClass().add("warning");
 					System.out.println("Warning");
 				}
 				
-				System.out.println(this.listCityNameSortedTo);
+				System.out.println(this.listStreetNameSortedTo);
 				
 			}
 			
 		}
 		else {
-			this.listCityNameSortedTo.setAll(this.listCityName);
-			System.out.println(this.listCityNameSortedTo);
+			this.listStreetNameSortedTo.setAll(this.listStreetName);
+			System.out.println(this.listStreetNameSortedTo);
 		}
 	}
 }
