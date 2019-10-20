@@ -1,13 +1,34 @@
 package fr.univavignon.ceri.deskmap;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,7 +39,6 @@ import javafx.scene.control.TextField;
 
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
@@ -80,14 +100,14 @@ public class main_viewController implements Initializable {
 	/**
 	 * URL de Overpass API
 	 */
-	public static String URL_OSM = new String("https://lz4.overpass-api.de/api/interpreter?data=");
+	public static String URL_OSM = "https://lz4.overpass-api.de/api/interpreter?data=";
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		System.out.println("Initalise");
 		
 		try {
-			this.getStreet("Avignon");
+			this.getAllCityFrance();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -135,8 +155,7 @@ public class main_viewController implements Initializable {
 	 */
 	private void FullScreen(ActionEvent event)
     {
-		Node source = (Node) event.getSource();
-	    Window theStage = source.getScene().getWindow();
+	    Window theStage = ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 	    
 	    // Switch between FULL / NROMAL mode
 	    if (this.fullscreen.getText().equals("FULL")) {		    
@@ -150,39 +169,92 @@ public class main_viewController implements Initializable {
     }
 	
 	/**
+	 * If cities are not cached get them
+	 * @param query
+	 * @param outputName
+	 */
+	private void getCitiesFile(String query, String outputName) {
+		
+		System.out.println("Création du fichier...");
+		
+		try {
+			
+			// Make the URL
+			URL queryUrl = new URL(query);
+			
+			// Open the stream
+			ReadableByteChannel rbc = Channels.newChannel(queryUrl.openStream());
+			
+			// Create the output file
+			FileOutputStream fos = new FileOutputStream(outputName);
+			
+			// Copy the line into the output file
+			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+			
+			System.out.println("Fichier créer.");
+		    
+		} catch (Exception e) {
+			System.err.println(e);
+		}
+	}
+	
+	private List<City> getCities() throws Exception {		
+		List<City> records = new ArrayList<City>();
+		
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("cities.csv"));
+					
+		    String line;
+		    
+		    // While the file have lines
+		    while ((line = br.readLine()) != null) {
+		    	
+		    	// Escape the separator
+		        String[] values = line.split("\\|");
+		        
+		        City city = new City(
+	        		Integer.parseInt(values[0]),
+	        		Double.parseDouble(values[1]),
+	        		Double.parseDouble(values[2]),
+	        		values[3]
+		        );
+		        
+		        records.add(city);
+		        
+		        // System.out.println(city);
+		        
+		    }
+		    
+		}
+		catch (Exception e) {
+			System.err.println(e);
+		}
+		
+		return records;
+	}
+	
+	/**
 	 * Send the HTTP GET request to the Overpass API
 	 * @throws Exception
 	 */
 	private void getAllCityFrance() throws Exception {
 
-		String query = this.URL_OSM + "[out:json][timeout:25]; (area[name=\"France\"];)->.SA; ( node[\"place\"~\"city|town\"](area.SA); ); out;";
-		URL obj = new URL(query);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-		// optional default is GET
-		con.setRequestMethod("GET");
-
-		//add request header
-		// con.setRequestProperty("User-Agent", USER_AGENT);
-
-		int responseCode = con.getResponseCode();
+		final String query = this.URL_OSM + "[out:csv(::id,::lat,::lon,\"name\";false;\"|\")][timeout:25];(area[name=\"France\"];)->.SA;(node[\"place\"~\"city|town\"](area.SA););out;";
+		final String CITIES_FILE = "cities.csv";
 		
-		System.out.println("\nSending 'GET' request to URL : " + query);
-		System.out.println("Response Code : " + responseCode);
-
-		// Open a socket between the endpoint and the app
-		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-
-		// Add every single line of the file to the response
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
+		System.out.println("Query created: " + query);
+		
+		final Path path = Files.createTempFile("cities", ".csv");
+		File f = new File(CITIES_FILE);
+		
+		if (!f.exists()) {
+			System.out.println("Fichier non trouvé.");
+			this.getCitiesFile(query, CITIES_FILE);	
 		}
-		in.close();
 
-		// Display result
-		System.out.println(response.toString());
+		List<City> listeVille = this.getCities();
+		
+		System.out.println("Name:" + listeVille.get(0).name);
 
 	}
 	
@@ -201,7 +273,7 @@ public class main_viewController implements Initializable {
 		}
 		else {
 			System.out.println("Search done. Waiting for the response...");
-			this.getAllCityFrance();
+			// Fonction affichage de la carte
 		}
 	}
 	
@@ -283,13 +355,15 @@ public class main_viewController implements Initializable {
 	/**
 	 * Method trigged when the 'GO' button beside of the city field is pressed
 	 * @param event
+	 * @throws Exception 
 	 */
 	@FXML
-	public void SetCity(ActionEvent event)
+	public void SetCity(ActionEvent event) throws Exception
 	{
 		// Si le nom de la ville est pas renseigné
 		if (!this.cityName.getText().isEmpty()) {
 			System.out.println("Value: " + this.cityName.getText());
+			this.getStreet(this.cityName.getText());
 		}
 		else {
 			System.out.println("Empty field");
@@ -303,7 +377,7 @@ public class main_viewController implements Initializable {
 	@FXML
 	public void KeyPressCity(KeyEvent event) {
 
-		System.out.println("PRESS:" + this.cityName.getText());
+		System.out.println("CITY KEY PRESSED:" + this.cityName.getText());
 		
 		if (!this.cityName.getText().isEmpty()) {
 
