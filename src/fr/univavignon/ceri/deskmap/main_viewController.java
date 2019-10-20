@@ -63,9 +63,9 @@ public class main_viewController implements Initializable {
 	@FXML
 	private ComboBox<Street> toName;
 	
-	ObservableList<Street> listStreetName;
-	ObservableList<Street> listStreetNameSortedFrom;
-	ObservableList<Street> listStreetNameSortedTo;
+	ObservableList<Street> listStreetName = FXCollections.observableArrayList();
+	ObservableList<Street> listStreetNameSortedFrom = FXCollections.observableArrayList();
+	ObservableList<Street> listStreetNameSortedTo = FXCollections.observableArrayList();
 	
 	ObservableList<City> listeVille;
 	ObservableList<City> listeVilleSorted;
@@ -136,9 +136,9 @@ public class main_viewController implements Initializable {
 		}
 
 		// Load the cities from the file		
-		this.listStreetName = FXCollections.observableArrayList(this.getStreet(city));
-		this.listStreetNameSortedFrom = FXCollections.observableArrayList(this.listStreetName);
-		this.listStreetNameSortedTo = FXCollections.observableArrayList(this.listStreetName);
+		this.listStreetName.addAll(this.getStreet(city));
+		this.listStreetNameSortedFrom.addAll(this.listStreetName);
+		this.listStreetNameSortedTo.addAll(this.listStreetName);
 	}
 	
 	/**
@@ -565,9 +565,9 @@ public class main_viewController implements Initializable {
 
 				this.listStreetNameSortedFrom.clear();
 				
-				for (String street : this.listStreetName) {					
-					if (street.toLowerCase().contains(current_value)) {
-						this.listStreetNameSortedFrom.add(street.toLowerCase());
+				for (Street street : this.listStreetName) {					
+					if (street.name.toLowerCase().contains(current_value)) {
+						this.listStreetNameSortedFrom.add(street);
 					}
 				}
 				
@@ -577,14 +577,14 @@ public class main_viewController implements Initializable {
 					System.out.println("Warning");
 				}
 				
-				System.out.println(this.listStreetNameSortedFrom);
+//				System.out.println(this.listStreetNameSortedFrom);
 				
 			}
 			
 		}
 		else {
 			this.listStreetNameSortedFrom.setAll(this.listStreetName);
-			System.out.println(this.listStreetNameSortedFrom);
+//			System.out.println(this.listStreetNameSortedFrom);
 		}
 	}
 	
@@ -628,14 +628,14 @@ public class main_viewController implements Initializable {
 					System.out.println("Warning");
 				}
 				
-				System.out.println(this.listStreetNameSortedTo);
+//				System.out.println(this.listStreetNameSortedTo);
 				
 			}
 			
 		}
 		else {
 			this.listStreetNameSortedTo.setAll(this.listStreetName);
-			System.out.println(this.listStreetNameSortedTo);
+//			System.out.println(this.listStreetNameSortedTo);
 		}
 	}
 }
