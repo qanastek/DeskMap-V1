@@ -39,6 +39,7 @@ import javafx.scene.control.TextField;
 
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
@@ -51,6 +52,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class main_viewController implements Initializable {
+	
+	@FXML
+	private Canvas canvasMap;
+	
 	@FXML
 	private TextField toNumber;
 	
@@ -204,7 +209,7 @@ public class main_viewController implements Initializable {
 		    	// Escape the separator
 		        String[] values = line.split("\\|");
 		        
-		        if (!values[0].isEmpty() && !values[1].isEmpty() && !values[2].isEmpty() && !values[3].isEmpty()) {
+		        if (values.length == 4 && !values[0].isEmpty() && !values[1].isEmpty() && !values[2].isEmpty() && !values[3].isEmpty()) {
 		        	City city = new City(
 		        		values[0],
 		        		Double.parseDouble(values[1]),
@@ -255,7 +260,7 @@ public class main_viewController implements Initializable {
 				        
 				        records.add(street);
 				        
-				        System.out.println(street);
+//				        System.out.println(street);
 					
 				}
 		        
