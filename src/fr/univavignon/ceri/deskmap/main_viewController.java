@@ -410,6 +410,22 @@ public class main_viewController implements Initializable {
 		this.checkAllFields();
 	}
 	
+	private City isInListCity(String cityName) {
+		
+		System.out.println("The city: " + cityName);
+		
+		for (City city : this.listeVille) {
+			
+			// TODO: fix le problème de pas égale ici			
+			if (!city.name.isEmpty() && city.name.toLowerCase().equals(cityName.toLowerCase())) {
+				System.out.println("Inside: " + city.name.toLowerCase());
+				return city;
+			}
+		}
+		return null;
+		
+	}
+	
 	/**
 	 * Method trigged when the 'GO' button beside of the city field is pressed
 	 * @param event
@@ -420,34 +436,45 @@ public class main_viewController implements Initializable {
 	{
 		// Si le nom de la ville est pas renseigné
 		if (!this.cityName.getText().isEmpty()) {
-			System.out.println("Value: " + this.cityName.getText());
-//			this.getStreet(this.cityName.getText());
-			this.getAllStreet(new City("3600102478", 48.8566969, 2.3514616, "Paris"));
 			
-			if (!this.cityName.getText().isEmpty()) {
-				this.cityButton.setDisable(false);
-				this.resetBtn.setDisable(false);
+			System.out.println("Value: " + this.cityName.getText());
+			
+			City theCity = this.isInListCity(this.cityName.getText());
+			
+			if (theCity != null) {
 				
-				this.fromNumber.setDisable(false);
-				this.fromName.setDisable(false);
-				this.toNumber.setDisable(false);
-				this.toName.setDisable(false);
+//				System.out.println("ID: " + theCity.id);
+				
+				this.getAllStreet(new City(theCity));
+				
+				if (!this.cityName.getText().isEmpty()) {
+					this.cityButton.setDisable(false);
+					this.resetBtn.setDisable(false);
+					
+					this.fromNumber.setDisable(false);
+					this.fromName.setDisable(false);
+					this.toNumber.setDisable(false);
+					this.toName.setDisable(false);
+				}
+				else {
+					this.cityButton.setDisable(true);
+					
+					this.fromNumber.setDisable(true);
+					this.fromName.setDisable(true);
+					this.toNumber.setDisable(true);
+					this.toName.setDisable(true);
+					
+					this.fromNumber.clear();
+//					this.fromName.setValue("");
+					this.toNumber.clear();
+//					this.toName.setValue("");
+					
+					this.SearchBtn.setDisable(true);
+					this.resetBtn.setDisable(true);
+				}
 			}
 			else {
-				this.cityButton.setDisable(true);
-				
-				this.fromNumber.setDisable(true);
-				this.fromName.setDisable(true);
-				this.toNumber.setDisable(true);
-				this.toName.setDisable(true);
-				
-				this.fromNumber.clear();
-//				this.fromName.setValue("");
-				this.toNumber.clear();
-//				this.toName.setValue("");
-				
-				this.SearchBtn.setDisable(true);
-				this.resetBtn.setDisable(true);
+				System.out.println("Aucune ville correspondante");
 			}
 		}
 		else {
