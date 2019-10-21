@@ -105,6 +105,9 @@ public class main_viewController implements Initializable {
 	@FXML
 	private SplitPane splitPane;
 	
+	@FXML
+	private TextArea infoArea;
+	
 	/**
 	 * URL de Overpass API
 	 */
@@ -125,7 +128,16 @@ public class main_viewController implements Initializable {
 		
 	}
 	
+	private void addInfoArea(String newInfo) {
+		if (this.infoArea.getText().equals("No errors...")) {
+			this.infoArea.setText(newInfo);
+		} else {
+			this.infoArea.setText(this.infoArea.getText() + '\n' + newInfo);
+		}		
+	}
+	
 	private void getAllStreet(City city) throws Exception {
+		// TODO: Fix nothing back from the query
 		String query = this.URL_OSM + "[out:csv(::id,\"name\";false;\"|\")][timeout:50];area(" + city.id + ")->.SA;(node[\"highway\"=\"primary\"](area.SA);node[\"highway\"=\"secondary\"](area.SA);node[\"highway\"=\"tertiary\"](area.SA);node[\"highway\"=\"residential\"](area.SA);node[\"highway\"=\"unclassified\"](area.SA);way[\"highway\"](area.SA););out;";
 		
 		final String STREET_FILE = city.name + ".csv";
@@ -136,7 +148,7 @@ public class main_viewController implements Initializable {
 		File f = new File(STREET_FILE);
 		
 		if (!f.exists()) {
-			System.out.println("Fichier non trouvé.");
+			this.addInfoArea("Fichier non trouvé.");
 			this.laodQueryInFile(query, STREET_FILE);	
 		}
 
@@ -415,8 +427,7 @@ public class main_viewController implements Initializable {
 		System.out.println("The city: " + cityName);
 		
 		for (City city : this.listeVille) {
-			
-			// TODO: fix le problème de pas égale ici			
+					
 			if (!city.name.isEmpty() && city.name.toLowerCase().equals(cityName.toLowerCase())) {
 				System.out.println("Inside: " + city.name.toLowerCase());
 				return city;
@@ -438,10 +449,11 @@ public class main_viewController implements Initializable {
 		if (!this.cityName.getText().isEmpty()) {
 			
 			System.out.println("Value: " + this.cityName.getText());
+			this.addInfoArea("Search in " + this.cityName.getText() + ".csv");
 			
-			City theCity = this.isInListCity(this.cityName.getText());
-			
-			if (theCity != null) {
+			try {
+
+				City theCity = this.isInListCity(this.cityName.getText());
 				
 //				System.out.println("ID: " + theCity.id);
 				
@@ -472,8 +484,9 @@ public class main_viewController implements Initializable {
 					this.SearchBtn.setDisable(true);
 					this.resetBtn.setDisable(true);
 				}
-			}
-			else {
+				
+			} catch (NullPointerException e) {
+				this.addInfoArea("Aucune ville correspondante");
 				System.out.println("Aucune ville correspondante");
 			}
 		}
@@ -485,11 +498,15 @@ public class main_viewController implements Initializable {
 	/**
 	 * Method trigged when the user press a key inside the cityName field
 	 * @param event
+	 * @throws Exception 
 	 */
 	@FXML
-	public void KeyPressCity(KeyEvent event) {
-
-		System.out.println("CITY KEY PRESSED:" + this.cityName.getText());
+	public void KeyPressCity(KeyEvent event) throws Exception {
+		
+		// When the ENTER key is pressed
+		if (event.getCode() == KeyCode.ENTER) {
+			this.SetCity(new ActionEvent());
+		}
 		
 		if (!this.cityName.getText().isEmpty()) {
 			this.cityButton.setDisable(false);
