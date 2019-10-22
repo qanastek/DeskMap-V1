@@ -153,13 +153,13 @@ public class main_viewController implements Initializable {
 		
 		final String STREET_FILE = city.name + ".csv";
 		
-		System.out.println("Query created: " + query);
+		this.addInfoArea("Search for the streets of " + city.name);
 		
 		final Path path = Files.createTempFile(city.name, ".csv");
 		File f = new File(STREET_FILE);
 		
 		if (!f.exists()) {
-			this.addInfoArea("Fichier non trouvé.");
+			this.addInfoArea("File not found !");
 			this.laodQueryInFile(query, STREET_FILE);	
 		}
 
@@ -197,7 +197,7 @@ public class main_viewController implements Initializable {
 	 */
 	private void laodQueryInFile(String query, String outputName) {
 		
-		System.out.println("Création du fichier...");
+		this.addInfoArea("Cache creation");
 		
 		try {
 			
@@ -213,7 +213,7 @@ public class main_viewController implements Initializable {
 			// Copy the line into the output file
 			outputFile.getChannel().transferFrom(stream, 0, Long.MAX_VALUE);
 			
-			System.out.println("Fichier créer.");
+			this.addInfoArea("Caching done !");
 		    
 		} catch (Exception e) {
 			System.err.println(e);
@@ -272,22 +272,19 @@ public class main_viewController implements Initializable {
 		List<Street> records = new ArrayList<Street>();
 		
 		try {
-			System.out.println("Open the file " + city.name + ".csv");
-			BufferedReader br = new BufferedReader(new FileReader(city.name + ".csv"));
+			this.addInfoArea("Try to access to the cached streets.");
+			
+			BufferedReader buffer = new BufferedReader(new FileReader(city.name + ".csv"));
 					
 		    String line;
 		    
-		    System.out.println("Start reading");
-		    
 		    // While the file have lines
-		    while ((line = br.readLine()) != null) {
+		    while ((line = buffer.readLine()) != null) {
 		    	
 		    	// Escape the separator
 		        String[] values = line.split("\\|");
 		        
 		        if (values.length == 2 && !values[0].isEmpty()) {
-		        	
-//				    	System.out.println(line);
 			        	
 			        	Street street = new Street(
 			        		values[0],
@@ -295,14 +292,11 @@ public class main_viewController implements Initializable {
 				        );
 				        
 				        records.add(street);
-				        
-//				        System.out.println(street);
-					
 				}
 		        
 		    }
 		    
-		    System.out.println("End reading");
+		    this.addInfoArea("All streets of " + city.name + " readed");
 		    
 		}
 		catch (Exception e) {
@@ -328,7 +322,7 @@ public class main_viewController implements Initializable {
 		File f = new File(CITIES_FILE);
 		
 		if (!f.exists()) {
-			System.out.println("Fichier non trouvé.");
+			System.out.println("File not found !");
 			this.laodQueryInFile(query, CITIES_FILE);	
 		}
 
@@ -345,14 +339,21 @@ public class main_viewController implements Initializable {
 	 */
 	@FXML
 	public void Searching(ActionEvent event) throws Exception {
-		if (this.fromNumber.getText().isEmpty()) {
-			System.out.println("Numéro de rue de départ vide");
+		String fromNumber = this.fromNumber.getText();
+		Boolean fromName = this.fromName.getSelectionModel().isEmpty();
+		
+		String toNumber = this.toNumber.getText();
+		Boolean toName = this.toName.getSelectionModel().isEmpty();
+		
+		if (fromNumber.isEmpty() || fromName) {
+			System.out.println("Invalid starting adress");
 		}
-		else if (this.toNumber.getText().isEmpty()) {
-			System.out.println("Numéro de rue d'arrivé vide"); 
+		else if (toNumber.isEmpty() || toName) {
+			System.out.println("Invalid destination adress");
 		}
 		else {
-			System.out.println("Search done. Waiting for the response...");
+			this.addInfoArea("Searching for the best path");
+			this.addInfoArea(fromNumber + " " + this.fromName.getSelectionModel().getSelectedItem() + " -> " + toNumber + " " + this.toName.getSelectionModel().getSelectedItem());
 			// Fonction affichage de la carte
 		}
 	}
@@ -388,9 +389,11 @@ public class main_viewController implements Initializable {
 	 * @author Yanis Labrak
 	 */
 	private void checkAllFields() {
-		if (this.fromNumber.getText().isEmpty() || 
-			this.toNumber.getText().isEmpty() || 
-			this.cityName.getText().isEmpty()
+		if (this.cityName.getText().isEmpty() ||
+			this.fromNumber.getText().isEmpty() ||
+			this.toNumber.getText().isEmpty() ||
+			this.fromName.getSelectionModel().isEmpty() ||
+			this.toName.getSelectionModel().isEmpty()
 		) {
 			this.SearchBtn.setDisable(true);
 		}
@@ -438,6 +441,16 @@ public class main_viewController implements Initializable {
 		this.checkInputIsInteger(event);
 		this.checkAllFields();
 	}
+	
+	/**
+	 * Check all the input when a comboBox value change
+	 * @param event
+	 * @author Yanis Labrak
+	 */
+	@FXML
+	public void checkAllComboBox(ActionEvent event) {
+		this.checkAllFields();
+	}
 
 	/**
 	 * Everytime a key is pressed inside the 'TO' field we check if its a integer and enable/disable all buttons
@@ -478,7 +491,7 @@ public class main_viewController implements Initializable {
 		if (!this.cityName.getText().isEmpty()) {
 			
 			System.out.println("Value: " + this.cityName.getText());
-			this.addInfoArea("Search in " + this.cityName.getText() + ".csv");
+			this.addInfoArea("Search for " + this.cityName.getText());
 			
 			try {
 
@@ -682,8 +695,7 @@ public class main_viewController implements Initializable {
 				
 				// If no result
 				if (this.listStreetNameSortedFrom.size() <= 0) {
-					this.fromName.getStyleClass().add("warning");
-					System.out.println("Warning");
+					this.addInfoArea("Unknown start street");
 				}
 				
 //				System.out.println(this.listStreetNameSortedFrom);
@@ -733,8 +745,7 @@ public class main_viewController implements Initializable {
 				
 				// If no result
 				if (this.listStreetNameSortedTo.size() <= 0) {
-					this.toName.getStyleClass().add("warning");
-					System.out.println("Warning");
+					this.addInfoArea("Unknown destination street");
 				}
 				
 //				System.out.println(this.listStreetNameSortedTo);
