@@ -15,10 +15,11 @@ out;
     ::id,::lat,::lon,"name";
     false;
     "|"
-)][timeout:25];
+)];
 (area[name="France"];)->.SA;
 (
-    node["place"~"city|town"](area.SA);
+    node["place"="city"](area.SA);
+    node["place"="town"](area.SA);
 );
 out;
 
