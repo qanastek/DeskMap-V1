@@ -30,10 +30,11 @@ public class Launcher extends Application {
 		primaryStage.setTitle("PUBG");
 
 
-
 		Parent layout = FXMLLoader.load(getClass().getResource("test.fxml"));
 
 		Scene my_scene = new Scene(layout, layout.getLayoutY(), layout.getLayoutX());
+
+		my_scene.getStylesheets().add(getClass().getResource("button.css").toExternalForm());
 
 		primaryStage.setScene(my_scene);
 
