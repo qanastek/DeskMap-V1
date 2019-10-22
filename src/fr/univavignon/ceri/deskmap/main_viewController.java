@@ -128,6 +128,11 @@ public class main_viewController implements Initializable {
 		
 	}
 	
+	/**
+	 * Add informations into the status bar
+	 * @param newInfo
+	 * @author Yanis Labrak
+	 */
 	private void addInfoArea(String newInfo) {
 		if (this.infoArea.getText().equals("No errors...")) {
 			this.infoArea.setText(newInfo);
@@ -136,6 +141,12 @@ public class main_viewController implements Initializable {
 		}		
 	}
 	
+	/**
+	 * Fetch all the cities from the API inside a file
+	 * @param city
+	 * @throws Exception
+	 * @author Yanis Labrak
+	 */
 	private void getAllStreet(City city) throws Exception {
 		// TODO: Fix nothing back from the query
 		String query = this.URL_OSM + "[out:csv(::id,\"name\";false;\"|\")][timeout:50];area(" + city.id + ")->.SA;(node[\"highway\"=\"primary\"](area.SA);node[\"highway\"=\"secondary\"](area.SA);node[\"highway\"=\"tertiary\"](area.SA);node[\"highway\"=\"residential\"](area.SA);node[\"highway\"=\"unclassified\"](area.SA);way[\"highway\"](area.SA););out;";
@@ -161,6 +172,7 @@ public class main_viewController implements Initializable {
 	/**
 	 * Action trigged when we click on the fullscreen button
 	 * @param event évènement
+	 * @author Yanis Labrak
 	 */
 	private void FullScreen(ActionEvent event)
     {
@@ -178,9 +190,10 @@ public class main_viewController implements Initializable {
     }
 	
 	/**
-	 * If cities are not cached get them
+	 * Load cities from cache or the API
 	 * @param query
 	 * @param outputName
+	 * @author Yanis Labrak
 	 */
 	private void laodQueryInFile(String query, String outputName) {
 		
@@ -207,6 +220,11 @@ public class main_viewController implements Initializable {
 		}
 	}
 	
+	/**
+	 * @return The list fill up with the cities
+	 * @throws Exception
+	 * @author Yanis Labrak
+	 */
 	private List<City> getCities() throws Exception {		
 		List<City> records = new ArrayList<City>();
 		
@@ -244,6 +262,12 @@ public class main_viewController implements Initializable {
 		return records;
 	}
 	
+	/**
+	 * @param city
+	 * @return The list fill up with the streets
+	 * @throws Exception
+	 * @author Yanis Labrak
+	 */
 	private List<Street> getStreet(City city) throws Exception {		
 		List<Street> records = new ArrayList<Street>();
 		
@@ -291,6 +315,7 @@ public class main_viewController implements Initializable {
 	/**
 	 * Send the HTTP GET request to the Overpass API
 	 * @throws Exception
+	 * @author Yanis Labrak
 	 */
 	private void getAllCityFrance() throws Exception {
 
@@ -316,6 +341,7 @@ public class main_viewController implements Initializable {
 	 * Method trigged when the user click on the search button
 	 * @param event
 	 * @throws Exception
+	 * @author Yanis Labrak
 	 */
 	@FXML
 	public void Searching(ActionEvent event) throws Exception {
@@ -334,6 +360,7 @@ public class main_viewController implements Initializable {
 	/**
 	 * Method trigged when the user click on the reset button
 	 * @param event
+	 * @author Yanis Labrak
 	 */
 	@FXML
 	public void Reset(ActionEvent event) {
@@ -357,11 +384,8 @@ public class main_viewController implements Initializable {
 	}
 	
 	/**
-	 * The method which check if all the field are filled.
-	 * If not, disable all the buttons
-	 * Else, enable them
-	 * 
-	 * Ajouter la prise en charge des combobox vides
+	 * Disable search until all field wasn't fill up
+	 * @author Yanis Labrak
 	 */
 	private void checkAllFields() {
 		if (this.fromNumber.getText().isEmpty() || 
@@ -378,6 +402,7 @@ public class main_viewController implements Initializable {
 	/**
 	 * Check if the event is a integer
 	 * @param event e
+	 * @author Yanis Labrak
 	 */
 	private void checkInputIsInteger(KeyEvent event)
     {		
@@ -391,6 +416,7 @@ public class main_viewController implements Initializable {
 	/**
 	 * Check if the event is a letter
 	 * @param event e
+	 * @author Yanis Labrak
 	 */
 	@FXML
 	public void checkInputIsLetter(KeyEvent event)
@@ -405,6 +431,7 @@ public class main_viewController implements Initializable {
 	/**
 	 * Everytime a key is pressed inside the 'FROM' field we check if its a integer and enable/disable all buttons
 	 * @param event
+	 * @author Yanis Labrak
 	 */
 	@FXML
 	public void checkInputFrom(KeyEvent event) {
@@ -415,6 +442,7 @@ public class main_viewController implements Initializable {
 	/**
 	 * Everytime a key is pressed inside the 'TO' field we check if its a integer and enable/disable all buttons
 	 * @param event
+	 * @author Yanis Labrak
 	 */
 	@FXML
 	public void checkInputTo(KeyEvent event) {
@@ -440,7 +468,8 @@ public class main_viewController implements Initializable {
 	/**
 	 * Method trigged when the 'GO' button beside of the city field is pressed
 	 * @param event
-	 * @throws Exception 
+	 * @throws Exception
+	 * @author Yanis Labrak
 	 */
 	@FXML
 	public void SetCity(ActionEvent event) throws Exception
@@ -499,6 +528,7 @@ public class main_viewController implements Initializable {
 	 * Method trigged when the user press a key inside the cityName field
 	 * @param event
 	 * @throws Exception 
+	 * @author Yanis Labrak
 	 */
 	@FXML
 	public void KeyPressCity(KeyEvent event) throws Exception {
@@ -530,48 +560,73 @@ public class main_viewController implements Initializable {
 		}
 	}
 	
-	// Event Listener on Button.onMouseClicked
+	/**
+	 * @param event
+	 * @author Mohammed Benyamna
+	 */
 	@FXML
 	public void zoomDown(ActionEvent event) {
 		System.out.println("Zoom Down");
 	}
 	
-	// Event Listener on Button.onMouseClicked
+	/**
+	 * @param event
+	 * @author Mohammed Benyamna
+	 */
 	@FXML
 	public void zoomUp(ActionEvent event) {
 		System.out.println("Zoom UP");
 	}
 	
-	// Event Listener on Button.onMouseClicked
+	/**
+	 * @param event
+	 * @author @author Mohammed Benyamna
+	 */
 	@FXML
 	public void right(ActionEvent event) {
 		System.out.println("Right Move");
 	}
 	
-	// Event Listener on Button.onMouseClicked
+	/**
+	 * @param event
+	 * @author Mohammed Benyamna
+	 */
 	@FXML
 	public void left(ActionEvent event) {
 		System.out.println("Left Move");
 	}
 	
-	// Event Listener on Button.onMouseClicked
+	/**
+	 * @param event
+	 * @author Mohammed Benyamna
+	 */
 	@FXML
 	public void up(ActionEvent event) {
 		System.out.println("UP Move");
 	}
 	
-	// Event Listener on Button.onMouseClicked
+	/**
+	 * @param event
+	 * @author Mohammed Benyamna
+	 */
 	@FXML
 	public void down(ActionEvent event) {
 		System.out.println("Down Move");
 	}
 	
-	// Event Listener on Button.onMouseClicked
+	/**
+	 * @param event
+	 * @author Zihao Zheng
+	 */
 	@FXML
 	public void SetFullscreen(ActionEvent event) {
 		this.FullScreen(event);
 	}
 	
+	/**
+	 * @param event
+	 * @author Zihao Zheng
+	 */
 	@FXML
 	public void hideLeft(ActionEvent event)
 	{
@@ -579,6 +634,10 @@ public class main_viewController implements Initializable {
 		this.splitPane.setDividerPositions(0.0);
 	}
 	
+	/**
+	 * @param event
+	 * @author Zihao Zheng
+	 */
 	@FXML
 	public void showLeft(ActionEvent event)
 	{
@@ -587,8 +646,9 @@ public class main_viewController implements Initializable {
 	}
 	
 	/**
-	 * Autocomplete for comboBox
+	 * Autocomplete for the from comboBox
 	 * @param event
+	 * @author Zihao Zheng
 	 */
 	@FXML
 	public void autoCompleteFrom(KeyEvent event) {
