@@ -3,7 +3,7 @@ https://lz4.overpass-api.de/api/interpreter?data=[out:csv(::id,::lat,::lon,"name
 
 // All the cities (and smallest town) for a specefic area like France, Vaucluse, Avignon
 
-[out:json][timeout:25];
+[out:json];
 (area[name="France"];)->.SA;
 (
 	node["place"~"city|town"](area.SA);
@@ -25,8 +25,8 @@ out;
 
 // Get all the streets of a specefic area
 
-[out:json][timeout:50];
-area(3600102478)->.SA; (
+[out:json];
+(area[name="Avignon"];)->.SA; (
    node["highway"="primary"](area.SA);
    node["highway"="secondary"](area.SA);
    node["highway"="tertiary"](area.SA);
