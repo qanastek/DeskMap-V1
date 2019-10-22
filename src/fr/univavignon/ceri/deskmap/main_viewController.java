@@ -149,7 +149,7 @@ public class main_viewController implements Initializable {
 	 */
 	private void getAllStreet(City city) throws Exception {
 		// TODO: Fix nothing back from the query
-		String query = this.URL_OSM + "[out:csv(::id,\"name\";false;\"|\")];area(" + city.id + ")->.SA;(node[\"highway\"=\"primary\"](area.SA);node[\"highway\"=\"secondary\"](area.SA);node[\"highway\"=\"tertiary\"](area.SA);node[\"highway\"=\"residential\"](area.SA);node[\"highway\"=\"unclassified\"](area.SA);way[\"highway\"](area.SA););out;";
+		String query = this.URL_OSM + "[out:csv(::id,\"name\";false;\"|\")];(area[name=\"" + city.name + "\"];)->.SA;(node[\"highway\"=\"primary\"](area.SA);node[\"highway\"=\"secondary\"](area.SA);node[\"highway\"=\"tertiary\"](area.SA);node[\"highway\"=\"residential\"](area.SA);node[\"highway\"=\"unclassified\"](area.SA);way[\"highway\"](area.SA););out;";
 		
 		final String STREET_FILE = city.name + ".csv";
 		
