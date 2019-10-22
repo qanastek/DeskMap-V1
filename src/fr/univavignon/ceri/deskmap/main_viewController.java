@@ -463,6 +463,12 @@ public class main_viewController implements Initializable {
 		this.checkAllFields();
 	}
 	
+	/**
+	 * Check if the input is a real city.
+	 * @param cityName {@code String}
+	 * @return {@code City} if found else {@code null}
+	 * @author Yanis Labrak
+	 */
 	private City isInListCity(String cityName) {
 		
 		System.out.println("The city: " + cityName);
@@ -712,6 +718,7 @@ public class main_viewController implements Initializable {
 	/**
 	 * Autocomplete for comboBox
 	 * @param event
+	 * @author Zihao Zheng
 	 */
 	@FXML
 	public void autoCompleteTo(KeyEvent event) {
@@ -730,7 +737,7 @@ public class main_viewController implements Initializable {
 					this.toName.setValue(this.listStreetNameSortedTo.get(0));
 				}
 				
-				// Dont read this char
+				// Destroy the entered key stroke
 				event.consume();
 				
 			} else {
@@ -748,14 +755,11 @@ public class main_viewController implements Initializable {
 					this.addInfoArea("Unknown destination street");
 				}
 				
-//				System.out.println(this.listStreetNameSortedTo);
-				
 			}
 			
 		}
 		else {
 			this.listStreetNameSortedTo.setAll(this.listStreetName);
-//			System.out.println(this.listStreetNameSortedTo);
 		}
 	}
 }
