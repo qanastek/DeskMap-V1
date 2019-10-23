@@ -381,6 +381,11 @@ public class main_viewController implements Initializable {
 		this.SearchBtn.setDisable(true);
 		this.resetBtn.setDisable(true);
 		
+		// TODO: Check here
+		this.listStreetName.clear();
+		this.listStreetNameSortedFrom.clear();
+		this.listStreetNameSortedTo.clear();
+		
 		this.addInfoArea("Fields reseted");
 	}
 	
