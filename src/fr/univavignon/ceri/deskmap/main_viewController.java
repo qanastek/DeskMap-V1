@@ -119,7 +119,7 @@ public class main_viewController implements Initializable {
 		System.out.println("Initalise");
 		
 		try {
-			this.getAllCityFrance();
+			this.getAllCity("France");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -320,12 +320,13 @@ public class main_viewController implements Initializable {
 	
 	/**
 	 * Send the HTTP GET request to the Overpass API
+	 * @param country TODO
 	 * @throws Exception
 	 * @author Yanis Labrak
 	 */
-	private void getAllCityFrance() throws Exception {
+	private void getAllCity(String country) throws Exception {
 
-		final String query = this.URL_OSM + "[out:csv(::id,::lat,::lon,\"name\";false;\"|\")];(area[name=\"France\"];)->.SA;(node[\"place\"~\"city|town\"](area.SA););out;";
+		final String query = this.URL_OSM + "[out:csv(::id,::lat,::lon,\"name\";false;\"|\")];(area[name=\"" + country + "\"];)->.SA;(node[\"place\"~\"city|town\"](area.SA););out;";
 		final String CITIES_FILE = "cities.csv";
 		
 		System.out.println("Query created: " + query);
