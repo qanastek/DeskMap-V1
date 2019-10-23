@@ -1,35 +1,16 @@
 package fr.univavignon.ceri.deskmap;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.Socket;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,125 +27,193 @@ import javafx.scene.control.ComboBox;
 
 import javafx.scene.control.TextArea;
 
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * The controller of the FXML file
+ */
 public class main_viewController implements Initializable {
 	
+	/**
+	 * Map canvas
+	 */
 	@FXML
 	private Canvas canvasMap;
 	
-	@FXML
-	private TextField toNumber;
-	
+	/**
+	 * Name of the city
+	 */
 	@FXML
 	private TextField cityName;
 	
-	@FXML
-	private ComboBox<Street> fromName;
-	
-	@FXML
-	private ComboBox<Street> toName;
-	
-	ObservableList<Street> listStreetName = FXCollections.observableArrayList();
-	ObservableList<Street> listStreetNameSortedFrom = FXCollections.observableArrayList();
-	ObservableList<Street> listStreetNameSortedTo = FXCollections.observableArrayList();
-	
-	ObservableList<City> listeVille;
-	ObservableList<City> listeVilleSorted;
-	
+	/**
+	 * Start house number
+	 */
 	@FXML
 	private TextField fromNumber;
 	
+	/**
+	 * Start street name
+	 */
 	@FXML
-	private TextArea trajet;
+	private ComboBox<Street> fromName;
 	
+	/**
+	 * Destination house number
+	 */
+	@FXML
+	private TextField toNumber;
+	
+	/**
+	 * Destination street name
+	 */
+	@FXML
+	private ComboBox<Street> toName;
+	
+	/**
+	 * Path
+	 */
+	@FXML
+	private TextArea mapPath;
+	
+	/**
+	 * Zoom slider
+	 */
 	@FXML
 	private Slider slider;
 	
+	/**
+	 * Search street for the city
+	 */
 	@FXML
 	private Button cityButton;
 	
+	/**
+	 * Reset all fields
+	 */
 	@FXML
 	private Button resetBtn;
 	
+	/**
+	 * Set fullscreen / windowed mode
+	 */
 	@FXML
 	private Button fullscreen;
 	
+	/**
+	 * Search the path
+	 */
 	@FXML
 	private Button SearchBtn;
 	
+	/**
+	 * Hide the left panel
+	 */
 	@FXML
 	private Button hideLeft;
 	
+	/**
+	 * Show the left panel
+	 */
 	@FXML
 	private Button showLeft;
 	
+	/**
+	 * The horizontal {@code splitPane}
+	 */
 	@FXML
 	private SplitPane splitPane;
 	
+	/**
+	 * Bottom status bar
+	 */
 	@FXML
-	private TextArea infoArea;
+	private TextArea statusBar;
 	
 	/**
-	 * URL de Overpass API
+	 * List of {@code City}
 	 */
-	public static String URL_OSM = "https://lz4.overpass-api.de/api/interpreter?data=";
+	ObservableList<City> listeVille;
+	
+	/**
+	 * The observable variable for the text field {@code cityName}
+	 */
+	ObservableList<City> listeVilleSorted;
+	
+	/**
+	 * The default list of streets for a specific city
+	 */
+	ObservableList<Street> listStreetName = FXCollections.observableArrayList();
+	
+	/**
+	 * The observable variable for the {@code FROM} comboBox
+	 */
+	ObservableList<Street> listStreetNameSortedFrom = FXCollections.observableArrayList();
+	
+	/**
+	 * The observable variable for the {@code TO} comboBox
+	 */
+	ObservableList<Street> listStreetNameSortedTo = FXCollections.observableArrayList();
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("Initalise");
+		
+		System.out.println("Initialize");
 		
 		try {
+			// Fetch all the french cities
 			this.getAllCity("France");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		// Assign both lists to their comboBox's
 		this.fromName.setItems(this.listStreetNameSortedFrom);
 		this.toName.setItems(this.listStreetNameSortedTo);
 		
 	}
 	
 	/**
-	 * Add informations into the status bar
-	 * @param newInfo
+	 * Add informations into the status bar {@code textArea}
+	 * @param newLine {@code String} The line to add
 	 * @author Yanis Labrak
 	 */
-	private void addInfoArea(String newInfo) {
-		if (this.infoArea.getText().equals("No errors...")) {
-			this.infoArea.setText(newInfo);
+	private void addStateBar(String newLine) {
+		
+		// If its empty
+		if (this.statusBar.getText().equals("No errors...")) {
+			this.statusBar.setText(newLine);
 		} else {
-			this.infoArea.setText(this.infoArea.getText() + '\n' + newInfo);
+			// Add to the next line
+			this.statusBar.setText(this.statusBar.getText() + '\n' + newLine);
 		}
 		
 		// Auto scroll down
-		this.infoArea.selectPositionCaret(this.infoArea.getLength());
-		this.infoArea.deselect();
+		this.statusBar.selectPositionCaret(this.statusBar.getLength());
+		this.statusBar.deselect();
 	}
 	
 	/**
 	 * Fetch all the cities from the API inside a file
-	 * @param city
-	 * @throws Exception
+	 * @param city {@code City} City from where we will get all the streets
+	 * @throws Exception Throw a exception if the file cannot be create
 	 * @author Yanis Labrak
 	 */
 	private void getAllStreet(City city) throws Exception {
-		// TODO: Fix nothing back from the query
-		String query = this.URL_OSM + "[out:csv(::id,\"name\";false;\"|\")];(area[name=\"" + city.name + "\"];)->.SA;(node[\"highway\"=\"primary\"](area.SA);node[\"highway\"=\"secondary\"](area.SA);node[\"highway\"=\"tertiary\"](area.SA);node[\"highway\"=\"residential\"](area.SA);node[\"highway\"=\"unclassified\"](area.SA);way[\"highway\"](area.SA););out;";
+		
+		String query = Launcher.URL_OSM + "[out:csv(::id,\"name\";false;\"|\")];(area[name=\"" + city.name + "\"];)->.SA;(node[\"highway\"=\"primary\"](area.SA);node[\"highway\"=\"secondary\"](area.SA);node[\"highway\"=\"tertiary\"](area.SA);node[\"highway\"=\"residential\"](area.SA);node[\"highway\"=\"unclassified\"](area.SA);way[\"highway\"](area.SA););out;";
 		
 		final String STREET_FILE = city.name + ".csv";
 		
-		this.addInfoArea("Search for the streets of " + city.name);
+		this.addStateBar("Search for the streets of " + city.name);
 		
-		final Path path = Files.createTempFile(city.name, ".csv");
 		File f = new File(STREET_FILE);
 		
 		if (!f.exists()) {
-			this.addInfoArea("File not found !");
+			this.addStateBar("File not found !");
 			this.laodQueryInFile(query, STREET_FILE);			
 			
 		}
@@ -182,11 +231,12 @@ public class main_viewController implements Initializable {
 	
 	/**
 	 * Action trigged when we click on the fullscreen button
-	 * @param event évènement
+	 * @param event {@code no informations}
 	 * @author Yanis Labrak
 	 */
 	private void FullScreen(ActionEvent event)
     {
+		// Get the parent stage
 	    Window theStage = ((javafx.scene.Node) event.getSource()).getScene().getWindow();
 	    
 	    // Switch between FULL / NROMAL mode
@@ -201,14 +251,14 @@ public class main_viewController implements Initializable {
     }
 	
 	/**
-	 * Load cities from cache or the API
-	 * @param query
-	 * @param outputName
+	 * Load cities from cache or API
+	 * @param query {@code String} Query to send to the OSM API
+	 * @param outputName {@code String} name of the output file
 	 * @author Yanis Labrak
 	 */
 	private void laodQueryInFile(String query, String outputName) {
 		
-		this.addInfoArea("Cache creation");
+		this.addStateBar("Cache creation");
 		
 		try {
 			
@@ -224,34 +274,40 @@ public class main_viewController implements Initializable {
 			// Copy the line into the output file
 			outputFile.getChannel().transferFrom(stream, 0, Long.MAX_VALUE);
 			
-			this.addInfoArea("Caching done !");
+			outputFile.close();
+			
+			this.addStateBar("Caching done !");
 		    
 		} catch (Exception e) {
-			this.addInfoArea("Cannot reach servers !");
+			this.addStateBar("Cannot reach servers !");
 //			System.err.println(e);
 		}
 	}
 	
 	/**
-	 * @return The list fill up with the cities
-	 * @throws Exception
+	 * @throws Exception Throw an exception when the file cannot be read
+	 * @return {@code List<City>} A list fill up with the cities
 	 * @author Yanis Labrak
 	 */
 	private List<City> getCities() throws Exception {		
 		List<City> records = new ArrayList<City>();
 		
 		try {
+			
+			// Open a stream for the file which contain all the cities names
 			BufferedReader br = new BufferedReader(new FileReader("cities.csv"));
 					
 		    String line;
 		    
-		    // While the file have lines
+		    // For each lines
 		    while ((line = br.readLine()) != null) {
 		    	
 		    	// Escape the separator
 		        String[] values = line.split("\\|");
 		        
+		        // To be readed a city need to be fully complete
 		        if (values.length == 4 && !values[0].isEmpty() && !values[1].isEmpty() && !values[2].isEmpty() && !values[3].isEmpty()) {
+		        	
 		        	City city = new City(
 		        		values[0],
 		        		Double.parseDouble(values[1]),
@@ -260,32 +316,36 @@ public class main_viewController implements Initializable {
 			        );
 			        
 			        records.add(city);
-			        
-			        // System.out.println(city);
 				}
 		        
 		    }
+		    
+		    // Close the stream
+		    br.close();
 		    
 		}
 		catch (Exception e) {
 			System.err.println(e);
 		}
 		
+		// Return all the cities
 		return records;
 	}
 	
 	/**
-	 * @param city
+	 * Load streets from cache or API
+	 * @param city {@code City} City object from where we want the streets
 	 * @return The list fill up with the streets
-	 * @throws Exception
+	 * @throws Exception Throw a exception if the file which contain the streets isn't find
 	 * @author Yanis Labrak
 	 */
 	private List<Street> getStreet(City city) throws Exception {		
 		List<Street> records = new ArrayList<Street>();
 		
 		try {
-			this.addInfoArea("Try to access to the cached streets.");
+			this.addStateBar("Try to access to the cached streets.");
 			
+			// Open a stream for the file which contain all the streets
 			BufferedReader buffer = new BufferedReader(new FileReader(city.name + ".csv"));
 					
 		    String line;
@@ -296,7 +356,8 @@ public class main_viewController implements Initializable {
 		    	// Escape the separator
 		        String[] values = line.split("\\|");
 		        
-		        if (values.length == 2 && !values[0].isEmpty()) {
+		        // If all the fields isn't null
+		        if (values.length == 2 && !values[0].isEmpty() && !values[1].isEmpty()) {
 			        	
 			        	Street street = new Street(
 			        		values[0],
@@ -308,30 +369,37 @@ public class main_viewController implements Initializable {
 		        
 		    }
 		    
-		    this.addInfoArea("All streets of " + city.name + " readed");
+		    // Close the stream
+		    buffer.close();
+		    
+		    this.addStateBar("All streets of " + city.name + " readed");
 		    
 		}
 		catch (Exception e) {
 			System.err.println(e);
 		}
 		
+		// return all the streets of the city
 		return records;
 	}
 	
 	/**
 	 * Send the HTTP GET request to the Overpass API
-	 * @param country TODO
-	 * @throws Exception
+	 * Get all the city from a specific country
+	 * @param country {@code String} Country name
+	 * @throws Exception {@code no informations}
 	 * @author Yanis Labrak
 	 */
 	private void getAllCity(String country) throws Exception {
 
-		final String query = this.URL_OSM + "[out:csv(::id,::lat,::lon,\"name\";false;\"|\")];(area[name=\"" + country + "\"];)->.SA;(node[\"place\"~\"city|town\"](area.SA););out;";
+		final String query = Launcher.URL_OSM + "[out:csv(::id,::lat,::lon,\"name\";false;\"|\")];(area[name=\"" + country + "\"];)->.SA;(node[\"place\"~\"city|town\"](area.SA););out;";
+		
+		// TODO: My new OSM query builder here
+		
 		final String CITIES_FILE = "cities.csv";
 		
 		System.out.println("Query created: " + query);
 		
-		final Path path = Files.createTempFile("cities", ".csv");
 		File f = new File(CITIES_FILE);
 		
 		if (!f.exists()) {
@@ -346,12 +414,14 @@ public class main_viewController implements Initializable {
 	
 	/**
 	 * Method trigged when the user click on the search button
-	 * @param event
-	 * @throws Exception
+	 * @param event {@code no informations}
+	 * @throws Exception {@code no informations}
 	 * @author Yanis Labrak
 	 */
 	@FXML
 	public void Searching(ActionEvent event) throws Exception {
+		
+		// Get fields string values
 		String fromNumber = this.fromNumber.getText();
 		Boolean fromName = this.fromName.getSelectionModel().isEmpty();
 		
@@ -365,15 +435,15 @@ public class main_viewController implements Initializable {
 			System.out.println("Invalid destination adress");
 		}
 		else {
-			this.addInfoArea("Searching for the best path");
-			this.addInfoArea(fromNumber + " " + this.fromName.getSelectionModel().getSelectedItem() + " -> " + toNumber + " " + this.toName.getSelectionModel().getSelectedItem());
-			// Fonction affichage de la carte
+			this.addStateBar("Searching for the best path");
+			this.addStateBar(fromNumber + " " + this.fromName.getSelectionModel().getSelectedItem() + " -> " + toNumber + " " + this.toName.getSelectionModel().getSelectedItem());
+			// TODO: Map print here
 		}
 	}
 	
 	/**
 	 * Method trigged when the user click on the reset button
-	 * @param event
+	 * @param event {@code ActionEvent}
 	 * @author Yanis Labrak
 	 */
 	@FXML
@@ -386,20 +456,20 @@ public class main_viewController implements Initializable {
 		this.toNumber.setDisable(true);
 		this.toName.setDisable(true);
 		
-		this.fromNumber.clear();
 		this.fromName.getSelectionModel().clearSelection();
-		this.toNumber.clear();
 		this.toName.getSelectionModel().clearSelection();
+		
+		this.toNumber.clear();
+		this.fromNumber.clear();
 		
 		this.SearchBtn.setDisable(true);
 		this.resetBtn.setDisable(true);
 		
-		// TODO: Check here
 		this.listStreetName.clear();
 		this.listStreetNameSortedFrom.clear();
 		this.listStreetNameSortedTo.clear();
 		
-		this.addInfoArea("Fields reseted");
+		this.addStateBar("Fields reseted");
 	}
 	
 	/**
@@ -421,8 +491,8 @@ public class main_viewController implements Initializable {
 	}
 
 	/**
-	 * Check if the event is a integer
-	 * @param event e
+	 * Check if the input is a integer
+	 * @param event {@code KeyEvent} The input character
 	 * @author Yanis Labrak
 	 */
 	private void checkInputIsInteger(KeyEvent event)
@@ -435,8 +505,8 @@ public class main_viewController implements Initializable {
     }
 	
 	/**
-	 * Check if the event is a letter
-	 * @param event e
+	 * Check if the input is a letter
+	 * @param event {@code KeyEvent} The input character
 	 * @author Yanis Labrak
 	 */
 	@FXML
@@ -450,40 +520,48 @@ public class main_viewController implements Initializable {
     }
 	
 	/**
-	 * Everytime a key is pressed inside the 'FROM' field we check if its a integer and enable/disable all buttons
-	 * @param event
+	 * Check if the input key is a integer
+	 * @param event {@code keyEvent}
 	 * @author Yanis Labrak
 	 */
 	@FXML
 	public void checkInputFrom(KeyEvent event) {
+		
+		// Check if the input key is a integer
 		this.checkInputIsInteger(event);
+		
+		// Update the status of the reset / search button
+		this.checkAllFields();
+	}
+
+	/**
+	 * Check if the input key is a integer
+	 * @param event {@code KeyEvent}
+	 * @author Yanis Labrak
+	 */
+	@FXML
+	public void checkInputTo(KeyEvent event) {
+		
+		// Check if the input key is a integer
+		this.checkInputIsInteger(event);
+		
+		// Update the status of the reset / search button
 		this.checkAllFields();
 	}
 	
 	/**
 	 * Check all the input when a comboBox value change
-	 * @param event
+	 * @param event {@code ActionEvent}
 	 * @author Yanis Labrak
 	 */
 	@FXML
 	public void checkAllComboBox(ActionEvent event) {
 		this.checkAllFields();
 	}
-
-	/**
-	 * Everytime a key is pressed inside the 'TO' field we check if its a integer and enable/disable all buttons
-	 * @param event
-	 * @author Yanis Labrak
-	 */
-	@FXML
-	public void checkInputTo(KeyEvent event) {
-		this.checkInputIsInteger(event);
-		this.checkAllFields();
-	}
 	
 	/**
-	 * Check if the input is a real city.
-	 * @param cityName {@code String}
+	 * Check if the city is a real one.
+	 * @param cityName {@code String} Name of the city
 	 * @return {@code City} if found else {@code null}
 	 * @author Yanis Labrak
 	 */
@@ -503,27 +581,36 @@ public class main_viewController implements Initializable {
 	}
 	
 	/**
-	 * Method trigged when the 'GO' button beside of the city field is pressed
-	 * @param event
-	 * @throws Exception
+	 * Fetch the street for this city
+	 * @param event {@code ActionEvent}
+	 * @throws Exception Throw a exception when the city doesn't exists
 	 * @author Yanis Labrak
 	 */
 	@FXML
 	public void SetCity(ActionEvent event) throws Exception
 	{
-		// Si le nom de la ville est pas renseigné
+		// If the city name isn't known
 		if (!this.cityName.getText().isEmpty()) {
 			
-			System.out.println("Value: " + this.cityName.getText());
-			this.addInfoArea("Search for " + this.cityName.getText());
+			this.addStateBar("Search for " + this.cityName.getText());
 			
 			try {
 
+				// Check if the city exists
 				City theCity = this.isInListCity(this.cityName.getText());
 				
+				// Get all the streets of this city
 				this.getAllStreet(new City(theCity));
 				
 				if (!this.cityName.getText().isEmpty()) {
+					
+					// Reset the fields
+					this.fromNumber.clear();
+					this.fromName.getSelectionModel().clearSelection();
+					this.toNumber.clear();
+					this.toName.getSelectionModel().clearSelection();
+					
+					// Reset the button states
 					this.cityButton.setDisable(false);
 					this.resetBtn.setDisable(false);
 					
@@ -537,7 +624,7 @@ public class main_viewController implements Initializable {
 				}
 				
 			} catch (NullPointerException e) {
-				this.addInfoArea("Aucune ville correspondante");
+				this.addStateBar("Aucune ville correspondante");
 			}
 		}
 		else {
@@ -546,9 +633,9 @@ public class main_viewController implements Initializable {
 	}
 	
 	/**
-	 * Method trigged when the user press a key inside the cityName field
-	 * @param event
-	 * @throws Exception 
+	 * When a key is pressed inside {@code cityName}
+	 * @param event {@code KeyEvent}
+	 * @throws Exception Throw a exception when the city doesn't exists
 	 * @author Yanis Labrak
 	 */
 	@FXML
@@ -559,6 +646,7 @@ public class main_viewController implements Initializable {
 			this.SetCity(new ActionEvent());
 		}
 		
+		// If the field isn't empty
 		if (!this.cityName.getText().isEmpty()) {
 			this.cityButton.setDisable(false);
 			this.resetBtn.setDisable(false);
@@ -572,9 +660,9 @@ public class main_viewController implements Initializable {
 			this.toName.setDisable(true);
 			
 			this.fromNumber.clear();
-//			this.fromName.setValue("");
+			this.fromName.getSelectionModel().clearSelection();
 			this.toNumber.clear();
-//			this.toName.setValue("");
+			this.toName.getSelectionModel().clearSelection();
 			
 			this.SearchBtn.setDisable(true);
 			this.resetBtn.setDisable(true);
@@ -582,16 +670,8 @@ public class main_viewController implements Initializable {
 	}
 	
 	/**
-	 * @param event
-	 * @author Mohammed Benyamna
-	 */
-	@FXML
-	public void zoomDown(ActionEvent event) {
-		System.out.println("Zoom Down");
-	}
-	
-	/**
-	 * @param event
+	 * Zoom in the map
+	 * @param event {@code ActionEvent}
 	 * @author Mohammed Benyamna
 	 */
 	@FXML
@@ -600,16 +680,18 @@ public class main_viewController implements Initializable {
 	}
 	
 	/**
-	 * @param event
-	 * @author @author Mohammed Benyamna
+	 * Zoom out the map
+	 * @param event {@code ActionEvent}
+	 * @author Mohammed Benyamna
 	 */
 	@FXML
-	public void right(ActionEvent event) {
-		System.out.println("Right Move");
+	public void zoomDown(ActionEvent event) {
+		System.out.println("Zoom Down");
 	}
 	
 	/**
-	 * @param event
+	 * Move to the left in the map
+	 * @param event {@code ActionEvent}
 	 * @author Mohammed Benyamna
 	 */
 	@FXML
@@ -618,7 +700,18 @@ public class main_viewController implements Initializable {
 	}
 	
 	/**
-	 * @param event
+	 * Move to the right in the map
+	 * @param event {@code ActionEvent}
+	 * @author @author Mohammed Benyamna
+	 */
+	@FXML
+	public void right(ActionEvent event) {
+		System.out.println("Right Move");
+	}
+	
+	/**
+	 * Move to the top in the map
+	 * @param event {@code ActionEvent}
 	 * @author Mohammed Benyamna
 	 */
 	@FXML
@@ -627,7 +720,8 @@ public class main_viewController implements Initializable {
 	}
 	
 	/**
-	 * @param event
+	 * Move to the bottom in the map
+	 * @param event {@code ActionEvent}
 	 * @author Mohammed Benyamna
 	 */
 	@FXML
@@ -636,7 +730,8 @@ public class main_viewController implements Initializable {
 	}
 	
 	/**
-	 * @param event
+	 * Set the window to fullscreen / windowed mode
+	 * @param event {@code ActionEvent}
 	 * @author Zihao Zheng
 	 */
 	@FXML
@@ -645,7 +740,8 @@ public class main_viewController implements Initializable {
 	}
 	
 	/**
-	 * @param event
+	 * Hide the left panel
+	 * @param event {@code ActionEvent}
 	 * @author Zihao Zheng
 	 */
 	@FXML
@@ -656,7 +752,8 @@ public class main_viewController implements Initializable {
 	}
 	
 	/**
-	 * @param event
+	 * Show the left panel
+	 * @param event {@code ActionEvent}
 	 * @author Zihao Zheng
 	 */
 	@FXML
@@ -667,14 +764,14 @@ public class main_viewController implements Initializable {
 	}
 	
 	/**
-	 * Autocomplete for the from comboBox
-	 * @param event
+	 * Auto-complete for the {@code FROM} comboBox
+	 * @param event {@code KeyEvent}
 	 * @author Zihao Zheng
 	 */
 	@FXML
 	public void autoCompleteFrom(KeyEvent event) {
 		
-		// Current value of the comboBox from/to street
+		// Current value of the comboBox {@code FROM} street
 		String current_value = this.fromName.getEditor().getText();	
 		
 		// If the user write nothing
@@ -688,13 +785,14 @@ public class main_viewController implements Initializable {
 					this.fromName.setValue(this.listStreetNameSortedFrom.get(0));
 				}
 				
-				// Dont read this char
+				// Don't read this char
 				event.consume();
 				
 			} else {
 
 				this.listStreetNameSortedFrom.clear();
 				
+				// Take the {@code street} which contain inside it name the current input
 				for (Street street : this.listStreetName) {					
 					if (street.name.toLowerCase().contains(current_value)) {
 						this.listStreetNameSortedFrom.add(street);
@@ -703,23 +801,19 @@ public class main_viewController implements Initializable {
 				
 				// If no result
 				if (this.listStreetNameSortedFrom.size() <= 0) {
-					this.addInfoArea("Unknown start street");
+					this.addStateBar("Unknown start street");
 				}
 				
-//				System.out.println(this.listStreetNameSortedFrom);
-				
-			}
-			
+			}			
 		}
 		else {
 			this.listStreetNameSortedFrom.setAll(this.listStreetName);
-//			System.out.println(this.listStreetNameSortedFrom);
 		}
 	}
 	
 	/**
-	 * Autocomplete for comboBox
-	 * @param event
+	 * Auto-complete for the TO comboBox
+	 * @param event {@code KeyEvent}
 	 * @author Zihao Zheng
 	 */
 	@FXML
@@ -746,6 +840,7 @@ public class main_viewController implements Initializable {
 
 				this.listStreetNameSortedTo.clear();
 				
+				// Take the street which contain inside it name the current input
 				for (Street street : this.listStreetName) {
 					if (street.name.toLowerCase().contains(current_value)) {
 						this.listStreetNameSortedTo.add(street);
@@ -754,7 +849,7 @@ public class main_viewController implements Initializable {
 				
 				// If no result
 				if (this.listStreetNameSortedTo.size() <= 0) {
-					this.addInfoArea("Unknown destination street");
+					this.addStateBar("Unknown destination street");
 				}
 				
 			}

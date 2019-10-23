@@ -182,7 +182,7 @@
             </SplitPane>
             <AnchorPane maxHeight="200.0" minHeight="0.0" style="-fx-background-color: #1a247f;">
                <children>
-                  <TextArea fx:id="infoArea" editable="false" layoutX="13.0" layoutY="18.0" prefHeight="95.0" prefWidth="995.0" text="No errors..." AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <TextArea fx:id="statusBar" editable="false" layoutX="13.0" layoutY="18.0" prefHeight="95.0" prefWidth="995.0" text="No errors..." AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
