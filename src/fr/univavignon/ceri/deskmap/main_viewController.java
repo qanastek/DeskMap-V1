@@ -165,12 +165,18 @@ public class main_viewController implements Initializable {
 		
 		if (!f.exists()) {
 			this.addInfoArea("File not found !");
-			this.laodQueryInFile(query, STREET_FILE);	
+			this.laodQueryInFile(query, STREET_FILE);			
+			
 		}
 
-		// Load the cities from the file		
+		// Clear list and load the cities from the file	
+		this.listStreetName.clear();
 		this.listStreetName.addAll(this.getStreet(city));
+		
+		this.listStreetNameSortedFrom.clear();
 		this.listStreetNameSortedFrom.addAll(this.listStreetName);
+		
+		this.listStreetNameSortedTo.clear();
 		this.listStreetNameSortedTo.addAll(this.listStreetName);
 	}
 	
@@ -531,7 +537,6 @@ public class main_viewController implements Initializable {
 				
 			} catch (NullPointerException e) {
 				this.addInfoArea("Aucune ville correspondante");
-				System.out.println("Aucune ville correspondante");
 			}
 		}
 		else {
