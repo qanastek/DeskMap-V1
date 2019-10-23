@@ -40,6 +40,7 @@ public class Launcher extends Application
 	 */
 	public static void main(String[] args)
 	{
+		System.out.println(Node.Node_projection( 47.6855770, 1.1577290));
 		launch(args);
 	}
 	
