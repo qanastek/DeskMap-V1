@@ -374,14 +374,14 @@ public class main_viewController implements Initializable {
 		this.toName.setDisable(true);
 		
 		this.fromNumber.clear();
-//		this.fromName.setValue("");
+		this.fromName.getSelectionModel().clearSelection();
 		this.toNumber.clear();
-//		this.toName.setValue("");
+		this.toName.getSelectionModel().clearSelection();
 		
 		this.SearchBtn.setDisable(true);
 		this.resetBtn.setDisable(true);
 		
-		System.out.println("Reseted");
+		this.addInfoArea("Fields reseted");
 	}
 	
 	/**
@@ -503,8 +503,6 @@ public class main_viewController implements Initializable {
 
 				City theCity = this.isInListCity(this.cityName.getText());
 				
-//				System.out.println("ID: " + theCity.id);
-				
 				this.getAllStreet(new City(theCity));
 				
 				if (!this.cityName.getText().isEmpty()) {
@@ -517,20 +515,7 @@ public class main_viewController implements Initializable {
 					this.toName.setDisable(false);
 				}
 				else {
-					this.cityButton.setDisable(true);
-					
-					this.fromNumber.setDisable(true);
-					this.fromName.setDisable(true);
-					this.toNumber.setDisable(true);
-					this.toName.setDisable(true);
-					
-					this.fromNumber.clear();
-//					this.fromName.setValue("");
-					this.toNumber.clear();
-//					this.toName.setValue("");
-					
-					this.SearchBtn.setDisable(true);
-					this.resetBtn.setDisable(true);
+					this.Reset(event);
 				}
 				
 			} catch (NullPointerException e) {
