@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.Socket;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
@@ -138,7 +139,11 @@ public class main_viewController implements Initializable {
 			this.infoArea.setText(newInfo);
 		} else {
 			this.infoArea.setText(this.infoArea.getText() + '\n' + newInfo);
-		}		
+		}
+		
+		// Auto scroll down
+		this.infoArea.selectPositionCaret(this.infoArea.getLength());
+		this.infoArea.deselect();
 	}
 	
 	/**
@@ -216,7 +221,8 @@ public class main_viewController implements Initializable {
 			this.addInfoArea("Caching done !");
 		    
 		} catch (Exception e) {
-			System.err.println(e);
+			this.addInfoArea("Cannot reach servers !");
+//			System.err.println(e);
 		}
 	}
 	
