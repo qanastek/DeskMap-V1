@@ -35,7 +35,7 @@ import javafx.scene.input.KeyEvent;
 /**
  * The controller of the FXML file
  */
-public class main_viewController implements Initializable {
+public class MainViewController implements Initializable {
 	
 	/**
 	 * Map canvas
