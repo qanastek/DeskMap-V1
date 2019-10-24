@@ -409,15 +409,24 @@ public class main_viewController implements Initializable {
 		    	// Escape the separator
 		        String[] values = line.split("\\|");
 		        
-		        // If all the fields isn't null
-		        if (values.length == 2 && !values[0].isEmpty() && !values[1].isEmpty()) {
-			        	
-			        	Street street = new Street(
-			        		values[0],
-			        		values[1]
-				        );
-				        
-				        records.add(street);
+		        try {
+		        	Street isAlreadyPresent = records.stream()
+			        		.filter(s -> values[1].toLowerCase().equals(s.name.toLowerCase()))
+			        		.findFirst()
+			        		.orElse(null);
+
+			        // If all the fields isn't null
+			        if (values.length == 2 && !values[0].isEmpty() && !values[1].isEmpty() && isAlreadyPresent == null) {
+				        	
+				        	Street street = new Street(
+				        		values[0],
+				        		values[1]
+					        );
+					        
+					        records.add(street);
+					}
+			        
+				} catch (Exception e) {
 				}
 		        
 		    }

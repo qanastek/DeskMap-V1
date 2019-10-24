@@ -118,7 +118,7 @@ public class OSM {
 //		o.way("highway");
 		o.out();
 		
-		System.out.println(o.query);
+//		System.out.println(o.query);
 	}
 
 }
