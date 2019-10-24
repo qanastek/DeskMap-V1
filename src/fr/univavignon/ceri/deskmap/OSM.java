@@ -7,12 +7,15 @@ package fr.univavignon.ceri.deskmap;
 public class OSM {
 	
 	/**
-	 * The query
+	 * The query URL
 	 */
 	public String query;
 	
 	/**
+	 * <b>Constructor</b>
+	 * <br>
 	 * Initialize the query to an empty {@code String}
+	 * @author Yanis Labrak
 	 */
 	public OSM() {
 		this.query = "";
@@ -24,6 +27,7 @@ public class OSM {
 	 * @param parameters {@code String}
 	 * @param header {@code Boolean}
 	 * @param delimiter {@code String}
+	 * @author Yanis Labrak
 	 */
 	public void output(String format, String parameters, Boolean header, String delimiter) {
 		

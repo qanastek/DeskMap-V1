@@ -158,6 +158,9 @@ public class main_viewController implements Initializable {
 	 */
 	ObservableList<Street> listStreetNameSortedTo = FXCollections.observableArrayList();
 	
+	/**
+	 * Automaticly started when the program start
+	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
@@ -198,7 +201,7 @@ public class main_viewController implements Initializable {
 	
 	/**
 	 * Fetch all the cities from the API inside a file
-	 * @param city {@code City} City from where we will get all the streets
+	 * @param city {@code City} From where we will get all the streets
 	 * @throws Exception Throw a exception if the file cannot be create
 	 * @author Yanis Labrak
 	 */
