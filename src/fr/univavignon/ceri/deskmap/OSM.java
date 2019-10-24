@@ -23,10 +23,10 @@ public class OSM {
 	
 	/**
 	 * Define the output fields, format and column separator
-	 * @param format {@code String}
-	 * @param parameters {@code String}
-	 * @param header {@code Boolean}
-	 * @param delimiter {@code String}
+	 * @param format {@code String} Output format ({@code CSV}, {@code JSON} or {@code XML})
+	 * @param parameters {@code String} Fields we want to get from the API
+	 * @param header {@code Boolean} Does the API return the header fields name
+	 * @param delimiter {@code String} Change the default TAB delimiter
 	 * @author Yanis Labrak
 	 */
 	public void output(String format, String parameters, Boolean header, String delimiter) {
