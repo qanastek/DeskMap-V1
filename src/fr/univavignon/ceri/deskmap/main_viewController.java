@@ -107,7 +107,7 @@ public class main_viewController implements Initializable {
 	 * Search the path
 	 */
 	@FXML
-	private Button SearchBtn;
+	private Button searchBtn;
 	
 	/**
 	 * Hide the left panel
@@ -136,12 +136,12 @@ public class main_viewController implements Initializable {
 	/**
 	 * List of {@code City}
 	 */
-	ObservableList<City> listeVille;
+	ObservableList<City> listCity;
 	
 	/**
 	 * The observable variable for the text field {@code cityName}
 	 */
-	ObservableList<City> listeVilleSorted;
+	ObservableList<City> listCitySorted;
 	
 	/**
 	 * The default list of streets for a specific city
@@ -159,7 +159,7 @@ public class main_viewController implements Initializable {
 	ObservableList<Street> listStreetNameSortedTo = FXCollections.observableArrayList();
 	
 	/**
-	 * Automaticly started when the program start
+	 * Automatically started when the program start
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -167,7 +167,7 @@ public class main_viewController implements Initializable {
 		System.out.println("Initialize");
 		
 		try {
-			// Fetch all the french cities
+			// Fetch all the French cities
 			this.getAllCity("France");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -208,16 +208,16 @@ public class main_viewController implements Initializable {
 	 */
 	private void getAllCity(String country) throws Exception {
 
-		OSM queryOver = new OSM();
+		OSM queryOverpass = new OSM();
 		
-		queryOver.output("csv", "::id,::lat,::lon,name", false, "|");
-		queryOver.area(country);
-		queryOver.node("place", "city");
-		queryOver.node("place", "town");
-		queryOver.way("place");
-		queryOver.out();
+		queryOverpass.output("csv", "::id,::lat,::lon,name", false, "|");
+		queryOverpass.area(country);
+		queryOverpass.node("place", "city");
+		queryOverpass.node("place", "town");
+		queryOverpass.way("place");
+		queryOverpass.out();
 		
-		String query = queryOver.toString();
+		String query = queryOverpass.toString();
 		
 		final String CITIES_FILE = "cities.csv";
 		
@@ -231,8 +231,8 @@ public class main_viewController implements Initializable {
 		}
 
 		// Load the cities from the file		
-		this.listeVille = FXCollections.observableArrayList(this.getCities());
-		this.listeVilleSorted= FXCollections.observableArrayList(this.listeVille);
+		this.listCity = FXCollections.observableArrayList(this.getCities());
+		this.listCitySorted= FXCollections.observableArrayList(this.listCity);
 	}
 	
 	/**
@@ -243,19 +243,19 @@ public class main_viewController implements Initializable {
 	 */
 	private void getAllStreet(City city) throws Exception {
 		
-		OSM queryOver = new OSM();
+		OSM queryOverpass = new OSM();
 		
-		queryOver.output("csv", "::id,name", false, "|");
-		queryOver.area(city.name);
-		queryOver.node("highway", "primary");
-		queryOver.node("highway", "secondary");
-		queryOver.node("highway", "tertiary");
-		queryOver.node("highway", "residential");
-		queryOver.node("highway", "unclassified");
-		queryOver.way("highway");
-		queryOver.out();
+		queryOverpass.output("csv", "::id,name", false, "|");
+		queryOverpass.area(city.name);
+		queryOverpass.node("highway", "primary");
+		queryOverpass.node("highway", "secondary");
+		queryOverpass.node("highway", "tertiary");
+		queryOverpass.node("highway", "residential");
+		queryOverpass.node("highway", "unclassified");
+		queryOverpass.way("highway");
+		queryOverpass.out();
 		
-		String query = queryOver.toString();
+		String query = queryOverpass.toString();
 		
 		System.out.println(query);
 		
@@ -348,18 +348,22 @@ public class main_viewController implements Initializable {
 		try {
 			
 			// Open a stream for the file which contain all the cities names
-			BufferedReader br = new BufferedReader(new FileReader("cities.csv"));
+			BufferedReader buffer = new BufferedReader(new FileReader("cities.csv"));
 					
 		    String line;
 		    
 		    // For each lines
-		    while ((line = br.readLine()) != null) {
+		    while ((line = buffer.readLine()) != null) {
 		    	
 		    	// Escape the separator
 		        String[] values = line.split("\\|");
 		        
-		        // To be readed a city need to be fully complete
-		        if (values.length == 4 && !values[0].isEmpty() && !values[1].isEmpty() && !values[2].isEmpty() && !values[3].isEmpty()) {
+		        // The City need to be fully complete to be insert
+		        if (values.length == 4 &&
+		        	!values[0].isEmpty() &&
+		        	!values[1].isEmpty() &&
+		        	!values[2].isEmpty() &&
+		        	!values[3].isEmpty()) {
 		        	
 		        	City city = new City(
 		        		values[0],
@@ -374,7 +378,7 @@ public class main_viewController implements Initializable {
 		    }
 		    
 		    // Close the stream
-		    br.close();
+		    buffer.close();
 		    
 		}
 		catch (Exception e) {
@@ -410,6 +414,11 @@ public class main_viewController implements Initializable {
 		        String[] values = line.split("\\|");
 		        
 		        try {
+		        	
+		        	/**
+		        	 * Check if the current Street is already inside the List
+		        	 * throw a exception if it's in
+		        	 */
 		        	Street isAlreadyPresent = records.stream()
 			        		.filter(s -> values[1].toLowerCase().equals(s.name.toLowerCase()))
 			        		.findFirst()
@@ -452,7 +461,7 @@ public class main_viewController implements Initializable {
 	 * @author Yanis Labrak
 	 */
 	@FXML
-	public void Searching(ActionEvent event) throws Exception {
+	public void searching(ActionEvent event) throws Exception {
 		
 		// Get fields string values
 		String fromNumber = this.fromNumber.getText();
@@ -470,7 +479,7 @@ public class main_viewController implements Initializable {
 		else {
 			this.addStateBar("Searching for the best path");
 			this.addStateBar(fromNumber + " " + this.fromName.getSelectionModel().getSelectedItem() + " -> " + toNumber + " " + this.toName.getSelectionModel().getSelectedItem());
-			// TODO: Map print here
+			// TODO: Map print and path calculation here
 		}
 	}
 	
@@ -495,7 +504,7 @@ public class main_viewController implements Initializable {
 		this.toNumber.clear();
 		this.fromNumber.clear();
 		
-		this.SearchBtn.setDisable(true);
+		this.searchBtn.setDisable(true);
 		this.resetBtn.setDisable(true);
 		
 		this.listStreetName.clear();
@@ -516,10 +525,10 @@ public class main_viewController implements Initializable {
 			this.fromName.getSelectionModel().isEmpty() ||
 			this.toName.getSelectionModel().isEmpty()
 		) {
-			this.SearchBtn.setDisable(true);
+			this.searchBtn.setDisable(true);
 		}
 		else {			
-			this.SearchBtn.setDisable(false);
+			this.searchBtn.setDisable(false);
 		}
 	}
 
@@ -532,6 +541,7 @@ public class main_viewController implements Initializable {
     {		
 		char value = event.getCharacter().charAt(0);
 		
+		// Destroy the input if it's not a Integer
 		if (!Character.isDigit(value)) {
 			event.consume();
 		}
@@ -602,7 +612,7 @@ public class main_viewController implements Initializable {
 		
 		System.out.println("The city: " + cityName);
 		
-		for (City city : this.listeVille) {
+		for (City city : this.listCity) {
 					
 			if (!city.name.isEmpty() && city.name.toLowerCase().equals(cityName.toLowerCase())) {
 				System.out.println("Inside: " + city.name.toLowerCase());
@@ -697,7 +707,7 @@ public class main_viewController implements Initializable {
 			this.toNumber.clear();
 			this.toName.getSelectionModel().clearSelection();
 			
-			this.SearchBtn.setDisable(true);
+			this.searchBtn.setDisable(true);
 			this.resetBtn.setDisable(true);
 		}
 	}
@@ -768,7 +778,7 @@ public class main_viewController implements Initializable {
 	 * @author Zihao Zheng
 	 */
 	@FXML
-	public void SetFullscreen(ActionEvent event) {
+	public void setFullscreen(ActionEvent event) {
 		this.FullScreen(event);
 	}
 	

@@ -84,7 +84,7 @@
                                           <Insets />
                                        </HBox.margin>
                                     </Button>
-                                    <Button fx:id="SearchBtn" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="153.0" layoutY="142.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#Searching" prefHeight="39.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="SEARCH" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="153.0" AnchorPane.topAnchor="142.0" HBox.hgrow="ALWAYS">
+                                    <Button fx:id="searchBtn" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="153.0" layoutY="142.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#searching" prefHeight="39.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="SEARCH" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="153.0" AnchorPane.topAnchor="142.0" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font name="Roboto Medium" size="21.0" />
                                        </font>
@@ -154,7 +154,7 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Button>
-                        <Button fx:id="fullscreen" layoutX="15.0" layoutY="410.0" mnemonicParsing="false" onAction="#SetFullscreen" style="-fx-background-color: white;" text="FULL" textFill="#666666" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="15.0">
+                        <Button fx:id="fullscreen" layoutX="15.0" layoutY="410.0" mnemonicParsing="false" onAction="#setFullscreen" style="-fx-background-color: white;" text="FULL" textFill="#666666" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="15.0">
                            <font>
                               <Font name="Roboto Light" size="15.0" />
                            </font>

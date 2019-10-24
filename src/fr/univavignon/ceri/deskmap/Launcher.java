@@ -18,7 +18,7 @@ import javafx.stage.Stage;
  * @author Zihao Zheng
  */
 public class Launcher extends Application
-{		
+{
 	
 	/**
 	 * Launches the software.
@@ -36,7 +36,7 @@ public class Launcher extends Application
 	public void start(Stage primaryStage) throws Exception {
 		
 		// Set the title of the window
-		primaryStage.setTitle("DESKMAP V1.0.32");
+		primaryStage.setTitle("DESKMAP V1.0.34");
 
 		// Set a favicon to the window
 		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
