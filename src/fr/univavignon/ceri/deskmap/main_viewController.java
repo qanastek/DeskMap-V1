@@ -197,6 +197,42 @@ public class main_viewController implements Initializable {
 	}
 	
 	/**
+	 * Send the HTTP GET request to the Overpass API
+	 * Get all the city from a specific country
+	 * @param country {@code String} Country name
+	 * @throws Exception {@code no informations}
+	 * @author Yanis Labrak
+	 */
+	private void getAllCity(String country) throws Exception {
+
+		OSM queryOver = new OSM();
+		
+		queryOver.output("csv", "::id,::lat,::lon,name", false, "|");
+		queryOver.area(country);
+		queryOver.node("place", "city");
+		queryOver.node("place", "town");
+		queryOver.way("place");
+		queryOver.out();
+		
+		String query = queryOver.toString();
+		
+		final String CITIES_FILE = "cities.csv";
+		
+		System.out.println("Query created: " + query);
+		
+		File f = new File(CITIES_FILE);
+		
+		if (!f.exists()) {
+			System.out.println("File not found !");
+			this.laodQueryInFile(query, CITIES_FILE);	
+		}
+
+		// Load the cities from the file		
+		this.listeVille = FXCollections.observableArrayList(this.getCities());
+		this.listeVilleSorted= FXCollections.observableArrayList(this.listeVille);
+	}
+	
+	/**
 	 * Fetch all the cities from the API inside a file
 	 * @param city {@code City} City from where we will get all the streets
 	 * @throws Exception Throw a exception if the file cannot be create
@@ -204,7 +240,21 @@ public class main_viewController implements Initializable {
 	 */
 	private void getAllStreet(City city) throws Exception {
 		
-		String query = Launcher.URL_OSM + "[out:csv(::id,\"name\";false;\"|\")];(area[name=\"" + city.name + "\"];)->.SA;(node[\"highway\"=\"primary\"](area.SA);node[\"highway\"=\"secondary\"](area.SA);node[\"highway\"=\"tertiary\"](area.SA);node[\"highway\"=\"residential\"](area.SA);node[\"highway\"=\"unclassified\"](area.SA);way[\"highway\"](area.SA););out;";
+		OSM queryOver = new OSM();
+		
+		queryOver.output("csv", "::id,name", false, "|");
+		queryOver.area(city.name);
+		queryOver.node("highway", "primary");
+		queryOver.node("highway", "secondary");
+		queryOver.node("highway", "tertiary");
+		queryOver.node("highway", "residential");
+		queryOver.node("highway", "unclassified");
+		queryOver.way("highway");
+		queryOver.out();
+		
+		String query = queryOver.toString();
+		
+		System.out.println(query);
 		
 		final String STREET_FILE = city.name + ".csv";
 		
@@ -381,35 +431,6 @@ public class main_viewController implements Initializable {
 		
 		// return all the streets of the city
 		return records;
-	}
-	
-	/**
-	 * Send the HTTP GET request to the Overpass API
-	 * Get all the city from a specific country
-	 * @param country {@code String} Country name
-	 * @throws Exception {@code no informations}
-	 * @author Yanis Labrak
-	 */
-	private void getAllCity(String country) throws Exception {
-
-		final String query = Launcher.URL_OSM + "[out:csv(::id,::lat,::lon,\"name\";false;\"|\")];(area[name=\"" + country + "\"];)->.SA;(node[\"place\"~\"city|town\"](area.SA););out;";
-		
-		// TODO: My new OSM query builder here
-		
-		final String CITIES_FILE = "cities.csv";
-		
-		System.out.println("Query created: " + query);
-		
-		File f = new File(CITIES_FILE);
-		
-		if (!f.exists()) {
-			System.out.println("File not found !");
-			this.laodQueryInFile(query, CITIES_FILE);	
-		}
-
-		// Load the cities from the file		
-		this.listeVille = FXCollections.observableArrayList(this.getCities());
-		this.listeVilleSorted= FXCollections.observableArrayList(this.listeVille);
 	}
 	
 	/**

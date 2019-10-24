@@ -19,11 +19,6 @@ import javafx.stage.Stage;
  */
 public class Launcher extends Application
 {		
-
-	/**
-	 * The Overpass API server URL
-	 */
-	public static String URL_OSM = "https://lz4.overpass-api.de/api/interpreter?data=";
 	
 	/**
 	 * Launches the software.

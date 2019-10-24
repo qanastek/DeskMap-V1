@@ -5,6 +5,11 @@ package fr.univavignon.ceri.deskmap;
  * @author Yanis Labrak
  */
 public class OSM {
+
+	/**
+	 * The Overpass API server URL
+	 */
+	public final String URL_OSM = "https://lz4.overpass-api.de/api/interpreter?data=";
 	
 	/**
 	 * The query
@@ -15,7 +20,7 @@ public class OSM {
 	 * Initialize the query to an empty {@code String}
 	 */
 	public OSM() {
-		this.query = "";
+		this.query = this.URL_OSM;
 	}
 	
 	/**
@@ -84,6 +89,14 @@ public class OSM {
 	 */
 	public void out() {
 		this.query += ");out;";
+	}
+	
+	/*
+	 * Convert the object into a {@code String}
+	 */
+	@Override
+	public String toString() {
+		return this.query;
 	}
 	
 	/**
