@@ -7,22 +7,23 @@ package fr.univavignon.ceri.deskmap;
 public class Node {
 	
 	/**
-	 * Identifier of the node {@code Long}
+	 * {@code Long} Identifier for the node
 	 */
 	public Long id;
 	
 	/**
-	 * Earth latitude coordinate {@code Double}
+	 * {@code Double} Earth latitude coordinate
 	 */
 	public Double lat;
 	
 	/**
-	 * Earth longitude coordinate {@code Double}
+	 * {@code Double} Earth longitude coordinate
 	 */
 	public Double lon;
 	
 	/**
-	 * @param id {@code String} Indentifier
+	 * Constructor
+	 * @param id {@code String} Identifier
 	 * @param lat {@code Double} Latitude
 	 * @param lon {@code Double} Longitude
 	 * @author Yanis Labrak
