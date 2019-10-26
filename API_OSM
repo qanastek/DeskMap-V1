@@ -1,2 +1,5 @@
 [out:json][timeout:50]; area(3600102478)->.SA; ( node['highway'='primary'](area.SA); node['highway'='secondary'](area.SA); node['highway'='tertiary'](area.SA); node['highway'='residential'](area.SA); node['highway'='unclassified'](area.SA); way['highway'](area.SA); ); out;
 [out:csv('name')][timeout:50]; area(3600102478)->.SA; ( node['highway'='primary'](area.SA); node['highway'='secondary'](area.SA); node['highway'='tertiary'](area.SA); node['highway'='residential'](area.SA); node['highway'='unclassified'](area.SA); way['highway'](area.SA); ); out;
+
+//polyline
+https://routing.openstreetmap.de/routed-foot/route/v1/driving/4.8059012,43.9492493;4.8223126,43.9423207?overview=false&geometries=polyline&steps=true
