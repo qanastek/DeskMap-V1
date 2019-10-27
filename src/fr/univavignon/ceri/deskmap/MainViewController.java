@@ -257,7 +257,7 @@ public class MainViewController implements Initializable {
 		
 		String query = queryOverpass.toString();
 		
-		System.out.println(query);
+//		System.out.println(query);
 		
 		final String STREET_FILE = city.name + ".csv";
 		
@@ -522,9 +522,9 @@ public class MainViewController implements Initializable {
 		if (this.cityName.getText().isEmpty() ||
 			this.fromNumber.getText().isEmpty() ||
 			this.toNumber.getText().isEmpty() ||
-			this.fromName.getSelectionModel().isEmpty() ||
-			this.toName.getSelectionModel().isEmpty()
-		) {
+			this.fromName.getSelectionModel().getSelectedIndex() < 0 ||
+			this.toName.getSelectionModel().getSelectedIndex() < 0
+ 		) {
 			this.searchBtn.setDisable(true);
 		}
 		else {			
@@ -630,7 +630,7 @@ public class MainViewController implements Initializable {
 	 * @author Yanis Labrak
 	 */
 	@FXML
-	public void SetCity(ActionEvent event) throws Exception
+	public void setCity(ActionEvent event) throws Exception
 	{
 		// If the city name isn't known
 		if (!this.cityName.getText().isEmpty()) {
@@ -686,7 +686,7 @@ public class MainViewController implements Initializable {
 		
 		// When the ENTER key is pressed
 		if (event.getCode() == KeyCode.ENTER) {
-			this.SetCity(new ActionEvent());
+			this.setCity(new ActionEvent());
 		}
 		
 		// If the field isn't empty
