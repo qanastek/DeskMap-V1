@@ -95,6 +95,28 @@ public class OSM {
 	}
 	
 	/**
+	 * Add a kind of node to fetch with bbox and multiple values
+	 * @param key {@code String} Key
+	 * @param bbox {@code String} BBOX
+	 * @param values {@code String} The multiple values like "landuse"~"forest|grass"
+	 * @author Yanis Labrak
+	 */
+	public void nodeMulti(String key, String values, String bbox) {
+		this.query += "node[\"" + key + "\"~\"" + values + "\"](" + bbox + ");";
+	}
+	
+	/**
+	 * Add a kind of node to fetch with bbox
+	 * @param key {@code String} Key
+	 * @param bbox {@code String} BBOX
+	 * @param value {@code String} Value
+	 * @author Yanis Labrak
+	 */
+	public void node(String key, String value, String bbox) {
+		this.query += "node[\"" + key + "\"=\"" + value + "\"](" + bbox + ");";
+	}
+	
+	/**
 	 * <u>Example:</u> {@code way("amenity", "post_box");}
 	 * @param key {@code String} Key
 	 * @param value {@code String} Value
@@ -192,33 +214,8 @@ public class OSM {
 		
 		queryOverpass.output("json", "", false, "");
 		queryOverpass.start();
-		
-		queryOverpass.way("landuse","residential",bbox);
-		queryOverpass.way("landuse","industrial",bbox);
-		queryOverpass.way("landuse","commercial",bbox);
-		queryOverpass.way("landuse","retail",bbox);
-		queryOverpass.way("landuse","railway",bbox);
-		queryOverpass.way("landuse","cemetery",bbox);
-		queryOverpass.way("landuse","forest",bbox);
-		queryOverpass.relation("landuse",bbox);
 
-		queryOverpass.way("amenity","school",bbox);
-		queryOverpass.relation("amenity",bbox);
-
-		queryOverpass.way("leisure","sports_centre",bbox);
-		queryOverpass.way("leisure","park",bbox);
-		queryOverpass.way("leisure","golf_course",bbox);
-		queryOverpass.relation("leisure",bbox);
-
-		queryOverpass.way("highway","primary",bbox);
-		queryOverpass.way("highway","secondary",bbox);
-		queryOverpass.way("highway","trunk",bbox);
-		queryOverpass.way("highway","residential",bbox);
-		queryOverpass.way("highway","living_street",bbox);
-		queryOverpass.way("highway","pedestrian",bbox);
-		queryOverpass.way("highway","motorway",bbox);
-		queryOverpass.relation("highway",bbox);
-
+		queryOverpass.node("building", "test1|test2", bbox);
 		queryOverpass.way("building","yes",bbox);
 		queryOverpass.relation("building",bbox);
 		

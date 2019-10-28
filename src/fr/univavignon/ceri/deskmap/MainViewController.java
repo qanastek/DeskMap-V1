@@ -2,11 +2,14 @@ package fr.univavignon.ceri.deskmap;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,6 +35,13 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
+import java.io.FileReader;
+import java.util.Iterator;
+ 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  * The controller of the FXML file
@@ -544,7 +554,7 @@ public class MainViewController implements Initializable {
 		queryOverpass.output("json", "", false, "");
 		queryOverpass.start();
 		
-		queryOverpass.nodeBbox("landuse",bbox);
+		queryOverpass.nodeMulti("landuse", "residential|industrial|commercial|retail|railway|cemetery|forest|grass", bbox);
 		queryOverpass.way("landuse","residential",bbox);
 		queryOverpass.way("landuse","industrial",bbox);
 		queryOverpass.way("landuse","commercial",bbox);
@@ -552,19 +562,20 @@ public class MainViewController implements Initializable {
 		queryOverpass.way("landuse","railway",bbox);
 		queryOverpass.way("landuse","cemetery",bbox);
 		queryOverpass.way("landuse","forest",bbox);
+		queryOverpass.way("landuse","grass",bbox);
 		queryOverpass.relation("landuse",bbox);
 
-		queryOverpass.nodeBbox("amenity",bbox);
+		queryOverpass.node("landuse", "school", bbox);
 		queryOverpass.way("amenity","school",bbox);
 		queryOverpass.relation("amenity",bbox);
 
-		queryOverpass.nodeBbox("leisure",bbox);
+		queryOverpass.nodeMulti("leisure", "sports_centre|park|golf_course", bbox);
 		queryOverpass.way("leisure","sports_centre",bbox);
 		queryOverpass.way("leisure","park",bbox);
 		queryOverpass.way("leisure","golf_course",bbox);
 		queryOverpass.relation("leisure",bbox);
 
-		queryOverpass.nodeBbox("highway",bbox);
+		queryOverpass.nodeMulti("highway", "primary|secondary|trunk|residential|living_street|pedestrian|motorway", bbox);
 		queryOverpass.way("highway","primary",bbox);
 		queryOverpass.way("highway","secondary",bbox);
 		queryOverpass.way("highway","trunk",bbox);
@@ -574,7 +585,7 @@ public class MainViewController implements Initializable {
 		queryOverpass.way("highway","motorway",bbox);
 		queryOverpass.relation("highway",bbox);
 
-		queryOverpass.nodeBbox("building",bbox);
+		queryOverpass.node("building","yes",bbox);
 		queryOverpass.way("building","yes",bbox);
 		queryOverpass.relation("building",bbox);
 		
@@ -587,11 +598,40 @@ public class MainViewController implements Initializable {
 	}
 	
 	/**
-	 * Parse the JSON file and make Object from it
+	 * Parse the JSON file and make Object from It
+	 * @param city {@code String} Name of the city
+	 * @throws org.json.simple.parser.ParseException If the file wasn't find
 	 */
-	private void loadCityAsObject() {
-		// TODO: parse the JSON file
-		
+	private void loadCityAsObject(String city) throws org.json.simple.parser.ParseException {
+            
+        //JSON parser object to parse read file
+        JSONParser jsonParser = new JSONParser();
+         
+        try (FileReader reader = new FileReader(city.toLowerCase() + "Map.json"))
+        {
+            //Read JSON file
+            Object obj = jsonParser.parse(reader);
+ 
+            JSONObject main = (JSONObject) obj;
+            JSONArray elements = (JSONArray) main.get("elements");
+            
+            Iterator<JSONObject> iterator = elements.iterator();
+
+			while (iterator.hasNext()) {
+				JSONObject item = iterator.next();
+				System.out.println(item.get("id"));
+		    }
+             
+            //Iterate over employee array
+//            employeeList.forEach( emp -> parseEmployeeObject( (JSONObject) emp ) );
+ 
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (org.json.simple.parser.ParseException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	/**
@@ -642,7 +682,7 @@ public class MainViewController implements Initializable {
 		this.addStateBar("Duration: " + TimeUnit.SECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS) + " seconds");
 		
 		// Parse the JSON file as Java Objects
-		this.loadCityAsObject();
+		this.loadCityAsObject(cityName);
 	}
 	
 	/**
