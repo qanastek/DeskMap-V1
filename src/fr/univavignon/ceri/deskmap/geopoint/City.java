@@ -1,4 +1,6 @@
-package fr.univavignon.ceri.deskmap;
+package fr.univavignon.ceri.deskmap.geopoint;
+
+import fr.univavignon.ceri.deskmap.Node;
 
 /**
  * A class which represent the structure of an OSM City entity

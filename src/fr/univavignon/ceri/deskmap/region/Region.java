@@ -1,9 +1,12 @@
 /**
  * 
  */
-package fr.univavignon.ceri.deskmap;
+package fr.univavignon.ceri.deskmap.region;
 
 import java.util.HashMap;
+
+import fr.univavignon.ceri.deskmap.GeoData;
+import fr.univavignon.ceri.deskmap.Node;
 
 /**
  * @author Yanis Labrak

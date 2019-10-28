@@ -106,6 +106,7 @@ highway motorway
    way["landuse"="railway"](48.8,2.3,48.9,2.4);
    way["landuse"="cemetery"](48.8,2.3,48.9,2.4);
    way["landuse"="forest"](48.8,2.3,48.9,2.4);
+   way["landuse"="grass"](48.8,2.3,48.9,2.4);
    relation["landuse"](48.8,2.3,48.9,2.4);
 
    way["amenity"="school"](48.8,2.3,48.9,2.4);

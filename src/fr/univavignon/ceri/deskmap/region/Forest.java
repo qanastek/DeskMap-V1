@@ -1,7 +1,7 @@
 /**
  * 
  */
-package fr.univavignon.ceri.deskmap;
+package fr.univavignon.ceri.deskmap.region;
 
 /**
  * @author Yanis Labrak

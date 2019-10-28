@@ -1,7 +1,10 @@
 /**
  * 
  */
-package fr.univavignon.ceri.deskmap;
+package fr.univavignon.ceri.deskmap.geopoint;
+
+import fr.univavignon.ceri.deskmap.GeoData;
+import fr.univavignon.ceri.deskmap.Node;
 
 /**
  * Point of interest like a {@code City} or a {@code Mountain}
