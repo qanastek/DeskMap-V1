@@ -55,7 +55,14 @@ public class OSM {
 	 * @author Yanis Labrak
 	 */
 	public void area(String place) {
-		this.query += "(area[name=\"" + place + "\"];)->.SA;(";
+		this.query += "(area[name=\"" + place + "\"];)->.SA;";
+	}
+	
+	/**
+	 * Before queries
+	 */
+	public void start() {
+		this.query += "(";
 	}
 	
 	/**
@@ -69,6 +76,15 @@ public class OSM {
 	}
 	
 	/**
+	 * Add a kind of node to fetch
+	 * @param key {@code String} Key
+	 * @author Yanis Labrak
+	 */
+	public void node(String key) {
+		this.query += "node[\"" + key + "\"](area.SA);";
+	}
+	
+	/**
 	 * <u>Example:</u> {@code way("amenity", "post_box");}
 	 * @param key {@code String} Key
 	 * @param value {@code String} Value
@@ -79,12 +95,42 @@ public class OSM {
 	}
 	
 	/**
+	 * <u>Example:</u> {@code way("amenity", "post_box");}
+	 * @param key {@code String} Key
+	 * @param value {@code String} Value
+	 * @param bbox {@code String} BBox coordinates
+	 * @author Yanis Labrak
+	 */
+	public void way(String key, String value, String bbox) {
+		this.query += "way[\"" + key + "\"=\"" + value + "\"](" + bbox + ");";		
+	}
+	
+	/**
 	 * <u>Example:</u> {@code way("highway");}
 	 * @param key {@code String} Key
 	 * @author Yanis Labrak
 	 */
 	public void way(String key) {
 		this.query += "way[\"" + key + "\"](area.SA);";
+	}
+	
+	/**
+	 * <u>Example:</u> {@code relation("highway");}
+	 * @param key {@code String} Key
+	 * @author Yanis Labrak
+	 */
+	public void relation(String key) {
+		this.query += "relation[\"" + key + "\"](area.SA);";
+	}
+	
+	/**
+	 * <u>Example:</u> {@code relation("highway");}
+	 * @param key {@code String} Key
+	 * @param bbox {@code String} BBox coordinates
+	 * @author Yanis Labrak
+	 */
+	public void relation(String key, String bbox) {
+		this.query += "relation[\"" + key + "\"](" + bbox + ");";
 	}
 	
 	/**
@@ -104,21 +150,85 @@ public class OSM {
 	}
 	
 	/**
+	 * BBox calculation from city coordinates
+	 * @param lat Latitude
+	 * @param lon Longitude
+	 * @return String The BBox
+	 */
+	public static String bboxCalc(Double lat, Double lon) {
+		Double left_lat = lat - 0.05;
+		Double left_lon = lon - 0.05;
+		Double right_lat = lat + 0.05;
+		Double right_lon = lon + 0.05;
+		
+		left_lat =  Math.floor(left_lat * 100) / 100;
+		left_lon =  Math.floor(left_lon * 100) / 100;
+		right_lat =  Math.floor(right_lat * 100) / 100;
+		right_lon =  Math.floor(right_lon * 100) / 100;
+		
+		return left_lat + "," + left_lon + "," + right_lat + "," + right_lon;
+	}
+	
+	/**
+	 * Get informations about the node
+	 * @param node Node ID
+	 */
+	private void nodeGet(String node) {
+		// TODO
+		// https://api.openstreetmap.org/api/0.6/node/3262039/full
+		// https://api.openstreetmap.org/api/0.6/relation/3262039/full
+		// https://api.openstreetmap.org/api/0.6/way/3262039/full
+	}
+	
+	/**
 	 * Testing main
 	 * @param args {@code String[]}
 	 * @author Yanis Labrak
 	 */
 	public static void main(String[] args) {
-		OSM o = new OSM();
 		
-		o.output("csv", "::id, name", false, "|");
-		o.area("France");
-		o.node("place", "city");
-//		o.way("amenity", "post_box");
-//		o.way("highway");
-		o.out();
+		String bbox = OSM.bboxCalc(43.9492493, 4.8059012);
 		
-//		System.out.println(o.query);
+		OSM queryOverpass = new OSM();
+		
+		queryOverpass.output("json", "", false, "");
+		queryOverpass.start();
+		
+		queryOverpass.way("landuse","residential",bbox);
+		queryOverpass.way("landuse","industrial",bbox);
+		queryOverpass.way("landuse","commercial",bbox);
+		queryOverpass.way("landuse","retail",bbox);
+		queryOverpass.way("landuse","railway",bbox);
+		queryOverpass.way("landuse","cemetery",bbox);
+		queryOverpass.way("landuse","forest",bbox);
+		queryOverpass.relation("landuse",bbox);
+
+		queryOverpass.way("amenity","school",bbox);
+		queryOverpass.relation("amenity",bbox);
+
+		queryOverpass.way("leisure","sports_centre",bbox);
+		queryOverpass.way("leisure","park",bbox);
+		queryOverpass.way("leisure","golf_course",bbox);
+		queryOverpass.relation("leisure",bbox);
+
+		queryOverpass.way("highway","primary",bbox);
+		queryOverpass.way("highway","secondary",bbox);
+		queryOverpass.way("highway","trunk",bbox);
+		queryOverpass.way("highway","residential",bbox);
+		queryOverpass.way("highway","living_street",bbox);
+		queryOverpass.way("highway","pedestrian",bbox);
+		queryOverpass.way("highway","motorway",bbox);
+		queryOverpass.relation("highway",bbox);
+
+		queryOverpass.way("building","yes",bbox);
+		queryOverpass.relation("building",bbox);
+		
+		queryOverpass.out();
+		
+		System.out.println(queryOverpass.query);
+		
+//		System.out.println("Avignon: " + OSM.bboxCalc(43.9492493, 4.8059012));
+//		System.out.println("Paris: " + OSM.bboxCalc(48.8566969, 2.3514616));
 	}
 
 }

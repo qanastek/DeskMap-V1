@@ -10,7 +10,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
+import java.util.concurrent.TimeUnit;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -212,6 +212,7 @@ public class MainViewController implements Initializable {
 		
 		queryOverpass.output("csv", "::id,::lat,::lon,name", false, "|");
 		queryOverpass.area(country);
+		queryOverpass.start();
 		queryOverpass.node("place", "city");
 		queryOverpass.node("place", "town");
 		queryOverpass.way("place");
@@ -247,6 +248,7 @@ public class MainViewController implements Initializable {
 		
 		queryOverpass.output("csv", "::id,name", false, "|");
 		queryOverpass.area(city.name);
+		queryOverpass.start();
 		queryOverpass.node("highway", "primary");
 		queryOverpass.node("highway", "secondary");
 		queryOverpass.node("highway", "tertiary");
@@ -256,8 +258,6 @@ public class MainViewController implements Initializable {
 		queryOverpass.out();
 		
 		String query = queryOverpass.toString();
-		
-//		System.out.println(query);
 		
 		final String STREET_FILE = city.name + ".csv";
 		
@@ -312,6 +312,7 @@ public class MainViewController implements Initializable {
 	private void laodQueryInFile(String query, String outputName) {
 		
 		this.addStateBar("Cache creation");
+		System.out.println("Cache creation");
 		
 		try {
 			
@@ -330,6 +331,7 @@ public class MainViewController implements Initializable {
 			outputFile.close();
 			
 			this.addStateBar("Caching done !");
+			System.out.println("Caching done !");
 		    
 		} catch (Exception e) {
 			this.addStateBar("Cannot reach servers !");
@@ -479,8 +481,154 @@ public class MainViewController implements Initializable {
 		else {
 			this.addStateBar("Searching for the best path");
 			this.addStateBar(fromNumber + " " + this.fromName.getSelectionModel().getSelectedItem() + " -> " + toNumber + " " + this.toName.getSelectionModel().getSelectedItem());
-			// TODO: Map print and path calculation here
 		}
+	}
+	
+	/**
+	 * Return the coordinates of a city
+	 * @param city {@code String} Name of the city
+	 * @return {@code String} Coordinates
+	 */
+	private String getCityCoordinates(String city) {
+		try {
+			
+			// Open a stream for the file which contain all the streets
+			BufferedReader buffer = new BufferedReader(new FileReader("cities.csv"));
+			
+			String line;
+			
+			// While the file have lines
+			while ((line = buffer.readLine()) != null) {
+				
+				String[] values = line.split("\\|");
+		        
+		        // The City need to be fully complete to be processed
+		        if (values.length == 4 &&
+		        	!values[0].isEmpty() &&
+		        	!values[1].isEmpty() &&
+		        	!values[2].isEmpty() &&
+		        	!values[3].isEmpty()) {
+					
+		        	// When we found the city
+					if (values[3].toLowerCase().equals(city.toLowerCase())) {
+						return values[1] + "|" + values[2];
+						
+					}
+				}		        
+			}
+			
+			return null;
+			
+		} catch(Exception e) {
+			return null;
+		}		
+	}
+	
+	/**
+	 * Build a Overpass Query in the way to fetch all the objects necessary to display the map
+	 * @param bbox The Bounding box in which we want the data
+	 * @return The OSM query
+	 */
+	private String fullMapQuery(String bbox) {
+		OSM queryOverpass = new OSM();
+		
+		queryOverpass.output("json", "", false, "");
+		queryOverpass.start();
+		
+		queryOverpass.way("landuse","residential",bbox);
+		queryOverpass.way("landuse","industrial",bbox);
+		queryOverpass.way("landuse","commercial",bbox);
+		queryOverpass.way("landuse","retail",bbox);
+		queryOverpass.way("landuse","railway",bbox);
+		queryOverpass.way("landuse","cemetery",bbox);
+		queryOverpass.way("landuse","forest",bbox);
+		queryOverpass.relation("landuse",bbox);
+
+		queryOverpass.way("amenity","school",bbox);
+		queryOverpass.relation("amenity",bbox);
+
+		queryOverpass.way("leisure","sports_centre",bbox);
+		queryOverpass.way("leisure","park",bbox);
+		queryOverpass.way("leisure","golf_course",bbox);
+		queryOverpass.relation("leisure",bbox);
+
+		queryOverpass.way("highway","primary",bbox);
+		queryOverpass.way("highway","secondary",bbox);
+		queryOverpass.way("highway","trunk",bbox);
+		queryOverpass.way("highway","residential",bbox);
+		queryOverpass.way("highway","living_street",bbox);
+		queryOverpass.way("highway","pedestrian",bbox);
+		queryOverpass.way("highway","motorway",bbox);
+		queryOverpass.relation("highway",bbox);
+
+		queryOverpass.way("building","yes",bbox);
+		queryOverpass.relation("building",bbox);
+		
+		queryOverpass.out();
+		
+		String query = queryOverpass.query;
+		
+		System.out.println("Query full map created: " + query);
+		return query;
+	}
+	
+	/**
+	 * Parse the JSON file and make Object from it
+	 */
+	private void loadCityAsObject() {
+		// TODO: parse the JSON file
+		
+	}
+	
+	/**
+	 * Make the object for the map
+	 * @param cityName {@code String} Name of the city
+	 * @throws Exception If the coordinates wasn't found
+	 * @author Yanis Labrak
+	 */
+	private void fetchAllCity(String cityName) throws Exception {
+		
+		// Fetch the coordinates of the city
+		String cityCoordinate = this.getCityCoordinates(cityName);
+		
+		this.addStateBar("Coordinates find");
+		
+		if (cityCoordinate == null) {
+			throw new NullPointerException("cityCoordinate is empty !");
+		}
+		
+		String[] coordinates = cityCoordinate.split("\\|");
+		
+		// Make the bbox
+		String bbox = OSM.bboxCalc(
+				Double.parseDouble(coordinates[0]),
+				Double.parseDouble(coordinates[1])
+		);
+		
+		this.addStateBar("BBox created");
+		
+		// Make the query for getting the full map
+		String query = this.fullMapQuery(bbox);
+		
+		final String CITIES_FILE = cityName + "Map.json";
+		System.out.println("File name: " + CITIES_FILE);
+		
+		File f = new File(CITIES_FILE);
+		
+		long startTime = System.nanoTime();
+		
+		// If the file doesn't exist
+		if (!f.exists()) {
+			System.out.println("File not found !");
+			this.laodQueryInFile(query, CITIES_FILE);	
+		}
+		
+		// How long the query take to be totally downloaded
+		long endTime = System.nanoTime();
+		this.addStateBar("Duration: " + TimeUnit.SECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS) + " seconds");
+		
+		// Parse the JSON file as Java Objects
+		this.loadCityAsObject();
 	}
 	
 	/**
@@ -634,6 +782,10 @@ public class MainViewController implements Initializable {
 	{
 		// If the city name isn't known
 		if (!this.cityName.getText().isEmpty()) {
+			
+			// TODO: Map print and path calculation here
+			// T100
+			this.fetchAllCity(this.cityName.getText());
 			
 			this.addStateBar("Search for " + this.cityName.getText());
 			
