@@ -159,6 +159,11 @@ public class MainViewController implements Initializable {
 	ObservableList<Street> listStreetNameSortedTo = FXCollections.observableArrayList();
 	
 	/**
+	 * The map instance which will contain all the objects to display
+	 */
+	Map map = new Map();
+	
+	/**
 	 * Automatically started when the program start
 	 */
 	@Override
@@ -493,12 +498,12 @@ public class MainViewController implements Initializable {
 		try {
 			
 			// Open a stream for the file which contain all the streets
-			BufferedReader buffer = new BufferedReader(new FileReader("cities.csv"));
+			BufferedReader bfr = new BufferedReader(new FileReader("cities.csv"));
 			
 			String line;
 			
 			// While the file have lines
-			while ((line = buffer.readLine()) != null) {
+			while ((line = bfr.readLine()) != null) {
 				
 				String[] values = line.split("\\|");
 		        
@@ -511,11 +516,14 @@ public class MainViewController implements Initializable {
 					
 		        	// When we found the city
 					if (values[3].toLowerCase().equals(city.toLowerCase())) {
+						bfr.close();
 						return values[1] + "|" + values[2];
 						
 					}
 				}		        
 			}
+			
+			bfr.close();
 			
 			return null;
 			
@@ -535,6 +543,7 @@ public class MainViewController implements Initializable {
 		queryOverpass.output("json", "", false, "");
 		queryOverpass.start();
 		
+		queryOverpass.nodeBbox("landuse",bbox);
 		queryOverpass.way("landuse","residential",bbox);
 		queryOverpass.way("landuse","industrial",bbox);
 		queryOverpass.way("landuse","commercial",bbox);
@@ -544,14 +553,17 @@ public class MainViewController implements Initializable {
 		queryOverpass.way("landuse","forest",bbox);
 		queryOverpass.relation("landuse",bbox);
 
+		queryOverpass.nodeBbox("amenity",bbox);
 		queryOverpass.way("amenity","school",bbox);
 		queryOverpass.relation("amenity",bbox);
 
+		queryOverpass.nodeBbox("leisure",bbox);
 		queryOverpass.way("leisure","sports_centre",bbox);
 		queryOverpass.way("leisure","park",bbox);
 		queryOverpass.way("leisure","golf_course",bbox);
 		queryOverpass.relation("leisure",bbox);
 
+		queryOverpass.nodeBbox("highway",bbox);
 		queryOverpass.way("highway","primary",bbox);
 		queryOverpass.way("highway","secondary",bbox);
 		queryOverpass.way("highway","trunk",bbox);
@@ -561,6 +573,7 @@ public class MainViewController implements Initializable {
 		queryOverpass.way("highway","motorway",bbox);
 		queryOverpass.relation("highway",bbox);
 
+		queryOverpass.nodeBbox("building",bbox);
 		queryOverpass.way("building","yes",bbox);
 		queryOverpass.relation("building",bbox);
 		

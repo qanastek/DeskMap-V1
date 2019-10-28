@@ -4,27 +4,7 @@ package fr.univavignon.ceri.deskmap;
  * A class which represent the structure of an OSM City entity
  * @author Yanis Labrak
  */
-public class City {
-	
-	/**
-	 * Identifier of the city node {@code Long}
-	 */
-	public Long id;
-	
-	/**
-	 * Earth latitude coordinate {@code Double}
-	 */
-	public Double lat;
-	
-	/**
-	 * Earth longitude coordinate {@code Double}
-	 */
-	public Double lon;
-	
-	/**
-	 * Name of the city {@code String}
-	 */
-	public String name;
+public class City extends GeoPoint {
 	
 	/**
 	 * Main constructor
@@ -35,10 +15,7 @@ public class City {
 	 * @author Yanis Labrak
 	 */
 	public City(String id, Double lat, Double lon, String name) {
-		this.id = Long.parseLong(id);
-		this.lat = lat;
-		this.lon = lon;
-		this.name = name;
+		super(name,new Node(Long.parseLong(id),lat,lon));
 	}
 	
 	/**
@@ -47,14 +24,17 @@ public class City {
 	 * @author Yanis Labrak
 	 */
 	public City(City city) {
-		this.id = city.id;
-		this.lat = city.lat;
-		this.lon = city.lon;
-		this.name = city.name;		
+		super(city.name,city.point);
 	}
 	
-	@Override
-	public String toString() {
-		return "[" + this.id + "," + this.lat + "," + this.lon + "," + this.name + "]";
+	/**
+	 * Testing main
+	 * @param args Nothing
+	 */
+	public static void main(String[] args) {
+		System.out.println("City: ");
+		
+		City c1 = new City("4848848", -10.0, 20.0, "Brussel");
+		System.out.println(c1.toString());
 	}
 }

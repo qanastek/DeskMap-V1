@@ -85,6 +85,16 @@ public class OSM {
 	}
 	
 	/**
+	 * Add a kind of node to fetch with bbox
+	 * @param key {@code String} Key
+	 * @param bbox {@code String} BBOX
+	 * @author Yanis Labrak
+	 */
+	public void nodeBbox(String key, String bbox) {
+		this.query += "node[\"" + key + "\"](" + bbox + ");";
+	}
+	
+	/**
 	 * <u>Example:</u> {@code way("amenity", "post_box");}
 	 * @param key {@code String} Key
 	 * @param value {@code String} Value
@@ -167,17 +177,6 @@ public class OSM {
 		right_lon =  Math.floor(right_lon * 100) / 100;
 		
 		return left_lat + "," + left_lon + "," + right_lat + "," + right_lon;
-	}
-	
-	/**
-	 * Get informations about the node
-	 * @param node Node ID
-	 */
-	private void nodeGet(String node) {
-		// TODO
-		// https://api.openstreetmap.org/api/0.6/node/3262039/full
-		// https://api.openstreetmap.org/api/0.6/relation/3262039/full
-		// https://api.openstreetmap.org/api/0.6/way/3262039/full
 	}
 	
 	/**
