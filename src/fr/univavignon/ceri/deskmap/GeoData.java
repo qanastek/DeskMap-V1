@@ -10,18 +10,49 @@ package fr.univavignon.ceri.deskmap;
 public abstract class GeoData {
 	
 	/**
+	 * The identifier of the data
+	 */
+	protected Long id;
+
+	/**
 	 * The name of the data
 	 */
 	protected String name;
 	
 	/**
 	 * Constructor
+	 * @param id {@code Long} Identifier
 	 * @param name Name of the data
 	 */
-	public GeoData(String name) {
+	public GeoData(Long id,String name) {
+		this.id = id;
 		this.name = name;
 	}
+	
+	/**
+	 * Constructor
+	 * @param id {@code String} Identifier
+	 * @param name Name of the data
+	 */
+	public GeoData(String id,String name) {
+		this.id = Long.parseLong(id);
+		this.name = name;
+	}
+	
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return this.id;
+	}
 
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	/**
 	 * @return the name
 	 */

@@ -19,11 +19,23 @@ public abstract class GeoPoint extends GeoData {
 
 	/**
 	 * Constructor
+	 * @param id {@code String} Identifier
 	 * @param name Name of the place
 	 * @param point The only {@code Node} of the place
 	 */
-	public GeoPoint(String name, Node point) {
-		super(name);
+	public GeoPoint(String id, String name, Node point) {
+		super(Long.parseLong(id),name);
+		this.point = point;
+	}
+	
+	/**
+	 * Constructor
+	 * @param id {@code Long} Identifier
+	 * @param name Name of the place
+	 * @param point The only {@code Node} of the place
+	 */
+	public GeoPoint(Long id, String name, Node point) {
+		super(id,name);
 		this.point = point;
 	}
 	

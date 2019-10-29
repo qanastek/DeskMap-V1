@@ -13,11 +13,11 @@ public class City extends GeoPoint {
 	 * @param id {@code String} Identifier
 	 * @param lat {@code Double} Latitude
 	 * @param lon {@code Double} Longitude
-	 * @param name {@code String} Name
+	 * @param name {@code String} Name of the city
 	 * @author Yanis Labrak
 	 */
 	public City(String id, Double lat, Double lon, String name) {
-		super(name,new Node(Long.parseLong(id),lat,lon));
+		super(id, name,new Node(Long.parseLong(id),lat,lon));
 	}
 	
 	/**
@@ -26,7 +26,7 @@ public class City extends GeoPoint {
 	 * @author Yanis Labrak
 	 */
 	public City(City city) {
-		super(city.name,city.point);
+		super(city.id, city.name,city.point);
 	}
 	
 	/**

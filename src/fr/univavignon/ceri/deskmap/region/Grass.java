@@ -11,9 +11,10 @@ public class Grass extends Region {
 
 	/**
 	 * Constructor
+	 * @param id {@code String} Identifier
 	 */
-	public Grass() {
-		super("", "#cdebb0");
+	public Grass(String id) {
+		super(id, "", "#cdebb0");
 	}
 
 }

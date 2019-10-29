@@ -26,11 +26,23 @@ public abstract class Region extends GeoData {
 	
 	/**
 	 * Constructor
+	 * @param id {@code String} Identifier
 	 * @param name {@code String} Name of the region
 	 * @param color {@code String} Color assigned to this {@code Region}
 	 */
-	public Region(String name, String color) {
-		super(name);
+	public Region(String id, String name, String color) {
+		super(id,name);
+		this.color = color;
+	}
+	
+	/**
+	 * Constructor
+	 * @param id {@code Long} Identifier
+	 * @param name {@code String} Name of the region
+	 * @param color {@code String} Color assigned to this {@code Region}
+	 */
+	public Region(Long id, String name, String color) {
+		super(id,name);
 		this.color = color;
 	}
 
@@ -58,10 +70,18 @@ public abstract class Region extends GeoData {
 	
 	/**
 	 * Add a node to the node list
-	 * @param node The node to add
+	 * @param id {@code Long} Identifier of the node
 	 */
-	public void addNode(Node node) {
-		this.nodes.add(node.id);
+	public void addNode(Long id) {
+		this.nodes.add(id);
+	}
+	
+	/**
+	 * Add a node to the node list
+	 * @param id {@code String} Identifier of the node
+	 */
+	public void addNode(String id) {
+		this.nodes.add(Long.parseLong(id));
 	}
 	
 	@Override

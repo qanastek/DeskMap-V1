@@ -11,9 +11,10 @@ public class Residential extends Region {
 
 	/**
 	 * Constructor
+	 * @param id {@code String} Identifier
 	 */
-	public Residential() {
-		super("", "#e1e1e1");
+	public Residential(String id) {
+		super(id, "", "#e1e1e1");
 	}
 
 }

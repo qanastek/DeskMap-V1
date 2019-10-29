@@ -81,12 +81,26 @@ public class Line extends GeoData {
 
 	/**
 	 * Constructor
+	 * @param id {@code String} Identifier
 	 * @param name {@code String} Name of the data
 	 * @param thickness {@code Integer} Thickness of the line on the canvas
 	 * @param color {@code String} Color of the line on the canvas
 	 */
-	public Line(String name, Integer thickness, String color) {
-		super(name);
+	public Line(String id, String name, Integer thickness, String color) {
+		super(id,name);
+		this.thickness = thickness;
+		this.color = color;
+	}
+	
+	/**
+	 * Constructor
+	 * @param id {@code Long} Identifier
+	 * @param name {@code String} Name of the data
+	 * @param thickness {@code Integer} Thickness of the line on the canvas
+	 * @param color {@code String} Color of the line on the canvas
+	 */
+	public Line(Long id, String name, Integer thickness, String color) {
+		super(id,name);
 		this.thickness = thickness;
 		this.color = color;
 	}

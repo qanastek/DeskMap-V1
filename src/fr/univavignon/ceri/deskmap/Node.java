@@ -40,7 +40,7 @@ public class Node {
 	 * @param lon {@code Double} Longitude
 	 * @author Yanis Labrak
 	 */
-	public Node(long id, Double lat, Double lon) {
+	public Node(Long id, Double lat, Double lon) {
 		this.id = id;
 		this.lat = lat;
 		this.lon = lon;

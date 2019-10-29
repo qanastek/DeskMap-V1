@@ -78,6 +78,11 @@ building stadium
 building parking
 
 
+/*
+* Natural
+*/
+
+natural water
 
 /*
 * Routes
@@ -126,30 +131,7 @@ highway motorway
    way["highway"="motorway"](48.8,2.3,48.9,2.4);
    relation["highway"](48.8,2.3,48.9,2.4);
 
-
-   // way["building"="yes"](48.8,2.3,48.9,2.4);
-   way["building"="apartments"](48.8,2.3,48.9,2.4);
-   way["building"="bungalow"](48.8,2.3,48.9,2.4);
-   way["building"="detached"](48.8,2.3,48.9,2.4);
-   way["building"="dormitory"](48.8,2.3,48.9,2.4);
-   way["building"="hotel"](48.8,2.3,48.9,2.4);
-   way["building"="house"](48.8,2.3,48.9,2.4);
-   way["building"="residential"](48.8,2.3,48.9,2.4);
-   way["building"="commercial"](48.8,2.3,48.9,2.4);
-   way["building"="industrial"](48.8,2.3,48.9,2.4);
-   way["building"="office"](48.8,2.3,48.9,2.4);
-   way["building"="retail"](48.8,2.3,48.9,2.4);
-   way["building"="supermarket"](48.8,2.3,48.9,2.4);
-   way["building"="warehouse"](48.8,2.3,48.9,2.4);
-   way["building"="hospital"](48.8,2.3,48.9,2.4);
-   way["building"="civic"](48.8,2.3,48.9,2.4);
-   way["building"="government"](48.8,2.3,48.9,2.4);
-   way["building"="public"](48.8,2.3,48.9,2.4);
-   way["building"="school"](48.8,2.3,48.9,2.4);
-   way["building"="train_station"](48.8,2.3,48.9,2.4);
-   way["building"="university"](48.8,2.3,48.9,2.4);
-   way["building"="stadium"](48.8,2.3,48.9,2.4);
-   way["building"="parking"](48.8,2.3,48.9,2.4);
+   way["building"="yes"](48.8,2.3,48.9,2.4);
    relation["building"](48.8,2.3,48.9,2.4);
 );
 out body;

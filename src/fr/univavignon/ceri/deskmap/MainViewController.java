@@ -2,10 +2,8 @@ package fr.univavignon.ceri.deskmap;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.channels.Channels;
@@ -35,12 +33,6 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
-import java.util.Iterator;
- 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 /**
  * The controller of the FXML file
@@ -146,32 +138,32 @@ public class MainViewController implements Initializable {
 	/**
 	 * List of {@code City}
 	 */
-	ObservableList<City> listCity;
+	private ObservableList<City> listCity;
 	
 	/**
 	 * The observable variable for the text field {@code cityName}
 	 */
-	ObservableList<City> listCitySorted;
+	private ObservableList<City> listCitySorted;
 	
 	/**
 	 * The default list of streets for a specific city
 	 */
-	ObservableList<Street> listStreetName = FXCollections.observableArrayList();
+	private ObservableList<Street> listStreetName = FXCollections.observableArrayList();
 	
 	/**
 	 * The observable variable for the {@code FROM} comboBox
 	 */
-	ObservableList<Street> listStreetNameSortedFrom = FXCollections.observableArrayList();
+	private ObservableList<Street> listStreetNameSortedFrom = FXCollections.observableArrayList();
 	
 	/**
 	 * The observable variable for the {@code TO} comboBox
 	 */
-	ObservableList<Street> listStreetNameSortedTo = FXCollections.observableArrayList();
+	private ObservableList<Street> listStreetNameSortedTo = FXCollections.observableArrayList();
 	
 	/**
 	 * The map instance which will contain all the objects to display
 	 */
-	Map map = new Map();
+	public static Map map = new Map();
 	
 	/**
 	 * Automatically started when the program start
@@ -549,6 +541,7 @@ public class MainViewController implements Initializable {
 	 * @throws UnsupportedEncodingException Thrown when the encoding process failed
 	 */
 	private String fullMapQuery(String bbox) throws UnsupportedEncodingException {
+		// TODO: Full query
 		OSM queryOverpass = new OSM();
 		
 		queryOverpass.output("json", "", false, "");
@@ -587,7 +580,12 @@ public class MainViewController implements Initializable {
 
 		queryOverpass.node("building","yes",bbox);
 		queryOverpass.way("building","yes",bbox);
+		queryOverpass.way("building","school",bbox);
 		queryOverpass.relation("building",bbox);
+		
+		queryOverpass.node("natural","water",bbox);
+		queryOverpass.way("natural","water",bbox);
+		queryOverpass.relation("natural",bbox);
 		
 		queryOverpass.outBodySkel();
 		
@@ -603,56 +601,18 @@ public class MainViewController implements Initializable {
 	 * @throws org.json.simple.parser.ParseException If the file wasn't find
 	 */
 	private void loadCityAsObject(String city) throws org.json.simple.parser.ParseException {
-            
-        //JSON parser object to parse read file
-        JSONParser jsonParser = new JSONParser();
-         
-        try (FileReader reader = new FileReader(city.toLowerCase() + "Map.json"))
-        {
-            //Read JSON file
-            Object obj = jsonParser.parse(reader);
- 
-            JSONObject main = (JSONObject) obj;
-            JSONArray elements = (JSONArray) main.get("elements");
-            
-            Iterator<JSONObject> iterator = elements.iterator();
-            
-            Integer nodeCpt = 0;
-            Integer wayCpt = 0;
-            Integer relaCpt = 0;
-
-            // TODO: continuous
-			while (iterator.hasNext()) {	
-				
-				JSONObject item = iterator.next();
-
-				String type = (String) item.get("type");
-				
-				switch (type) {
-					case "node":
-						nodeCpt++;
-						break;
-	
-					case "way":
-						wayCpt++;
-						break;
-						
-					case "relation":
-						relaCpt++;
-						break;
-				}	
-				
-		    }
-			
-			System.out.println("Nodes: " + nodeCpt + ", Ways: " + wayCpt + ", Relations: " + relaCpt);
- 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (org.json.simple.parser.ParseException e) {
-            e.printStackTrace();
-        }
+		
+		// TODO: Loading
+		
+		// Load all the nodes
+		Map.loadNodes(city);
+		
+		// Load all the ways
+		Map.loadWays(city);
+		
+		// Load all the relations
+		Map.loadRelations(city);
+		
 	}
 	
 	/**
@@ -859,7 +819,6 @@ public class MainViewController implements Initializable {
 		if (!this.cityName.getText().isEmpty()) {
 			
 			// TODO: Map print and path calculation here
-			// T100
 			this.fetchAllCity(this.cityName.getText());
 			
 			this.addStateBar("Search for " + this.cityName.getText());

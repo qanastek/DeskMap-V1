@@ -11,9 +11,10 @@ public class Industrial extends Region {
 
 	/**
 	 * Constructor
+	 * @param id {@code String} Identifier
 	 */
-	public Industrial() {
-		super("", "#ebdbe9");
+	public Industrial(String id) {
+		super(id, "", "#ebdbe9");
 	}
 
 }

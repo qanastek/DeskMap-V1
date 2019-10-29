@@ -11,9 +11,10 @@ public class Retail extends Region {
 
 	/**
 	 * Constructor
+	 * @param id {@code String} Identifier
 	 */
-	public Retail() {
-		super("", "#ffd5d0");
+	public Retail(String id) {
+		super(id, "", "#ffd5d0");
 	}
 
 }
