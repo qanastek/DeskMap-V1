@@ -4,6 +4,7 @@
 package fr.univavignon.ceri.deskmap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -37,10 +38,67 @@ public class Map {
 	private Float width;
 	
 	/**
-	 * All the GeoData which will be displayed
+	 * All the GeoData to load
 	 */
 	private List<GeoData> mapContent = new ArrayList<GeoData>();
+
+	/**
+	 * All the nodes to load
+	 */
+	private HashMap<Long, Node> nodes = new HashMap<Long, Node>();
 	
+	/**
+	 * @param data {@code GeoData} The data to add
+	 */
+	public void addMapContent(GeoData data) {
+		this.mapContent.add(data);
+	}
+	
+	/**
+	 * Add a {@code Node} inside the {@code HashMap}
+	 * @param node The {@code Node} to add
+	 */
+	public void addNode(Node node) {
+		this.nodes.put(node.id, node);
+	}
+	
+	/**
+	 * Get the {@code Node} which have the same {@code Id}
+	 * @param id {@code String} Identifier of the {@code Node}
+	 * @return return the {@code Node} for which the identifier match
+	 */
+	public Node getNode(String id) {
+		return this.nodes.get(Long.parseLong(id));
+	}
+	
+	/**
+	 * @return the mapContent
+	 */
+	public List<GeoData> getMapContent() {
+		return this.mapContent;
+	}
+
+	/**
+	 * @param mapContent the mapContent to set
+	 */
+	public void setMapContent(List<GeoData> mapContent) {
+		this.mapContent = mapContent;
+	}
+
+	/**
+	 * @return the nodes
+	 */
+	public HashMap<Long, Node> getNodes() {
+		return this.nodes;
+	}
+
+	/**
+	 * @param nodes the nodes to set
+	 */
+	public void setNodes(HashMap<Long, Node> nodes) {
+		this.nodes = nodes;
+	}
+
 	/**
 	 * Constructor
 	 */

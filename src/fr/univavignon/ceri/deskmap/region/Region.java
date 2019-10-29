@@ -3,7 +3,8 @@
  */
 package fr.univavignon.ceri.deskmap.region;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.univavignon.ceri.deskmap.GeoData;
 import fr.univavignon.ceri.deskmap.Node;
@@ -21,7 +22,7 @@ public abstract class Region extends GeoData {
 	/**
 	 * All the nodes which make the Region
 	 */
-	protected HashMap<Long, Node> nodes = new HashMap<Long, Node>();
+	protected List<Long> nodes = new ArrayList<Long>();
 	
 	/**
 	 * Constructor
@@ -51,15 +52,8 @@ public abstract class Region extends GeoData {
 	 * Get all the nodes of this Region
 	 * @return the nodes
 	 */
-	public HashMap<Long, Node> getNodes() {
+	public List<Long> getNodes() {
 		return this.nodes;
-	}
-
-	/**
-	 * @param nodes the nodes to set
-	 */
-	public void setNodes(HashMap<Long, Node> nodes) {
-		this.nodes = nodes;
 	}
 	
 	/**
@@ -67,7 +61,7 @@ public abstract class Region extends GeoData {
 	 * @param node The node to add
 	 */
 	public void addNode(Node node) {
-		this.nodes.put(node.id, node);
+		this.nodes.add(node.id);
 	}
 	
 	@Override

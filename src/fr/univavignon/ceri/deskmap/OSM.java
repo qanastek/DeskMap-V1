@@ -1,5 +1,9 @@
 package fr.univavignon.ceri.deskmap;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 /**
  * A class which contain every single command necessary for the built of an Overpass API query.
  * @author Yanis Labrak
@@ -171,6 +175,15 @@ public class OSM {
 	 */
 	public void out() {
 		this.query += ");out;";
+	}
+	
+	/**
+	 * End of the query body and skeleton
+	 * @author Yanis Labrak
+	 * @throws UnsupportedEncodingException Thrown when the encoding process failed
+	 */
+	public void outBodySkel() throws UnsupportedEncodingException {
+		this.query += URLEncoder.encode(");out body;>;out skel qt;", StandardCharsets.UTF_8.toString());
 	}
 	
 	/*

@@ -6,10 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -36,7 +36,6 @@ import javafx.stage.Window;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-import java.io.FileReader;
 import java.util.Iterator;
  
 import org.json.simple.JSONArray;
@@ -547,8 +546,9 @@ public class MainViewController implements Initializable {
 	 * Build a Overpass Query in the way to fetch all the objects necessary to display the map
 	 * @param bbox The Bounding box in which we want the data
 	 * @return The OSM query
+	 * @throws UnsupportedEncodingException Thrown when the encoding process failed
 	 */
-	private String fullMapQuery(String bbox) {
+	private String fullMapQuery(String bbox) throws UnsupportedEncodingException {
 		OSM queryOverpass = new OSM();
 		
 		queryOverpass.output("json", "", false, "");
@@ -589,7 +589,7 @@ public class MainViewController implements Initializable {
 		queryOverpass.way("building","yes",bbox);
 		queryOverpass.relation("building",bbox);
 		
-		queryOverpass.out();
+		queryOverpass.outBodySkel();
 		
 		String query = queryOverpass.query;
 		
@@ -616,14 +616,35 @@ public class MainViewController implements Initializable {
             JSONArray elements = (JSONArray) main.get("elements");
             
             Iterator<JSONObject> iterator = elements.iterator();
+            
+            Integer nodeCpt = 0;
+            Integer wayCpt = 0;
+            Integer relaCpt = 0;
 
-			while (iterator.hasNext()) {
+            // TODO: continuous
+			while (iterator.hasNext()) {	
+				
 				JSONObject item = iterator.next();
-				System.out.println(item.get("id"));
+
+				String type = (String) item.get("type");
+				
+				switch (type) {
+					case "node":
+						nodeCpt++;
+						break;
+	
+					case "way":
+						wayCpt++;
+						break;
+						
+					case "relation":
+						relaCpt++;
+						break;
+				}	
+				
 		    }
-             
-            //Iterate over employee array
-//            employeeList.forEach( emp -> parseEmployeeObject( (JSONObject) emp ) );
+			
+			System.out.println("Nodes: " + nodeCpt + ", Ways: " + wayCpt + ", Relations: " + relaCpt);
  
         } catch (FileNotFoundException e) {
             e.printStackTrace();
