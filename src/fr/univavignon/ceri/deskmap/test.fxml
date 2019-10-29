@@ -7,27 +7,24 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-
-
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.deskmap.testController">
    <children>
       <SplitPane fx:id="splitPane" dividerPositions="0.2913188647746244" layoutX="-6.0" prefHeight="700.0" prefWidth="1200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane fx:id="anchorPane1" maxWidth="345" minHeight="0.0" minWidth="0.0" prefWidth="345.0">
+          <AnchorPane id="leftPane" fx:id="anchorPane1" maxWidth="345" minHeight="0.0" minWidth="0.0" prefWidth="345.0">
                <children>
-                  <TextField fx:id="nameCity" layoutX="30.0" layoutY="60.0" onKeyReleased="#resetCity" prefHeight="30.0" prefWidth="165.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="45.0" />
-                  <TextField fx:id="nameStreetFrom" layoutX="30.0" layoutY="100.0" onKeyTyped="#TextType" prefHeight="30.0" prefWidth="115.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="100.0" />
-                  <TextField fx:id="nameStreetTo" layoutX="30.0" layoutY="189.0" onKeyTyped="#TextType" prefHeight="30.0" prefWidth="115.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="155.0" />
+                  <TextField id="text" fx:id="nameCity" layoutX="30.0" layoutY="60.0" onKeyReleased="#resetCity" prefHeight="30.0" prefWidth="165.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="45.0" />
+                  <TextField id="text" fx:id="nameStreetFrom" layoutX="30.0" layoutY="100.0" onKeyTyped="#TextType" prefHeight="30.0" prefWidth="115.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="100.0" />
+                  <TextField id="text" fx:id="nameStreetTo" layoutX="30.0" layoutY="189.0" onKeyTyped="#TextType" prefHeight="30.0" prefWidth="115.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="155.0" />
                   <TextArea layoutX="30.0" layoutY="329.0" prefHeight="200.0" prefWidth="285.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="330.0" />
-                  <Button fx:id="setCity" layoutX="239.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#okClick" prefHeight="30.0" prefWidth="97.0" style="-fx-text-fill: #395306;" text="OK" AnchorPane.leftAnchor="220.0" AnchorPane.topAnchor="45.0" />
+                  <Button id="buttonOk" fx:id="setCity" layoutX="239.0" layoutY="60.0" mnemonicParsing="false" onMouseClicked="#okClick" prefHeight="30.0" prefWidth="97.0" style="-fx-text-fill: #395306;" text="OK" AnchorPane.leftAnchor="220.0" AnchorPane.topAnchor="45.0" />
                   <Button layoutX="30.0" layoutY="213.0" mnemonicParsing="false" onMouseClicked="#Search" prefHeight="80.0" prefWidth="115.0" text="Search" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="210.0" />
                   <Button layoutX="200.0" layoutY="210.0" mnemonicParsing="false" onMouseClicked="#Stop" prefHeight="81.0" prefWidth="115.0" text="Stop" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="210.0" />
-                  <ComboBox fx:id="cbbFrom" editable="true" layoutX="169.0" layoutY="100.0" onKeyReleased="#comboboxStreetFrom" prefHeight="30.0" prefWidth="145.0" />
-                  <ComboBox fx:id="cbbTo" editable="true" layoutX="169.0" layoutY="155.0" onKeyReleased="#comboboxStreetTo" prefHeight="30.0" prefWidth="145.0" />
+                  <ComboBox id="text" fx:id="cbbFrom" editable="true" layoutX="169.0" layoutY="100.0" onKeyReleased="#comboboxStreetFrom" prefHeight="30.0" prefWidth="145.0" />
+                  <ComboBox id="text" fx:id="cbbTo" editable="true" layoutX="169.0" layoutY="155.0" onKeyReleased="#comboboxStreetTo" prefHeight="30.0" prefWidth="145.0" />
                </children>
             </AnchorPane>
-          <AnchorPane fx:id="anchorPane2" minHeight="0.0" minWidth="0.0" prefWidth="855.0">
+          <AnchorPane id="rightPane" fx:id="anchorPane2" minHeight="0.0" minWidth="0.0" prefWidth="855.0">
                <children>
                   <Button layoutX="218.0" layoutY="75.0" mnemonicParsing="false" text="◄" AnchorPane.rightAnchor="85.0" AnchorPane.topAnchor="55.0" />
                   <Button layoutX="259.0" layoutY="36.0" mnemonicParsing="false" text="▲" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0" />
