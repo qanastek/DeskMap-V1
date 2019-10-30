@@ -118,23 +118,23 @@ public class Node {
 		// Lon
 		y = posHorizontal * ratioWidthPixel;
 		
-		System.out.println("----------------");
+//		System.out.println("----------------");
 		
 		// 48.8+ = vertical
 		// 2.3+ = horizontal
 		
-		System.out.println(Map.topLeft + "," + Map.bottomLeft + "," + Map.topRight + "," + Map.bottomRight);
-		
-		System.out.println("BBOX Width: " + bboxWidth);
-		System.out.println("BBOX Height: " + bboxHeight);
-		
-		System.out.println("ratioWidthPixel: " + ratioWidthPixel);
-		System.out.println("ratioHeightPixel: " + ratioHeightPixel);
-		
-		System.out.println("positionLon: " + posHorizontal);
-		System.out.println("positionLat: " + posVertical);
-		
-		System.out.println(x + " -- " + y);
+//		System.out.println(Map.topLeft + "," + Map.bottomLeft + "," + Map.topRight + "," + Map.bottomRight);
+//		
+//		System.out.println("BBOX Width: " + bboxWidth);
+//		System.out.println("BBOX Height: " + bboxHeight);
+//		
+//		System.out.println("ratioWidthPixel: " + ratioWidthPixel);
+//		System.out.println("ratioHeightPixel: " + ratioHeightPixel);
+//		
+//		System.out.println("positionLon: " + posHorizontal);
+//		System.out.println("positionLat: " + posVertical);
+//		
+//		System.out.println(x + " -- " + y);
 		
 		return Arrays.asList(x,y);
 	}

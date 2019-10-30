@@ -158,7 +158,12 @@ public class MainViewController implements Initializable {
 	/**
 	 * The map instance which will contain all the objects to display
 	 */
-	public static Map map = new Map();
+	public static Map map = new Map();	
+
+	/**
+	 * GraphicsContext for the canvas
+	 */
+	private GraphicsContext gc;
 	
 	/**
 	 * Automatically started when the program start
@@ -167,6 +172,9 @@ public class MainViewController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		System.out.println("Initialize");
+		
+		// Get the graphics context of the canvas
+		this.gc = this.canvasMap.getGraphicsContext2D();
 		
 		try {
 			// Build the query to fetch all the cities of the country
@@ -189,7 +197,7 @@ public class MainViewController implements Initializable {
 		this.toName.setItems(MainViewController.listStreetNameSortedTo);
 		
 	}
-
+	
 	/**
 	 * Add informations into the status bar {@code textArea}
 	 * @param newLine {@code String} The line to add
@@ -516,14 +524,15 @@ public class MainViewController implements Initializable {
 	/**
 	 * Render all the objects of the canvas
 	 */
-	private void renderMap() {
-		GraphicsContext gc = this.canvasMap.getGraphicsContext2D();
-		
+	private void renderMap() {		
 		Map.width = this.canvasMap.getWidth();
 		Map.height = this.canvasMap.getHeight();
 		
 		// Draw Nodes
-		Draw.drawNodes(gc);
+//		Draw.drawNodes(this.gc);
+		
+		// Draw all ways
+		Draw.drawWays(this.gc);
 	}
 	
 	/**
@@ -577,9 +586,10 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	public void zoomIn(ActionEvent event) {
-		System.out.println("Zoom UP");
 		
 		if (Map.scale * 2 <= Map.MAX_SCALE) {
+			System.out.println("Zoom UP");
+			
 			Map.scale = Map.scale * 2;
 			this.canvasMap.setScaleX(Map.scale);
 			this.canvasMap.setScaleY(Map.scale);
@@ -593,9 +603,10 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	public void zoomOut(ActionEvent event) {
-		System.out.println("Zoom Down");
 		
 		if (Map.scale / 2 >= Map.MIN_SCALE) {
+			System.out.println("Zoom Down");
+			
 			Map.scale = Map.scale / 2;
 			this.canvasMap.setScaleX(Map.scale);
 			this.canvasMap.setScaleY(Map.scale);
@@ -628,6 +639,11 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void left(ActionEvent event) {
 		System.out.println("Left Move");
+		
+		// TODO: make it work
+//		this.gc.translate(-10, 0.0);
+//		this.canvasMap.setLayoutX(this.canvasMap.getLayoutX() + 100.0);
+//		this.canvasMap.setLayoutY(this.canvasMap.getLayoutY() + 100.0);
 	}
 	
 	/**
