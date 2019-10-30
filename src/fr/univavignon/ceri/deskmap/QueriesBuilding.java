@@ -11,7 +11,7 @@ import fr.univavignon.ceri.deskmap.geopoint.City;
  * @author Yanis Labrak
  *
  */
-public abstract class Queries {
+public abstract class QueriesBuilding {
 
 	/**
 	 * Build a Overpass Query in the way to fetch all the objects necessary to display the map

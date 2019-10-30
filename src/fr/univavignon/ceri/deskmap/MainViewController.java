@@ -171,7 +171,7 @@ public class MainViewController implements Initializable {
 		
 		try {
 			// Build the query to fetch all the cities of the country
-			String queryCities = Queries.buildFetchCitiesQuery("France");
+			String queryCities = QueriesBuilding.buildFetchCitiesQuery("France");
 			
 			// Download all the cities of the country
 			QueriesLoading.downloadCities(queryCities);
@@ -361,7 +361,7 @@ public class MainViewController implements Initializable {
 			this.addStateBar("BBox created");
 			
 			// Make the query for getting the full map
-			String query = Queries.fullMapQuery(bbox);
+			String query = QueriesBuilding.fullMapQuery(bbox);
 			
 			final String CITIES_FILE = cityName + "Map.json";
 			System.out.println("File name: " + CITIES_FILE);
@@ -556,7 +556,7 @@ public class MainViewController implements Initializable {
 				City theCity = this.isInListCity(this.cityName.getText());
 				
 				// Build the query for getting all the streets of a city
-				String streetQuery = Queries.buildFetchStreetsQuery(new City(theCity));
+				String streetQuery = QueriesBuilding.buildFetchStreetsQuery(new City(theCity));
 				
 				// Download the streets
 				QueriesLoading.downloadStreets(theCity, streetQuery);
