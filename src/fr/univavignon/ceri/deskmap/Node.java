@@ -1,6 +1,5 @@
 package fr.univavignon.ceri.deskmap;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -101,10 +100,7 @@ public class Node {
 	 */
 	public static List<Double> toPixel(Double x, Double y) {
 		
-		// TODO: continuous
-		
-		System.out.println(Map.longitude_left + "," + Map.longitude_right + "," + Map.latitude_top + "," + Map.latitude_bottom);
-		
+		// TODO: continuous		
 		Double bboxWidth = Map.longitude_right - Map.longitude_left;
 		Double bboxHeight = Map.latitude_top - Map.latitude_bottom;
 		
@@ -116,8 +112,9 @@ public class Node {
 		
 		y = positionLon * ratioHeightPixel;
 		x = positionLat * ratioWidthPixel;
-		
-		System.out.println(x + " -- " + y);
+
+//		System.out.println(Map.longitude_left + "," + Map.longitude_right + "," + Map.latitude_top + "," + Map.latitude_bottom);
+//		System.out.println(x + " -- " + y);
 		
 		return Arrays.asList(x,y);
 	}

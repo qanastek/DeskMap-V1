@@ -2,17 +2,12 @@ package fr.univavignon.ceri.deskmap;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.ReadableByteChannel;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
+import DeskMapExceptions.CannotReachServerException;
 import fr.univavignon.ceri.deskmap.geopoint.City;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -139,27 +134,27 @@ public class MainViewController implements Initializable {
 	/**
 	 * List of {@code City}
 	 */
-	private ObservableList<City> listCity;
+	public static ObservableList<City> listCity;
 	
 	/**
 	 * The observable variable for the text field {@code cityName}
 	 */
-	private ObservableList<City> listCitySorted;
+	public static ObservableList<City> listCitySorted;
 	
 	/**
 	 * The default list of streets for a specific city
 	 */
-	private ObservableList<Street> listStreetName = FXCollections.observableArrayList();
+	public static ObservableList<Street> listStreetName = FXCollections.observableArrayList();
 	
 	/**
 	 * The observable variable for the {@code FROM} comboBox
 	 */
-	private ObservableList<Street> listStreetNameSortedFrom = FXCollections.observableArrayList();
+	public static ObservableList<Street> listStreetNameSortedFrom = FXCollections.observableArrayList();
 	
 	/**
 	 * The observable variable for the {@code TO} comboBox
 	 */
-	private ObservableList<Street> listStreetNameSortedTo = FXCollections.observableArrayList();
+	public static ObservableList<Street> listStreetNameSortedTo = FXCollections.observableArrayList();
 	
 	/**
 	 * The map instance which will contain all the objects to display
@@ -175,24 +170,33 @@ public class MainViewController implements Initializable {
 		System.out.println("Initialize");
 		
 		try {
-			// Fetch all the French cities
-			this.getAllCity("France");
+			// Build the query to fetch all the cities of the country
+			String queryCities = Queries.buildFetchCitiesQuery("France");
+			
+			// Download all the cities of the country
+			QueriesLoading.downloadCities(queryCities);
+			
+			// Load all the cities of the country
+			QueriesLoading.loadCities();
+			
+		} catch (CannotReachServerException e) {
+			this.addStateBar("Server cannot be reached !");
 		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			System.err.println(e);
+		} 
 		
 		// Assign both lists to their comboBox's
-		this.fromName.setItems(this.listStreetNameSortedFrom);
-		this.toName.setItems(this.listStreetNameSortedTo);
+		this.fromName.setItems(MainViewController.listStreetNameSortedFrom);
+		this.toName.setItems(MainViewController.listStreetNameSortedTo);
 		
 	}
-	
+
 	/**
 	 * Add informations into the status bar {@code textArea}
 	 * @param newLine {@code String} The line to add
 	 * @author Yanis Labrak
 	 */
-	private void addStateBar(String newLine) {
+	protected void addStateBar(String newLine) {
 		
 		// If its empty
 		if (this.statusBar.getText().equals("No errors...")) {
@@ -205,89 +209,6 @@ public class MainViewController implements Initializable {
 		// Auto scroll down
 		this.statusBar.selectPositionCaret(this.statusBar.getLength());
 		this.statusBar.deselect();
-	}
-	
-	/**
-	 * Send the HTTP GET request to the Overpass API
-	 * Get all the city from a specific country
-	 * @param country {@code String} Country name
-	 * @throws Exception {@code no informations}
-	 * @author Yanis Labrak
-	 */
-	private void getAllCity(String country) throws Exception {
-
-		OSM queryOverpass = new OSM();
-		
-		queryOverpass.output("csv", "::id,::lat,::lon,name", false, "|");
-		queryOverpass.area(country);
-		queryOverpass.start();
-		queryOverpass.node("place", "city");
-		queryOverpass.node("place", "town");
-		queryOverpass.way("place");
-		queryOverpass.out();
-		
-		String query = queryOverpass.toString();
-		
-		final String CITIES_FILE = "cities.csv";
-		
-		System.out.println("Query created: " + query);
-		
-		File f = new File(CITIES_FILE);
-		
-		if (!f.exists()) {
-			System.out.println("File not found !");
-			this.laodQueryInFile(query, CITIES_FILE);	
-		}
-
-		// Load the cities from the file		
-		this.listCity = FXCollections.observableArrayList(this.getCities());
-		this.listCitySorted= FXCollections.observableArrayList(this.listCity);
-	}
-	
-	/**
-	 * Fetch all the cities from the API inside a file
-	 * @param city {@code City} From where we will get all the streets
-	 * @throws Exception Throw a exception if the file cannot be create
-	 * @author Yanis Labrak
-	 */
-	private void getAllStreet(City city) throws Exception {
-		
-		OSM queryOverpass = new OSM();
-		
-		queryOverpass.output("csv", "::id,name", false, "|");
-		queryOverpass.area(city.name);
-		queryOverpass.start();
-		queryOverpass.node("highway", "primary");
-		queryOverpass.node("highway", "secondary");
-		queryOverpass.node("highway", "tertiary");
-		queryOverpass.node("highway", "residential");
-		queryOverpass.node("highway", "unclassified");
-		queryOverpass.way("highway");
-		queryOverpass.out();
-		
-		String query = queryOverpass.toString();
-		
-		final String STREET_FILE = city.name + ".csv";
-		
-		this.addStateBar("Search for the streets of " + city.name);
-		
-		File f = new File(STREET_FILE);
-		
-		if (!f.exists()) {
-			this.addStateBar("File not found !");
-			this.laodQueryInFile(query, STREET_FILE);			
-			
-		}
-
-		// Clear list and load the cities from the file	
-		this.listStreetName.clear();
-		this.listStreetName.addAll(this.getStreet(city));
-		
-		this.listStreetNameSortedFrom.clear();
-		this.listStreetNameSortedFrom.addAll(this.listStreetName);
-		
-		this.listStreetNameSortedTo.clear();
-		this.listStreetNameSortedTo.addAll(this.listStreetName);
 	}
 	
 	/**
@@ -310,159 +231,6 @@ public class MainViewController implements Initializable {
 		    this.fullscreen.setText("FULL");
 		}
     }
-	
-	/**
-	 * Load cities from cache or API
-	 * @param query {@code String} Query to send to the OSM API
-	 * @param outputName {@code String} name of the output file
-	 * @author Yanis Labrak
-	 */
-	private void laodQueryInFile(String query, String outputName) {
-		
-		this.addStateBar("Cache creation");
-		System.out.println("Cache creation");
-		
-		try {
-			
-			// Make the URL
-			URL queryUrl = new URL(query);
-			
-			// Open the stream
-			ReadableByteChannel stream = Channels.newChannel(queryUrl.openStream());
-			
-			// Create the output file
-			FileOutputStream outputFile = new FileOutputStream(outputName);
-			
-			// Copy the line into the output file
-			outputFile.getChannel().transferFrom(stream, 0, Long.MAX_VALUE);
-			
-			outputFile.close();
-			
-			this.addStateBar("Caching done !");
-			System.out.println("Caching done !");
-		    
-		} catch (Exception e) {
-			this.addStateBar("Cannot reach servers !");
-//			System.err.println(e);
-		}
-	}
-	
-	/**
-	 * @throws Exception Throw an exception when the file cannot be read
-	 * @return {@code List<City>} A list fill up with the cities
-	 * @author Yanis Labrak
-	 */
-	private List<City> getCities() throws Exception {		
-		List<City> records = new ArrayList<City>();
-		
-		try {
-			
-			// Open a stream for the file which contain all the cities names
-			BufferedReader buffer = new BufferedReader(new FileReader("cities.csv"));
-					
-		    String line;
-		    
-		    // For each lines
-		    while ((line = buffer.readLine()) != null) {
-		    	
-		    	// Escape the separator
-		        String[] values = line.split("\\|");
-		        
-		        // The City need to be fully complete to be insert
-		        if (values.length == 4 &&
-		        	!values[0].isEmpty() &&
-		        	!values[1].isEmpty() &&
-		        	!values[2].isEmpty() &&
-		        	!values[3].isEmpty()) {
-		        	
-		        	City city = new City(
-		        		values[0],
-		        		Double.parseDouble(values[1]),
-		        		Double.parseDouble(values[2]),
-		        		values[3]
-			        );
-			        
-			        records.add(city);
-				}
-		        
-		    }
-		    
-		    // Close the stream
-		    buffer.close();
-		    
-		}
-		catch (Exception e) {
-			System.err.println(e);
-		}
-		
-		// Return all the cities
-		return records;
-	}
-	
-	/**
-	 * Load streets from cache or API
-	 * @param city {@code City} City object from where we want the streets
-	 * @return The list fill up with the streets
-	 * @throws Exception Throw a exception if the file which contain the streets isn't find
-	 * @author Yanis Labrak
-	 */
-	private List<Street> getStreet(City city) throws Exception {		
-		List<Street> records = new ArrayList<Street>();
-		
-		try {
-			this.addStateBar("Try to access to the cached streets.");
-			
-			// Open a stream for the file which contain all the streets
-			BufferedReader buffer = new BufferedReader(new FileReader(city.name + ".csv"));
-					
-		    String line;
-		    
-		    // While the file have lines
-		    while ((line = buffer.readLine()) != null) {
-		    	
-		    	// Escape the separator
-		        String[] values = line.split("\\|");
-		        
-		        try {
-		        	
-		        	/**
-		        	 * Check if the current Street is already inside the List
-		        	 * throw a exception if it's in
-		        	 */
-		        	Street isAlreadyPresent = records.stream()
-			        		.filter(s -> values[1].toLowerCase().equals(s.name.toLowerCase()))
-			        		.findFirst()
-			        		.orElse(null);
-
-			        // If all the fields isn't null
-			        if (values.length == 2 && !values[0].isEmpty() && !values[1].isEmpty() && isAlreadyPresent == null) {
-				        	
-				        	Street street = new Street(
-				        		values[0],
-				        		values[1]
-					        );
-					        
-					        records.add(street);
-					}
-			        
-				} catch (Exception e) {
-				}
-		        
-		    }
-		    
-		    // Close the stream
-		    buffer.close();
-		    
-		    this.addStateBar("All streets of " + city.name + " readed");
-		    
-		}
-		catch (Exception e) {
-			System.err.println(e);
-		}
-		
-		// return all the streets of the city
-		return records;
-	}
 	
 	/**
 	 * Method trigged when the user click on the search button
@@ -536,67 +304,6 @@ public class MainViewController implements Initializable {
 	}
 	
 	/**
-	 * Build a Overpass Query in the way to fetch all the objects necessary to display the map
-	 * @param bbox The Bounding box in which we want the data
-	 * @return The OSM query
-	 * @throws UnsupportedEncodingException Thrown when the encoding process failed
-	 */
-	private String fullMapQuery(String bbox) throws UnsupportedEncodingException {
-		// TODO: Full query
-		OSM queryOverpass = new OSM();
-		
-		queryOverpass.output("json", "", false, "");
-		queryOverpass.start();
-		
-		queryOverpass.nodeMulti("landuse", "residential|industrial|commercial|retail|railway|cemetery|forest|grass", bbox);
-		queryOverpass.way("landuse","residential",bbox);
-		queryOverpass.way("landuse","industrial",bbox);
-		queryOverpass.way("landuse","commercial",bbox);
-		queryOverpass.way("landuse","retail",bbox);
-		queryOverpass.way("landuse","railway",bbox);
-		queryOverpass.way("landuse","cemetery",bbox);
-		queryOverpass.way("landuse","forest",bbox);
-		queryOverpass.way("landuse","grass",bbox);
-		queryOverpass.relation("landuse",bbox);
-
-		queryOverpass.node("landuse", "school", bbox);
-		queryOverpass.way("amenity","school",bbox);
-		queryOverpass.relation("amenity",bbox);
-
-		queryOverpass.nodeMulti("leisure", "sports_centre|park|golf_course", bbox);
-		queryOverpass.way("leisure","sports_centre",bbox);
-		queryOverpass.way("leisure","park",bbox);
-		queryOverpass.way("leisure","golf_course",bbox);
-		queryOverpass.relation("leisure",bbox);
-
-		queryOverpass.nodeMulti("highway", "primary|secondary|trunk|residential|living_street|pedestrian|motorway", bbox);
-		queryOverpass.way("highway","primary",bbox);
-		queryOverpass.way("highway","secondary",bbox);
-		queryOverpass.way("highway","trunk",bbox);
-		queryOverpass.way("highway","residential",bbox);
-		queryOverpass.way("highway","living_street",bbox);
-		queryOverpass.way("highway","pedestrian",bbox);
-		queryOverpass.way("highway","motorway",bbox);
-		queryOverpass.relation("highway",bbox);
-
-		queryOverpass.node("building","yes",bbox);
-		queryOverpass.way("building","yes",bbox);
-		queryOverpass.way("building","school",bbox);
-		queryOverpass.relation("building",bbox);
-		
-		queryOverpass.node("natural","water",bbox);
-		queryOverpass.way("natural","water",bbox);
-		queryOverpass.relation("natural",bbox);
-		
-		queryOverpass.outBodySkel();
-		
-		String query = queryOverpass.query;
-		
-		System.out.println("Query full map created: " + query);
-		return query;
-	}
-	
-	/**
 	 * Parse the JSON file and make Object from It
 	 * @param city {@code String} Name of the city
 	 * @throws org.json.simple.parser.ParseException If the file wasn't find
@@ -625,54 +332,64 @@ public class MainViewController implements Initializable {
 	}
 	
 	/**
-	 * Make the object for the map
+	 * Make the objects for the map
 	 * @param cityName {@code String} Name of the city
 	 * @throws Exception If the coordinates wasn't found
+	 * @throws CannotReachServerException Exception thrown when the server cannot be reached
 	 * @author Yanis Labrak
 	 */
-	private void fetchAllCity(String cityName) throws Exception {
+	private void fetchAllCity(String cityName) throws Exception, CannotReachServerException {
 		
-		// Fetch the coordinates of the city
-		String cityCoordinate = this.getCityCoordinates(cityName);
-		
-		this.addStateBar("Coordinates find");
-		
-		if (cityCoordinate == null) {
-			throw new NullPointerException("cityCoordinate is empty !");
+		try {
+			// Fetch the coordinates of the city
+			String cityCoordinate = this.getCityCoordinates(cityName);
+			
+			this.addStateBar("City coordinates find");
+			
+			if (cityCoordinate == null) {
+				throw new NullPointerException("cityCoordinate wasn't found !");
+			}
+			
+			String[] coordinates = cityCoordinate.split("\\|");
+			
+			// Make the bbox
+			String bbox = OSM.bboxCalc(
+					Double.parseDouble(coordinates[0]),
+					Double.parseDouble(coordinates[1])
+			);
+			
+			this.addStateBar("BBox created");
+			
+			// Make the query for getting the full map
+			String query = Queries.fullMapQuery(bbox);
+			
+			final String CITIES_FILE = cityName + "Map.json";
+			System.out.println("File name: " + CITIES_FILE);
+			
+			File f = new File(CITIES_FILE);
+			
+			long startTime = System.nanoTime();
+			
+			// If the file doesn't exist
+			if (!f.exists()) {
+				this.addStateBar("File not found !");
+				QueriesLoading.laodQueryInFile(query, CITIES_FILE);	
+			}
+			
+			// How long the query take to be totally downloaded
+			long endTime = System.nanoTime();
+			this.addStateBar("Duration: " + TimeUnit.SECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS) + " seconds");
+			
+			// Parse the JSON file as Java Objects
+			this.loadCityAsObject(cityName);
+			
+		} 
+		catch (CannotReachServerException e) {
+			this.addStateBar("Server cannot be reached !");
 		}
-		
-		String[] coordinates = cityCoordinate.split("\\|");
-		
-		// Make the bbox
-		String bbox = OSM.bboxCalc(
-				Double.parseDouble(coordinates[0]),
-				Double.parseDouble(coordinates[1])
-		);
-		
-		this.addStateBar("BBox created");
-		
-		// Make the query for getting the full map
-		String query = this.fullMapQuery(bbox);
-		
-		final String CITIES_FILE = cityName + "Map.json";
-		System.out.println("File name: " + CITIES_FILE);
-		
-		File f = new File(CITIES_FILE);
-		
-		long startTime = System.nanoTime();
-		
-		// If the file doesn't exist
-		if (!f.exists()) {
-			System.out.println("File not found !");
-			this.laodQueryInFile(query, CITIES_FILE);	
+		catch (Exception e) {
+			System.err.println(e);
 		}
-		
-		// How long the query take to be totally downloaded
-		long endTime = System.nanoTime();
-		this.addStateBar("Duration: " + TimeUnit.SECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS) + " seconds");
-		
-		// Parse the JSON file as Java Objects
-		this.loadCityAsObject(cityName);
 	}
 	
 	/**
@@ -699,9 +416,9 @@ public class MainViewController implements Initializable {
 		this.searchBtn.setDisable(true);
 		this.resetBtn.setDisable(true);
 		
-		this.listStreetName.clear();
-		this.listStreetNameSortedFrom.clear();
-		this.listStreetNameSortedTo.clear();
+		MainViewController.listStreetName.clear();
+		MainViewController.listStreetNameSortedFrom.clear();
+		MainViewController.listStreetNameSortedTo.clear();
 		
 		this.addStateBar("Fields reseted");
 	}
@@ -804,7 +521,7 @@ public class MainViewController implements Initializable {
 		
 		System.out.println("The city: " + cityName);
 		
-		for (City city : this.listCity) {
+		for (City city : MainViewController.listCity) {
 					
 			if (!city.name.isEmpty() && city.name.toLowerCase().equals(cityName.toLowerCase())) {
 				System.out.println("Inside: " + city.name.toLowerCase());
@@ -819,15 +536,16 @@ public class MainViewController implements Initializable {
 	 * Fetch the street for this city
 	 * @param event {@code ActionEvent}
 	 * @throws Exception Throw a exception when the city doesn't exists
+	 * @throws CannotReachServerException Exception thrown when the server cannot be reached
 	 * @author Yanis Labrak
 	 */
 	@FXML
-	public void setCity(ActionEvent event) throws Exception
+	public void setCity(ActionEvent event) throws Exception, CannotReachServerException
 	{
 		// If the city name isn't known
 		if (!this.cityName.getText().isEmpty()) {
 			
-			// TODO: Map print and path calculation here
+			// Fetch everything we need to display the map			
 			this.fetchAllCity(this.cityName.getText());
 			
 			this.addStateBar("Search for " + this.cityName.getText());
@@ -837,8 +555,18 @@ public class MainViewController implements Initializable {
 				// Check if the city exists
 				City theCity = this.isInListCity(this.cityName.getText());
 				
-				// Get all the streets of this city
-				this.getAllStreet(new City(theCity));
+				// Build the query for getting all the streets of a city
+				String streetQuery = Queries.buildFetchStreetsQuery(new City(theCity));
+				
+				// Download the streets
+				QueriesLoading.downloadStreets(theCity, streetQuery);
+				
+			    this.addStateBar("Streets of " + theCity.name + " downloaded");
+				
+				// Load them inside comboBox's
+				QueriesLoading.loadStreets(theCity);
+			    
+			    this.addStateBar("Streets of " + theCity.name + " loaded");
 				
 				if (!this.cityName.getText().isEmpty()) {
 					
@@ -861,7 +589,11 @@ public class MainViewController implements Initializable {
 					this.Reset(event);
 				}
 				
-			} catch (NullPointerException e) {
+			}
+			catch (CannotReachServerException e) {
+				this.addStateBar("Server cannot be reached !");
+			}
+			catch (NullPointerException e) {
 				this.addStateBar("Aucune ville correspondante");
 			}
 		}
@@ -872,38 +604,45 @@ public class MainViewController implements Initializable {
 	
 	/**
 	 * When a key is pressed inside {@code cityName}
-	 * @param event {@code KeyEvent}
+	 * @param event {@code KeyEvent} The key pressed
+	 * @throws CannotReachServerException Exception thrown when the server cannot be reached
 	 * @throws Exception Throw a exception when the city doesn't exists
 	 * @author Yanis Labrak
 	 */
 	@FXML
-	public void KeyPressCity(KeyEvent event) throws Exception {
+	public void KeyPressCity(KeyEvent event) throws Exception, CannotReachServerException {
 		
-		// When the ENTER key is pressed
-		if (event.getCode() == KeyCode.ENTER) {
-			this.setCity(new ActionEvent());
-		}
-		
-		// If the field isn't empty
-		if (!this.cityName.getText().isEmpty()) {
-			this.cityButton.setDisable(false);
-			this.resetBtn.setDisable(false);
-		}
-		else {
-			this.cityButton.setDisable(true);
+		try {
 			
-			this.fromNumber.setDisable(true);
-			this.fromName.setDisable(true);
-			this.toNumber.setDisable(true);
-			this.toName.setDisable(true);
+			// When the ENTER key is pressed
+			if (event.getCode() == KeyCode.ENTER) {
+				this.setCity(new ActionEvent());
+			}
 			
-			this.fromNumber.clear();
-			this.fromName.getSelectionModel().clearSelection();
-			this.toNumber.clear();
-			this.toName.getSelectionModel().clearSelection();
+			// If the field isn't empty
+			if (!this.cityName.getText().isEmpty()) {
+				this.cityButton.setDisable(false);
+				this.resetBtn.setDisable(false);
+			}
+			else {
+				this.cityButton.setDisable(true);
+				
+				this.fromNumber.setDisable(true);
+				this.fromName.setDisable(true);
+				this.toNumber.setDisable(true);
+				this.toName.setDisable(true);
+				
+				this.fromNumber.clear();
+				this.fromName.getSelectionModel().clearSelection();
+				this.toNumber.clear();
+				this.toName.getSelectionModel().clearSelection();
+				
+				this.searchBtn.setDisable(true);
+				this.resetBtn.setDisable(true);
+			}
 			
-			this.searchBtn.setDisable(true);
-			this.resetBtn.setDisable(true);
+		} catch (CannotReachServerException e) {
+			this.addStateBar("Server cannot be reached !");
 		}
 	}
 	
@@ -1018,34 +757,34 @@ public class MainViewController implements Initializable {
 			// If the last pressed key is TAB
 			if (event.getCode() == KeyCode.CONTROL) {
 				
-				if (this.listStreetNameSortedFrom.size() > 0) {
+				if (MainViewController.listStreetNameSortedFrom.size() > 0) {
 					// Set the current value to the first element of the list which contain the current word
-					this.fromName.setValue(this.listStreetNameSortedFrom.get(0));
+					this.fromName.setValue(MainViewController.listStreetNameSortedFrom.get(0));
 				}
 				
-				// Don't read this char
+				// Don't read this character
 				event.consume();
 				
 			} else {
 
-				this.listStreetNameSortedFrom.clear();
+				MainViewController.listStreetNameSortedFrom.clear();
 				
 				// Take the {@code street} which contain inside it name the current input
-				for (Street street : this.listStreetName) {					
+				for (Street street : MainViewController.listStreetName) {					
 					if (street.name.toLowerCase().contains(current_value)) {
-						this.listStreetNameSortedFrom.add(street);
+						MainViewController.listStreetNameSortedFrom.add(street);
 					}
 				}
 				
 				// If no result
-				if (this.listStreetNameSortedFrom.size() <= 0) {
+				if (MainViewController.listStreetNameSortedFrom.size() <= 0) {
 					this.addStateBar("Unknown start street");
 				}
 				
 			}			
 		}
 		else {
-			this.listStreetNameSortedFrom.setAll(this.listStreetName);
+			MainViewController.listStreetNameSortedFrom.setAll(MainViewController.listStreetName);
 		}
 	}
 	
@@ -1066,9 +805,9 @@ public class MainViewController implements Initializable {
 			// If the last pressed key is TAB
 			if (event.getCode() == KeyCode.CONTROL) {
 				
-				if (this.listStreetNameSortedTo.size() > 0) {
+				if (MainViewController.listStreetNameSortedTo.size() > 0) {
 					// Set the current value to the first element of the list which contain the current word
-					this.toName.setValue(this.listStreetNameSortedTo.get(0));
+					this.toName.setValue(MainViewController.listStreetNameSortedTo.get(0));
 				}
 				
 				// Destroy the entered key stroke
@@ -1076,17 +815,17 @@ public class MainViewController implements Initializable {
 				
 			} else {
 
-				this.listStreetNameSortedTo.clear();
+				MainViewController.listStreetNameSortedTo.clear();
 				
 				// Take the street which contain inside it name the current input
-				for (Street street : this.listStreetName) {
+				for (Street street : MainViewController.listStreetName) {
 					if (street.name.toLowerCase().contains(current_value)) {
-						this.listStreetNameSortedTo.add(street);
+						MainViewController.listStreetNameSortedTo.add(street);
 					}
 				}
 				
 				// If no result
-				if (this.listStreetNameSortedTo.size() <= 0) {
+				if (MainViewController.listStreetNameSortedTo.size() <= 0) {
 					this.addStateBar("Unknown destination street");
 				}
 				
@@ -1094,7 +833,7 @@ public class MainViewController implements Initializable {
 			
 		}
 		else {
-			this.listStreetNameSortedTo.setAll(this.listStreetName);
+			MainViewController.listStreetNameSortedTo.setAll(MainViewController.listStreetName);
 		}
 	}
 }

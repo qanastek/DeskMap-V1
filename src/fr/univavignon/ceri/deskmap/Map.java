@@ -123,10 +123,10 @@ public class Map {
 	 */
 	public Map() {
 		Map.scale = (float) 0.0;
-		Map.latitude_top = (Double) 0.0;
-		Map.latitude_bottom = (Double) 0.0;
-		Map.longitude_left = (Double) 0.0;
-		Map.longitude_right = (Double) 0.0;
+		Map.latitude_top = 0.0;
+		Map.latitude_bottom = 0.0;
+		Map.longitude_left = 0.0;
+		Map.longitude_right = 0.0;
 		Map.height = 0.0;
 		Map.width = 0.0;
 	}
