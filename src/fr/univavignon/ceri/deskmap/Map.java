@@ -15,6 +15,7 @@ import org.json.simple.parser.JSONParser;
 
 import fr.univavignon.ceri.deskmap.region.Building;
 import fr.univavignon.ceri.deskmap.region.School;
+import javafx.scene.canvas.GraphicsContext;
 
 /**
  * @author Yanis Labrak
@@ -171,6 +172,25 @@ public class Map {
 	 */
 	public void setWidth(Double width) {
 		Map.width = width;
+	}	
+
+	/**
+	 * Parse the JSON file and make Object from It
+	 * @param city {@code String} Name of the city
+	 * @throws org.json.simple.parser.ParseException If the file wasn't find
+	 */
+	public static void loadCityAsObject(String city) throws org.json.simple.parser.ParseException {
+		
+		// TODO: Loading
+		
+		// Load all the nodes
+		Map.loadNodes(city);
+		
+		// Load all the ways
+		Map.loadWays(city);
+		
+		// Load all the relations
+		Map.loadRelations(city);		
 	}
 	
 	/**

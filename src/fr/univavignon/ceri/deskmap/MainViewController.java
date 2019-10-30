@@ -261,88 +261,17 @@ public class MainViewController implements Initializable {
 	}
 	
 	/**
-	 * Return the coordinates of a city
-	 * @param city {@code String} Name of the city
-	 * @return {@code String} Coordinates
-	 */
-	private String getCityCoordinates(String city) {
-		try {
-			
-			// Open a stream for the file which contain all the streets
-			BufferedReader bfr = new BufferedReader(new FileReader("cities.csv"));
-			
-			String line;
-			
-			// While the file have lines
-			while ((line = bfr.readLine()) != null) {
-				
-				String[] values = line.split("\\|");
-		        
-		        // The City need to be fully complete to be processed
-		        if (values.length == 4 &&
-		        	!values[0].isEmpty() &&
-		        	!values[1].isEmpty() &&
-		        	!values[2].isEmpty() &&
-		        	!values[3].isEmpty()) {
-					
-		        	// When we found the city
-					if (values[3].toLowerCase().equals(city.toLowerCase())) {
-						bfr.close();
-						return values[1] + "|" + values[2];
-						
-					}
-				}		        
-			}
-			
-			bfr.close();
-			
-			return null;
-			
-		} catch(Exception e) {
-			return null;
-		}		
-	}
-	
-	/**
-	 * Parse the JSON file and make Object from It
-	 * @param city {@code String} Name of the city
-	 * @throws org.json.simple.parser.ParseException If the file wasn't find
-	 */
-	private void loadCityAsObject(String city) throws org.json.simple.parser.ParseException {
-		
-		// TODO: Loading
-		
-		// Load all the nodes
-		Map.loadNodes(city);
-		
-		// Load all the ways
-		Map.loadWays(city);
-		
-		// Load all the relations
-		Map.loadRelations(city);
-		
-		GraphicsContext gc = this.canvasMap.getGraphicsContext2D();
-		
-		Map.width = this.canvasMap.getWidth();
-		Map.height = this.canvasMap.getHeight();
-		
-		// Draw Nodes
-		Draw.drawNodes(gc);
-		
-	}
-	
-	/**
 	 * Make the objects for the map
 	 * @param cityName {@code String} Name of the city
 	 * @throws Exception If the coordinates wasn't found
 	 * @throws CannotReachServerException Exception thrown when the server cannot be reached
 	 * @author Yanis Labrak
 	 */
-	private void fetchAllCity(String cityName) throws Exception, CannotReachServerException {
+	private void fetchAllContentCity(String cityName) throws Exception, CannotReachServerException {
 		
 		try {
 			// Fetch the coordinates of the city
-			String cityCoordinate = this.getCityCoordinates(cityName);
+			String cityCoordinate = City.getCityCoordinates(cityName);
 			
 			this.addStateBar("City coordinates find");
 			
@@ -379,9 +308,6 @@ public class MainViewController implements Initializable {
 			// How long the query take to be totally downloaded
 			long endTime = System.nanoTime();
 			this.addStateBar("Duration: " + TimeUnit.SECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS) + " seconds");
-			
-			// Parse the JSON file as Java Objects
-			this.loadCityAsObject(cityName);
 			
 		} 
 		catch (CannotReachServerException e) {
@@ -512,27 +438,6 @@ public class MainViewController implements Initializable {
 	}
 	
 	/**
-	 * Check if the city is a real one.
-	 * @param cityName {@code String} Name of the city
-	 * @return {@code City} if found else {@code null}
-	 * @author Yanis Labrak
-	 */
-	private City isInListCity(String cityName) {
-		
-		System.out.println("The city: " + cityName);
-		
-		for (City city : MainViewController.listCity) {
-					
-			if (!city.name.isEmpty() && city.name.toLowerCase().equals(cityName.toLowerCase())) {
-				System.out.println("Inside: " + city.name.toLowerCase());
-				return city;
-			}
-		}
-		return null;
-		
-	}
-	
-	/**
 	 * Fetch the street for this city
 	 * @param event {@code ActionEvent}
 	 * @throws Exception Throw a exception when the city doesn't exists
@@ -546,14 +451,21 @@ public class MainViewController implements Initializable {
 		if (!this.cityName.getText().isEmpty()) {
 			
 			// Fetch everything we need to display the map			
-			this.fetchAllCity(this.cityName.getText());
+			this.fetchAllContentCity(this.cityName.getText());			
+
+			// Parse the JSON file as Java Objects
+			Map.loadCityAsObject(this.cityName.getText());
+			
+			// Render all the objects of the canvas
+			this.renderMap();
 			
 			this.addStateBar("Search for " + this.cityName.getText());
 			
+			// Load streets etc ... In the way to all the user to make a path research
 			try {
 
 				// Check if the city exists
-				City theCity = this.isInListCity(this.cityName.getText());
+				City theCity = City.isInListCity(this.cityName.getText());
 				
 				// Build the query for getting all the streets of a city
 				String streetQuery = QueriesBuilding.buildFetchStreetsQuery(new City(theCity));
@@ -600,6 +512,19 @@ public class MainViewController implements Initializable {
 		else {
 			System.out.println("Empty field");
 		}
+	}
+	
+	/**
+	 * Render all the objects of the canvas
+	 */
+	private void renderMap() {
+		GraphicsContext gc = this.canvasMap.getGraphicsContext2D();
+		
+		Map.width = this.canvasMap.getWidth();
+		Map.height = this.canvasMap.getHeight();
+		
+		// Draw Nodes
+		Draw.drawNodes(gc);
 	}
 	
 	/**
