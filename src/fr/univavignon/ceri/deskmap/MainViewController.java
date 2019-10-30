@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.ScrollEvent;
 
 /**
  * The controller of the FXML file
@@ -575,8 +576,14 @@ public class MainViewController implements Initializable {
 	 * @author Mohammed Benyamna
 	 */
 	@FXML
-	public void zoomUp(ActionEvent event) {
+	public void zoomIn(ActionEvent event) {
 		System.out.println("Zoom UP");
+		
+		if (Map.scale * 2 <= Map.MAX_SCALE) {
+			Map.scale = Map.scale * 2;
+			this.canvasMap.setScaleX(Map.scale);
+			this.canvasMap.setScaleY(Map.scale);
+		}
 	}
 	
 	/**
@@ -585,8 +592,32 @@ public class MainViewController implements Initializable {
 	 * @author Mohammed Benyamna
 	 */
 	@FXML
-	public void zoomDown(ActionEvent event) {
+	public void zoomOut(ActionEvent event) {
 		System.out.println("Zoom Down");
+		
+		if (Map.scale / 2 >= Map.MIN_SCALE) {
+			Map.scale = Map.scale / 2;
+			this.canvasMap.setScaleX(Map.scale);
+			this.canvasMap.setScaleY(Map.scale);
+		}
+	}
+	
+	/**
+	 * Zoom in the map with mouse
+	 * @param event {@code ActionEvent}
+	 * @author Mohammed Benyamna
+	 */
+	@FXML
+	public void canvasScrolling(ScrollEvent event) {
+		
+        double deltaY = event.getDeltaY();
+        
+        if (deltaY > 0 ) {
+        	this.zoomIn(new ActionEvent());
+		}
+        else if (deltaY < 0) {
+        	this.zoomOut(new ActionEvent());
+		}
 	}
 	
 	/**
@@ -637,6 +668,9 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void setFullscreen(ActionEvent event) {
 		this.FullScreen(event);
+		
+		// TODO: Make it work
+		this.renderMap();
 	}
 	
 	/**

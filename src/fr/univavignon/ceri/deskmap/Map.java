@@ -27,6 +27,16 @@ public class Map {
 	public static Float scale;
 	
 	/**
+	 * Max scale of the canvas
+	 */
+	public static final int MIN_SCALE = 1;
+	
+	/**
+	 * Max scale of the canvas
+	 */
+	public static final int MAX_SCALE = 32;
+	
+	/**
 	 * Latitude position top
 	 */
 	public static Double topLeft;
@@ -122,7 +132,7 @@ public class Map {
 	 * Constructor
 	 */
 	public Map() {
-		Map.scale = (float) 0.0;
+		Map.scale = (float) 1.0;
 		Map.topLeft = 0.0;
 		Map.bottomLeft = 0.0;
 		Map.topRight = 0.0;

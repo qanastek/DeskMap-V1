@@ -36,7 +36,7 @@ public class Launcher extends Application
 	public void start(Stage primaryStage) throws Exception {
 		
 		// Set the title of the window
-		primaryStage.setTitle("DESKMAP V1.0.36");
+		primaryStage.setTitle("DESKMAP V1.0.37");
 
 		// Set a favicon to the window
 		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));

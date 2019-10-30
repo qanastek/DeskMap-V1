@@ -76,7 +76,7 @@ public class Draw {
 		    		Double x = coordinates.get(0);
 		    		Double y = coordinates.get(1);
 		    		
-		    		gc.fillOval(x, y, 5, 5);
+		    		gc.fillOval(x, y, 1, 1);
 		    		
 //		    		System.out.println(node);
 				}
