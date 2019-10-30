@@ -15,7 +15,6 @@ import org.json.simple.parser.JSONParser;
 
 import fr.univavignon.ceri.deskmap.region.Building;
 import fr.univavignon.ceri.deskmap.region.School;
-import javafx.scene.canvas.GraphicsContext;
 
 /**
  * @author Yanis Labrak
@@ -30,22 +29,22 @@ public class Map {
 	/**
 	 * Latitude position top
 	 */
-	public static Double latitude_top;
+	public static Double topLeft;
 
 	/**
 	 * Latitude position bottom
 	 */
-	public static Double latitude_bottom;
+	public static Double bottomLeft;
 	
 	/**
 	 * Longitude position left
 	 */
-	public static Double longitude_left;
+	public static Double topRight;
 	
 	/**
 	 * Longitude position right
 	 */
-	public static Double longitude_right;
+	public static Double bottomRight;
 	
 	/**
 	 * Height 
@@ -124,10 +123,10 @@ public class Map {
 	 */
 	public Map() {
 		Map.scale = (float) 0.0;
-		Map.latitude_top = 0.0;
-		Map.latitude_bottom = 0.0;
-		Map.longitude_left = 0.0;
-		Map.longitude_right = 0.0;
+		Map.topLeft = 0.0;
+		Map.bottomLeft = 0.0;
+		Map.topRight = 0.0;
+		Map.bottomRight = 0.0;
 		Map.height = 0.0;
 		Map.width = 0.0;
 	}

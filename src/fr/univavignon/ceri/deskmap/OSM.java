@@ -201,22 +201,22 @@ public class OSM {
 	 * @return String The BBox
 	 */
 	public static String bboxCalc(Double lat, Double lon) {
-		Double left_lat = lat - 0.05;
-		Double left_lon = lon - 0.05;
-		Double right_lat = lat + 0.02;
-		Double right_lon = lon + 0.05;
+		Double topLeft = lat - 0.05;
+		Double bottomLeft = lon - 0.05;
+		Double topRight = lat + 0.02;
+		Double bottomRight = lon + 0.05;
 		
-		left_lat =  Math.floor(left_lat * 100) / 100;
-		left_lon =  Math.floor(left_lon * 100) / 100;
-		right_lat =  Math.floor(right_lat * 100) / 100;
-		right_lon =  Math.floor(right_lon * 100) / 100;
+		topLeft =  Math.floor(topLeft * 100) / 100;
+		bottomLeft =  Math.floor(bottomLeft * 100) / 100;
+		topRight =  Math.floor(topRight * 100) / 100;
+		bottomRight =  Math.floor(bottomRight * 100) / 100;
 		
-		Map.latitude_top = left_lat;
-		Map.latitude_bottom = left_lon;
-		Map.longitude_left = right_lat;
-		Map.longitude_right = right_lon;
+		Map.topLeft = topLeft;
+		Map.bottomLeft = bottomLeft;
+		Map.topRight = topRight;
+		Map.bottomRight = bottomRight;
 		
-		return left_lat + "," + left_lon + "," + right_lat + "," + right_lon;
+		return topLeft + "," + bottomLeft + "," + topRight + "," + bottomRight;
 	}
 	
 	/**

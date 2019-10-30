@@ -101,20 +101,40 @@ public class Node {
 	public static List<Double> toPixel(Double x, Double y) {
 		
 		// TODO: continuous		
-		Double bboxWidth = Map.longitude_right - Map.longitude_left;
-		Double bboxHeight = Map.latitude_top - Map.latitude_bottom;
+		Double bboxWidth = Map.bottomRight - Map.bottomLeft;
+		Double bboxHeight = Map.topRight - Map.topLeft;
 		
 		Double ratioWidthPixel = Map.width / bboxWidth;
 		Double ratioHeightPixel = Map.height / bboxHeight;
-		
-		Double positionLon = y -  Map.longitude_left;
-		Double positionLat = x -  Map.latitude_bottom;
-		
-		y = positionLon * ratioHeightPixel;
-		x = positionLat * ratioWidthPixel;
 
-//		System.out.println(Map.longitude_left + "," + Map.longitude_right + "," + Map.latitude_top + "," + Map.latitude_bottom);
-//		System.out.println(x + " -- " + y);
+		// Lat
+		Double posVertical = x -  Map.topLeft;
+		// Lon
+		Double posHorizontal = y -  Map.bottomLeft;
+		
+		// Lat
+		x = posVertical * ratioHeightPixel;
+		
+		// Lon
+		y = posHorizontal * ratioWidthPixel;
+		
+		System.out.println("----------------");
+		
+		// 48.8+ = vertical
+		// 2.3+ = horizontal
+		
+		System.out.println(Map.topLeft + "," + Map.bottomLeft + "," + Map.topRight + "," + Map.bottomRight);
+		
+		System.out.println("BBOX Width: " + bboxWidth);
+		System.out.println("BBOX Height: " + bboxHeight);
+		
+		System.out.println("ratioWidthPixel: " + ratioWidthPixel);
+		System.out.println("ratioHeightPixel: " + ratioHeightPixel);
+		
+		System.out.println("positionLon: " + posHorizontal);
+		System.out.println("positionLat: " + posVertical);
+		
+		System.out.println(x + " -- " + y);
 		
 		return Arrays.asList(x,y);
 	}
