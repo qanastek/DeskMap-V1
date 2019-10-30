@@ -24,43 +24,53 @@ public class Map {
 	/**
 	 * Scale of the map
 	 */
-	private Float scale;
+	public static Float scale;
 	
 	/**
-	 * Latitude position 
+	 * Latitude position top
 	 */
-	private Float latitude;
+	public static Double latitude_top;
+
+	/**
+	 * Latitude position bottom
+	 */
+	public static Double latitude_bottom;
 	
 	/**
-	 * Longitude position 
+	 * Longitude position left
 	 */
-	private Float longitude;
+	public static Double longitude_left;
+	
+	/**
+	 * Longitude position right
+	 */
+	public static Double longitude_right;
 	
 	/**
 	 * Height 
 	 */
-	private Float height;
+	public static Double height;
 
 	/**
 	 * Width 
 	 */
-	private Float width;
+	public static Double width;
 	
 	/**
 	 * All the GeoData to load
 	 */
-	private HashMap<Long,GeoData> mapContent = new HashMap<Long,GeoData>();
+	public static HashMap<Long,GeoData> mapContent = new HashMap<Long,GeoData>();
 
 	/**
 	 * All the nodes to load
 	 */
-	private HashMap<Long, Node> nodes = new HashMap<Long, Node>();
+	public static HashMap<Long, Node> nodes = new HashMap<Long, Node>();
 	
 	/**
 	 * @param data {@code GeoData} The data to add
 	 */
 	public void addMapContent(GeoData data) {
-		this.mapContent.put(data.id,data);
+		Map.mapContent.put(data.id,data);
 	}
 	
 	/**
@@ -68,7 +78,7 @@ public class Map {
 	 * @param node The {@code Node} to add
 	 */
 	public void addNode(Node node) {
-		this.nodes.put(node.id, node);
+		Map.nodes.put(node.id, node);
 	}
 	
 	/**
@@ -77,116 +87,90 @@ public class Map {
 	 * @return return the {@code Node} for which the identifier match
 	 */
 	public Node getNode(String id) {
-		return this.nodes.get(Long.parseLong(id));
+		return Map.nodes.get(Long.parseLong(id));
 	}
 	
 	/**
 	 * @return the mapContent
 	 */
 	public HashMap<Long,GeoData> getMapContent() {
-		return this.mapContent;
+		return Map.mapContent;
 	}
 
 	/**
 	 * @param mapContent the mapContent to set
 	 */
 	public void setMapContent(HashMap<Long,GeoData> mapContent) {
-		this.mapContent = mapContent;
+		Map.mapContent = mapContent;
 	}
 
 	/**
 	 * @return the nodes
 	 */
 	public HashMap<Long, Node> getNodes() {
-		return this.nodes;
+		return Map.nodes;
 	}
 
 	/**
 	 * @param nodes the nodes to set
 	 */
 	public void setNodes(HashMap<Long, Node> nodes) {
-		this.nodes = nodes;
+		Map.nodes = nodes;
 	}
 
 	/**
 	 * Constructor
 	 */
 	public Map() {
-		this.scale = (float) 0.0;
-		this.latitude = (float) 0.0;
-		this.longitude = (float) 0.0;
-		this.height = (float) 0.0;
-		this.width = (float) 0.0;
+		Map.scale = (float) 0.0;
+		Map.latitude_top = (Double) 0.0;
+		Map.latitude_bottom = (Double) 0.0;
+		Map.longitude_left = (Double) 0.0;
+		Map.longitude_right = (Double) 0.0;
+		Map.height = 0.0;
+		Map.width = 0.0;
 	}
 
 	/**
 	 * @return the scale
 	 */
 	public Float getScale() {
-		return this.scale;
+		return Map.scale;
 	}
 
 	/**
 	 * @param scale the scale to set
 	 */
 	public void setScale(Float scale) {
-		this.scale = scale;
+		Map.scale = scale;
 	}
-
-	/**
-	 * @return the latitude
-	 */
-	public Float getLatitude() {
-		return this.latitude;
-	}
-
-	/**
-	 * @param latitude the latitude to set
-	 */
-	public void setLatitude(Float latitude) {
-		this.latitude = latitude;
-	}
-
-	/**
-	 * @return the longitude
-	 */
-	public Float getLongitude() {
-		return this.longitude;
-	}
-
-	/**
-	 * @param longitude the longitude to set
-	 */
-	public void setLongitude(Float longitude) {
-		this.longitude = longitude;
-	}
-
+	
 	/**
 	 * @return the height
 	 */
-	public Float getHeight() {
-		return this.height;
+	public Double getHeight() {
+		return Map.height;
 	}
 
 	/**
 	 * @param height the height to set
 	 */
-	public void setHeight(Float height) {
-		this.height = height;
+	public void setHeight(Double height) {
+		Map.height = height;
 	}
 
 	/**
 	 * @return the width
 	 */
-	public Float getWidth() {
-		return this.width;
+	public Double getWidth() {
+		return Map.width;
 	}
 
 	/**
 	 * @param width the width to set
 	 */
-	public void setWidth(Float width) {
-		this.width = width;
+	public void setWidth(Double width) {
+		Map.width = width;
 	}
 	
 	/**
@@ -315,19 +299,10 @@ public class Map {
 									
 									School school;
 									
-									// If the school doesn't have explicit name
-									if (item.get("name") != null)
-									{
-										school = new School(
-											(Long) item.get("id"),
-											(String) item.get("name")
-										);
-									} else
-									{
-										school = new School(
-											(Long) item.get("id")
-										);
-									}
+									school = new School(
+										(Long) item.get("id"),
+										(String) item.get("name")
+									);
 									
 									// Read the 'nodes' array
 									JSONArray nodesSchool = (JSONArray) item.get("nodes");

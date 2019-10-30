@@ -24,6 +24,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Slider;
 import javafx.scene.control.SplitPane;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 
@@ -612,6 +613,14 @@ public class MainViewController implements Initializable {
 		
 		// Load all the relations
 		Map.loadRelations(city);
+		
+		GraphicsContext gc = this.canvasMap.getGraphicsContext2D();
+		
+		Map.width = this.canvasMap.getWidth();
+		Map.height = this.canvasMap.getHeight();
+		
+		// Draw Nodes
+		Draw.drawNodes(gc);
 		
 	}
 	

@@ -203,13 +203,18 @@ public class OSM {
 	public static String bboxCalc(Double lat, Double lon) {
 		Double left_lat = lat - 0.05;
 		Double left_lon = lon - 0.05;
-		Double right_lat = lat + 0.05;
+		Double right_lat = lat + 0.02;
 		Double right_lon = lon + 0.05;
 		
 		left_lat =  Math.floor(left_lat * 100) / 100;
 		left_lon =  Math.floor(left_lon * 100) / 100;
 		right_lat =  Math.floor(right_lat * 100) / 100;
 		right_lon =  Math.floor(right_lon * 100) / 100;
+		
+		Map.latitude_top = left_lat;
+		Map.latitude_bottom = left_lon;
+		Map.longitude_left = right_lat;
+		Map.longitude_right = right_lon;
 		
 		return left_lat + "," + left_lon + "," + right_lat + "," + right_lon;
 	}
@@ -221,23 +226,23 @@ public class OSM {
 	 */
 	public static void main(String[] args) {
 		
-		String bbox = OSM.bboxCalc(43.9492493, 4.8059012);
+//		String bbox = OSM.bboxCalc(43.9492493, 4.8059012);
+//		
+//		OSM queryOverpass = new OSM();
+//		
+//		queryOverpass.output("json", "", false, "");
+//		queryOverpass.start();
+//
+//		queryOverpass.node("building", "test1|test2", bbox);
+//		queryOverpass.way("building","yes",bbox);
+//		queryOverpass.relation("building",bbox);
+//		
+//		queryOverpass.out();
+//		
+//		System.out.println(queryOverpass.query);
 		
-		OSM queryOverpass = new OSM();
-		
-		queryOverpass.output("json", "", false, "");
-		queryOverpass.start();
-
-		queryOverpass.node("building", "test1|test2", bbox);
-		queryOverpass.way("building","yes",bbox);
-		queryOverpass.relation("building",bbox);
-		
-		queryOverpass.out();
-		
-		System.out.println(queryOverpass.query);
-		
-//		System.out.println("Avignon: " + OSM.bboxCalc(43.9492493, 4.8059012));
-//		System.out.println("Paris: " + OSM.bboxCalc(48.8566969, 2.3514616));
+		System.out.println("Avignon: " + OSM.bboxCalc(43.9492493, 4.8059012));
+		System.out.println("Paris: " + OSM.bboxCalc(48.8566969, 2.3514616));
 	}
 
 }

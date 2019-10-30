@@ -1,7 +1,8 @@
 package fr.univavignon.ceri.deskmap;
 
-import java.awt.Point;
-import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A class which represent the structure of an OSM Node
@@ -47,7 +48,7 @@ public class Node {
 		this.id = id;
 		this.lat = lat;
 		this.lon = lon;
-		this.Node_projection();
+//		this.Node_projection();
 	}
 	
 	@Override
@@ -93,6 +94,38 @@ public class Node {
 	    this.lon = y;
 	}
 	
+	/**
+	 * @param x {@code Double} x
+	 * @param y {@code Double} y
+	 * @return Return the {@code x} and {@code y} of the {@code Node} converted into pixels 
+	 */
+	public static List<Double> toPixel(Double x, Double y) {
+		
+		// TODO: continuous
+		
+		System.out.println(Map.longitude_left + "," + Map.longitude_right + "," + Map.latitude_top + "," + Map.latitude_bottom);
+		
+		Double bboxWidth = Map.longitude_right - Map.longitude_left;
+		Double bboxHeight = Map.latitude_top - Map.latitude_bottom;
+		
+		Double ratioWidthPixel = Map.width / bboxWidth;
+		Double ratioHeightPixel = Map.height / bboxHeight;
+		
+		Double positionLon = y -  Map.longitude_left;
+		Double positionLat = x -  Map.latitude_bottom;
+		
+		y = positionLon * ratioHeightPixel;
+		x = positionLat * ratioWidthPixel;
+		
+		System.out.println(x + " -- " + y);
+		
+		return Arrays.asList(x,y);
+	}
+	
+	/**
+	 * Main
+	 * @param args Arguments
+	 */
 	public static void main(String[] args) {
 		Node n = new Node("484848484", 48.8566969, 2.3514616);
 		System.out.println(n.toString());
