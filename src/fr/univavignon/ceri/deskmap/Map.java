@@ -26,6 +26,7 @@ import fr.univavignon.ceri.deskmap.region.Region;
 import fr.univavignon.ceri.deskmap.region.Residential;
 import fr.univavignon.ceri.deskmap.region.Retail;
 import fr.univavignon.ceri.deskmap.region.School;
+import fr.univavignon.ceri.deskmap.region.SchoolAmenity;
 import fr.univavignon.ceri.deskmap.region.SportsCentre;
 import fr.univavignon.ceri.deskmap.region.Water;
 import fr.univavignon.ceri.deskmap.region.Wood;
@@ -263,18 +264,40 @@ public class Map {
 	 */
 	public static void loadWays(String city) {		
 		
-		// Draw Landuse
+		// Draw Landuse, Natural, Leisure, Amenity, Highways and Building
 		Map.loadLayout1(city);
 		
-		// Draw Natural and Leisure
-		Map.loadLayout2(city);
-		
-		// Draw Amenity, Highways and Building
-		Map.loadLayout3(city);
 	}
 	
 	/**
 	 * 
+	 */
+	public static void loadRegion(Region entity, JSONObject item) {
+		JSONArray nodes;
+		Iterator<?> it;
+		
+		// Read the 'nodes' array
+		nodes = (JSONArray) item.get("nodes");
+		
+		it = nodes.iterator();
+		
+		// for each node identifier of this array
+		while (it.hasNext()) {
+			
+			// Read it
+			String nodeId = it.next().toString();
+			
+			// Add the id to the nodes list of the water
+			entity.addNode(nodeId);
+		}
+		
+		// Add the Building
+		MainViewController.map.addMapContent(entity);
+	}
+	
+	/**
+	 * Draw Landuse
+	 * @param city {@code String} Name of the city
 	 */
 	public static void loadLayout1(String city) {
 		
@@ -291,498 +314,121 @@ public class Map {
 			
 			Iterator<JSONObject> iterator = elements.iterator();
 			
-			// TODO: continuous
+			// For each JSON elements
 			while (iterator.hasNext()) {	
 				
 				JSONObject item = iterator.next();
 				
+				// Type: Node, Way or Relation
 				String type = (String) item.get("type");
 				
+				// If its a way
 				if (type.toLowerCase().equals("way")) {
 					
+					// Fetch tags
 					JSONObject tags = (JSONObject) item.get("tags");
 					
 					Region entity;
-					JSONArray nodes;
-					Iterator<?> it;
 					
+					// If its not a isolated Way
 					if (tags != null ) {
 						
-						if ((String) tags.get("landuse") != null) {							
-							
+						if ((String) tags.get("landuse") != null) {
 							
 							switch ((String) tags.get("landuse")) {
 							
 								case "residential":
-
 									entity = new Residential((Long) item.get("id"));
-									
-									// Read the 'nodes' array
-									nodes = (JSONArray) item.get("nodes");
-									
-									it = nodes.iterator();
-									
-									// for each node identifier of this array
-									while (it.hasNext()) {
-										
-										// Read it
-										String nodeId = it.next().toString();
-										
-										// Add the id to the nodes list of the water
-										entity.addNode(nodeId);
-									}
-									
-									// Add the Building
-									MainViewController.map.addMapContent(entity);
+									Map.loadRegion(entity, item);
 									break;
 									
-								case "industrial":
-									
+								case "industrial":									
 									entity = new Industrial((Long) item.get("id"));
-									
-									// Read the 'nodes' array
-									nodes = (JSONArray) item.get("nodes");
-									
-									it = nodes.iterator();
-									
-									// for each node identifier of this array
-									while (it.hasNext()) {
-										
-										// Read it
-										String nodeId = it.next().toString();
-										
-										// Add the id to the nodes list of the water
-										entity.addNode(nodeId);
-									}
-									
-									// Add the Building
-									MainViewController.map.addMapContent(entity);
+									Map.loadRegion(entity, item);
 									break;
 									
-								case "commercial":
-									
+								case "commercial":									
 									entity = new Commercial((Long) item.get("id"));
-									
-									// Read the 'nodes' array
-									nodes = (JSONArray) item.get("nodes");
-									
-									it = nodes.iterator();
-									
-									// for each node identifier of this array
-									while (it.hasNext()) {
-										
-										// Read it
-										String nodeId = it.next().toString();
-										
-										// Add the id to the nodes list of the water
-										entity.addNode(nodeId);
-									}
-									
-									// Add the Building
-									MainViewController.map.addMapContent(entity);
+									Map.loadRegion(entity, item);
 									break;
 									
-								case "retail":
-									
+								case "retail":									
 									entity = new Retail((Long) item.get("id"));
-									
-									// Read the 'nodes' array
-									nodes = (JSONArray) item.get("nodes");
-									
-									it = nodes.iterator();
-									
-									// for each node identifier of this array
-									while (it.hasNext()) {
-										
-										// Read it
-										String nodeId = it.next().toString();
-										
-										// Add the id to the nodes list of the water
-										entity.addNode(nodeId);
-									}
-									
-									// Add the Building
-									MainViewController.map.addMapContent(entity);
+									Map.loadRegion(entity, item);
 									break;
 									
-								case "railway":
-									
+								case "railway":									
 									entity = new Railway((Long) item.get("id"));
-									
-									// Read the 'nodes' array
-									nodes = (JSONArray) item.get("nodes");
-									
-									it = nodes.iterator();
-									
-									// for each node identifier of this array
-									while (it.hasNext()) {
-										
-										// Read it
-										String nodeId = it.next().toString();
-										
-										// Add the id to the nodes list of the water
-										entity.addNode(nodeId);
-									}
-									
-									// Add the Building
-									MainViewController.map.addMapContent(entity);									
+									Map.loadRegion(entity, item);								
 									break;
 									
 								case "cemetery":
-
-									entity = new Cemetery((Long) item.get("id"));	
-									
-									// Read the 'nodes' array
-									nodes = (JSONArray) item.get("nodes");
-									
-									it = nodes.iterator();
-									
-									// for each node identifier of this array
-									while (it.hasNext()) {
-										
-										// Read it
-										String nodeId = it.next().toString();
-										
-										// Add the id to the nodes list of the water
-										entity.addNode(nodeId);
-									}
-									
-									// Add the Building
-									MainViewController.map.addMapContent(entity);		
-									
+									entity = new Cemetery((Long) item.get("id"));
+									Map.loadRegion(entity, item);
 									break;
 									
 								case "forest":
-
 									entity = new Forest((Long) item.get("id"));
-									
-									// Read the 'nodes' array
-									nodes = (JSONArray) item.get("nodes");
-									
-									it = nodes.iterator();
-									
-									// for each node identifier of this array
-									while (it.hasNext()) {
-										
-										// Read it
-										String nodeId = it.next().toString();
-										
-										// Add the id to the nodes list of the water
-										entity.addNode(nodeId);
-									}
-									
-									// Add the Building
-									MainViewController.map.addMapContent(entity);									
+									Map.loadRegion(entity, item);								
 									break;
 									
 								case "grass":
 									entity = new Grass((Long) item.get("id"));
-									
-									// Read the 'nodes' array
-									nodes = (JSONArray) item.get("nodes");
-									
-									it = nodes.iterator();
-									
-									// for each node identifier of this array
-									while (it.hasNext()) {
-										
-										// Read it
-										String nodeId = it.next().toString();
-										
-										// Add the id to the nodes list of the water
-										entity.addNode(nodeId);
-									}
-									
-									// Add the Building
-									MainViewController.map.addMapContent(entity);
+									Map.loadRegion(entity, item);
 									break;									
 							}							
 						}
-					} else {
-						// If no tags found, its a landuse
-						entity = new Way((Long) item.get("id"));
-						
-						// Read the 'nodes' array
-						nodes = (JSONArray) item.get("nodes");
-						
-						it = nodes.iterator();
-						
-						// for each node identifier of this array
-						while (it.hasNext()) {
-							
-							// Read it
-							String nodeId = it.next().toString();
-							
-							// Add the id to the nodes list of the water
-							entity.addNode(nodeId);
-						}
-						
-						// Add the Way
-						MainViewController.map.addMapContent(entity);	
-					}
-				}				
-			}
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (org.json.simple.parser.ParseException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * 
-	 */
-	public static void loadLayout2(String city) {
-		
-		//JSON parser object to parse read file
-		JSONParser jsonParser = new JSONParser();
-		
-		try (FileReader reader = new FileReader(city.toLowerCase() + "Map.json"))
-		{
-			//Read JSON file
-			Object obj = jsonParser.parse(reader);
-			
-			JSONObject main = (JSONObject) obj;
-			JSONArray elements = (JSONArray) main.get("elements");
-			
-			Iterator<JSONObject> iterator = elements.iterator();
-			
-			while (iterator.hasNext()) {	
-				
-				JSONObject item = iterator.next();
-				
-				String type = (String) item.get("type");
-				
-				if (type.toLowerCase().equals("way")) {
-					
-					JSONObject tags = (JSONObject) item.get("tags");
-					
-					if (tags != null ) {
-												
 						// If it's a Leisure
-						if ((String) tags.get("leisure") != null) {
-
-							Region entity;
-							Iterator<?> it;
-							JSONArray nodes;
-							
+						else if ((String) tags.get("leisure") != null) {
+								
 							switch ((String) tags.get("leisure")) {
 							
-							case "sports_centre":
-
-								entity = new SportsCentre((Long) item.get("id"));
-								
-								// Read the 'nodes' array
-								nodes = (JSONArray) item.get("nodes");
-								
-								it = nodes.iterator();
-								
-								// for each node identifier of this array
-								while (it.hasNext()) {
+								case "sports_centre":	
+									entity = new SportsCentre((Long) item.get("id"));
+									Map.loadRegion(entity, item);										
+									break;
 									
-									// Read it
-									String nodeId = it.next().toString();
+								case "park":										
+									entity = new Park((Long) item.get("id"));
+									Map.loadRegion(entity, item);										
+									break;
 									
-									// Add the id to the nodes list of the SportsCentre
-									entity.addNode(nodeId);
-								}
-								
-								// Add the Building
-								MainViewController.map.addMapContent(entity);
-								
-								break;
-								
-							case "park":
-								
-								entity = new Park((Long) item.get("id"));
-								
-								// Read the 'nodes' array
-								nodes = (JSONArray) item.get("nodes");
-								
-								it = nodes.iterator();
-								
-								// for each node identifier of this array
-								while (it.hasNext()) {
-									
-									// Read it
-									String nodeId = it.next().toString();
-									
-									// Add the id to the nodes list of the Park
-									entity.addNode(nodeId);
-								}
-								
-								// Add the Building
-								MainViewController.map.addMapContent(entity);
-								
-								break;
-								
-							case "golf_course":
-
-								entity = new GolfCourse((Long) item.get("id"));
-								
-								// Read the 'nodes' array
-								nodes = (JSONArray) item.get("nodes");
-								
-								it = nodes.iterator();
-								
-								// for each node identifier of this array
-								while (it.hasNext()) {
-									
-									// Read it
-									String nodeId = it.next().toString();
-									
-									// Add the id to the nodes list of the GolfCourse
-									entity.addNode(nodeId);
-								}
-								
-								// Add the Building
-								MainViewController.map.addMapContent(entity);
-								
-								break;
+								case "golf_course":	
+									entity = new GolfCourse((Long) item.get("id"));
+									Map.loadRegion(entity, item);
+									break;
 							}
 							
 						}
 						// If it's a Natural
 						else if ((String) tags.get("natural") != null) {
 							
-							Iterator<?> it;
-							
 							switch ((String) tags.get("natural")) {
 							
-							case "water":
-								
-								Water entity = new Water((Long) item.get("id"));
-								
-								// Read the 'nodes' array
-								JSONArray nodes = (JSONArray) item.get("nodes");
-								
-								it = nodes.iterator();
-								
-								// for each node identifier of this array
-								while (it.hasNext()) {
-									
-									// Read it
-									String nodeId = it.next().toString();
-									
-									// Add the id to the nodes list of the water
-									entity.addNode(nodeId);
-								}
-								
-								// Add the Building
-								MainViewController.map.addMapContent(entity);
-								
-								break;
+								case "water":										
+									entity = new Water((Long) item.get("id"));
+									Map.loadRegion(entity, item);
+									break;
 							}							
-						}						
-					}					
-				}				
-			}
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (org.json.simple.parser.ParseException e) {
-			e.printStackTrace();
-		}
-	}
-		
-	/**
-	 * 
-	 */
-	public static void loadLayout3(String city) {
-		//JSON parser object to parse read file
-		JSONParser jsonParser = new JSONParser();
-		
-		try (FileReader reader = new FileReader(city.toLowerCase() + "Map.json"))
-		{
-			//Read JSON file
-			Object obj = jsonParser.parse(reader);
-			
-			JSONObject main = (JSONObject) obj;
-			JSONArray elements = (JSONArray) main.get("elements");
-			
-			Iterator<JSONObject> iterator = elements.iterator();
-			
-			while (iterator.hasNext()) {	
-				
-				JSONObject item = iterator.next();
-				
-				String type = (String) item.get("type");
-				
-				if (type.toLowerCase().equals("way")) {
-					
-					JSONObject tags = (JSONObject) item.get("tags");
-					
-					if (tags != null ) {
-						
-						// If it's a Building
-						if ((String) tags.get("building") != null) {
-							
-							Iterator<?> it;
-							JSONArray nodes;
+						}
+						// Buildings
+						else if ((String) tags.get("building") != null) {
 							
 							switch ((String) tags.get("building")) {
 							
-							case "yes":
-								
-								Building building = new Building((Long) item.get("id"));
-								
-								// Read the 'nodes' array
-								nodes = (JSONArray) item.get("nodes");
-								
-								it = nodes.iterator();
-								
-								// for each node identifier of this array
-								while (it.hasNext()) {
+								case "yes":								
+									entity = new Building((Long) item.get("id"));
+									Map.loadRegion(entity, item);								
+									break;
 									
-									// Read it
-									String nodeId = it.next().toString();
-									
-									// Add the id to the nodes list of the Building
-									building.addNode(nodeId);
-								}
-								
-								// Add the Building
-								MainViewController.map.addMapContent(building);
-								
-								break;
-								
-							case "school":
-								
-								School school;
-								
-								school = new School(
+								case "school":									
+									entity = new School(
 										(Long) item.get("id"),
 										(String) item.get("name")
-										);
-								
-								// Read the 'nodes' array
-								nodes = (JSONArray) item.get("nodes");
-								
-								it = nodes.iterator();
-								
-								// for each node identifier of this array
-								while (it.hasNext()) {
+									);
 									
-									// Read it
-									String nodeId = it.next().toString();
-									
-									// Add the id to the nodes list of the School
-									school.addNode(nodeId);
-								}
-								
-								// Add the Building
-								MainViewController.map.addMapContent(school);
-								
-								break;
-								
-							default:
-								// Region
-								break;
+									Map.loadRegion(entity, item);								
+									break;
 							}
 							
 						}
@@ -790,9 +436,15 @@ public class Map {
 						else if ((String) tags.get("amenity") != null) {
 							
 							switch ((String) tags.get("amenity")) {
-							case "school":
-								// Region
-								break;
+							
+								case "school":
+									entity = new SchoolAmenity(
+										(Long) item.get("id"),
+										(String) item.get("name")
+									);
+									
+									Map.loadRegion(entity, item);
+									break;
 							}
 							
 						}
@@ -801,9 +453,9 @@ public class Map {
 							
 							Iterator<?> it;
 							JSONArray nodes;
-							Line entity;
+							Line entityRoad;
 							
-							entity = new Road((Long) item.get("id"));
+							entityRoad = new Road((Long) item.get("id"));
 							
 							// Read the 'nodes' array
 							nodes = (JSONArray) item.get("nodes");
@@ -817,51 +469,55 @@ public class Map {
 								String nodeId = it.next().toString();
 								
 								// Add the id to the nodes list of the GolfCourse
-								entity.addNode(nodeId);
+								entityRoad.addNode(nodeId);
 							}
 							
 							switch ((String) tags.get("highway")) {
 							
 								case "motorway":
-									entity.setColor(Color.MOTORWAY);
-									entity.setThickness(Settings.LEVEL_1_ROAD_THICKNESS);
+									entityRoad.setColor(Color.MOTORWAY);
+									entityRoad.setThickness(Settings.LEVEL_1_ROAD_THICKNESS);
 									break;
 
 								// Second biggest roads of the country after the motorways (Equivalent to the autobahn)
 								case "trunk":
-									entity.setColor(Color.TRUNK);
-									entity.setThickness(Settings.LEVEL_2_ROAD_THICKNESS);
+									entityRoad.setColor(Color.TRUNK);
+									entityRoad.setThickness(Settings.LEVEL_2_ROAD_THICKNESS);
 									break;
 									
 								case "primary":
-									entity.setColor(Color.PRIMARY);
-									entity.setThickness(Settings.LEVEL_3_ROAD_THICKNESS);
+									entityRoad.setColor(Color.PRIMARY);
+									entityRoad.setThickness(Settings.LEVEL_3_ROAD_THICKNESS);
 									break;
 									
 								case "secondary":
-									entity.setColor(Color.SECONDARY);
-									entity.setThickness(Settings.LEVEL_3_ROAD_THICKNESS);
+									entityRoad.setColor(Color.SECONDARY);
+									entityRoad.setThickness(Settings.LEVEL_3_ROAD_THICKNESS);
 									break;
 									
 								case "tertiary":
-									entity.setColor(Color.TERTIARY);
-									entity.setThickness(Settings.LEVEL_3_ROAD_THICKNESS);
+									entityRoad.setColor(Color.TERTIARY);
+									entityRoad.setThickness(Settings.LEVEL_3_ROAD_THICKNESS);
 									break;
 									
 								case "residential":
 								case "living_street":
 								case "pedestrian":
 								default:
-									entity.setColor(Color.ROAD);
-									entity.setThickness(Settings.LEVEL_4_ROAD_THICKNESS);
+									entityRoad.setColor(Color.ROAD);
+									entityRoad.setThickness(Settings.LEVEL_4_ROAD_THICKNESS);
 									break;
 							}							
 
 							// Add the Building
-							MainViewController.map.addMapContent(entity);
+							MainViewController.map.addMapContent(entityRoad);
 							
-						}						
-					}				
+						}	
+					} else {
+						// If no tags found, its a Way
+						entity = new Way((Long) item.get("id"));
+						Map.loadRegion(entity, item);	
+					}
 				}				
 			}
 			
@@ -872,8 +528,7 @@ public class Map {
 		} catch (org.json.simple.parser.ParseException e) {
 			e.printStackTrace();
 		}
-	}
-	
+	}	
 	
 	/**
 	 * Load all the Node
@@ -894,12 +549,6 @@ public class Map {
 			
 			Iterator<JSONObject> iterator = elements.iterator();
 			
-			Integer relaCpt = 0;
-			
-			int cptRegion = 0;
-			int cptRoad = 0;
-			int cptOther = 0;
-			
 			// For each JSON object
 			while (iterator.hasNext()) {
 				
@@ -910,11 +559,6 @@ public class Map {
 				
 				// If its a relation
 				if (type.toLowerCase().equals("relation")) {
-					
-					relaCpt++;
-					
-					// TODO: relation
-					// I will not insert the relation itself but the ways of it which will be a Region childrens.
 					
 					// Members iterator
 					Iterator<JSONObject> it;
@@ -1133,11 +777,6 @@ public class Map {
 					}					
 				}				
 			}
-						
-			System.out.println("Relations: " + relaCpt);
-			System.out.println("cptOther: " + cptOther);
-			System.out.println("cptRegion: " + cptRegion);
-			System.out.println("cptRoad: " + cptRoad);
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

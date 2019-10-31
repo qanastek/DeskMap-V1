@@ -9,7 +9,7 @@ import fr.univavignon.ceri.deskmap.Color;
  * @author Yanis Labrak
  *
  */
-public class School extends Region implements Structure, Amenity {
+public class School extends Region implements Structure {
 
 	/**
 	 * Constructor

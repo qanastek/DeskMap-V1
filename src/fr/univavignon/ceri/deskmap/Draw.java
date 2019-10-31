@@ -21,6 +21,7 @@ import fr.univavignon.ceri.deskmap.region.Natural;
 import fr.univavignon.ceri.deskmap.region.Pedestrian;
 import fr.univavignon.ceri.deskmap.region.Region;
 import fr.univavignon.ceri.deskmap.region.School;
+import fr.univavignon.ceri.deskmap.region.SchoolAmenity;
 import fr.univavignon.ceri.deskmap.region.Structure;
 import fr.univavignon.ceri.deskmap.region.Water;
 import javafx.scene.canvas.GraphicsContext;
@@ -85,7 +86,6 @@ public class Draw {
 	 * @param gc {@code GraphicsContext} The canvas
 	 */
 	public static void drawWays(GraphicsContext gc) {
-
 		
 		// Draw Landuse
 		Draw.drawLayout1(gc);		
@@ -100,8 +100,7 @@ public class Draw {
 		Draw.drawLayout5(gc);
 		
 		// Draw Amenity and Building
-		Draw.drawLayout3(gc);
-		
+		Draw.drawLayout3(gc);		
 		
 		// Draw the Relations
 //		Draw.drawRelations(gc);
@@ -109,7 +108,9 @@ public class Draw {
 	}
 	
 	/**
-	 * 
+	 * Draw the Region in parameter on the {@code Canvas}
+	 * @param gc {@code GraphicsContext} The canvas
+	 * @param prop {@code Region} The {@code Region} to draw
 	 */
 	public static void drawPropRegion(GraphicsContext gc, Region prop) {
 		List<Long> nodes = prop.getNodes();
@@ -138,7 +139,9 @@ public class Draw {
 	}
 	
 	/**
-	 * 
+	 * Draw the Line in parameter on the {@code Canvas}
+	 * @param gc {@code GraphicsContext} The canvas
+	 * @param prop {@code Line} The {@code Line} to draw
 	 */
 	public static void drawPropLine(GraphicsContext gc, Line prop) {
 		List<Long> nodes = prop.getNodes();
@@ -179,7 +182,8 @@ public class Draw {
 	}
 	
 	/**
-	 * 
+	 * Draw the 1st layout on the canvas
+	 * @param gc {@code GraphicsContext} The canvas
 	 */
 	public static void drawLayout1(GraphicsContext gc) {
 		for (Long key : Map.mapContent.keySet()) {
@@ -195,7 +199,8 @@ public class Draw {
 	}
 	
 	/**
-	 * 
+	 * Draw the 2nd layout on the canvas
+	 * @param gc {@code GraphicsContext} The canvas
 	 */
 	public static void drawLayout2(GraphicsContext gc) {
 		for (Long key : Map.mapContent.keySet()) {
@@ -203,7 +208,7 @@ public class Draw {
 		    Object prop = Map.mapContent.get(key);
 		    
 		    if (prop instanceof Region) {		    	
-		    	if (prop instanceof Natural || prop instanceof Leisure) {		    		
+		    	if (prop instanceof Natural || prop instanceof Leisure || prop instanceof SchoolAmenity) {		    		
 		    		Draw.drawPropRegion(gc, (Region) prop);
 				}		    	
 			}			
@@ -211,7 +216,8 @@ public class Draw {
 	}
 	
 	/**
-	 * 
+	 * Draw the 3rd layout on the canvas
+	 * @param gc {@code GraphicsContext} The canvas
 	 */
 	public static void drawLayout3(GraphicsContext gc) {
 		for (Long key : Map.mapContent.keySet()) {
@@ -219,7 +225,7 @@ public class Draw {
 		    Object prop = Map.mapContent.get(key);
 		    
 		    if (prop instanceof Region) {		    	
-		    	if (prop instanceof Amenity || prop instanceof Structure) {		    		
+		    	if (prop instanceof Amenity || prop instanceof Structure && !(prop instanceof SchoolAmenity)) {		    		
 		    		Draw.drawPropRegion(gc, (Region) prop);
 				}		    	
 			}			
@@ -227,7 +233,8 @@ public class Draw {
 	}
 		
 	/**
-	 * 
+	 * Draw the 4th layout on the canvas
+	 * @param gc {@code GraphicsContext} The canvas
 	 */
 	public static void drawLayout4(GraphicsContext gc) {
 		for (Long key : Map.mapContent.keySet()) {
@@ -242,6 +249,10 @@ public class Draw {
 		}
 	}
 	
+	/**
+	 * Draw the 5th layout on the canvas
+	 * @param gc {@code GraphicsContext} The canvas
+	 */
 	public static void drawLayout5(GraphicsContext gc) {
 		for (Long key : Map.mapContent.keySet()) {
 		    

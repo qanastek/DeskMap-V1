@@ -12,27 +12,28 @@ import fr.univavignon.ceri.deskmap.region.Region;
 public class Way extends Region {
 
 	/**
-	 * @param id
-	 * @param name
-	 * @param color
+	 * Constructor
+	 * @param id {@code String} Identifier
+	 * @param name {@code String} Name of the Way
+	 * @param color {@code String} Color of the Way
 	 */
 	public Way(String id, String name, String color) {
 		super(id, name, color);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param id
-	 * @param name
-	 * @param color
+	 * Constructor
+	 * @param id {@code Long} Identifier
+	 * @param name {@code String} Name of the Way
+	 * @param color {@code String} Color of the Way
 	 */
 	public Way(Long id, String name, String color) {
 		super(id, name, color);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param id
+	 * Constructor
+	 * @param id {@code Long} Identifier
 	 */
 	public Way(Long id) {
 		super(id, "", "#000000");
