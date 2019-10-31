@@ -3,6 +3,8 @@
  */
 package fr.univavignon.ceri.deskmap.region;
 
+import fr.univavignon.ceri.deskmap.Color;
+
 /**
  * @author Yanis Labrak
  *
@@ -14,7 +16,7 @@ public class Industrial extends Region implements Landuse {
 	 * @param id {@code String} Identifier
 	 */
 	public Industrial(String id) {
-		super(id, "", "#ff00df");
+		super(id, "", Color.INDUSTRIAL);
 	}
 	
 	/**
@@ -22,7 +24,7 @@ public class Industrial extends Region implements Landuse {
 	 * @param id {@code Long} Identifier
 	 */
 	public Industrial(Long id) {
-		super(id, "", "#ff00df");
+		super(id, "", Color.INDUSTRIAL);
 	}
 
 }

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package fr.univavignon.ceri.deskmap;
 
 import java.io.FileNotFoundException;
@@ -13,13 +10,17 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import fr.univavignon.ceri.deskmap.line.Line;
+import fr.univavignon.ceri.deskmap.line.Road;
 import fr.univavignon.ceri.deskmap.region.Building;
 import fr.univavignon.ceri.deskmap.region.Cemetery;
 import fr.univavignon.ceri.deskmap.region.Commercial;
 import fr.univavignon.ceri.deskmap.region.Forest;
 import fr.univavignon.ceri.deskmap.region.GolfCourse;
+import fr.univavignon.ceri.deskmap.region.Grass;
 import fr.univavignon.ceri.deskmap.region.Industrial;
 import fr.univavignon.ceri.deskmap.region.Park;
+import fr.univavignon.ceri.deskmap.region.Pedestrian;
 import fr.univavignon.ceri.deskmap.region.Railway;
 import fr.univavignon.ceri.deskmap.region.Region;
 import fr.univavignon.ceri.deskmap.region.Residential;
@@ -27,6 +28,7 @@ import fr.univavignon.ceri.deskmap.region.Retail;
 import fr.univavignon.ceri.deskmap.region.School;
 import fr.univavignon.ceri.deskmap.region.SportsCentre;
 import fr.univavignon.ceri.deskmap.region.Water;
+import fr.univavignon.ceri.deskmap.region.Wood;
 
 /**
  * @author Yanis Labrak
@@ -37,16 +39,6 @@ public class Map {
 	 * Scale of the map
 	 */
 	public static Float scale;
-	
-	/**
-	 * Max scale of the canvas
-	 */
-	public static final int MIN_SCALE = 1;
-	
-	/**
-	 * Max scale of the canvas
-	 */
-	public static final int MAX_SCALE = 32;
 	
 	/**
 	 * Latitude position top
@@ -202,16 +194,14 @@ public class Map {
 	 */
 	public static void loadCityAsObject(String city) throws org.json.simple.parser.ParseException {
 		
-		// TODO: Loading
-		
 		// Load all the nodes
 		Map.loadNodes(city);
 		
 		// Load all the ways
-		Map.loadWays(city);
-		
+		Map.loadWays(city);	
+
 		// Load all the relations
-		Map.loadRelations(city);		
+		Map.loadRelations(city);	
 	}
 	
 	/**
@@ -235,7 +225,6 @@ public class Map {
             
             Integer nodeCpt = 0;
 
-            // TODO: continuous
 			while (iterator.hasNext()) {	
 				
 				JSONObject item = iterator.next();
@@ -313,13 +302,14 @@ public class Map {
 					
 					JSONObject tags = (JSONObject) item.get("tags");
 					
+					Region entity;
+					JSONArray nodes;
+					Iterator<?> it;
+					
 					if (tags != null ) {
 						
-						if ((String) tags.get("landuse") != null) {
+						if ((String) tags.get("landuse") != null) {							
 							
-							Region entity;
-							JSONArray nodes;
-							Iterator<?> it;
 							
 							switch ((String) tags.get("landuse")) {
 							
@@ -458,7 +448,8 @@ public class Map {
 									}
 									
 									// Add the Building
-									MainViewController.map.addMapContent(entity);								
+									MainViewController.map.addMapContent(entity);		
+									
 									break;
 									
 								case "forest":
@@ -485,10 +476,49 @@ public class Map {
 									break;
 									
 								case "grass":
-									// Region
+									entity = new Grass((Long) item.get("id"));
+									
+									// Read the 'nodes' array
+									nodes = (JSONArray) item.get("nodes");
+									
+									it = nodes.iterator();
+									
+									// for each node identifier of this array
+									while (it.hasNext()) {
+										
+										// Read it
+										String nodeId = it.next().toString();
+										
+										// Add the id to the nodes list of the water
+										entity.addNode(nodeId);
+									}
+									
+									// Add the Building
+									MainViewController.map.addMapContent(entity);
 									break;									
 							}							
 						}
+					} else {
+						// If no tags found, its a landuse
+						entity = new Way((Long) item.get("id"));
+						
+						// Read the 'nodes' array
+						nodes = (JSONArray) item.get("nodes");
+						
+						it = nodes.iterator();
+						
+						// for each node identifier of this array
+						while (it.hasNext()) {
+							
+							// Read it
+							String nodeId = it.next().toString();
+							
+							// Add the id to the nodes list of the water
+							entity.addNode(nodeId);
+						}
+						
+						// Add the Way
+						MainViewController.map.addMapContent(entity);	
 					}
 				}				
 			}
@@ -520,7 +550,6 @@ public class Map {
 			
 			Iterator<JSONObject> iterator = elements.iterator();
 			
-			// TODO: continuous
 			while (iterator.hasNext()) {	
 				
 				JSONObject item = iterator.next();
@@ -646,14 +675,10 @@ public class Map {
 								MainViewController.map.addMapContent(entity);
 								
 								break;
-							}
-							
-						}
-						
-					}
-					
-				}
-				
+							}							
+						}						
+					}					
+				}				
 			}
 			
 		} catch (FileNotFoundException e) {
@@ -682,7 +707,6 @@ public class Map {
 			
 			Iterator<JSONObject> iterator = elements.iterator();
 			
-			// TODO: continuous
 			while (iterator.hasNext()) {	
 				
 				JSONObject item = iterator.next();
@@ -775,37 +799,69 @@ public class Map {
 						// If it's a Highway
 						else if ((String) tags.get("highway") != null) {
 							
-							switch ((String) tags.get("highway")) {
+							Iterator<?> it;
+							JSONArray nodes;
+							Line entity;
 							
-							case "primary":
-								// thickness 5
-								break;
+							entity = new Road((Long) item.get("id"));
+							
+							// Read the 'nodes' array
+							nodes = (JSONArray) item.get("nodes");
+							
+							it = nodes.iterator();
+							
+							// for each node identifier of this array
+							while (it.hasNext()) {
 								
-							case "secondary":
-								// thickness 4
-								break;
+								// Read it
+								String nodeId = it.next().toString();
 								
-							case "trunk":
-								// thickness 3
-								break;
-								
-							case "residential":
-							case "living_street":
-							case "pedestrian":
-							case "motorway":
-								// thickness 2
-								break;
-								
-							default:
-								// Simple road
-								break;
+								// Add the id to the nodes list of the GolfCourse
+								entity.addNode(nodeId);
 							}
 							
+							switch ((String) tags.get("highway")) {
+							
+								case "motorway":
+									entity.setColor(Color.MOTORWAY);
+									entity.setThickness(Settings.LEVEL_1_ROAD_THICKNESS);
+									break;
+
+								// Second biggest roads of the country after the motorways (Equivalent to the autobahn)
+								case "trunk":
+									entity.setColor(Color.TRUNK);
+									entity.setThickness(Settings.LEVEL_2_ROAD_THICKNESS);
+									break;
+									
+								case "primary":
+									entity.setColor(Color.PRIMARY);
+									entity.setThickness(Settings.LEVEL_3_ROAD_THICKNESS);
+									break;
+									
+								case "secondary":
+									entity.setColor(Color.SECONDARY);
+									entity.setThickness(Settings.LEVEL_3_ROAD_THICKNESS);
+									break;
+									
+								case "tertiary":
+									entity.setColor(Color.TERTIARY);
+									entity.setThickness(Settings.LEVEL_3_ROAD_THICKNESS);
+									break;
+									
+								case "residential":
+								case "living_street":
+								case "pedestrian":
+								default:
+									entity.setColor(Color.ROAD);
+									entity.setThickness(Settings.LEVEL_4_ROAD_THICKNESS);
+									break;
+							}							
+
+							// Add the Building
+							MainViewController.map.addMapContent(entity);
+							
 						}						
-					}
-					else {
-						// If no tags found, do a road						
-					}					
+					}				
 				}				
 			}
 			
@@ -840,28 +896,248 @@ public class Map {
 			
 			Integer relaCpt = 0;
 			
-			// TODO: continuous
-			while (iterator.hasNext()) {	
+			int cptRegion = 0;
+			int cptRoad = 0;
+			int cptOther = 0;
+			
+			// For each JSON object
+			while (iterator.hasNext()) {
 				
 				JSONObject item = iterator.next();
 				
+				// Get type
 				String type = (String) item.get("type");
 				
-				// Loading order:
-				// Nodes
-				// Way
-				// Relation
-				
+				// If its a relation
 				if (type.toLowerCase().equals("relation")) {
+					
 					relaCpt++;
 					
-					// Faut géré les multipolygon
-					// Pour ce faire: if have members, its a multipolygon
-				}
-				
+					// TODO: relation
+					// I will not insert the relation itself but the ways of it which will be a Region childrens.
+					
+					// Members iterator
+					Iterator<JSONObject> it;
+					
+					// Read the array of ways
+					JSONArray members = (JSONArray) item.get("members");
+					
+					// Get tags
+					JSONObject tags = (JSONObject) item.get("tags");	
+					
+					Way baseWay;
+
+					// If we have tags
+					if (tags != null ) {
+
+						// Get the name
+						String name = (String) tags.get("name");		
+						
+						it = members.iterator();
+						
+						int i = 0;
+						
+						// for each ways of this array
+						while (it.hasNext()) {
+							
+							// Get the way identifier
+							String wayId = it.next().get("ref").toString();
+							
+							// Set the name of the place on the way
+//							Map.mapContent.get(Long.parseLong(wayId)).setName(name);							
+							
+							// If the corresponding way exist
+							if (Map.mapContent.get(Long.parseLong(wayId)) != null && Map.mapContent.get(Long.parseLong(wayId)) instanceof Way) {
+																
+								baseWay = (Way) Map.mapContent.get(Long.parseLong(wayId));
+								
+								// Create a new Way
+								Region newWay = null;
+								
+								// TODO
+								// Depending of the type
+								if (tags.get("landuse") != null) {
+									
+									switch ((String) tags.get("landuse")) {
+									
+										case "residential":		
+											newWay = new Residential(
+												Long.parseLong(wayId) + i++
+											);										
+											break;
+											
+										case "industrial":		
+											newWay = new Industrial(
+												Long.parseLong(wayId) + i++
+											);										
+											break;
+											
+										case "commercial":	
+											newWay = new Commercial(
+												Long.parseLong(wayId) + i++
+											);										
+											break;
+											
+										case "retail":	
+											newWay = new Retail(
+												Long.parseLong(wayId) + i++
+											);										
+											break;
+											
+										case "railway":	
+											newWay = new Railway(
+												Long.parseLong(wayId) + i++
+											);										
+											break;
+											
+										case "cemetery":
+											newWay = new Cemetery(
+												Long.parseLong(wayId) + i++
+											);
+											break;
+											
+										case "forest":
+											newWay = new Forest(
+												Long.parseLong(wayId) + i++
+											);										
+											break;
+											
+										case "grass":
+											newWay = new Grass(
+												Long.parseLong(wayId) + i++
+											);											
+											break;
+									}									
+								}
+								else if (tags.get("building") != null) {
+									switch ((String) tags.get("building")) {
+										default:						
+											newWay = new Building(
+												Long.parseLong(wayId) + i++
+											);											
+											break;
+									}
+								}
+								else if (tags.get("amenity") != null) {
+									switch ((String) tags.get("amenity")) {
+										case "school":		
+											newWay = new School(
+												Long.parseLong(wayId) + i++
+											);										
+											break;
+									}
+								}
+								else if (tags.get("highway") != null) {
+									
+									
+									if (tags.get("highway").equals("pedestrian")) {
+										newWay = new Pedestrian(
+											Long.parseLong(wayId) + i++
+										);
+										newWay.setColor(Color.PEDESTRIAN);
+									}
+									else {
+										newWay = new fr.univavignon.ceri.deskmap.region.Road(
+											Long.parseLong(wayId) + i++
+										);
+										
+										switch ((String) tags.get("highway")) {
+										
+											case "motorway":
+												newWay.setColor(Color.MOTORWAY);
+												break;
+		
+											case "trunk":
+												newWay.setColor(Color.TRUNK);
+												break;
+												
+											case "primary":
+												newWay.setColor(Color.PRIMARY);
+												break;
+												
+											case "secondary":
+												newWay.setColor(Color.SECONDARY);
+												break;
+												
+											case "tertiary":
+												newWay.setColor(Color.TERTIARY);
+												break;
+												
+											case "residential":
+											case "living_street":
+											default:
+												newWay.setColor(Color.ROAD);
+												break;
+										}
+									}
+								}
+								else if (tags.get("leisure") != null) {
+									switch ((String) tags.get("leisure")) {
+									
+										case "sports_centre":
+											newWay = new SportsCentre(
+												Long.parseLong(wayId) + i++
+											);	
+											newWay.setColor(Color.SPORT_CENTRE);
+											break;
+	
+										case "park":
+											newWay = new Park(
+												Long.parseLong(wayId) + i++
+											);	
+											newWay.setColor(Color.PARK);
+											break;
+											
+										case "golf_course":
+											newWay = new GolfCourse(
+												Long.parseLong(wayId) + i++
+											);	
+											newWay.setColor(Color.GOLF_COURSE);
+											break;
+									}
+								}
+								else if (tags.get("natural") != null) {
+									switch ((String) tags.get("natural")) {
+									
+										case "water":
+											newWay = new Water(
+												Long.parseLong(wayId) + i++
+											);	
+											newWay.setColor(Color.WATER);
+											break;
+	
+										case "wood":
+											newWay = new Wood(
+												Long.parseLong(wayId) + i++
+											);	
+											newWay.setColor(Color.WOOD);
+											break;
+									}
+								}
+								
+								// If one of the above class
+								if (newWay != null) {
+									
+									// Load each nodes inside the new Way
+									for (Long nodeId : baseWay.getNodes()) {										
+										newWay.addNode(nodeId);										
+									}
+
+									// Add the way
+									Map.mapContent.put(newWay.id + i, newWay);
+								}
+								
+							}
+						}	
+						
+					}					
+				}				
 			}
-			
+						
 			System.out.println("Relations: " + relaCpt);
+			System.out.println("cptOther: " + cptOther);
+			System.out.println("cptRegion: " + cptRegion);
+			System.out.println("cptRoad: " + cptRoad);
 			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

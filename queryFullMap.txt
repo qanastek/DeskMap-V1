@@ -122,6 +122,9 @@ highway motorway
    way["leisure"="golf_course"](48.8,2.3,48.9,2.4);
    relation["leisure"](48.8,2.3,48.9,2.4);
 
+
+   natural water
+
    way["highway"="primary"](48.8,2.3,48.9,2.4);
    way["highway"="secondary"](48.8,2.3,48.9,2.4);
    way["highway"="trunk"](48.8,2.3,48.9,2.4);

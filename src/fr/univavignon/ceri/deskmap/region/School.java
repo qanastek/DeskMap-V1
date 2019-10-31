@@ -34,7 +34,7 @@ public class School extends Region implements Structure, Amenity {
 	 * @param id {@code String} Identifier
 	 */
 	public School(String id) {
-		super(id, "", "#ffffe5");
+		super(id, "", Color.SCHOOL);
 	}
 	
 	/**
@@ -42,7 +42,7 @@ public class School extends Region implements Structure, Amenity {
 	 * @param id {@code String} Identifier
 	 */
 	public School(Long id) {
-		super(id, "", "#ffffe5");
+		super(id, "", Color.SCHOOL);
 	}
 
 }

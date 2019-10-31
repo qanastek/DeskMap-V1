@@ -44,6 +44,24 @@ public abstract class Region extends GeoData {
 		super(id,name);
 		this.color = color;
 	}
+	
+	/**
+	 * Constructor
+	 * @param id {@code Long} Identifier
+	 */
+	public Region(Long id) {
+		super(id,"");
+		this.color = "";
+	}
+	
+	/**
+	 * Constructor
+	 * @param id {@code String} Identifier
+	 */
+	public Region(String id) {
+		super(id,"");
+		this.color = "";
+	}
 
 	/**
 	 * @return the color

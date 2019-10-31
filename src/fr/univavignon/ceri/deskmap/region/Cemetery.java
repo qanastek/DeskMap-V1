@@ -9,7 +9,7 @@ import fr.univavignon.ceri.deskmap.Color;
  * @author Yanis Labrak
  *
  */
-public class Cemetery extends Region implements Landuse {
+public class Cemetery extends Region implements Structure {
 
 	/**
 	 * Constructor

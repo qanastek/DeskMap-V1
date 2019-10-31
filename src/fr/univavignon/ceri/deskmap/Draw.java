@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.univavignon.ceri.deskmap.line.Line;
+import fr.univavignon.ceri.deskmap.line.River;
+import fr.univavignon.ceri.deskmap.line.Road;
 import fr.univavignon.ceri.deskmap.region.Amenity;
 import fr.univavignon.ceri.deskmap.region.Building;
 import fr.univavignon.ceri.deskmap.region.Cemetery;
@@ -15,6 +18,7 @@ import fr.univavignon.ceri.deskmap.region.Grass;
 import fr.univavignon.ceri.deskmap.region.Landuse;
 import fr.univavignon.ceri.deskmap.region.Leisure;
 import fr.univavignon.ceri.deskmap.region.Natural;
+import fr.univavignon.ceri.deskmap.region.Pedestrian;
 import fr.univavignon.ceri.deskmap.region.Region;
 import fr.univavignon.ceri.deskmap.region.School;
 import fr.univavignon.ceri.deskmap.region.Structure;
@@ -81,11 +85,97 @@ public class Draw {
 	 * @param gc {@code GraphicsContext} The canvas
 	 */
 	public static void drawWays(GraphicsContext gc) {
-				
-		Draw.drawLayout1(gc);
+
+		
+		// Draw Landuse
+		Draw.drawLayout1(gc);		
+		
+		// Draw Natural and Leisure
 		Draw.drawLayout2(gc);
+		
+		// Draw Highways
+		Draw.drawLayout4(gc);
+		
+		// Pedestrian
+		Draw.drawLayout5(gc);
+		
+		// Draw Amenity and Building
 		Draw.drawLayout3(gc);
 		
+		
+		// Draw the Relations
+//		Draw.drawRelations(gc);
+		
+	}
+	
+	/**
+	 * 
+	 */
+	public static void drawPropRegion(GraphicsContext gc, Region prop) {
+		List<Long> nodes = prop.getNodes();
+		
+		gc.setFill(Color.web(prop.getColor()));
+		gc.setStroke(Color.web(prop.getColor()));
+    	
+		List<Double> x = new ArrayList<Double>();
+		List<Double> y = new ArrayList<Double>();
+		
+    	// For each node id
+    	for (Long nodeId : nodes) {
+    		
+    		// Get the correspondent node
+    		Node node = Map.nodes.get(nodeId);
+    		
+    		// Coordinate after processing
+    		List<Double> coordinates = Node.toPixel(node.lat, node.lon);
+
+    		x.add(coordinates.get(0));
+    		y.add(coordinates.get(1));
+		}
+    	
+    	// Draw the building
+    	gc.fillPolygon(Draw.convertDoubles(x), Draw.convertDoubles(y), x.size());
+	}
+	
+	/**
+	 * 
+	 */
+	public static void drawPropLine(GraphicsContext gc, Line prop) {
+		List<Long> nodes = prop.getNodes();
+		
+		gc.setFill(Color.web(prop.getColor()));
+		gc.setStroke(Color.web(prop.getColor()));
+		
+		gc.setLineWidth(prop.getThickness());
+		
+		List<List<Double>> allNodes = new ArrayList<List<Double>>();
+		
+		// Load each node in a List
+		for (Long nodeId : nodes) {
+			
+			// Get the correspondent node
+			Node node = Map.nodes.get(nodeId);
+			
+			// Coordinate after processing
+			List<Double> coordinates = Node.toPixel(node.lat, node.lon);
+			
+			List<Double> nodeAdd = new ArrayList<Double>();
+			nodeAdd.add(coordinates.get(0));			    		
+			nodeAdd.add(coordinates.get(1));
+			
+			allNodes.add(nodeAdd);
+		}
+		
+		// Draw the Road
+		// From the current Node to the next one
+		for (int i = 0; i < allNodes.size() - 1; i++) {
+			gc.strokeLine(
+					allNodes.get(i).get(0),
+					allNodes.get(i).get(1),
+					allNodes.get(i + 1).get(0),
+					allNodes.get(i + 1).get(1)
+					);
+		}
 	}
 	
 	/**
@@ -96,37 +186,11 @@ public class Draw {
 		    
 		    Object prop = Map.mapContent.get(key);
 		    
-		    if (prop instanceof Region) {
-		    	
-		    	if (prop instanceof Landuse) {
-		    		
-			    	List<Long> nodes = ((Region) prop).getNodes();
-		    		
-		    		gc.setFill(Color.web(((Region) prop).getColor()));
-		    		gc.setStroke(Color.web(((Region) prop).getColor()));
-			    	
-		    		List<Double> x = new ArrayList<Double>();
-		    		List<Double> y = new ArrayList<Double>();
-		    		
-			    	// For each node id
-			    	for (Long nodeId : nodes) {
-			    		
-			    		// Get the correspondent node
-			    		Node node = Map.nodes.get(nodeId);
-			    		
-			    		// Coordinate after processing
-			    		List<Double> coordinates = Node.toPixel(node.lat, node.lon);
-
-			    		x.add(coordinates.get(0));
-			    		y.add(coordinates.get(1));
-					}
-			    	
-			    	// Draw the building
-			    	gc.fillPolygon(Draw.convertDoubles(x), Draw.convertDoubles(y), x.size());
-				}
-		    	
-			}
-			
+		    if (prop instanceof Region) {		    	
+		    	if (prop instanceof Landuse) {		    		
+			    	Draw.drawPropRegion(gc, (Region) prop);
+				}		    	
+			}			
 		}
 	}
 	
@@ -138,37 +202,11 @@ public class Draw {
 		    
 		    Object prop = Map.mapContent.get(key);
 		    
-		    if (prop instanceof Region) {
-		    	
-		    	if (prop instanceof Natural || prop instanceof Leisure) {
-		    		
-			    	List<Long> nodes = ((Region) prop).getNodes();
-		    		
-		    		gc.setFill(Color.web(((Region) prop).getColor()));
-		    		gc.setStroke(Color.web(((Region) prop).getColor()));
-			    	
-		    		List<Double> x = new ArrayList<Double>();
-		    		List<Double> y = new ArrayList<Double>();
-		    		
-			    	// For each node id
-			    	for (Long nodeId : nodes) {
-			    		
-			    		// Get the correspondent node
-			    		Node node = Map.nodes.get(nodeId);
-			    		
-			    		// Coordinate after processing
-			    		List<Double> coordinates = Node.toPixel(node.lat, node.lon);
-
-			    		x.add(coordinates.get(0));
-			    		y.add(coordinates.get(1));
-					}
-			    	
-			    	// Draw the building
-			    	gc.fillPolygon(Draw.convertDoubles(x), Draw.convertDoubles(y), x.size());
-				}
-		    	
-			}
-			
+		    if (prop instanceof Region) {		    	
+		    	if (prop instanceof Natural || prop instanceof Leisure) {		    		
+		    		Draw.drawPropRegion(gc, (Region) prop);
+				}		    	
+			}			
 		}
 	}
 	
@@ -180,37 +218,83 @@ public class Draw {
 		    
 		    Object prop = Map.mapContent.get(key);
 		    
-		    if (prop instanceof Region) {
-		    	
-		    	if (prop instanceof Amenity || prop instanceof Structure) {
-		    		
-			    	List<Long> nodes = ((Region) prop).getNodes();
-		    		
-		    		gc.setFill(Color.web(((Region) prop).getColor()));
-		    		gc.setStroke(Color.web(((Region) prop).getColor()));
-			    	
-		    		List<Double> x = new ArrayList<Double>();
-		    		List<Double> y = new ArrayList<Double>();
-		    		
-			    	// For each node id
-			    	for (Long nodeId : nodes) {
-			    		
-			    		// Get the correspondent node
-			    		Node node = Map.nodes.get(nodeId);
-			    		
-			    		// Coordinate after processing
-			    		List<Double> coordinates = Node.toPixel(node.lat, node.lon);
-
-			    		x.add(coordinates.get(0));
-			    		y.add(coordinates.get(1));
-					}
-			    	
-			    	// Draw the building
-			    	gc.fillPolygon(Draw.convertDoubles(x), Draw.convertDoubles(y), x.size());
-				}
-		    	
-			}
+		    if (prop instanceof Region) {		    	
+		    	if (prop instanceof Amenity || prop instanceof Structure) {		    		
+		    		Draw.drawPropRegion(gc, (Region) prop);
+				}		    	
+			}			
+		}
+	}
+		
+	/**
+	 * 
+	 */
+	public static void drawLayout4(GraphicsContext gc) {
+		for (Long key : Map.mapContent.keySet()) {
 			
+			Object prop = Map.mapContent.get(key);
+			
+			if(prop instanceof Line) {				
+				if (prop instanceof River || prop instanceof Road) {					
+					Draw.drawPropLine(gc, (Line) prop);					
+				}
+			}			
+		}
+	}
+	
+	public static void drawLayout5(GraphicsContext gc) {
+		for (Long key : Map.mapContent.keySet()) {
+		    
+		    Object prop = Map.mapContent.get(key);
+		    
+		    if (prop instanceof Region) {		    	
+		    	if (prop instanceof Pedestrian) {		    		
+		    		Draw.drawPropRegion(gc, (Region) prop);
+				}		    	
+			}			
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	public static void drawRelations(GraphicsContext gc) {
+		for (Long key : Map.mapContent.keySet()) {
+			
+			Object prop = Map.mapContent.get(key);
+			
+			if (prop instanceof Way) {
+				
+				List<Long> nodes = ((Way) prop).getNodes();
+				
+				if (((Way) prop).getColor() != null) {
+					gc.setFill(Color.web(((Way) prop).getColor()));
+					gc.setStroke(Color.web(((Way) prop).getColor()));					
+				} else {
+					gc.setFill(Color.BLACK);
+					gc.setStroke(Color.BLACK);					
+				}			
+				
+				
+				List<Double> x = new ArrayList<Double>();
+				List<Double> y = new ArrayList<Double>();
+				
+				// For each node id
+				for (Long nodeId : nodes) {
+					
+					// Get the correspondent node
+					Node node = Map.nodes.get(nodeId);
+					
+					// Coordinate after processing
+					List<Double> coordinates = Node.toPixel(node.lat, node.lon);
+					
+					x.add(coordinates.get(0));
+					y.add(coordinates.get(1));
+				}
+				
+				// Draw the building
+				gc.fillPolygon(Draw.convertDoubles(x), Draw.convertDoubles(y), x.size());				
+			}			
 		}
 	}
 

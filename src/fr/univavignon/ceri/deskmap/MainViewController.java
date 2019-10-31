@@ -525,6 +525,11 @@ public class MainViewController implements Initializable {
 	 * Render all the objects of the canvas
 	 */
 	private void renderMap() {		
+		
+		// Change the size of the canvas
+		this.canvasMap.setWidth(this.canvasMap.getWidth() * Settings.CANVAS_RATIO);
+		this.canvasMap.setHeight(this.canvasMap.getHeight() * Settings.CANVAS_RATIO);
+		
 		Map.width = this.canvasMap.getWidth();
 		Map.height = this.canvasMap.getHeight();
 		
@@ -587,7 +592,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void zoomIn(ActionEvent event) {
 		
-		if (Map.scale * 2 <= Map.MAX_SCALE) {
+		if (Map.scale * 2 <= Settings.MAX_SCALE) {
 			System.out.println("Zoom UP");
 			
 			Map.scale = Map.scale * 2;
@@ -604,7 +609,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void zoomOut(ActionEvent event) {
 		
-		if (Map.scale / 2 >= Map.MIN_SCALE) {
+		if (Map.scale / 2 >= Settings.MIN_SCALE) {
 			System.out.println("Zoom Down");
 			
 			Map.scale = Map.scale / 2;
@@ -685,7 +690,6 @@ public class MainViewController implements Initializable {
 	public void setFullscreen(ActionEvent event) {
 		this.FullScreen(event);
 		
-		// TODO: Make it work
 		this.renderMap();
 	}
 	

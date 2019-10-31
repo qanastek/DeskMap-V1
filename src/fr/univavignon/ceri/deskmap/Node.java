@@ -93,6 +93,7 @@ public class Node {
 	}
 	
 	/**
+	 * Tranform the geographical coordinates into canvas coordinates
 	 * @param x {@code Double} x
 	 * @param y {@code Double} y
 	 * @return Return the {@code x} and {@code y} of the {@code Node} converted into pixels 
