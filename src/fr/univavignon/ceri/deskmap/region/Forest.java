@@ -3,10 +3,12 @@
  */
 package fr.univavignon.ceri.deskmap.region;
 
+import fr.univavignon.ceri.deskmap.Color;
+
 /**
  * @author Yanis Labrak
  */
-public class Forest extends Region {
+public class Forest extends Region implements Landuse {
 
 	/**
 	 * Constructor with name
@@ -14,7 +16,7 @@ public class Forest extends Region {
 	 * @param name {@code String} Name of the forest
 	 */
 	public Forest(String id, String name) {
-		super(id, name, "#c7e8c6");
+		super(id, name, Color.FOREST);
 	}
 	
 	/**
@@ -22,7 +24,15 @@ public class Forest extends Region {
 	 * @param id {@code String} Identifier
 	 */
 	public Forest(String id) {
-		super(id, "", "#c7e8c6");
+		super(id, "", Color.FOREST);
+	}
+	
+	/**
+	 * Constructor without name
+	 * @param id {@code Long} Identifier
+	 */
+	public Forest(Long id) {
+		super(id, "", Color.FOREST);
 	}
 
 }

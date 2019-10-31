@@ -3,11 +3,13 @@
  */
 package fr.univavignon.ceri.deskmap.region;
 
+import fr.univavignon.ceri.deskmap.Color;
+
 /**
  * @author Yanis Labrak
  *
  */
-public class School extends Region {
+public class School extends Region implements Structure, Amenity {
 
 	/**
 	 * Constructor
@@ -15,7 +17,7 @@ public class School extends Region {
 	 * @param name {@code String} Name of the school
 	 */
 	public School(String id, String name) {
-		super(id, name, "#ffffe5");
+		super(id, name, Color.SCHOOL);
 	}
 	
 	/**
@@ -24,7 +26,7 @@ public class School extends Region {
 	 * @param name {@code String} Name of the school
 	 */
 	public School(Long id, String name) {
-		super(id, name, "#ffffe5");
+		super(id, name, Color.SCHOOL);
 	}	
 	
 	/**

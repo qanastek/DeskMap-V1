@@ -7,7 +7,7 @@ package fr.univavignon.ceri.deskmap.region;
  * @author Yanis Labrak
  *
  */
-public class Grass extends Region {
+public class Grass extends Region implements Landuse {
 
 	/**
 	 * Constructor

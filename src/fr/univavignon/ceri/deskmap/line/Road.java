@@ -3,10 +3,12 @@
  */
 package fr.univavignon.ceri.deskmap.line;
 
+import fr.univavignon.ceri.deskmap.region.Highway;
+
 /**
  * @author Yanis Labrak
  */
-public class Road extends Line {
+public class Road extends Line implements Highway {
 
 	/**
 	 * @param id {@code String} Identifier

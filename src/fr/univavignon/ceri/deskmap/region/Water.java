@@ -1,9 +1,11 @@
 package fr.univavignon.ceri.deskmap.region;
 
+import fr.univavignon.ceri.deskmap.Color;
+
 /**
  * @author Yanis Labrak
  */
-public class Water extends Region {
+public class Water extends Region implements Natural {
 
 	/**
 	 * Constructor
@@ -11,7 +13,7 @@ public class Water extends Region {
 	 * @param name {@code String} Name of the water spot
 	 */
 	public Water(String id, String name) {
-		super(id, name, "#aadaff");
+		super(id, name, Color.WATER);
 	}
 	
 	/**
@@ -19,7 +21,15 @@ public class Water extends Region {
 	 * @param id {@code String} Identifier
 	 */
 	public Water(String id) {
-		super(id, "", "#aadaff");
+		super(id, "", Color.WATER);
+	}
+
+	/**
+	 * Constructor without name
+	 * @param id {@code Long} Identifier
+	 */
+	public Water(Long id) {
+		super(id, "", Color.WATER);
 	}
 
 }

@@ -3,11 +3,13 @@
  */
 package fr.univavignon.ceri.deskmap.region;
 
+import fr.univavignon.ceri.deskmap.Color;
+
 /**
  * @author Yanis Labrak
  *
  */
-public class Cemetery extends Region {
+public class Cemetery extends Region implements Landuse {
 
 	/**
 	 * Constructor
@@ -15,7 +17,15 @@ public class Cemetery extends Region {
 	 * @param name {@code String} Name of the {@code Cemetery}
 	 */
 	public Cemetery(String id, String name) {
-		super(id, name, "#aacbaf");
+		super(id, name, Color.CEMETERY);
+	}
+
+	/**
+	 * Constructor
+	 * @param id {@code Long} Identifier
+	 */
+	public Cemetery(Long id) {
+		super(id, "", Color.CEMETERY);
 	}
 
 }
