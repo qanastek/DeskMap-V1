@@ -7,6 +7,9 @@ import java.util.concurrent.TimeUnit;
 
 import DeskMapExceptions.CannotReachServerException;
 import fr.univavignon.ceri.deskmap.geopoint.City;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.value.ObservableValueBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -175,9 +178,22 @@ public class MainViewController implements Initializable {
 		// Get the graphics context of the canvas
 		this.gc = this.canvasMap.getGraphicsContext2D();
 		
+		// Link the value of the scale to the Text object
+		this.scaleValue.textProperty().bind(Map.scaleMeter.asString());
+		
 		try {
-			// Render the default city
-			this.renderCityMap(Settings.DEFAULT_CITY);
+			
+			// Load the default map asynchronously thanks to a thread
+			new Thread(() -> {
+				
+				// Render the default city
+				try {
+					this.renderCityMap(Settings.DEFAULT_CITY);
+				} catch (Exception | CannotReachServerException e) {
+					e.printStackTrace();
+				}
+				
+			}).start();
 			
 			// Build the query to fetch all the cities of the country
 			String queryCities = QueriesBuilding.buildFetchCitiesQuery("France");

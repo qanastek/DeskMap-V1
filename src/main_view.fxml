@@ -104,9 +104,9 @@
                         <AnchorPane layoutX="149.0" layoutY="128.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <Canvas fx:id="canvasMap" height="741.0" onScroll="#canvasScrolling" rotate="-90.0" width="720.0" AnchorPane.bottomAnchor="-169.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="217.0" AnchorPane.topAnchor="0.0" />
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="16.0" layoutX="14.0" layoutY="409.0" stroke="WHITE" strokeType="INSIDE" width="110.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="14.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="16.0" layoutX="14.0" layoutY="409.0" stroke="WHITE" strokeType="INSIDE" width="167.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="14.0" />
                               <Line endX="50.0" layoutX="21.0" layoutY="411.0" stroke="GREY" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" />
-                              <Text layoutX="112.474609375" layoutY="422.154296875" strokeType="OUTSIDE" strokeWidth="0.0" text="m" AnchorPane.bottomAnchor="8.0849609375" AnchorPane.leftAnchor="112.474609375">
+                              <Text layoutX="159.0" layoutY="562.0" strokeType="OUTSIDE" strokeWidth="0.0" text="km" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="159.0">
                                  <font>
                                     <Font size="11.0" />
                                  </font>
