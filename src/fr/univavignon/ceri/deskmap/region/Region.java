@@ -6,6 +6,7 @@ package fr.univavignon.ceri.deskmap.region;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.univavignon.ceri.deskmap.Color;
 import fr.univavignon.ceri.deskmap.GeoData;
 
 /**
@@ -16,7 +17,7 @@ public abstract class Region extends GeoData {
 	/**
 	 * Color of the region when drawn
 	 */
-	protected String color;
+	protected String color = Color.YELLOW;
 	
 	/**
 	 * All the nodes which make the Region

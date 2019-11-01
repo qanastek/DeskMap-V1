@@ -5,7 +5,7 @@ import fr.univavignon.ceri.deskmap.Color;
 /**
  * @author Yanis Labrak
  */
-public class Water extends Region implements Natural {
+public class Water extends Region implements Natural, Waterway {
 
 	/**
 	 * Constructor

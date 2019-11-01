@@ -23,6 +23,7 @@ import fr.univavignon.ceri.deskmap.region.Grass;
 import fr.univavignon.ceri.deskmap.region.Industrial;
 import fr.univavignon.ceri.deskmap.region.Park;
 import fr.univavignon.ceri.deskmap.region.Pedestrian;
+import fr.univavignon.ceri.deskmap.region.Quarry;
 import fr.univavignon.ceri.deskmap.region.Railway;
 import fr.univavignon.ceri.deskmap.region.Region;
 import fr.univavignon.ceri.deskmap.region.Residential;
@@ -379,12 +380,19 @@ public class Map {
 									break;
 									
 								case "farmland":
+								case "farmyard":
+								case "greenhouse_horticulture":
 									entity = new FarmLand((Long) item.get("id"));
 									Map.loadRegion(entity, item);								
 									break;
 									
 								case "grass":
 									entity = new Grass((Long) item.get("id"));
+									Map.loadRegion(entity, item);
+									break;									
+									
+								case "quarry":
+									entity = new Quarry((Long) item.get("id"));
 									Map.loadRegion(entity, item);
 									break;									
 							}							
@@ -399,7 +407,7 @@ public class Map {
 									Map.loadRegion(entity, item);										
 									break;
 									
-								case "park":										
+								case "park":
 									entity = new Park((Long) item.get("id"));
 									Map.loadRegion(entity, item);										
 									break;
@@ -420,6 +428,27 @@ public class Map {
 									entity = new Water((Long) item.get("id"));
 									Map.loadRegion(entity, item);
 									break;
+									
+								case "scrub":										
+									entity = new Forest((Long) item.get("id"));
+									Map.loadRegion(entity, item);
+									break;
+									
+								case "wood":										
+									entity = new Wood((Long) item.get("id"));
+									Map.loadRegion(entity, item);
+									break;
+							}							
+						}
+						// If it's a Waterway
+						else if ((String) tags.get("waterway") != null) {
+							
+							switch ((String) tags.get("waterway")) {
+							
+							case "riverbank":										
+								entity = new Water((Long) item.get("id"));
+								Map.loadRegion(entity, item);
+								break;
 							}							
 						}
 						// Buildings
@@ -655,6 +684,8 @@ public class Map {
 											break;
 											
 										case "farmland":
+										case "farmyard":
+										case "greenhouse_horticulture":
 											newWay = new FarmLand(
 													Long.parseLong(wayId) + i++
 													);										
@@ -664,6 +695,12 @@ public class Map {
 											newWay = new Grass(
 												Long.parseLong(wayId) + i++
 											);											
+											break;
+											
+										case "quarry":
+											newWay = new Quarry(
+													Long.parseLong(wayId) + i++
+													);											
 											break;
 									}									
 								}
@@ -764,6 +801,13 @@ public class Map {
 											);	
 											newWay.setColor(Color.WATER);
 											break;
+											
+										case "scrub":
+											newWay = new Forest(
+													Long.parseLong(wayId) + i++
+													);	
+											newWay.setColor(Color.WATER);
+											break;
 	
 										case "wood":
 											newWay = new Wood(
@@ -771,6 +815,17 @@ public class Map {
 											);	
 											newWay.setColor(Color.WOOD);
 											break;
+									}
+								}
+								else if (tags.get("waterway") != null) {
+									switch ((String) tags.get("waterway")) {
+									
+									case "riverbank":
+										newWay = new Water(
+											Long.parseLong(wayId) + i++
+										);	
+										newWay.setColor(Color.WATER);
+										break;
 									}
 								}
 								

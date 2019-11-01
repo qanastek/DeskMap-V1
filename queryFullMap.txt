@@ -135,6 +135,9 @@ highway motorway
    way["highway"="unclassified"](48.8,2.3,48.9,2.4);
    relation["highway"](48.8,2.3,48.9,2.4);
 
+   way["waterway"="riverbank"](48.8,2.3,48.9,2.4);
+   relation["waterway"](48.8,2.3,48.9,2.4);
+
    way["building"="yes"](48.8,2.3,48.9,2.4);
    relation["building"](48.8,2.3,48.9,2.4);
 );

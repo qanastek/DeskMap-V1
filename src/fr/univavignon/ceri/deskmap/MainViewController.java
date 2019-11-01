@@ -300,7 +300,7 @@ public class MainViewController implements Initializable {
 			this.addStateBar("City coordinates find");
 			
 			if (cityCoordinate == null) {
-				throw new NullPointerException("cityCoordinate wasn't found !");
+				System.err.println("cityCoordinate wasn't found !");
 			}
 			
 			String[] coordinates = cityCoordinate.split("\\|");
@@ -474,9 +474,6 @@ public class MainViewController implements Initializable {
 		// If the city name isn't known
 		if (!this.cityName.getText().isEmpty()) {
 			
-			// Fetch, Load and Render the map for this city
-			this.renderCityMap(this.cityName.getText());
-			
 			this.addStateBar("Search for " + this.cityName.getText());
 			
 			// Load streets etc ... In the way to all the user to make a path research
@@ -485,38 +482,48 @@ public class MainViewController implements Initializable {
 				// Check if the city exists
 				City theCity = City.isInListCity(this.cityName.getText());
 				
-				// Build the query for getting all the streets of a city
-				String streetQuery = QueriesBuilding.buildFetchStreetsQuery(new City(theCity));
-				
-				// Download the streets
-				QueriesLoading.downloadStreets(theCity, streetQuery);
-				
-			    this.addStateBar("Streets of " + theCity.name + " downloaded");
-				
-				// Load them inside comboBox's
-				QueriesLoading.loadStreets(theCity);
-			    
-			    this.addStateBar("Streets of " + theCity.name + " loaded");
-				
-				if (!this.cityName.getText().isEmpty()) {
+				// If the city exist
+				if (theCity != null) {
+
+					// Fetch, Load and Render the map for this city
+					this.renderCityMap(this.cityName.getText());
 					
-					// Reset the fields
-					this.fromNumber.clear();
-					this.fromName.getSelectionModel().clearSelection();
-					this.toNumber.clear();
-					this.toName.getSelectionModel().clearSelection();
+					// Build the query for getting all the streets of a city
+					String streetQuery = QueriesBuilding.buildFetchStreetsQuery(new City(theCity));
 					
-					// Reset the button states
-					this.cityButton.setDisable(false);
-					this.resetBtn.setDisable(false);
+					// Download the streets
+					QueriesLoading.downloadStreets(theCity, streetQuery);
 					
-					this.fromNumber.setDisable(false);
-					this.fromName.setDisable(false);
-					this.toNumber.setDisable(false);
-					this.toName.setDisable(false);
-				}
-				else {
-					this.Reset(event);
+				    this.addStateBar("Streets of " + theCity.name + " downloaded");
+					
+					// Load them inside comboBox's
+					QueriesLoading.loadStreets(theCity);
+				    
+				    this.addStateBar("Streets of " + theCity.name + " loaded");
+					
+					if (!this.cityName.getText().isEmpty()) {
+						
+						// Reset the fields
+						this.fromNumber.clear();
+						this.fromName.getSelectionModel().clearSelection();
+						this.toNumber.clear();
+						this.toName.getSelectionModel().clearSelection();
+						
+						// Reset the button states
+						this.cityButton.setDisable(false);
+						this.resetBtn.setDisable(false);
+						
+						this.fromNumber.setDisable(false);
+						this.fromName.setDisable(false);
+						this.toNumber.setDisable(false);
+						this.toName.setDisable(false);
+					}
+					else {
+						this.Reset(event);
+					}
+					
+				} else {
+					this.addStateBar(this.cityName.getText() + " doesn't exist !");
 				}
 				
 			}
@@ -553,7 +560,10 @@ public class MainViewController implements Initializable {
 	/**
 	 * Render all the objects of the canvas
 	 */
-	private void renderMap() {		
+	private void renderMap() {
+		
+		// Clear the canvas before draw
+		this.canvasMap.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
 		
 		// Change the size of the canvas
 		this.canvasMap.setWidth(this.canvasMap.getWidth() * Settings.CANVAS_RATIO);

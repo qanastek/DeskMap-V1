@@ -41,8 +41,7 @@ public class City extends GeoPoint {
 	 */
 	public static City isInListCity(String cityName) {
 		
-		System.out.println("The city: " + cityName);
-		
+		// For each cities
 		for (City city : MainViewController.listCity) {
 					
 			if (!city.name.isEmpty() && city.name.toLowerCase().equals(cityName.toLowerCase())) {
