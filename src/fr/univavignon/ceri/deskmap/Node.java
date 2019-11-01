@@ -147,13 +147,4 @@ public class Node {
 		
 		return Arrays.asList(x,y);
 	}
-	
-	/**
-	 * Main
-	 * @param args Arguments
-	 */
-	public static void main(String[] args) {
-		Node n = new Node("484848484", 48.8566969, 2.3514616);
-		System.out.println(n.toString());
-	}
 }

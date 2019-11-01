@@ -108,7 +108,7 @@
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="150.0" prefHeight="447.0" prefWidth="716.0" style="-fx-background-color: pink;">
                      <children>
-                        <Canvas fx:id="canvasMap" height="453.0" onScroll="#canvasScrolling" width="720.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Canvas fx:id="canvasMap" height="1080.0" onScroll="#canvasScrolling" width="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                         <VBox layoutX="676.0" layoutY="288.0" prefHeight="147.0" prefWidth="29.0" AnchorPane.bottomAnchor="18.0" AnchorPane.rightAnchor="15.0">
                            <children>
                               <Button layoutX="670.0" layoutY="275.0" mnemonicParsing="false" onAction="#zoomIn" style="-fx-background-color: white;" text="+" textAlignment="CENTER" AnchorPane.bottomAnchor="147.0" AnchorPane.rightAnchor="11.0">

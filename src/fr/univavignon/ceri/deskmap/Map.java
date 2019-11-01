@@ -198,8 +198,8 @@ public class Map {
 		// Load all the nodes
 		Map.loadNodes(city);
 		
-		// Load all the ways
-		Map.loadWays(city);	
+		// Draw Landuse, Natural, Leisure, Amenity, Highways and Building
+		Map.loadWays(city);
 
 		// Load all the relations
 		Map.loadRelations(city);	
@@ -257,20 +257,11 @@ public class Map {
         }
 	}
 	
-	
 	/**
-	 * Load all the Node
-	 * @param city {@code String} Name of the city
-	 */
-	public static void loadWays(String city) {		
-		
-		// Draw Landuse, Natural, Leisure, Amenity, Highways and Building
-		Map.loadLayout1(city);
-		
-	}
-	
-	/**
-	 * 
+	 * Load a {@code Region} from JSON data
+	 * @param entity {@code Region} The {@code Region} where we load the data
+	 * @param item {@code JSONObject} The JSON which contain the data about the {@code Region}
+	 * @author Yanis Labrak
 	 */
 	public static void loadRegion(Region entity, JSONObject item) {
 		JSONArray nodes;
@@ -299,7 +290,7 @@ public class Map {
 	 * Draw Landuse
 	 * @param city {@code String} Name of the city
 	 */
-	public static void loadLayout1(String city) {
+	public static void loadWays(String city) {
 		
 		//JSON parser object to parse read file
 		JSONParser jsonParser = new JSONParser();
@@ -572,10 +563,7 @@ public class Map {
 					Way baseWay;
 
 					// If we have tags
-					if (tags != null ) {
-
-						// Get the name
-						String name = (String) tags.get("name");		
+					if (tags != null ) {	
 						
 						it = members.iterator();
 						

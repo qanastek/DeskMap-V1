@@ -11,22 +11,15 @@ import fr.univavignon.ceri.deskmap.line.Line;
 import fr.univavignon.ceri.deskmap.line.River;
 import fr.univavignon.ceri.deskmap.line.Road;
 import fr.univavignon.ceri.deskmap.region.Amenity;
-import fr.univavignon.ceri.deskmap.region.Building;
-import fr.univavignon.ceri.deskmap.region.Cemetery;
-import fr.univavignon.ceri.deskmap.region.Forest;
-import fr.univavignon.ceri.deskmap.region.Grass;
 import fr.univavignon.ceri.deskmap.region.Landuse;
 import fr.univavignon.ceri.deskmap.region.Leisure;
 import fr.univavignon.ceri.deskmap.region.Natural;
 import fr.univavignon.ceri.deskmap.region.Pedestrian;
 import fr.univavignon.ceri.deskmap.region.Region;
-import fr.univavignon.ceri.deskmap.region.School;
 import fr.univavignon.ceri.deskmap.region.SchoolAmenity;
 import fr.univavignon.ceri.deskmap.region.Structure;
-import fr.univavignon.ceri.deskmap.region.Water;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
 
 /**
  * @author Yanis Labrak
@@ -267,7 +260,8 @@ public class Draw {
 	}
 	
 	/**
-	 * 
+	 * Draw all the relations
+	 * @param gc {@code GraphicsContext} The canvas 
 	 */
 	public static void drawRelations(GraphicsContext gc) {
 		for (Long key : Map.mapContent.keySet()) {

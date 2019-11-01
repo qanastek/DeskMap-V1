@@ -649,6 +649,8 @@ public class MainViewController implements Initializable {
 //		this.gc.translate(-10, 0.0);
 //		this.canvasMap.setLayoutX(this.canvasMap.getLayoutX() + 100.0);
 //		this.canvasMap.setLayoutY(this.canvasMap.getLayoutY() + 100.0);
+		
+		this.canvasMap.setTranslateX(100);
 	}
 	
 	/**
@@ -659,6 +661,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void right(ActionEvent event) {
 		System.out.println("Right Move");
+		this.canvasMap.setTranslateX(-100);
 	}
 	
 	/**
@@ -669,6 +672,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void up(ActionEvent event) {
 		System.out.println("UP Move");
+		this.canvasMap.setTranslateY(100);
 	}
 	
 	/**
@@ -679,6 +683,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void down(ActionEvent event) {
 		System.out.println("Down Move");
+		this.canvasMap.setTranslateY(-100);
 	}
 	
 	/**

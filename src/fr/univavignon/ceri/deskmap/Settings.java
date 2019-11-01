@@ -22,7 +22,7 @@ public final class Settings {
 	/**
 	 * Ratio of the canvas
 	 */
-	public static final int CANVAS_RATIO = 3;
+	public static final int CANVAS_RATIO = 1;
 	
 	/**
 	 * Thickness of the Motorway roads
