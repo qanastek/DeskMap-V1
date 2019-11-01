@@ -108,21 +108,33 @@ public class Node {
 //	    System.out.println(x);
 //	    System.out.println(y);
 		
-		// TODO: continuous		
-		Double bboxWidth = Map.bottomRight - Map.bottomLeft;
-		Double bboxHeight = Map.topRight - Map.topLeft;
+		// In meters
+		Double latMeters = y / 111110;
+		// Longitude in meters
+		Double lonMeters = 111110 * Math.cos(latMeters);
+		
+//		System.out.println("Lat: " + latMeters);
+//		System.out.println("Lon: " + lonMeters);
+			
+		// TODO: continuous
+		Double bboxWidth = Map.bottomRight * lonMeters - Map.bottomLeft * lonMeters;
+		Double bboxHeight = Map.topRight * latMeters - Map.topLeft * latMeters;
+		
+//		System.out.println("bboxWidth: " + bboxWidth);
+//		System.out.println("bboxHeight: " + bboxHeight);
+		
+		Map.scaleMeter = 50 * lonMeters.intValue();
 		
 		Double ratioWidthPixel = Map.width / bboxWidth;
 		Double ratioHeightPixel = Map.height / bboxHeight;
-
+		
 		// Lat
-		Double posVertical = x -  Map.topLeft;
+		Double posVertical = x * latMeters -  Map.topLeft *latMeters;
 		// Lon
-		Double posHorizontal = y -  Map.bottomLeft;
+		Double posHorizontal = y * lonMeters -  Map.bottomLeft * lonMeters;
 		
 		// Lat
 		x = posVertical * ratioHeightPixel;
-		
 		// Lon
 		y = posHorizontal * ratioWidthPixel;
 		

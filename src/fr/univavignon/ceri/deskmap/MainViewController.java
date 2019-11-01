@@ -23,11 +23,10 @@ import javafx.scene.control.ComboBox;
 
 import javafx.scene.control.TextArea;
 
-import javafx.stage.Stage;
-import javafx.stage.Window;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.text.Text;
 
 /**
  * The controller of the FXML file
@@ -77,6 +76,12 @@ public class MainViewController implements Initializable {
 	private TextArea mapPath;
 	
 	/**
+	 * Bottom status bar
+	 */
+	@FXML
+	private TextArea statusBar;
+	
+	/**
 	 * Zoom slider
 	 */
 	@FXML
@@ -93,12 +98,6 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	private Button resetBtn;
-	
-	/**
-	 * Set fullscreen / windowed mode
-	 */
-	@FXML
-	private Button fullscreen;
 	
 	/**
 	 * Search the path
@@ -125,10 +124,10 @@ public class MainViewController implements Initializable {
 	private SplitPane splitPane;
 	
 	/**
-	 * Bottom status bar
+	 * The value of the scale
 	 */
 	@FXML
-	private TextArea statusBar;
+    private Text scaleValue;
 	
 	/**
 	 * List of {@code City}
@@ -177,6 +176,9 @@ public class MainViewController implements Initializable {
 		this.gc = this.canvasMap.getGraphicsContext2D();
 		
 		try {
+			// Render the default city
+			this.renderCityMap(Settings.DEFAULT_CITY);
+			
 			// Build the query to fetch all the cities of the country
 			String queryCities = QueriesBuilding.buildFetchCitiesQuery("France");
 			
@@ -206,7 +208,7 @@ public class MainViewController implements Initializable {
 	protected void addStateBar(String newLine) {
 		
 		// If its empty
-		if (this.statusBar.getText().equals("No errors...")) {
+		if (this.statusBar.getText().equals("No logs...")) {
 			this.statusBar.setText(newLine);
 		} else {
 			// Add to the next line
@@ -219,25 +221,24 @@ public class MainViewController implements Initializable {
 	}
 	
 	/**
-	 * Action trigged when we click on the fullscreen button
-	 * @param event {@code no informations}
+	 * Add informations into the path area {@code textArea}
+	 * @param newLine {@code String} The line to add
 	 * @author Yanis Labrak
 	 */
-	private void FullScreen(ActionEvent event)
-    {
-		// Get the parent stage
-	    Window theStage = ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-	    
-	    // Switch between FULL / NROMAL mode
-	    if (this.fullscreen.getText().equals("FULL")) {		    
-		    ((Stage) theStage).setFullScreen(true);	
-		    this.fullscreen.setText("NORMAL");		
+	protected void addMapPath(String newLine) {
+		
+		// If its empty
+		if (this.mapPath.getText().equals("Informations about the path...")) {
+			this.mapPath.setText(newLine);
+		} else {
+			// Add to the next line
+			this.mapPath.setText(this.mapPath.getText() + '\n' + newLine);
 		}
-	    else {
-		    ((Stage) theStage).setFullScreen(false);
-		    this.fullscreen.setText("FULL");
-		}
-    }
+		
+		// Auto scroll down
+		this.mapPath.selectPositionCaret(this.statusBar.getLength());
+		this.mapPath.deselect();
+	}
 	
 	/**
 	 * Method trigged when the user click on the search button
@@ -262,8 +263,8 @@ public class MainViewController implements Initializable {
 			System.out.println("Invalid destination adress");
 		}
 		else {
-			this.addStateBar("Searching for the best path");
-			this.addStateBar(fromNumber + " " + this.fromName.getSelectionModel().getSelectedItem() + " -> " + toNumber + " " + this.toName.getSelectionModel().getSelectedItem());
+			this.addStateBar("Searching for the best path");			
+			this.addMapPath(fromNumber + " " + this.fromName.getSelectionModel().getSelectedItem() + " -> " + toNumber + " " + this.toName.getSelectionModel().getSelectedItem());
 		}
 	}
 	
@@ -457,14 +458,8 @@ public class MainViewController implements Initializable {
 		// If the city name isn't known
 		if (!this.cityName.getText().isEmpty()) {
 			
-			// Fetch everything we need to display the map			
-			this.fetchAllContentCity(this.cityName.getText());			
-
-			// Parse the JSON file as Java Objects
-			Map.loadCityAsObject(this.cityName.getText());
-			
-			// Render all the objects of the canvas
-			this.renderMap();
+			// Fetch, Load and Render the map for this city
+			this.renderCityMap(this.cityName.getText());
 			
 			this.addStateBar("Search for " + this.cityName.getText());
 			
@@ -513,12 +508,30 @@ public class MainViewController implements Initializable {
 				this.addStateBar("Server cannot be reached !");
 			}
 			catch (NullPointerException e) {
-				this.addStateBar("Aucune ville correspondante");
+				this.addStateBar("No city found !");
 			}
 		}
 		else {
 			System.out.println("Empty field");
 		}
+	}
+	
+	/**
+	 * Fetch, Load and Render the map for this city
+	 * @throws CannotReachServerException Throw this exception when the server cannot be reached
+	 * @throws Exception If the coordinates wasn't found
+	 * @author Yanis Labrak
+	 */
+	private void renderCityMap(String city) throws Exception, CannotReachServerException {
+		
+		// Fetch everything we need to display the map			
+		this.fetchAllContentCity(city);			
+		
+		// Parse the JSON file as Java Objects
+		Map.loadCityAsObject(city);
+		
+		// Render all the objects of the canvas
+		this.renderMap();
 	}
 	
 	/**
@@ -672,7 +685,9 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void up(ActionEvent event) {
 		System.out.println("UP Move");
-		this.canvasMap.setTranslateY(100);
+//		this.canvasMap.setTranslateY(100);
+//		this.canvasMap.setWidth(this.canvasMap.getWidth() * 2);
+//		this.renderMap();
 	}
 	
 	/**
@@ -684,18 +699,6 @@ public class MainViewController implements Initializable {
 	public void down(ActionEvent event) {
 		System.out.println("Down Move");
 		this.canvasMap.setTranslateY(-100);
-	}
-	
-	/**
-	 * Set the window to fullscreen / windowed mode
-	 * @param event {@code ActionEvent}
-	 * @author Zihao Zheng
-	 */
-	@FXML
-	public void setFullscreen(ActionEvent event) {
-		this.FullScreen(event);
-		
-		this.renderMap();
 	}
 	
 	/**

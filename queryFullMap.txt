@@ -132,6 +132,7 @@ highway motorway
    way["highway"="living_street"](48.8,2.3,48.9,2.4);
    way["highway"="pedestrian"](48.8,2.3,48.9,2.4);
    way["highway"="motorway"](48.8,2.3,48.9,2.4);
+   way["highway"="unclassified"](48.8,2.3,48.9,2.4);
    relation["highway"](48.8,2.3,48.9,2.4);
 
    way["building"="yes"](48.8,2.3,48.9,2.4);

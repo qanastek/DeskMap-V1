@@ -15,6 +15,7 @@ import fr.univavignon.ceri.deskmap.line.Road;
 import fr.univavignon.ceri.deskmap.region.Building;
 import fr.univavignon.ceri.deskmap.region.Cemetery;
 import fr.univavignon.ceri.deskmap.region.Commercial;
+import fr.univavignon.ceri.deskmap.region.FarmLand;
 import fr.univavignon.ceri.deskmap.region.Forest;
 import fr.univavignon.ceri.deskmap.region.GolfCourse;
 import fr.univavignon.ceri.deskmap.region.Grass;
@@ -40,6 +41,11 @@ public class Map {
 	 * Scale of the map
 	 */
 	public static Float scale;
+	
+	/**
+	 * Scale of the map in meters
+	 */
+	public static int scaleMeter;
 	
 	/**
 	 * Latitude position top
@@ -363,6 +369,11 @@ public class Map {
 									Map.loadRegion(entity, item);								
 									break;
 									
+								case "farmland":
+									entity = new FarmLand((Long) item.get("id"));
+									Map.loadRegion(entity, item);								
+									break;
+									
 								case "grass":
 									entity = new Grass((Long) item.get("id"));
 									Map.loadRegion(entity, item);
@@ -634,6 +645,12 @@ public class Map {
 											);										
 											break;
 											
+										case "farmland":
+											newWay = new FarmLand(
+													Long.parseLong(wayId) + i++
+													);										
+											break;
+											
 										case "grass":
 											newWay = new Grass(
 												Long.parseLong(wayId) + i++
@@ -697,6 +714,7 @@ public class Map {
 												
 											case "residential":
 											case "living_street":
+											case "unclassified":
 											default:
 												newWay.setColor(Color.ROAD);
 												break;

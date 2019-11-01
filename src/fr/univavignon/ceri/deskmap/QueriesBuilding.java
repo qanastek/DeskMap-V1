@@ -26,7 +26,7 @@ public abstract class QueriesBuilding {
 		queryOverpass.output("json", "", false, "");
 		queryOverpass.start();
 		
-		queryOverpass.nodeMulti("landuse", "residential|industrial|commercial|retail|railway|cemetery|forest|grass", bbox);
+		queryOverpass.nodeMulti("landuse", "residential|industrial|commercial|retail|railway|cemetery|forest|grass|farmland", bbox);
 		queryOverpass.way("landuse","residential",bbox);
 		queryOverpass.way("landuse","industrial",bbox);
 		queryOverpass.way("landuse","commercial",bbox);
@@ -35,6 +35,7 @@ public abstract class QueriesBuilding {
 		queryOverpass.way("landuse","cemetery",bbox);
 		queryOverpass.way("landuse","forest",bbox);
 		queryOverpass.way("landuse","grass",bbox);
+		queryOverpass.way("landuse","farmland",bbox);
 		queryOverpass.relation("landuse",bbox);
 
 		queryOverpass.node("amenity", "school", bbox);
@@ -47,7 +48,7 @@ public abstract class QueriesBuilding {
 		queryOverpass.way("leisure","golf_course",bbox);
 		queryOverpass.relation("leisure",bbox);
 
-		queryOverpass.nodeMulti("highway", "primary|secondary|trunk|residential|living_street|pedestrian|motorway", bbox);
+		queryOverpass.nodeMulti("highway", "primary|secondary|trunk|residential|living_street|pedestrian|motorway|unclassified", bbox);
 		queryOverpass.way("highway","primary",bbox);
 		queryOverpass.way("highway","secondary",bbox);
 		queryOverpass.way("highway","trunk",bbox);
@@ -55,6 +56,7 @@ public abstract class QueriesBuilding {
 		queryOverpass.way("highway","living_street",bbox);
 		queryOverpass.way("highway","pedestrian",bbox);
 		queryOverpass.way("highway","motorway",bbox);
+		queryOverpass.way("highway","unclassified",bbox);
 		queryOverpass.relation("highway",bbox);
 
 		queryOverpass.node("building","yes",bbox);

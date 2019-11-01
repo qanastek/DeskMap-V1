@@ -37,7 +37,7 @@ public final class Color {
 	/**
 	 * Color of the INDUSTRIAL area
 	 */
-	public static final String INDUSTRIAL = "#ff00df";
+	public static final String INDUSTRIAL = "#f3f2f2";
 		
 	/**
 	 * Color of the COMMERCIAL area
@@ -68,6 +68,11 @@ public final class Color {
 	 * Color of the GRASS
 	 */
 	public static final String GRASS = "#c6e8c6";
+	
+	/**
+	 * Color of the FarmLand
+	 */
+	public static final String FARM_LAND = "#eef0d5";
 	
 	/**
 	 * Color of the SPORT_CENTRE

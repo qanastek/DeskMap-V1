@@ -11,6 +11,7 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import DeskMapExceptions.CannotReachServerException;
@@ -180,7 +181,8 @@ public abstract class QueriesLoading {
 	 * @author Yanis Labrak
 	 */
 	public static List<Street> parseStreets(City city) throws Exception {		
-		List<Street> records = new ArrayList<Street>();
+		
+		HashMap<String, Street> records = new HashMap<String, Street>();
 		
 		try {
 			
@@ -201,10 +203,7 @@ public abstract class QueriesLoading {
 		        	 * Check if the current Street is already inside the List
 		        	 * throw a exception if it's in
 		        	 */
-		        	Street isAlreadyPresent = records.stream()
-			        		.filter(s -> values[1].toLowerCase().equals(s.name.toLowerCase()))
-			        		.findFirst()
-			        		.orElse(null);
+		        	Street isAlreadyPresent = records.get(values[1]);
 
 			        // If all the fields isn't null
 			        if (values.length == 2 && !values[0].isEmpty() && !values[1].isEmpty() && isAlreadyPresent == null) {
@@ -214,7 +213,8 @@ public abstract class QueriesLoading {
 				        		values[1]
 					        );
 					        
-					        records.add(street);
+//					        records.add(street);
+				        	records.put(values[1], street);
 					}
 			        
 				} catch (Exception e) {
@@ -230,8 +230,16 @@ public abstract class QueriesLoading {
 			System.err.println(e);
 		}
 		
+		// Output list
+		List<Street> rslt = new ArrayList<Street>();
+		
+		// Transform to List
+		for (String item : records.keySet()) {
+			rslt.add(records.get(item));
+		}
+		
 		// return all the streets of the city
-		return records;
+		return rslt;
 	}
 	
 }

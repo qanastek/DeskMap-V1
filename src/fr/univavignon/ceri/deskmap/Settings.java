@@ -8,6 +8,11 @@ package fr.univavignon.ceri.deskmap;
  *
  */
 public final class Settings {	
+	
+	/**
+	 * The default city draw when the software start
+	 */
+	public static final String DEFAULT_CITY = "Avignon";
 
 	/**
 	 * Max scale of the canvas

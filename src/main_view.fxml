@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.*?>
@@ -10,9 +11,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="585.0" prefWidth="1022.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.deskmap.MainViewController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="782.0" prefWidth="1328.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.deskmap.MainViewController">
    <children>
-      <SplitPane dividerPositions="0.75" orientation="VERTICAL" prefHeight="585.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="585.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
             <SplitPane fx:id="splitPane" dividerPositions="0.29" prefHeight="455.0" prefWidth="1022.0">
               <items>
@@ -26,14 +27,6 @@
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>
-                                       <contextMenu>
-                                          <ContextMenu autoHide="false">
-                                            <items>
-                                              <MenuItem mnemonicParsing="false" text="exemple1" />
-                                                <MenuItem mnemonicParsing="false" text="exemple1" />
-                                            </items>
-                                          </ContextMenu>
-                                       </contextMenu>
                                     </TextField>
                                     <Button fx:id="cityButton" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="223.0" layoutY="17.0" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#setCity" prefHeight="31.0" prefWidth="45.0" style="-fx-background-color: #8799ff;" text="GO" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="223.0" AnchorPane.topAnchor="17.0" HBox.hgrow="ALWAYS">
                                        <font>
@@ -96,7 +89,7 @@
                               </HBox>
                               <HBox prefHeight="271.0" prefWidth="292.0" style="-fx-pref-width: 100%;" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TextArea fx:id="trajet" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="271.0" prefWidth="320.0" text="Informations about the path..." HBox.hgrow="ALWAYS" />
+                                    <TextArea fx:id="mapPath" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="271.0" prefWidth="320.0" text="Informations about the path..." HBox.hgrow="ALWAYS" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
@@ -108,7 +101,23 @@
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="150.0" prefHeight="447.0" prefWidth="716.0" style="-fx-background-color: pink;">
                      <children>
-                        <Canvas fx:id="canvasMap" height="1080.0" onScroll="#canvasScrolling" width="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <AnchorPane layoutX="149.0" layoutY="128.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Canvas fx:id="canvasMap" height="741.0" onScroll="#canvasScrolling" rotate="-90.0" width="720.0" AnchorPane.bottomAnchor="-169.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="217.0" AnchorPane.topAnchor="0.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="16.0" layoutX="14.0" layoutY="409.0" stroke="WHITE" strokeType="INSIDE" width="110.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="14.0" />
+                              <Line endX="50.0" layoutX="21.0" layoutY="411.0" stroke="GREY" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" />
+                              <Text layoutX="112.474609375" layoutY="422.154296875" strokeType="OUTSIDE" strokeWidth="0.0" text="m" AnchorPane.bottomAnchor="8.0849609375" AnchorPane.leftAnchor="112.474609375">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="scaleValue" layoutX="79.0" layoutY="422.26171875" strokeType="OUTSIDE" strokeWidth="0.0" text="0" AnchorPane.bottomAnchor="7.9775390625" AnchorPane.leftAnchor="79.0">
+                                 <font>
+                                    <Font size="11.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
                         <VBox layoutX="676.0" layoutY="288.0" prefHeight="147.0" prefWidth="29.0" AnchorPane.bottomAnchor="18.0" AnchorPane.rightAnchor="15.0">
                            <children>
                               <Button layoutX="670.0" layoutY="275.0" mnemonicParsing="false" onAction="#zoomIn" style="-fx-background-color: white;" text="+" textAlignment="CENTER" AnchorPane.bottomAnchor="147.0" AnchorPane.rightAnchor="11.0">
@@ -154,11 +163,6 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Button>
-                        <Button fx:id="fullscreen" layoutX="15.0" layoutY="410.0" mnemonicParsing="false" onAction="#setFullscreen" style="-fx-background-color: white;" text="FULL" textFill="#666666" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="15.0">
-                           <font>
-                              <Font name="Roboto Light" size="15.0" />
-                           </font>
-                        </Button>
                         <VBox layoutX="14.0" layoutY="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
                            <children>
                               <Button fx:id="hideLeft" layoutX="9.0" layoutY="367.0" mnemonicParsing="false" onAction="#hideLeft" style="-fx-background-color: white;" text="&lt;" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="9.0">
@@ -182,7 +186,7 @@
             </SplitPane>
             <AnchorPane maxHeight="200.0" minHeight="0.0" style="-fx-background-color: #1a247f;">
                <children>
-                  <TextArea fx:id="statusBar" editable="false" layoutX="13.0" layoutY="18.0" prefHeight="95.0" prefWidth="995.0" text="No errors..." AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <TextArea fx:id="statusBar" editable="false" layoutX="13.0" layoutY="18.0" prefHeight="95.0" prefWidth="995.0" text="No logs..." AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
                <padding>
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
