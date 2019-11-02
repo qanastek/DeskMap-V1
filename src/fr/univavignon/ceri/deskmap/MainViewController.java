@@ -25,6 +25,7 @@ import javafx.scene.control.TextArea;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -185,19 +186,16 @@ public class MainViewController implements Initializable {
 		// Link the value of the scale to the Text object
 		this.scaleValue.textProperty().bind(Map.scaleMeter.asString());
 		
+		// Set the min and max value of the slider
+		this.slider.setMax(Settings.MAX_SCALE / 6);
+		this.slider.setMin(Settings.MIN_SCALE);
+		this.slider.setMajorTickUnit(Settings.MAX_SCALE / 6);
+		this.slider.setMinorTickCount(Settings.MIN_SCALE);
+		
 		try {
 			
-			// Load the default map asynchronously thanks to a thread
-			new Thread(() -> {
-				
-				// Render the default city
-				try {
-					this.renderCityMap(Settings.DEFAULT_CITY);
-				} catch (Exception | CannotReachServerException e) {
-					e.printStackTrace();
-				}
-				
-			}).start();
+			// Render the default city
+			this.renderCityMap(Settings.DEFAULT_CITY);
 			
 			// Build the query to fetch all the cities of the country
 			String queryCities = QueriesBuilding.buildFetchCitiesQuery("France");
@@ -638,9 +636,24 @@ public class MainViewController implements Initializable {
 		
 		if (Map.scale * Settings.ZOOMING_SCALE <= Settings.MAX_SCALE) {		
 			
-			Map.scale = Map.scale * Settings.ZOOMING_SCALE;
-			this.renderMap();
+			Map.scale *= Settings.ZOOMING_SCALE;
+			
+			this.slider.setValue(Map.scale);
+			
+			this.renderMap();			
 		}
+	}
+	
+	/**
+	 * Zoom out the map
+	 * @param event {@code MouseEvent}
+	 * @author Mohammed Benyamna
+	 */
+	@FXML
+	private void zoomInSlider(MouseEvent event) {		
+		Map.scale = Math.pow(2, this.slider.getValue());
+		this.renderMap();
+		
 	}
 	
 	/**
@@ -651,9 +664,13 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void zoomOut(ActionEvent event) {
 		
-		if (Map.scale / Settings.ZOOMING_SCALE >= Settings.MIN_SCALE) {
+		if (Map.scale / Settings.ZOOMING_SCALE > Settings.MIN_SCALE) {
 			
-			Map.scale = Map.scale / Settings.ZOOMING_SCALE;
+			Map.scale /= Settings.ZOOMING_SCALE;
+			System.out.println(Map.scale);
+			
+			this.slider.setValue(Map.scale);
+			
 			this.renderMap();
 		}
 	}

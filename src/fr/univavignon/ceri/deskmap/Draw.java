@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.univavignon.ceri.deskmap.line.Line;
-import fr.univavignon.ceri.deskmap.line.Railway;
 import fr.univavignon.ceri.deskmap.line.River;
 import fr.univavignon.ceri.deskmap.line.Road;
 import fr.univavignon.ceri.deskmap.region.Amenity;

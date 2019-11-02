@@ -128,7 +128,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Button>
-                              <Slider fx:id="slider" blockIncrement="1.0" layoutX="689.0" layoutY="306.0" majorTickUnit="32.0" max="5.0" min="1.0" minorTickCount="1" orientation="VERTICAL" prefHeight="75.0" prefWidth="17.0" style="-fx-background-color: transparent;" value="1.0" AnchorPane.bottomAnchor="72.0" AnchorPane.rightAnchor="18.0">
+                              <Slider fx:id="slider" blockIncrement="1.0" layoutX="689.0" layoutY="306.0" majorTickUnit="32.0" max="5.0" min="1.0" minorTickCount="1" onMouseReleased="#zoomInSlider" orientation="VERTICAL" prefHeight="75.0" prefWidth="17.0" style="-fx-background-color: transparent;" value="1.0" AnchorPane.bottomAnchor="72.0" AnchorPane.rightAnchor="18.0">
                                  <VBox.margin>
                                     <Insets left="5.0" />
                                  </VBox.margin>
