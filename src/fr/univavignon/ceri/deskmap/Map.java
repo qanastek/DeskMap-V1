@@ -5,14 +5,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Observable;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import fr.univavignon.ceri.deskmap.line.Line;
+import fr.univavignon.ceri.deskmap.line.LivingStreet;
+import fr.univavignon.ceri.deskmap.line.Motorway;
+import fr.univavignon.ceri.deskmap.line.Primary;
 import fr.univavignon.ceri.deskmap.line.Road;
+import fr.univavignon.ceri.deskmap.line.Secondary;
+import fr.univavignon.ceri.deskmap.line.Tertiary;
+import fr.univavignon.ceri.deskmap.line.Trunk;
 import fr.univavignon.ceri.deskmap.region.Building;
 import fr.univavignon.ceri.deskmap.region.Cemetery;
 import fr.univavignon.ceri.deskmap.region.Commercial;
@@ -34,14 +39,7 @@ import fr.univavignon.ceri.deskmap.region.SportsCentre;
 import fr.univavignon.ceri.deskmap.region.Water;
 import fr.univavignon.ceri.deskmap.region.Wood;
 import fr.univavignon.ceri.deskmap.region.Healthcare;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.beans.value.ObservableValueBase;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 /**
  * @author Yanis Labrak
@@ -494,11 +492,58 @@ public class Map {
 						// If it's a Highway
 						else if ((String) tags.get("highway") != null) {
 							
-							Iterator<?> it;
-							JSONArray nodes;
 							Line entityRoad;
 							
-							entityRoad = new Road((Long) item.get("id"));
+							switch (tags.get("highway").toString().toLowerCase()) {
+							
+								case "motorway":
+									entityRoad = new Motorway((Long) item.get("id"));
+									entityRoad.setColor(Color.MOTORWAY);
+									break;
+
+								// Second biggest roads of the country after the motorways (Equivalent to the autobahn)
+								case "trunk":
+									entityRoad = new Trunk((Long) item.get("id"));
+									entityRoad.setColor(Color.TRUNK);
+									break;
+									
+								case "primary":
+									entityRoad = new Primary((Long) item.get("id"));
+									entityRoad.setColor(Color.PRIMARY);
+									break;
+									
+								case "secondary":
+									entityRoad = new Secondary((Long) item.get("id"));
+									entityRoad.setColor(Color.SECONDARY);
+									break;
+									
+								case "tertiary":
+									entityRoad = new Tertiary((Long) item.get("id"));
+									entityRoad.setColor(Color.TERTIARY);
+									break;
+									
+								case "residential":
+									entityRoad = new fr.univavignon.ceri.deskmap.line.Residential((Long) item.get("id"));
+									entityRoad.setColor(Color.RESIDENTIAL);
+									break;
+									
+								case "living_street":
+									entityRoad = new LivingStreet((Long) item.get("id"));
+									entityRoad.setColor(Color.ROAD);
+									break;
+									
+								case "pedestrian":
+									entityRoad = new fr.univavignon.ceri.deskmap.line.Pedestrian((Long) item.get("id"));
+									entityRoad.setColor(Color.ROAD);
+									break;
+									
+								default:		
+									entityRoad = new Road((Long) item.get("id"));
+									break;
+							}		
+
+							Iterator<?> it;
+							JSONArray nodes;
 							
 							// Read the 'nodes' array
 							nodes = (JSONArray) item.get("nodes");
@@ -515,43 +560,6 @@ public class Map {
 								entityRoad.addNode(nodeId);
 							}
 							
-							switch ((String) tags.get("highway")) {
-							
-								case "motorway":
-									entityRoad.setColor(Color.MOTORWAY);
-									entityRoad.setThickness(Settings.LEVEL_1_ROAD_THICKNESS);
-									break;
-
-								// Second biggest roads of the country after the motorways (Equivalent to the autobahn)
-								case "trunk":
-									entityRoad.setColor(Color.TRUNK);
-									entityRoad.setThickness(Settings.LEVEL_2_ROAD_THICKNESS);
-									break;
-									
-								case "primary":
-									entityRoad.setColor(Color.PRIMARY);
-									entityRoad.setThickness(Settings.LEVEL_3_ROAD_THICKNESS);
-									break;
-									
-								case "secondary":
-									entityRoad.setColor(Color.SECONDARY);
-									entityRoad.setThickness(Settings.LEVEL_3_ROAD_THICKNESS);
-									break;
-									
-								case "tertiary":
-									entityRoad.setColor(Color.TERTIARY);
-									entityRoad.setThickness(Settings.LEVEL_3_ROAD_THICKNESS);
-									break;
-									
-								case "residential":
-								case "living_street":
-								case "pedestrian":
-								default:
-									entityRoad.setColor(Color.ROAD);
-									entityRoad.setThickness(Settings.LEVEL_4_ROAD_THICKNESS);
-									break;
-							}							
-
 							// Add the Building
 							MainViewController.map.addMapContent(entityRoad);
 							
@@ -735,6 +743,7 @@ public class Map {
 										newWay.setColor(Color.PEDESTRIAN);
 									}
 									else {
+										
 										newWay = new fr.univavignon.ceri.deskmap.region.Road(
 											Long.parseLong(wayId) + i++
 										);

@@ -7,9 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 import DeskMapExceptions.CannotReachServerException;
 import fr.univavignon.ceri.deskmap.geopoint.City;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.beans.value.ObservableValueBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -541,6 +538,7 @@ public class MainViewController implements Initializable {
 	
 	/**
 	 * Fetch, Load and Render the map for this city
+	 * @param city {@code String} Name of the {@code City} to render on the {@code Canvas}
 	 * @throws CannotReachServerException Throw this exception when the server cannot be reached
 	 * @throws Exception If the coordinates wasn't found
 	 * @author Yanis Labrak
@@ -631,12 +629,15 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void zoomIn(ActionEvent event) {
 		
-		if (Map.scale * 1.25 <= Settings.MAX_SCALE) {
-			System.out.println("Zoom UP");
+		if (Map.scale * Settings.ZOOM_RATIO <= Settings.MAX_SCALE) {
 			
-			Map.scale = Map.scale * 1.25;
-//			this.canvasMap.setScaleX(Map.scale);
-//			this.canvasMap.setScaleY(Map.scale);
+			Map.scale = Map.scale * Settings.ZOOM_RATIO;		
+			
+			Settings.LEVEL_1_ROAD_THICKNESS *= 0.25;
+			Settings.LEVEL_2_ROAD_THICKNESS *= 0.25;
+			Settings.LEVEL_3_ROAD_THICKNESS *= 0.25;
+			Settings.LEVEL_4_ROAD_THICKNESS *= 0.25;
+			
 			this.renderMap();
 		}
 	}
@@ -649,12 +650,15 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void zoomOut(ActionEvent event) {
 		
-		if (Map.scale / 1.25 >= Settings.MIN_SCALE) {
-			System.out.println("Zoom Down");
+		if (Map.scale / Settings.ZOOM_RATIO >= Settings.MIN_SCALE) {
 			
-			Map.scale = Map.scale / 1.25;
-//			this.canvasMap.setScaleX(Map.scale);
-//			this.canvasMap.setScaleY(Map.scale);
+			Map.scale = Map.scale / Settings.ZOOM_RATIO;	
+			
+			Settings.LEVEL_1_ROAD_THICKNESS /= 0.25;
+			Settings.LEVEL_2_ROAD_THICKNESS /= 0.25;
+			Settings.LEVEL_3_ROAD_THICKNESS /= 0.25;
+			Settings.LEVEL_4_ROAD_THICKNESS /= 0.25;	
+			
 			this.renderMap();
 		}
 	}

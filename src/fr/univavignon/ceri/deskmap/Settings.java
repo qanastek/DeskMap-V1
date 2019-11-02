@@ -32,27 +32,32 @@ public final class Settings {
 	/**
 	 * Thickness of the Motorway roads
 	 */
-	public static final int LEVEL_1_ROAD_THICKNESS = 4;
+	public static int LEVEL_1_ROAD_THICKNESS = 10;
 	
 	/**
 	 * Thickness of the Trunk roads
 	 */
-	public static final int LEVEL_2_ROAD_THICKNESS = 3;
+	public static int LEVEL_2_ROAD_THICKNESS = 8;
 	
 	/**
 	 * Thickness of the Primary, Secondary and Tertiary roads
 	 */
-	public static final int LEVEL_3_ROAD_THICKNESS = 2;
+	public static int LEVEL_3_ROAD_THICKNESS = 6;
 	
 	/**
 	 * Thickness of the road for the Residential, Living Street, Pedestrian and all others roads
 	 */
-	public static final int LEVEL_4_ROAD_THICKNESS = 1;
+	public static int LEVEL_4_ROAD_THICKNESS = 4;
 	
 	/**
 	 * Horizontal moving distance
 	 */
 	public static final Double HORI_MOVE_DIST = 350.0;
+	
+	/**
+	 * Zooming ratio
+	 */
+	public static final Double ZOOM_RATIO = 1.25;
 	
 	/**
 	 * Vertical moving distance

@@ -3,6 +3,7 @@
  */
 package fr.univavignon.ceri.deskmap.line;
 
+import fr.univavignon.ceri.deskmap.Settings;
 import fr.univavignon.ceri.deskmap.region.Highway;
 
 /**
@@ -43,7 +44,7 @@ public class Road extends Line implements Highway {
 	 * @param id {@code Long} Identifier
 	 */
 	public Road(Long id) {
-		super(id, "", 1, "#ffffff");
+		super(id, "", Settings.LEVEL_4_ROAD_THICKNESS, "#ffffff");
 	}
 	
 	/**
@@ -51,7 +52,7 @@ public class Road extends Line implements Highway {
 	 * @param id {@code String} Identifier
 	 */
 	public Road(String id) {
-		super(id, "", 1, "#ffffff");
+		super(id, "", Settings.LEVEL_4_ROAD_THICKNESS, "#ffffff");
 	}
 
 }

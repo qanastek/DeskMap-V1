@@ -7,11 +7,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import fr.univavignon.ceri.deskmap.line.Level1;
+import fr.univavignon.ceri.deskmap.line.Level2;
+import fr.univavignon.ceri.deskmap.line.Level3;
+import fr.univavignon.ceri.deskmap.line.Level4;
 import fr.univavignon.ceri.deskmap.line.Line;
 import fr.univavignon.ceri.deskmap.line.River;
 import fr.univavignon.ceri.deskmap.line.Road;
 import fr.univavignon.ceri.deskmap.region.Amenity;
 import fr.univavignon.ceri.deskmap.region.Healthcare;
+import fr.univavignon.ceri.deskmap.region.Highway;
 import fr.univavignon.ceri.deskmap.region.Landuse;
 import fr.univavignon.ceri.deskmap.region.Leisure;
 import fr.univavignon.ceri.deskmap.region.Natural;
@@ -141,9 +146,21 @@ public class Draw {
 		List<Long> nodes = prop.getNodes();
 		
 		gc.setFill(Color.web(prop.getColor()));
-		gc.setStroke(Color.web(prop.getColor()));
+		gc.setStroke(Color.web(prop.getColor()));		
 		
-		gc.setLineWidth(prop.getThickness());
+		// Set the thickness
+		if (prop instanceof Level1) {
+			gc.setLineWidth(Settings.LEVEL_1_ROAD_THICKNESS);	
+		}
+		else if (prop instanceof Level2) {
+			gc.setLineWidth(Settings.LEVEL_2_ROAD_THICKNESS);
+		}
+		else if (prop instanceof Level3) {
+			gc.setLineWidth(Settings.LEVEL_3_ROAD_THICKNESS);
+		}
+		else if (prop instanceof Level4) {
+			gc.setLineWidth(Settings.LEVEL_4_ROAD_THICKNESS);
+		}
 		
 		List<List<Double>> allNodes = new ArrayList<List<Double>>();
 		
@@ -236,7 +253,7 @@ public class Draw {
 			Object prop = Map.mapContent.get(key);
 			
 			if(prop instanceof Line) {				
-				if (prop instanceof River || prop instanceof Road) {					
+				if (prop instanceof River || prop instanceof Road || prop instanceof Highway) {					
 					Draw.drawPropLine(gc, (Line) prop);					
 				}
 			}			
