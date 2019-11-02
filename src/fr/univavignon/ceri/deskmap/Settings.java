@@ -25,6 +25,11 @@ public final class Settings {
 	public static final int MAX_SCALE = 40;
 	
 	/**
+	 * Zooming scale
+	 */
+	public static final Double ZOOMING_SCALE = 1.25;
+	
+	/**
 	 * Ratio of the canvas
 	 */
 	public static final int CANVAS_RATIO = 1;

@@ -7,9 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 import DeskMapExceptions.CannotReachServerException;
 import fr.univavignon.ceri.deskmap.geopoint.City;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.beans.value.ObservableValueBase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,6 +26,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 /**
@@ -125,6 +123,12 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	private SplitPane splitPane;
+	
+	/**
+	 * The {@code Pane} which contain the {@code Canvas}
+	 */
+	@FXML
+	private Pane canvasPane;
 	
 	/**
 	 * The value of the scale
@@ -541,6 +545,7 @@ public class MainViewController implements Initializable {
 	
 	/**
 	 * Fetch, Load and Render the map for this city
+	 * @param city {@code String} City to render
 	 * @throws CannotReachServerException Throw this exception when the server cannot be reached
 	 * @throws Exception If the coordinates wasn't found
 	 * @author Yanis Labrak
@@ -631,12 +636,9 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void zoomIn(ActionEvent event) {
 		
-		if (Map.scale * 1.25 <= Settings.MAX_SCALE) {
-			System.out.println("Zoom UP");
+		if (Map.scale * Settings.ZOOMING_SCALE <= Settings.MAX_SCALE) {		
 			
-			Map.scale = Map.scale * 1.25;
-//			this.canvasMap.setScaleX(Map.scale);
-//			this.canvasMap.setScaleY(Map.scale);
+			Map.scale = Map.scale * Settings.ZOOMING_SCALE;
 			this.renderMap();
 		}
 	}
@@ -649,12 +651,9 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void zoomOut(ActionEvent event) {
 		
-		if (Map.scale / 1.25 >= Settings.MIN_SCALE) {
-			System.out.println("Zoom Down");
+		if (Map.scale / Settings.ZOOMING_SCALE >= Settings.MIN_SCALE) {
 			
-			Map.scale = Map.scale / 1.25;
-//			this.canvasMap.setScaleX(Map.scale);
-//			this.canvasMap.setScaleY(Map.scale);
+			Map.scale = Map.scale / Settings.ZOOMING_SCALE;
 			this.renderMap();
 		}
 	}

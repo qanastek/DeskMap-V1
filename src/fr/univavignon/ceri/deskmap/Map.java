@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Observable;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -34,14 +33,7 @@ import fr.univavignon.ceri.deskmap.region.SportsCentre;
 import fr.univavignon.ceri.deskmap.region.Water;
 import fr.univavignon.ceri.deskmap.region.Wood;
 import fr.univavignon.ceri.deskmap.region.Healthcare;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.beans.value.ObservableValueBase;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 /**
  * @author Yanis Labrak

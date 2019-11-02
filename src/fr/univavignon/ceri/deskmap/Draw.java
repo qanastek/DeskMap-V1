@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.univavignon.ceri.deskmap.line.Line;
+import fr.univavignon.ceri.deskmap.line.Railway;
 import fr.univavignon.ceri.deskmap.line.River;
 import fr.univavignon.ceri.deskmap.line.Road;
 import fr.univavignon.ceri.deskmap.region.Amenity;
@@ -94,7 +95,7 @@ public class Draw {
 		Draw.drawLayout5(gc);
 		
 		// Draw Amenity and Building
-		Draw.drawLayout3(gc);		
+		Draw.drawLayout3(gc);
 		
 		// Draw the Relations
 //		Draw.drawRelations(gc);
@@ -236,7 +237,7 @@ public class Draw {
 			Object prop = Map.mapContent.get(key);
 			
 			if(prop instanceof Line) {				
-				if (prop instanceof River || prop instanceof Road) {					
+				if (prop instanceof River || prop instanceof Road) {
 					Draw.drawPropLine(gc, (Line) prop);					
 				}
 			}			
