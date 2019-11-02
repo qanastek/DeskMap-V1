@@ -631,12 +631,13 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void zoomIn(ActionEvent event) {
 		
-		if (Map.scale * 2 <= Settings.MAX_SCALE) {
+		if (Map.scale * 1.25 <= Settings.MAX_SCALE) {
 			System.out.println("Zoom UP");
 			
-			Map.scale = Map.scale * 2;
-			this.canvasMap.setScaleX(Map.scale);
-			this.canvasMap.setScaleY(Map.scale);
+			Map.scale = Map.scale * 1.25;
+//			this.canvasMap.setScaleX(Map.scale);
+//			this.canvasMap.setScaleY(Map.scale);
+			this.renderMap();
 		}
 	}
 	
@@ -648,12 +649,13 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void zoomOut(ActionEvent event) {
 		
-		if (Map.scale / 2 >= Settings.MIN_SCALE) {
+		if (Map.scale / 1.25 >= Settings.MIN_SCALE) {
 			System.out.println("Zoom Down");
 			
-			Map.scale = Map.scale / 2;
-			this.canvasMap.setScaleX(Map.scale);
-			this.canvasMap.setScaleY(Map.scale);
+			Map.scale = Map.scale / 1.25;
+//			this.canvasMap.setScaleX(Map.scale);
+//			this.canvasMap.setScaleY(Map.scale);
+			this.renderMap();
 		}
 	}
 	
@@ -682,14 +684,8 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	public void left(ActionEvent event) {
-		System.out.println("Left Move");
-		
-		// TODO: make it work
-//		this.gc.translate(-10, 0.0);
-//		this.canvasMap.setLayoutX(this.canvasMap.getLayoutX() + 100.0);
-//		this.canvasMap.setLayoutY(this.canvasMap.getLayoutY() + 100.0);
-		
-		this.canvasMap.setTranslateX(100);
+		Map.longitude += Settings.HORI_MOVE_DIST;
+		this.renderMap();
 	}
 	
 	/**
@@ -699,8 +695,8 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	public void right(ActionEvent event) {
-		System.out.println("Right Move");
-		this.canvasMap.setTranslateX(-100);
+		Map.longitude -= Settings.HORI_MOVE_DIST;
+		this.renderMap();
 	}
 	
 	/**
@@ -710,10 +706,8 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	public void up(ActionEvent event) {
-		System.out.println("UP Move");
-//		this.canvasMap.setTranslateY(100);
-//		this.canvasMap.setWidth(this.canvasMap.getWidth() * 2);
-//		this.renderMap();
+		Map.latitude -= Settings.VERT_MOVE_DIST;
+		this.renderMap();
 	}
 	
 	/**
@@ -723,8 +717,8 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	public void down(ActionEvent event) {
-		System.out.println("Down Move");
-		this.canvasMap.setTranslateY(-100);
+		Map.latitude += Settings.VERT_MOVE_DIST;
+		this.renderMap();
 	}
 	
 	/**

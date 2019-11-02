@@ -18,7 +18,7 @@ public class SchoolAmenity extends Region {
 	 * @param color {@code String} Background color
 	 */
 	public SchoolAmenity(String id, String name, String color) {
-		super(id, name, color);
+		super(id, name, Color.SCHOOL);
 	}
 
 	/**
@@ -28,7 +28,7 @@ public class SchoolAmenity extends Region {
 	 * @param color {@code String} Background color
 	 */
 	public SchoolAmenity(Long id, String name, String color) {
-		super(id, name, color);
+		super(id, name, Color.SCHOOL);
 	}
 	
 	/**

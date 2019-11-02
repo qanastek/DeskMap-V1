@@ -33,6 +33,7 @@ import fr.univavignon.ceri.deskmap.region.SchoolAmenity;
 import fr.univavignon.ceri.deskmap.region.SportsCentre;
 import fr.univavignon.ceri.deskmap.region.Water;
 import fr.univavignon.ceri.deskmap.region.Wood;
+import fr.univavignon.ceri.deskmap.region.Healthcare;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -50,7 +51,7 @@ public class Map {
 	/**
 	 * Scale of the map
 	 */
-	public static Float scale;
+	public static Double scale;
 	
 	/**
 	 * Scale of the map in meters
@@ -86,6 +87,16 @@ public class Map {
 	 * Width 
 	 */
 	public static Double width;
+	
+	/**
+	 * Latitude of the screen
+	 */
+	public static Double latitude = 0.0;
+	
+	/**
+	 * Longitude of the screen
+	 */
+	public static Double longitude = 0.0;
 	
 	/**
 	 * All the GeoData to load
@@ -153,27 +164,13 @@ public class Map {
 	 * Constructor
 	 */
 	public Map() {
-		Map.scale = (float) 1.0;
+		Map.scale = 1.0;
 		Map.topLeft = 0.0;
 		Map.bottomLeft = 0.0;
 		Map.topRight = 0.0;
 		Map.bottomRight = 0.0;
 		Map.height = 0.0;
 		Map.width = 0.0;
-	}
-
-	/**
-	 * @return the scale
-	 */
-	public Float getScale() {
-		return Map.scale;
-	}
-
-	/**
-	 * @param scale the scale to set
-	 */
-	public void setScale(Float scale) {
-		Map.scale = scale;
 	}
 	
 	/**
@@ -394,7 +391,14 @@ public class Map {
 								case "quarry":
 									entity = new Quarry((Long) item.get("id"));
 									Map.loadRegion(entity, item);
-									break;									
+									break;	
+																
+								case "healthcare":
+									entity = new Healthcare(
+										(Long) item.get("id")
+									);									
+									Map.loadRegion(entity, item);
+									break;
 							}							
 						}
 						// If it's a Leisure
@@ -476,13 +480,12 @@ public class Map {
 						else if ((String) tags.get("amenity") != null) {
 							
 							switch ((String) tags.get("amenity")) {
-							
+									
 								case "school":
 									entity = new SchoolAmenity(
 										(Long) item.get("id"),
 										(String) item.get("name")
-									);
-									
+									);									
 									Map.loadRegion(entity, item);
 									break;
 							}

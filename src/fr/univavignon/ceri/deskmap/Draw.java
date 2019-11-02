@@ -11,6 +11,7 @@ import fr.univavignon.ceri.deskmap.line.Line;
 import fr.univavignon.ceri.deskmap.line.River;
 import fr.univavignon.ceri.deskmap.line.Road;
 import fr.univavignon.ceri.deskmap.region.Amenity;
+import fr.univavignon.ceri.deskmap.region.Healthcare;
 import fr.univavignon.ceri.deskmap.region.Landuse;
 import fr.univavignon.ceri.deskmap.region.Leisure;
 import fr.univavignon.ceri.deskmap.region.Natural;
@@ -201,7 +202,7 @@ public class Draw {
 		    Object prop = Map.mapContent.get(key);
 		    
 		    if (prop instanceof Region) {		    	
-		    	if (prop instanceof Natural || prop instanceof Leisure || prop instanceof SchoolAmenity) {		    		
+		    	if (prop instanceof Natural || prop instanceof Leisure || prop instanceof SchoolAmenity || prop instanceof Healthcare) {		    		
 		    		Draw.drawPropRegion(gc, (Region) prop);
 				}		    	
 			}			
@@ -218,7 +219,7 @@ public class Draw {
 		    Object prop = Map.mapContent.get(key);
 		    
 		    if (prop instanceof Region) {		    	
-		    	if (prop instanceof Amenity || prop instanceof Structure && !(prop instanceof SchoolAmenity)) {		    		
+		    	if (prop instanceof Amenity || prop instanceof Structure && !(prop instanceof SchoolAmenity) && !(prop instanceof Healthcare)) {		    		
 		    		Draw.drawPropRegion(gc, (Region) prop);
 				}		    	
 			}			

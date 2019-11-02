@@ -41,8 +41,9 @@ public abstract class QueriesBuilding {
 		queryOverpass.way("landuse","quarry",bbox);
 		queryOverpass.relation("landuse",bbox);
 
-		queryOverpass.node("amenity", "school", bbox);
+		queryOverpass.nodeMulti("amenity", "school|hospital", bbox);
 		queryOverpass.way("amenity","school",bbox);
+		queryOverpass.way("amenity","hospital",bbox);
 		queryOverpass.relation("amenity",bbox);
 		
 		queryOverpass.node("waterway", "riverbank", bbox);

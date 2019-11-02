@@ -84,8 +84,8 @@ public class Node {
 		Double bboxWidth = Map.bottomRight * lonMeters - Map.bottomLeft * lonMeters;
 		Double bboxHeight = Map.topRight * latMeters - Map.topLeft * latMeters;
 		
-		Double ratioWidthPixel = Map.width / bboxWidth;
-		Double ratioHeightPixel = Map.height / bboxHeight;
+		Double ratioWidthPixel = Map.width / bboxWidth * Map.scale;
+		Double ratioHeightPixel = Map.height / bboxHeight * Map.scale;
 		
 		// Set the map scale
 		Map.scaleMeter.set((int) (50 * ratioWidthPixel));
@@ -94,6 +94,12 @@ public class Node {
 		Double posVertical = x * latMeters -  Map.topLeft *latMeters;
 		// Lon
 		Double posHorizontal = y * lonMeters -  Map.bottomLeft * lonMeters;
+		
+//		System.out.println(posVertical);
+//		System.out.println(posHorizontal);
+		
+		posVertical += Map.latitude;
+		posHorizontal += Map.longitude;
 		
 		// Lat
 		x = posVertical * ratioHeightPixel;

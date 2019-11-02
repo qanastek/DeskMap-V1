@@ -90,6 +90,11 @@ public final class Color {
 	public static final String SCHOOL = "#ffffe5";
 	
 	/**
+	 * Color of the HEALTHCARE
+	 */
+	public static final String HEALTHCARE = "#ffffe5";
+	
+	/**
 	 * Color of the CEMETERY
 	 */
 	public static final String CEMETERY = "#aacbaf";

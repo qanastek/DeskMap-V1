@@ -48,5 +48,15 @@ public final class Settings {
 	 * Thickness of the road for the Residential, Living Street, Pedestrian and all others roads
 	 */
 	public static final int LEVEL_4_ROAD_THICKNESS = 1;
+	
+	/**
+	 * Horizontal moving distance
+	 */
+	public static final Double HORI_MOVE_DIST = 350.0;
+	
+	/**
+	 * Vertical moving distance
+	 */
+	public static final Double VERT_MOVE_DIST = 0.19 / 1000000;
 
 }
