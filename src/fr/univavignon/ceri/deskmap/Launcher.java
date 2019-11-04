@@ -39,20 +39,20 @@ public class Launcher extends Application
 		primaryStage.setTitle("DESKMAP V1.0.76");
 
 		// Set a favicon to the window
-		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
+		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("ressources/icon.png")));
 
 		// Get the dimensions of the monitor
 	    Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 		
 	    // Create and link the layout to a FXML file
 	    // This is the 'WINDOW' of the app
-	    Parent layout = FXMLLoader.load(getClass().getClassLoader().getResource("main_view.fxml"));
+	    Parent layout = FXMLLoader.load(getClass().getResource("vues/main_view.fxml"));
 
 	    // The area inside of the layout
 		Scene my_scene = new Scene(layout, layout.getLayoutY(), layout.getLayoutX());
 		
 		// Link to the scene a CSS stylesheet for all the styles
-		my_scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		my_scene.getStylesheets().add(getClass().getResource("ressources/application.css").toExternalForm());
 		
 		// Set the width of the window to the half of the monitor width
 		primaryStage.setMinWidth(screenBounds.getWidth() * 0.6);

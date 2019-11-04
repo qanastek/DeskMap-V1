@@ -10,33 +10,40 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import fr.univavignon.ceri.deskmap.line.Line;
-import fr.univavignon.ceri.deskmap.line.Road;
-import fr.univavignon.ceri.deskmap.region.Building;
-import fr.univavignon.ceri.deskmap.region.Cemetery;
-import fr.univavignon.ceri.deskmap.region.Commercial;
-import fr.univavignon.ceri.deskmap.region.FarmLand;
-import fr.univavignon.ceri.deskmap.region.Forest;
-import fr.univavignon.ceri.deskmap.region.GolfCourse;
-import fr.univavignon.ceri.deskmap.region.Grass;
-import fr.univavignon.ceri.deskmap.region.Industrial;
-import fr.univavignon.ceri.deskmap.region.Park;
-import fr.univavignon.ceri.deskmap.region.Pedestrian;
-import fr.univavignon.ceri.deskmap.region.Quarry;
-import fr.univavignon.ceri.deskmap.region.Railway;
-import fr.univavignon.ceri.deskmap.region.Region;
-import fr.univavignon.ceri.deskmap.region.Residential;
-import fr.univavignon.ceri.deskmap.region.Retail;
-import fr.univavignon.ceri.deskmap.region.School;
-import fr.univavignon.ceri.deskmap.region.SchoolAmenity;
-import fr.univavignon.ceri.deskmap.region.SportsCentre;
-import fr.univavignon.ceri.deskmap.region.Water;
-import fr.univavignon.ceri.deskmap.region.Wood;
-import fr.univavignon.ceri.deskmap.region.Healthcare;
+import fr.univavignon.ceri.deskmap.config.Color;
+import fr.univavignon.ceri.deskmap.config.Settings;
+import fr.univavignon.ceri.deskmap.controllers.MainViewController;
+import fr.univavignon.ceri.deskmap.models.GeoData;
+import fr.univavignon.ceri.deskmap.models.Node;
+import fr.univavignon.ceri.deskmap.models.Way;
+import fr.univavignon.ceri.deskmap.models.line.Line;
+import fr.univavignon.ceri.deskmap.models.line.Road;
+import fr.univavignon.ceri.deskmap.models.region.Building;
+import fr.univavignon.ceri.deskmap.models.region.Cemetery;
+import fr.univavignon.ceri.deskmap.models.region.Commercial;
+import fr.univavignon.ceri.deskmap.models.region.FarmLand;
+import fr.univavignon.ceri.deskmap.models.region.Forest;
+import fr.univavignon.ceri.deskmap.models.region.GolfCourse;
+import fr.univavignon.ceri.deskmap.models.region.Grass;
+import fr.univavignon.ceri.deskmap.models.region.Healthcare;
+import fr.univavignon.ceri.deskmap.models.region.Industrial;
+import fr.univavignon.ceri.deskmap.models.region.Park;
+import fr.univavignon.ceri.deskmap.models.region.Pedestrian;
+import fr.univavignon.ceri.deskmap.models.region.Quarry;
+import fr.univavignon.ceri.deskmap.models.region.Railway;
+import fr.univavignon.ceri.deskmap.models.region.Region;
+import fr.univavignon.ceri.deskmap.models.region.Residential;
+import fr.univavignon.ceri.deskmap.models.region.Retail;
+import fr.univavignon.ceri.deskmap.models.region.School;
+import fr.univavignon.ceri.deskmap.models.region.SchoolAmenity;
+import fr.univavignon.ceri.deskmap.models.region.SportsCentre;
+import fr.univavignon.ceri.deskmap.models.region.Water;
+import fr.univavignon.ceri.deskmap.models.region.Wood;
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * @author Yanis Labrak
+ * @author Mohamed BEN YAMNA
  */
 public class Map {
 
@@ -101,59 +108,8 @@ public class Map {
 	public static HashMap<Long, Node> nodes = new HashMap<Long, Node>();
 	
 	/**
-	 * @param data {@code GeoData} The data to add
-	 */
-	public void addMapContent(GeoData data) {
-		Map.mapContent.put(data.id,data);
-	}
-	
-	/**
-	 * Add a {@code Node} inside the {@code HashMap}
-	 * @param node The {@code Node} to add
-	 */
-	public void addNode(Node node) {
-		Map.nodes.put(node.id, node);
-	}
-	
-	/**
-	 * Get the {@code Node} which have the same {@code Id}
-	 * @param id {@code String} Identifier of the {@code Node}
-	 * @return return the {@code Node} for which the identifier match
-	 */
-	public Node getNode(String id) {
-		return Map.nodes.get(Long.parseLong(id));
-	}
-	
-	/**
-	 * @return the mapContent
-	 */
-	public HashMap<Long,GeoData> getMapContent() {
-		return Map.mapContent;
-	}
-
-	/**
-	 * @param mapContent the mapContent to set
-	 */
-	public void setMapContent(HashMap<Long,GeoData> mapContent) {
-		Map.mapContent = mapContent;
-	}
-
-	/**
-	 * @return the nodes
-	 */
-	public HashMap<Long, Node> getNodes() {
-		return Map.nodes;
-	}
-
-	/**
-	 * @param nodes the nodes to set
-	 */
-	public void setNodes(HashMap<Long, Node> nodes) {
-		Map.nodes = nodes;
-	}
-
-	/**
 	 * Constructor
+	 * @author Mohamed BEN YAMNA
 	 */
 	public Map() {
 		Map.scale = 1.0;
@@ -166,37 +122,10 @@ public class Map {
 	}
 	
 	/**
-	 * @return the height
-	 */
-	public Double getHeight() {
-		return Map.height;
-	}
-
-	/**
-	 * @param height the height to set
-	 */
-	public void setHeight(Double height) {
-		Map.height = height;
-	}
-
-	/**
-	 * @return the width
-	 */
-	public Double getWidth() {
-		return Map.width;
-	}
-
-	/**
-	 * @param width the width to set
-	 */
-	public void setWidth(Double width) {
-		Map.width = width;
-	}	
-
-	/**
 	 * Parse the JSON file and make Object from It
 	 * @param city {@code String} Name of the city
 	 * @throws org.json.simple.parser.ParseException If the file wasn't find
+	 * @author Mohamed BEN YAMNA
 	 */
 	public static void loadCityAsObject(String city) throws org.json.simple.parser.ParseException {
 		
@@ -211,14 +140,44 @@ public class Map {
 	}
 	
 	/**
-	 * Load all the Node
+	 * Add a data to the {@code MapContent} {@code HashMap}
+	 * @param data {@code GeoData} The data to add
+	 * @author Mohamed BEN YAMNA
+	 */
+	public void addMapContent(GeoData data) {
+		Map.mapContent.put(data.id, data);
+	}
+	
+	/**
+	 * Add a {@code Node} inside the {@code HashMap}
+	 * @param node The {@code Node} to add
+	 * @author Mohamed BEN YAMNA
+	 */
+	public void addNode(Node node) {
+		Map.nodes.put(node.id, node);
+	}
+	
+	/**
+	 * Get the {@code Node} which have the same {@code Id}
+	 * @param id {@code String} Identifier of the {@code Node}
+	 * @return return the {@code Node} for which the identifier match
+	 * @author Mohamed BEN YAMNA
+	 */
+	public Node getNode(String id) {
+		return Map.nodes.get(Long.parseLong(id));
+	}
+	
+	/**
+	 * Load all the {@code Node}'s from the JSON file
 	 * @param city {@code String} Name of the city
+	 * @author Yanis Labrak
 	 */
 	public static void loadNodes(String city) {
 		 
         //JSON parser object to parse read file
         JSONParser jsonParser = new JSONParser();
          
+        // Read the cache for the Map
         try (FileReader reader = new FileReader(city.toLowerCase() + "Map.json"))
         {
             //Read JSON file
@@ -228,17 +187,17 @@ public class Map {
             JSONArray elements = (JSONArray) main.get("elements");
             
             Iterator<JSONObject> iterator = elements.iterator();
-            
-            Integer nodeCpt = 0;
 
+            // While we have content
 			while (iterator.hasNext()) {	
 				
+				// Get it
 				JSONObject item = iterator.next();
 
 				String type = (String) item.get("type");
 				
+				// If its a Node
 				if (type.toLowerCase().equals("node")) {
-					nodeCpt++;
 					
 					Node node = new Node(
 						(Long) item.get("id"),
@@ -246,12 +205,11 @@ public class Map {
 						(Double) item.get("lon")
 					);
 					
+					// Add it to the HashMap of Nodes
 					MainViewController.map.addNode(node);
 				}	
 				
 		    }
-			
-			System.out.println("Nodes: " + nodeCpt);
  
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -263,7 +221,7 @@ public class Map {
 	}
 	
 	/**
-	 * Load a {@code Region} from JSON data
+	 * Load a {@code Region} from the JSON file
 	 * @param entity {@code Region} The {@code Region} where we load the data
 	 * @param item {@code JSONObject} The JSON which contain the data about the {@code Region}
 	 * @author Yanis Labrak
@@ -292,8 +250,9 @@ public class Map {
 	}
 	
 	/**
-	 * Draw Landuse
+	 * Load all the ways from the JSON file as {@code GeoData}
 	 * @param city {@code String} Name of the city
+	 * @author Yanis Labrak
 	 */
 	public static void loadWays(String city) {
 		
@@ -566,8 +525,9 @@ public class Map {
 	}	
 	
 	/**
-	 * Load all the Node
+	 * Load all the {@code Relation}'s from the JSON file
 	 * @param city {@code String} Name of the city
+	 * @author Yanis Labrak
 	 */
 	public static void loadRelations(String city) {
 		
@@ -727,7 +687,7 @@ public class Map {
 										newWay.setColor(Color.PEDESTRIAN);
 									}
 									else {
-										newWay = new fr.univavignon.ceri.deskmap.region.Road(
+										newWay = new fr.univavignon.ceri.deskmap.models.region.Road(
 											Long.parseLong(wayId) + i++
 										);
 										
@@ -834,11 +794,9 @@ public class Map {
 
 									// Add the way
 									Map.mapContent.put(newWay.id + i, newWay);
-								}
-								
+								}								
 							}
-						}	
-						
+						}							
 					}					
 				}				
 			}
