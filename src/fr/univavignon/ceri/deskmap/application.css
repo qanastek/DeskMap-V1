@@ -1,0 +1,18 @@
+<<<<<<< HEAD
+=======
+.warning {
+	-fx-text-inner-color: red;
+}
+
+.text-area {
+    -fx-background-color:  #2d389f;
+    -fx-border-color: #2d389f;
+    -fx-text-inner-color: #dce1e8;
+}
+
+.text-area .content {
+    -fx-background-color:  #2d389f;
+    -fx-border-color: #2d389f;
+    -fx-text-inner-color: #dce1e8;
+}
+>>>>>>> refs/remotes/origin/Projection
