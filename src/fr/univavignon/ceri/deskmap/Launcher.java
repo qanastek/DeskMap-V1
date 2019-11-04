@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 
 /**
  * This class is used to launch the software.
- * 
+ *
  * @author Mohamed BEN YAMNA
  * @author Quentin Capdepon
  * @author Yanis Labrak
