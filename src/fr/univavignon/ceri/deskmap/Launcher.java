@@ -1,48 +1,64 @@
 package fr.univavignon.ceri.deskmap;
 
+
+import javafx.application.Application;
+
+
+
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+
 /**
  * This class is used to launch the software.
- *
+ * 
  * @author Mohamed BEN YAMNA
  * @author Quentin Capdepon
  * @author Yanis Labrak
  * @author Zihao Zheng
  */
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+public class Launcher extends Application
+{	
 
-/**
- * @author zihao
- *
- */
-public class Launcher extends Application {
+public void start(Stage primaryStage) throws Exception {
+		
+		// Set the title of the window
+		primaryStage.setTitle("DESKMAP GUI V1.0.0");
 
-	@Override
-	public void start(Stage primaryStage) throws Exception{
+		// Set a favicon to the window
+		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
 
-		primaryStage.setMinHeight(650);
+		// Get the dimensions of the monitor
+	    Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+		
+	    // Create and link the layout to a FXML file
+	    // This is the 'WINDOW' of the app
+	    Parent layout = FXMLLoader.load(getClass().getClassLoader().getResource("main_view.fxml"));
 
-		primaryStage.setMinWidth(1280);
-
-		primaryStage.setTitle("PUBG");
-
-
-		Parent layout = FXMLLoader.load(getClass().getResource("test.fxml"));
-
+	    // The area inside of the layout
 		Scene my_scene = new Scene(layout, layout.getLayoutY(), layout.getLayoutX());
+		
+		// Link to the scene a CSS stylesheet for all the styles
+		my_scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		
+		// Set the width of the window to the half of the monitor width
+		primaryStage.setMinWidth(screenBounds.getWidth() * 0.5);
 
-		my_scene.getStylesheets().add(getClass().getResource("button.css").toExternalForm());
-
+		// Set the height of the window to the half of the monitor height
+		primaryStage.setMinHeight(screenBounds.getHeight() * 0.5);
+		
 		primaryStage.setScene(my_scene);
-
-
 		primaryStage.show();
+		
 	}
-
-	public static void main(String[] args) {
+	
+	public static void main(String[] args)
+	{
 		launch(args);
 	}
+	
 }
