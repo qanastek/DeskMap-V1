@@ -1,36 +1,25 @@
 package fr.univavignon.ceri.deskmap;
 
-import java.awt.geom.Point2D;
-
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
  * This class is used to launch the software.
- *
+ * 
  * @author Mohamed BEN YAMNA
  * @author Quentin Capdepon
  * @author Yanis Labrak
  * @author Zihao Zheng
  */
 public class Launcher extends Application
-{		
+{
+	
 	/**
 	 * Launches the software.
 	 * Add things for testing
@@ -40,14 +29,14 @@ public class Launcher extends Application
 	 */
 	public static void main(String[] args)
 	{
-		System.out.println(Node.Node_projection( 47.6855770, 1.1577290));
 		launch(args);
 	}
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
 		// Set the title of the window
-		primaryStage.setTitle("DESKMAP V1.0.30");
+		primaryStage.setTitle("DESKMAP V1.0.76");
 
 		// Set a favicon to the window
 		primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("icon.png")));
@@ -74,5 +63,5 @@ public class Launcher extends Application
 		primaryStage.setScene(my_scene);
 		primaryStage.show();
 		
-	}
+	}	
 }
