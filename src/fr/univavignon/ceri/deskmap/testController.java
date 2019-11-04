@@ -14,6 +14,8 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.controlsfx.control.textfield.TextFields;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -63,6 +65,9 @@ public class testController implements Initializable {
 	private String filter = "";
 
 
+    /* (non-Javadoc)
+     * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
+     */
     @Override
     /*
      * Initial
@@ -81,24 +86,31 @@ public class testController implements Initializable {
 		this.cbbFrom.setDisable(true);
 		this.cbbTo.setDisable(true);
 
-//		try {
-//			autocompleteCity();
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			autocompleteCity();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 
+    /**
+     * @throws FileNotFoundException
+     */
     private void autocompleteCity() throws FileNotFoundException {
     	BufferedReader br = null;
 
     	ObservableList<String> filteredList = FXCollections.observableArrayList();
 
-		this.filter = nameCity.getText();
+		this.filter = this.nameCity.getText();
 
 		File f = new File("AllCity.csv");
 
-		br = new BufferedReader(new FileReader(f));
+		try {
+			br = new BufferedReader(new FileReader(f));
+		} catch (Exception e) {
+			System.err.println(e);
+		}
 
 		String line = "";
 	    String everyLine = "";
@@ -114,7 +126,7 @@ public class testController implements Initializable {
 			System.out.println(e);
 		}
         this.originalItemsCity= FXCollections.observableArrayList(allString);
-
+        TextFields.bindAutoCompletion(this.nameCity, this.originalItemsCity);
 	}
     /**
 	 * Send the HTTP GET request to the Overpass API
