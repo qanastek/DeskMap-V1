@@ -16,19 +16,19 @@ The source code is organized as follows:
 
 * At the root of the deskmap package:
      * Models
-      * Contain all the class for the future objects
+        * Contain all the class for the future objects
      * Vues
-      * Contain all the FXML files which each corresponding to a vue	
+        * Contain all the FXML files which each corresponding to a vue	
      * Controllers
-      * Contain all the methods which will handle the events for a specific view
+        * Contain all the methods which will handle the events for a specific view
      * Ressources
-      * Contain all the ressources like the pictures and CSS stylesheets
+        * Contain all the ressources like the pictures and CSS stylesheets
      * Services
-      * Contain all others classes like the one where the queries was build or another one which draw on the canvas
+        * Contain all others classes like the one where the queries was build or another one which draw on the canvas
      * Config
-      * Contain all configuration classes like the one which contain all the color variable or another one which store all the limits, the thinkness of the roads, etc...
+        * Contain all configuration classes like the one which contain all the color variable or another one which store all the limits, the thinkness of the roads, etc...
      * The main class of the project
-      * Launcher.java
+        * Launcher.java
 
 
 ## Installation
