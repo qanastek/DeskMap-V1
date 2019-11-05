@@ -22,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -59,15 +60,13 @@ public class testController implements Initializable {
 
 	final private String URL_OSM = new String("https://lz4.overpass-api.de/api/interpreter?data=");
 
+	public AutoCompleteText context;
+
 	/**
 	 * filter for combobox
 	 */
 	private String filter = "";
 
-
-    /* (non-Javadoc)
-     * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
-     */
     @Override
     /*
      * Initial
@@ -75,6 +74,7 @@ public class testController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
     	this.anchorPane1.setMinWidth(345);
+
     	//count visible row
     	this.cbbTo.setVisibleRowCount(6);
     	this.cbbFrom.setVisibleRowCount(6);
@@ -91,6 +91,7 @@ public class testController implements Initializable {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		this.context = new AutoCompleteText(originalItemsCity);
 	}
 
 
@@ -125,8 +126,7 @@ public class testController implements Initializable {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-        this.originalItemsCity= FXCollections.observableArrayList(allString);
-        TextFields.bindAutoCompletion(this.nameCity, this.originalItemsCity);
+        this.originalItemsCity = FXCollections.observableArrayList(allString);
 	}
     /**
 	 * Send the HTTP GET request to the Overpass API
@@ -137,6 +137,7 @@ public class testController implements Initializable {
 		try {
 			int bytesum = 0;
 	        int byteread = 0;
+	        city = city.substring(0, 1).toUpperCase() + city.substring(1);
 
 			String spec = this.URL_OSM + "[out:csv(\"name\";false)];area[name=\"" + city + "\"];way(area)[highway][name];out;";
 			URL httpUrl = new URL(spec);
@@ -228,7 +229,7 @@ public class testController implements Initializable {
 			this.cbbFrom.setDisable(false);
 			this.cbbTo.setDisable(false);
 		}
-
+		this.context.listener(nameCity);
 	}
 
 	/**
