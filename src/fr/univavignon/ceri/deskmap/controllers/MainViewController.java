@@ -41,6 +41,7 @@ import javafx.scene.text.Text;
 
 /**
  * The controller of the FXML file
+ * @author Quentin Capdepon
  */
 public class MainViewController implements Initializable {
 	
@@ -189,6 +190,7 @@ public class MainViewController implements Initializable {
 	
 	/**
 	 * Automatically started when the program start
+	 * @author Yanis Labrak
 	 */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -236,7 +238,7 @@ public class MainViewController implements Initializable {
 	/**
 	 * Add informations into the status bar {@code textArea}
 	 * @param newLine {@code String} The line to add
-	 * @author Yanis Labrak
+	 * @author Quentin Capdepon
 	 */
 	protected void addStateBar(String newLine) {
 		
@@ -256,7 +258,7 @@ public class MainViewController implements Initializable {
 	/**
 	 * Add informations into the path area {@code textArea}
 	 * @param newLine {@code String} The line to add
-	 * @author Yanis Labrak
+	 * @author Quentin Capdepon
 	 */
 	protected void addMapPath(String newLine) {
 		
@@ -277,7 +279,7 @@ public class MainViewController implements Initializable {
 	 * Method trigged when the user click on the search button
 	 * @param event {@code no informations}
 	 * @throws Exception {@code no informations}
-	 * @author Yanis Labrak
+	 * @author Quentin Capdepon
 	 */
 	@FXML
 	public void searching(ActionEvent event) throws Exception {
@@ -362,7 +364,7 @@ public class MainViewController implements Initializable {
 	/**
 	 * Method trigged when the user click on the reset button
 	 * @param event {@code ActionEvent}
-	 * @author Yanis Labrak
+	 * @author Quentin Capdepon
 	 */
 	@FXML
 	public void Reset(ActionEvent event) {
@@ -392,7 +394,7 @@ public class MainViewController implements Initializable {
 	
 	/**
 	 * Disable search until all field wasn't fill up
-	 * @author Yanis Labrak
+	 * @author Quentin Capdepon
 	 */
 	private void checkAllFields() {
 		if (this.cityName.getText().isEmpty() ||
@@ -411,7 +413,7 @@ public class MainViewController implements Initializable {
 	/**
 	 * Check if the input is a integer
 	 * @param event {@code KeyEvent} The input character
-	 * @author Yanis Labrak
+	 * @author Quentin Capdepon
 	 */
 	private void checkInputIsInteger(KeyEvent event)
     {		
@@ -426,7 +428,7 @@ public class MainViewController implements Initializable {
 	/**
 	 * Check if the input is a letter
 	 * @param event {@code KeyEvent} The input character
-	 * @author Yanis Labrak
+	 * @author Quentin Capdepon
 	 */
 	@FXML
 	public void checkInputIsLetter(KeyEvent event)
@@ -441,7 +443,7 @@ public class MainViewController implements Initializable {
 	/**
 	 * Check if the input key is a integer
 	 * @param event {@code keyEvent}
-	 * @author Yanis Labrak
+	 * @author Quentin Capdepon
 	 */
 	@FXML
 	public void checkInputFrom(KeyEvent event) {
@@ -456,7 +458,7 @@ public class MainViewController implements Initializable {
 	/**
 	 * Check if the input key is a integer
 	 * @param event {@code KeyEvent}
-	 * @author Yanis Labrak
+	 * @author Quentin Capdepon
 	 */
 	@FXML
 	public void checkInputTo(KeyEvent event) {
@@ -471,7 +473,7 @@ public class MainViewController implements Initializable {
 	/**
 	 * Check all the input when a comboBox value change
 	 * @param event {@code ActionEvent}
-	 * @author Yanis Labrak
+	 * @author Quentin Capdepon
 	 */
 	@FXML
 	public void checkAllComboBox(ActionEvent event) {
@@ -582,6 +584,7 @@ public class MainViewController implements Initializable {
 	
 	/**
 	 * Render all the objects of the canvas
+	 * @author Yanis Labrak
 	 */
 	private void renderMap() {
 		
@@ -607,7 +610,7 @@ public class MainViewController implements Initializable {
 	 * @param event {@code KeyEvent} The key pressed
 	 * @throws CannotReachServerException Exception thrown when the server cannot be reached
 	 * @throws Exception Throw a exception when the city doesn't exists
-	 * @author Yanis Labrak
+	 * @author Zheng Zhiao
 	 */
 	@FXML
 	public void KeyPressCity(KeyEvent event) throws Exception, CannotReachServerException {
@@ -785,7 +788,7 @@ public class MainViewController implements Initializable {
 	/**
 	 * Hide the left panel
 	 * @param event {@code ActionEvent}
-	 * @author Zihao Zheng
+	 * @author Quentin Capdepon
 	 */
 	@FXML
 	public void hideLeft(ActionEvent event)
@@ -796,7 +799,7 @@ public class MainViewController implements Initializable {
 	/**
 	 * Show the left panel
 	 * @param event {@code ActionEvent}
-	 * @author Zihao Zheng
+	 * @author Quentin Capdepon
 	 */
 	@FXML
 	public void showLeft(ActionEvent event)
