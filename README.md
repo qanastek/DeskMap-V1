@@ -12,7 +12,7 @@ It can be used to browse maps extracted from OpenStreetMap.
 
 
 ## Organization
-The source code is organized as follows:
+The source code is organized arround the MVC pattern.
 
 * At the root of the deskmap package:
      * Models
@@ -30,12 +30,10 @@ The source code is organized as follows:
      * The main class of the project
         * Launcher.java
 
-
 ## Installation
 Here is the procedure to install this software :
 1. Download the executable in the release section
 2. Run it
-
 
 ## Use
 1. In order to use the software, you must have an internet connection
