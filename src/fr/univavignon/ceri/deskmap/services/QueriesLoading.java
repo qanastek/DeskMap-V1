@@ -18,6 +18,7 @@ import fr.univavignon.ceri.deskmap.models.geopoint.City;
 import javafx.collections.FXCollections;
 
 /**
+ * All the functions which is used for loading and downloading the queries results
  * @author Yanis Labrak
  */
 public abstract class QueriesLoading {
@@ -62,7 +63,8 @@ public abstract class QueriesLoading {
 	 * @throws CannotReachServerException Exception thrown when the server cannot be reached
 	 * @author Yanis Labrak
 	 */
-	public static void downloadCities(String query) throws CannotReachServerException {		
+	public static void downloadCities(String query) throws CannotReachServerException {	
+		
 		final String CITIES_FILE = "cities.csv";
 		
 		System.out.println("Query created: " + query);
@@ -81,10 +83,10 @@ public abstract class QueriesLoading {
 	 * @author Yanis Labrak
 	 */
 	public static void loadCities() throws Exception {
+		
 		// Load the cities from the file		
 		MainViewController.listCity = FXCollections.observableArrayList(QueriesLoading.parseCities());
-		MainViewController.listCitySorted = FXCollections.observableArrayList();
-		
+		MainViewController.listCitySorted = FXCollections.observableArrayList();		
 	}
 	
 	/**
@@ -94,6 +96,7 @@ public abstract class QueriesLoading {
 	 * @author Yanis Labrak
 	 */
 	public static List<City> parseCities() throws Exception {
+		
 		List<City> records = new ArrayList<City>();
 		
 		try {
@@ -148,6 +151,7 @@ public abstract class QueriesLoading {
 	 * @author Yanis Labrak
 	 */
 	public static void downloadStreets(City city, String query) throws CannotReachServerException {
+		
 		final String STREET_FILE = city.name + ".csv";
 		
 		File f = new File(STREET_FILE);
@@ -215,8 +219,7 @@ public abstract class QueriesLoading {
 				        		values[0],
 				        		values[1]
 					        );
-					        
-//					        records.add(street);
+				        	
 				        	records.put(values[1], street);
 					}
 			        

@@ -42,6 +42,7 @@ import fr.univavignon.ceri.deskmap.models.region.Wood;
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
+ * This class represents the Map entity
  * @author Yanis Labrak
  * @author Mohamed BEN YAMNA
  */
@@ -125,7 +126,7 @@ public class Map {
 	 * Parse the JSON file and make Object from It
 	 * @param city {@code String} Name of the city
 	 * @throws org.json.simple.parser.ParseException If the file wasn't find
-	 * @author Mohamed BEN YAMNA
+	 * @author Yanis Labrak
 	 */
 	public static void loadCityAsObject(String city) throws org.json.simple.parser.ParseException {
 		
@@ -590,7 +591,6 @@ public class Map {
 								// Create a new Way
 								Region newWay = null;
 								
-								// TODO
 								// Depending of the type
 								if (tags.get("landuse") != null) {
 									

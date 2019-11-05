@@ -8,7 +8,62 @@ import fr.univavignon.ceri.deskmap.models.geopoint.City;
  * @author Yanis Labrak
  */
 public abstract class QueriesBuilding {
+	
 
+	/**
+	 * Send the HTTP GET request to the Overpass API
+	 * Get all the city from a specific country
+	 * @param country {@code String} Country name
+	 * @throws Exception {@code no informations}
+	 * @return {@code String} The query
+	 * @author Yanis Labrak
+	 * @author Zheng Zhiao
+	 */
+	public static String buildFetchCitiesQuery(String country) throws Exception {
+
+		OSM queryOverpass = new OSM();
+		
+		queryOverpass.output("csv", "::id,::lat,::lon,name", false, "|");
+		queryOverpass.area(country);
+		queryOverpass.start();
+		queryOverpass.node("place", "city");
+		queryOverpass.node("place", "town");
+		queryOverpass.way("place");
+		queryOverpass.out();
+		
+		String query = queryOverpass.toString();
+		
+		return query;
+	}
+		
+	/**
+	 * Fetch all the cities from the API inside a file
+	 * @param city {@code City} From where we will get all the streets
+	 * @throws Exception Throw a exception if the file cannot be create
+	 * @return {@code String} The query
+	 * @author Yanis Labrak
+	 * @author Zheng Zhiao
+	 */
+	public static String buildFetchStreetsQuery(City city) throws Exception {
+		
+		OSM queryOverpass = new OSM();
+		
+		queryOverpass.output("csv", "::id,name", false, "|");
+		queryOverpass.area(city.name);
+		queryOverpass.start();
+		queryOverpass.node("highway", "primary");
+		queryOverpass.node("highway", "secondary");
+		queryOverpass.node("highway", "tertiary");
+		queryOverpass.node("highway", "residential");
+		queryOverpass.node("highway", "unclassified");
+		queryOverpass.way("highway");
+		queryOverpass.out();
+		
+		String query = queryOverpass.toString();
+		
+		return query;
+	}
+	
 	/**
 	 * Build a Overpass Query in the way to fetch all the objects necessary to display the map
 	 * @param bbox The Bounding box in which we want the data
@@ -17,7 +72,7 @@ public abstract class QueriesBuilding {
 	 * @author Yanis Labrak
 	 */
 	public static String fullMapQuery(String bbox) throws UnsupportedEncodingException {
-		// TODO: Full query
+
 		OSM queryOverpass = new OSM();
 		
 		queryOverpass.output("json", "", false, "");
@@ -81,59 +136,6 @@ public abstract class QueriesBuilding {
 		String query = queryOverpass.query;
 		
 		System.out.println("Query full map created: " + query);
-		return query;
-	}
-	
-
-	/**
-	 * Send the HTTP GET request to the Overpass API
-	 * Get all the city from a specific country
-	 * @param country {@code String} Country name
-	 * @throws Exception {@code no informations}
-	 * @return {@code String} The query
-	 * @author Yanis Labrak
-	 */
-	public static String buildFetchCitiesQuery(String country) throws Exception {
-
-		OSM queryOverpass = new OSM();
-		
-		queryOverpass.output("csv", "::id,::lat,::lon,name", false, "|");
-		queryOverpass.area(country);
-		queryOverpass.start();
-		queryOverpass.node("place", "city");
-		queryOverpass.node("place", "town");
-		queryOverpass.way("place");
-		queryOverpass.out();
-		
-		String query = queryOverpass.toString();
-		
-		return query;
-	}
-		
-	/**
-	 * Fetch all the cities from the API inside a file
-	 * @param city {@code City} From where we will get all the streets
-	 * @throws Exception Throw a exception if the file cannot be create
-	 * @return {@code String} The query
-	 * @author Yanis Labrak
-	 */
-	public static String buildFetchStreetsQuery(City city) throws Exception {
-		
-		OSM queryOverpass = new OSM();
-		
-		queryOverpass.output("csv", "::id,name", false, "|");
-		queryOverpass.area(city.name);
-		queryOverpass.start();
-		queryOverpass.node("highway", "primary");
-		queryOverpass.node("highway", "secondary");
-		queryOverpass.node("highway", "tertiary");
-		queryOverpass.node("highway", "residential");
-		queryOverpass.node("highway", "unclassified");
-		queryOverpass.way("highway");
-		queryOverpass.out();
-		
-		String query = queryOverpass.toString();
-		
 		return query;
 	}
 
