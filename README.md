@@ -33,9 +33,8 @@ The source code is organized as follows:
 
 ## Installation
 Here is the procedure to install this software :
-1. Do this
-2. Do that
-3. etc.
+1. Download the executable in the release section
+2. Run it
 
 
 ## Use
