@@ -1,6 +1,7 @@
 package fr.univavignon.ceri.deskmap.controllers;
 
 import java.awt.List;
+import java.beans.EventHandler;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,6 +21,7 @@ import fr.univavignon.ceri.deskmap.services.QueriesLoading;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
@@ -632,6 +634,7 @@ public class MainViewController implements Initializable {
 						continue;
 					}
 					else if (city.name.toLowerCase().contains(this.cityName.getText())) {
+						
 						MainViewController.listCitySorted.add(new MenuItem(city.name));
 					}
 				}
@@ -712,7 +715,6 @@ public class MainViewController implements Initializable {
 		if (Map.scale / Settings.ZOOMING_SCALE > Settings.MIN_SCALE) {
 			
 			Map.scale /= Settings.ZOOMING_SCALE;
-			System.out.println(Map.scale);
 			
 			this.slider.setValue(Map.scale);
 			
@@ -790,7 +792,6 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void hideLeft(ActionEvent event)
 	{
-		System.out.println("hideLeft");
 		this.splitPane.setDividerPositions(0.0);
 	}
 	
@@ -802,7 +803,6 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void showLeft(ActionEvent event)
 	{
-		System.out.println("showLeft");
 		this.splitPane.setDividerPositions(0.29);
 	}
 	
