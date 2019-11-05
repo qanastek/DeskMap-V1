@@ -27,6 +27,9 @@
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>
+                                       <contextMenu>
+                                          <ContextMenu fx:id="menuCity" />
+                                       </contextMenu>
                                     </TextField>
                                     <Button fx:id="cityButton" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="223.0" layoutY="17.0" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onAction="#setCity" prefHeight="31.0" prefWidth="45.0" style="-fx-background-color: #8799ff;" text="GO" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="223.0" AnchorPane.topAnchor="17.0" HBox.hgrow="ALWAYS">
                                        <font>

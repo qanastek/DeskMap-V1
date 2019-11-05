@@ -1,9 +1,12 @@
 package fr.univavignon.ceri.deskmap.controllers;
 
+import java.awt.List;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+
+import com.sun.media.jfxmedia.events.NewFrameEvent;
 
 import DeskMapExceptions.CannotReachServerException;
 import fr.univavignon.ceri.deskmap.Map;
@@ -19,6 +22,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
 import javafx.scene.control.TextField;
 
 import javafx.scene.control.Slider;
@@ -27,7 +31,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 
 import javafx.scene.input.KeyCode;
@@ -131,6 +136,12 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	private SplitPane splitPane;
+
+	/**
+	 * The auto-complete menu for the city field
+	 */
+	@FXML
+    private ContextMenu menuCity;
 	
 	/**
 	 * The {@code Pane} which contain the {@code Canvas}
@@ -152,7 +163,7 @@ public class MainViewController implements Initializable {
 	/**
 	 * The observable variable for the text field {@code cityName}
 	 */
-	public static ObservableList<City> listCitySorted;
+	public static ObservableList<MenuItem> listCitySorted;
 	
 	/**
 	 * The default list of streets for a specific city
@@ -608,12 +619,37 @@ public class MainViewController implements Initializable {
 				this.setCity(new ActionEvent());
 			}
 			
+			// Clear the current list of city
+			MainViewController.listCitySorted.clear();
+			this.menuCity.getItems().clear();
+			
 			// If the field isn't empty
-			if (!this.cityName.getText().isEmpty()) {
+			if (!this.cityName.getText().isEmpty()) {	
+									
+				// Check if contains a part of the word
+				for (City city : MainViewController.listCity) {					
+					if (MainViewController.listCitySorted.size() == 10) {
+						continue;
+					}
+					else if (city.name.toLowerCase().contains(this.cityName.getText())) {
+						MainViewController.listCitySorted.add(new MenuItem(city.name));
+					}
+				}
+
+				// Set the list to the menu
+				this.menuCity.getItems().addAll(MainViewController.listCitySorted);
+				
+				// Display the auto-complete under the field
+				this.menuCity.show(this.cityName, Side.BOTTOM, 0, 0);
+				
 				this.cityButton.setDisable(false);
 				this.resetBtn.setDisable(false);
 			}
 			else {
+				
+				// Hide the auto-complete
+				this.menuCity.hide();
+				
 				this.cityButton.setDisable(true);
 				
 				this.fromNumber.setDisable(true);

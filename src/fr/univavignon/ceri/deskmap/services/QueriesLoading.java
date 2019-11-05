@@ -83,7 +83,8 @@ public abstract class QueriesLoading {
 	public static void loadCities() throws Exception {
 		// Load the cities from the file		
 		MainViewController.listCity = FXCollections.observableArrayList(QueriesLoading.parseCities());
-		MainViewController.listCitySorted = FXCollections.observableArrayList(MainViewController.listCity);
+		MainViewController.listCitySorted = FXCollections.observableArrayList();
+		
 	}
 	
 	/**
