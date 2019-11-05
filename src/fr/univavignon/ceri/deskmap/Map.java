@@ -186,13 +186,13 @@ public class Map {
             JSONObject main = (JSONObject) obj;
             JSONArray elements = (JSONArray) main.get("elements");
             
-            Iterator<JSONObject> iterator = elements.iterator();
+            Iterator<?> iterator = elements.iterator();
 
             // While we have content
 			while (iterator.hasNext()) {	
 				
 				// Get it
-				JSONObject item = iterator.next();
+				JSONObject item = (JSONObject) iterator.next();
 
 				String type = (String) item.get("type");
 				
@@ -267,12 +267,12 @@ public class Map {
 			JSONObject main = (JSONObject) obj;
 			JSONArray elements = (JSONArray) main.get("elements");
 			
-			Iterator<JSONObject> iterator = elements.iterator();
+			Iterator<?> iterator = elements.iterator();
 			
 			// For each JSON elements
 			while (iterator.hasNext()) {	
 				
-				JSONObject item = iterator.next();
+				JSONObject item = (JSONObject) iterator.next();
 				
 				// Type: Node, Way or Relation
 				String type = (String) item.get("type");
@@ -542,12 +542,12 @@ public class Map {
 			JSONObject main = (JSONObject) obj;
 			JSONArray elements = (JSONArray) main.get("elements");
 			
-			Iterator<JSONObject> iterator = elements.iterator();
+			Iterator<?> iterator = elements.iterator();
 			
 			// For each JSON object
 			while (iterator.hasNext()) {
 				
-				JSONObject item = iterator.next();
+				JSONObject item = (JSONObject) iterator.next();
 				
 				// Get type
 				String type = (String) item.get("type");
@@ -556,7 +556,7 @@ public class Map {
 				if (type.toLowerCase().equals("relation")) {
 					
 					// Members iterator
-					Iterator<JSONObject> it;
+					Iterator<?> it;
 					
 					// Read the array of ways
 					JSONArray members = (JSONArray) item.get("members");
@@ -577,7 +577,7 @@ public class Map {
 						while (it.hasNext()) {
 							
 							// Get the way identifier
-							String wayId = it.next().get("ref").toString();
+							String wayId = ((JSONObject) it.next()).get("ref").toString();
 							
 							// Set the name of the place on the way
 //							Map.mapContent.get(Long.parseLong(wayId)).setName(name);							

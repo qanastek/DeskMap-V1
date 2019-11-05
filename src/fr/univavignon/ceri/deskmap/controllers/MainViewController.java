@@ -1,13 +1,9 @@
 package fr.univavignon.ceri.deskmap.controllers;
 
-import java.awt.List;
-import java.beans.EventHandler;
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
-
-import com.sun.media.jfxmedia.events.NewFrameEvent;
 
 import DeskMapExceptions.CannotReachServerException;
 import fr.univavignon.ceri.deskmap.Map;
@@ -21,7 +17,6 @@ import fr.univavignon.ceri.deskmap.services.QueriesLoading;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Side;
@@ -506,6 +501,9 @@ public class MainViewController implements Initializable {
 				
 				// If the city exist
 				if (theCity != null) {
+					
+					// Hide the auto-complete menu
+					this.menuCity.hide();
 
 					// Fetch, Load and Render the map for this city
 					this.renderCityMap(this.cityName.getText());
