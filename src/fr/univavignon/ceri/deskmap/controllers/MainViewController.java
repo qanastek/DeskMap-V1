@@ -820,9 +820,13 @@ public class MainViewController implements Initializable {
 		
 		// If the user write nothing
 		if (!current_value.isEmpty()) {
-			
+
+			// If it's a moving key continue
+			if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN || event.getCode() == KeyCode.ENTER) {
+				event.consume();
+			}
 			// If the last pressed key is TAB
-			if (event.getCode() == KeyCode.CONTROL) {
+			else if (event.getCode() == KeyCode.CONTROL) {
 				
 				if (MainViewController.listStreetNameSortedFrom.size() > 0) {
 					// Set the current value to the first element of the list which contain the current word
@@ -872,8 +876,12 @@ public class MainViewController implements Initializable {
 		// If the user write nothing
 		if (!current_value.isEmpty()) {
 			
+			// If it's a moving key continue
+			if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN || event.getCode() == KeyCode.ENTER) {
+				event.consume();
+			}
 			// If the last pressed key is TAB
-			if (event.getCode() == KeyCode.CONTROL) {
+			else if (event.getCode() == KeyCode.CONTROL) {
 				
 				if (MainViewController.listStreetNameSortedTo.size() > 0) {
 					// Set the current value to the first element of the list which contain the current word
