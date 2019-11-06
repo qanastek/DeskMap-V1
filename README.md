@@ -10,6 +10,7 @@ This software was developped as an assignment during the 2019/20 university year
 
 It can be used to browse maps extracted from OpenStreetMap.
 
+![Preview](assets/preview.PNG)
 
 ## Organization
 The source code is organized arround the MVC pattern.
