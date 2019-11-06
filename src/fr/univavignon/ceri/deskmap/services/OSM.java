@@ -214,10 +214,10 @@ public class OSM {
 		topRight =  Math.floor(topRight * 100) / 100;
 		bottomRight =  Math.floor(bottomRight * 100) / 100;
 		
-		Map.topLeft = topLeft;
-		Map.bottomLeft = bottomLeft;
-		Map.topRight = topRight;
-		Map.bottomRight = bottomRight;
+		Map.bottom = topLeft;
+		Map.left = bottomLeft;
+		Map.top = topRight;
+		Map.right = bottomRight;
 		
 		return topLeft + "," + bottomLeft + "," + topRight + "," + bottomRight;
 	}

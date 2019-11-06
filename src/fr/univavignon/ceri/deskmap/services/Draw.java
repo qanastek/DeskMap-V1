@@ -127,7 +127,7 @@ public class Draw {
     		List<Double> coordinates = Node.toPixel(node.lat, node.lon);
 
     		x.add(coordinates.get(0));
-    		y.add(coordinates.get(1));
+    		y.add(Map.height - coordinates.get(1));
 		}
     	
     	// Draw the building
@@ -161,7 +161,7 @@ public class Draw {
 			
 			List<Double> nodeAdd = new ArrayList<Double>();
 			nodeAdd.add(coordinates.get(0));			    		
-			nodeAdd.add(coordinates.get(1));
+			nodeAdd.add(Map.height- coordinates.get(1));
 			
 			allNodes.add(nodeAdd);
 		}

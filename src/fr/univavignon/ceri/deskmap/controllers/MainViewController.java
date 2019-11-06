@@ -214,6 +214,36 @@ public class MainViewController implements Initializable {
 			// Render the default city
 			this.renderCityMap(Settings.DEFAULT_CITY);
 			
+			this.canvasPane.widthProperty().addListener((obs, oldVal, newVal) -> {
+				
+				Double size;
+				
+				if (newVal.doubleValue() > this.canvasPane.heightProperty().get()) {
+					size = newVal.doubleValue();
+				} else {
+					size = this.canvasPane.heightProperty().get();
+				}
+				
+				this.canvasMap.setHeight(size);
+				this.canvasMap.setWidth(size);
+				this.renderMap();
+			});
+
+			this.canvasPane.heightProperty().addListener((obs, oldVal, newVal) -> {
+				
+				Double size;
+				
+				if (this.canvasPane.widthProperty().get() > newVal.doubleValue()) {
+					size = this.canvasPane.widthProperty().get();
+				} else {
+					size = newVal.doubleValue();
+				}
+				
+				this.canvasMap.setHeight(size);
+				this.canvasMap.setWidth(size);
+				this.renderMap();
+			});
+			
 			// Build the query to fetch all the cities of the country
 			String queryCities = QueriesBuilding.buildFetchCitiesQuery("France");
 			
@@ -590,10 +620,6 @@ public class MainViewController implements Initializable {
 		
 		// Clear the canvas before draw
 		this.canvasMap.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
-		
-		// Change the size of the canvas
-		this.canvasMap.setWidth(this.canvasMap.getWidth() * Settings.CANVAS_RATIO);
-		this.canvasMap.setHeight(this.canvasMap.getHeight() * Settings.CANVAS_RATIO);
 		
 		Map.width = this.canvasMap.getWidth();
 		Map.height = this.canvasMap.getHeight();

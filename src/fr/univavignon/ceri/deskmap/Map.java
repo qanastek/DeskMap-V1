@@ -61,22 +61,22 @@ public class Map {
 	/**
 	 * Latitude position top
 	 */
-	public static Double topLeft;
+	public static Double bottom;
 
 	/**
 	 * Latitude position bottom
 	 */
-	public static Double bottomLeft;
+	public static Double left;
 	
 	/**
 	 * Longitude position left
 	 */
-	public static Double topRight;
+	public static Double top;
 	
 	/**
 	 * Longitude position right
 	 */
-	public static Double bottomRight;
+	public static Double right;
 	
 	/**
 	 * Height 
@@ -114,10 +114,10 @@ public class Map {
 	 */
 	public Map() {
 		Map.scale = 1.0;
-		Map.topLeft = 0.0;
-		Map.bottomLeft = 0.0;
-		Map.topRight = 0.0;
-		Map.bottomRight = 0.0;
+		Map.bottom = 0.0;
+		Map.left = 0.0;
+		Map.top = 0.0;
+		Map.right = 0.0;
 		Map.height = 0.0;
 		Map.width = 0.0;
 	}
