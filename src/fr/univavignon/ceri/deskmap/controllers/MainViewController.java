@@ -846,6 +846,9 @@ public class MainViewController implements Initializable {
 				// If no result
 				if (MainViewController.listStreetNameSortedFrom.size() <= 0) {
 					this.addStateBar("Unknown start street");
+				} else {
+					this.toName.hide();
+					this.fromName.show();
 				}
 				
 			}			
@@ -894,6 +897,9 @@ public class MainViewController implements Initializable {
 				// If no result
 				if (MainViewController.listStreetNameSortedTo.size() <= 0) {
 					this.addStateBar("Unknown destination street");
+				} else {
+					this.fromName.hide();
+					this.toName.show();
 				}
 				
 			}
