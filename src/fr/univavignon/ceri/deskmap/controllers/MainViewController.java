@@ -358,7 +358,7 @@ public class MainViewController implements Initializable {
 			String bbox = OSM.bboxCalc(
 					Double.parseDouble(coordinates[0]),
 					Double.parseDouble(coordinates[1])
-			);
+			).toString();
 			
 			this.addStateBar("BBox created");
 			

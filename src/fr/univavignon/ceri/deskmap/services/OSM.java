@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 import fr.univavignon.ceri.deskmap.Map;
+import fr.univavignon.ceri.deskmap.models.Bbox;
 
 /**
  * A class which contain every single command necessary for the built of an Overpass API query.
@@ -201,9 +202,9 @@ public class OSM {
 	 * BBox calculation from the {@code City} coordinates
 	 * @param lat {@code Double} Latitude
 	 * @param lon {@code Double} Longitude
-	 * @return {@code String} The BBox
+	 * @return {@code Bbox} The BBox
 	 */
-	public static String bboxCalc(Double lat, Double lon) {
+	public static Bbox bboxCalc(Double lat, Double lon) {
 		Double topLeft = lat - 0.05;
 		Double bottomLeft = lon - 0.05;
 		Double topRight = lat + 0.02;
@@ -219,6 +220,6 @@ public class OSM {
 		Map.top = topRight;
 		Map.right = bottomRight;
 		
-		return topLeft + "," + bottomLeft + "," + topRight + "," + bottomRight;
+		return new Bbox(topLeft, topRight, bottomLeft, bottomRight);
 	}
 }

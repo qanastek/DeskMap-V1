@@ -4,73 +4,86 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import fr.univavignon.ceri.deskmap.models.Bbox;
 import fr.univavignon.ceri.deskmap.models.Node;
 import javafx.geometry.Point2D;
 
 
 /**
+ * @author Labrak Yanis
  * @author ZIHAO ZHENG
- *
  */
 public class Trajet {
 	
-	public Double latFrom = 43.94728;
-	public Double lonFrom = 4.80997;
-	
-	public Double latTo = 43.94626;
-	public Double lonTo = 4.81048;
-	
-	private Set<Node> nodes;
-	
 	/**
-	 * @return distance entre deux node
+	 * @return Distance between two nodes
 	 * @author ZHENG Zihao
 	 */
-	private Double calculeDistance() {
-		Double distance = 0.0;
-		
-		distance = Math.sqrt(Math.pow((this.latFrom-this.latTo), 2)+Math.pow((this.lonFrom-this.lonTo), 2));
-		
-		return distance;
+	public static Double calculeDistance(Point2D from, Point2D to) {		
+		return Math.sqrt(Math.pow((from.getX() - to.getX()), 2) + Math.pow((from.getY() - to.getY()), 2));
 	}
 	
 	/**
-	 * @return center point between the departure and arrival
+	 * Get the center point between the departure and arrival
+	 * @return 
 	 */
-	private Point2D centreAdresse() {
-		Double latTem = 0.0;
-		Double lonTem = 0.0;
+	public static Point2D centreAdresse(Point2D from, Point2D to) {
 		
-		latTem = Math.abs(this.latFrom-this.latTo);
-		lonTem = Math.abs(this.lonFrom-this.lonTo);
+		Double x = Math.abs(from.getX() - to.getX());
+		Double y = Math.abs(from.getY() - to.getY());
 		
-		Point2D point = new Point2D(latTem, lonTem);
-		
-		return point;
+		return new Point2D(x, y);
 	}
 	
-	private List<Node> getNeighbors(Node n){
+	/**
+	 * Generate a BBOX thanks to the centered point
+	 * @param center {@code Point2D}
+	 * @return {@code Bbox}
+	 * 
+	 */
+	public static Bbox generateBbox(Point2D center) {		
+		return OSM.bboxCalc(center.getX(), center.getY());
+
+	}
+	
+	public static List<Node> getNeighbors(Node n){
 		List<Node> neighbors = new ArrayList<Node>();
 		
 		
-		this.afficheNode(n);
-		this.afficheNearNode();
+//		this.afficheNode(n);
+//		this.afficheNearNode();
 		//Research the neighbour of the node
 		return neighbors;
 	}
 	
-	private Node getMinimNode(Set<Node> n) {
+	public static Node getMinimNode(Set<Node> n) {
 		Node minimumNode = null;
 		
-		//Return minimum distance of the node
+		// Return minimum distance of the node
 		return minimumNode;
 	}
 	
-	private void afficheNode(Node n) {
+	public static void afficheNode(Node n) {
 		
 	}
 	
-	private void afficheNearNode() {
+	public static void afficheNearNode() {
 		
+	}
+	
+	public static void main(String[] args) {	
+
+		Set<Node> nodes;
+				
+		Point2D from = new Point2D(43.94728, 4.80997);
+		Point2D to = new Point2D(43.94626, 4.81048);
+		
+		Double distance = Trajet.calculeDistance(from, to);
+		Point2D centre = Trajet.centreAdresse(from, to);
+		Bbox b = Trajet.generateBbox(centre);
+		
+		System.out.println(distance);
+		System.out.println(centre);
+		System.out.println(b);
 	}
 }
