@@ -1,54 +1,113 @@
 package fr.univavignon.ceri.deskmap.models.line;
 
-import fr.univavignon.ceri.deskmap.models.region.Highway;
+import java.util.ArrayList;
+import java.util.List;
+
+import fr.univavignon.ceri.deskmap.models.GeoData;
 
 /**
  * @author Mohamed BEN YAMNA
  */
-public class Road extends Line implements Highway {
+public class Line extends GeoData {
+
+	/**
+	 * Thickness of the line
+	 */
+	protected Integer thickness;
+	
+	/**
+	 * Color of it
+	 */
+	protected String color;
+	
+	/**
+	 * List of the identifiers for each nodes which make the line
+	 */
+	protected List<Long> nodes = new ArrayList<Long>();
+	
+	/**
+	 * Add a {@code Node} reference in this {@code Line}
+	 * @param id {@code String} Identifier of the {@code Node}
+	 */
+	public void addNode(String id) {
+		this.nodes.add(Long.parseLong(id));
+	}
+	
+	/**
+	 * Get the thickness of the line
+	 * @return the thickness
+	 */
+	public Integer getThickness() {
+		return this.thickness;
+	}
+
+	/**
+	 * Set the thickness of the line
+	 * @param thickness the thickness to set
+	 */
+	public void setThickness(Integer thickness) {
+		this.thickness = thickness;
+	}
+
+	/**
+	 * Get the color of the line
+	 * @return the color
+	 */
+	public String getColor() {
+		return this.color;
+	}
+
+	/**
+	 * Set the color of the line
+	 * @param color the color to set
+	 */
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	/**
+	 * @return the nodes
+	 */
+	public List<Long> getNodes() {
+		return this.nodes;
+	}
+
+	/**
+	 * @param nodes the nodes to set
+	 */
+	public void setNodes(List<Long> nodes) {
+		this.nodes = nodes;
+	}
 
 	/**
 	 * Constructor
 	 * @param id {@code String} Identifier
-	 * @param name {@code String} Name of the road
-	 * @param thickness {@code Integer} Thickness of the road line
+	 * @param name {@code String} Name of the data
+	 * @param thickness {@code Integer} Thickness of the line on the canvas
+	 * @param color {@code String} Color of the line on the canvas
 	 */
-	public Road(String id, String name, Integer thickness) {
-		super(id, name, thickness, "#ffffff");
-	}
-	
-	/**
-	 * Constructor
-	 * @param id {@code String} Identifier
-	 * @param thickness {@code Integer} Thickness of the road line
-	 */
-	public Road(String id, Integer thickness) {
-		super(id, "", thickness, "#ffffff");
+	public Line(String id, String name, Integer thickness, String color) {
+		super(id,name);
+		this.thickness = thickness;
+		this.color = color;
 	}
 	
 	/**
 	 * Constructor
 	 * @param id {@code Long} Identifier
-	 * @param thickness {@code Integer} Thickness of the road line
+	 * @param name {@code String} Name of the data
+	 * @param thickness {@code Integer} Thickness of the line on the canvas
+	 * @param color {@code String} Color of the line on the canvas
 	 */
-	public Road(Long id, Integer thickness) {
-		super(id, "", thickness, "#ffffff");
+	public Line(Long id, String name, Integer thickness, String color) {
+		super(id,name);
+		this.thickness = thickness;
+		this.color = color;
 	}
 	
-	/**
-	 * Constructor identifier only
-	 * @param id {@code Long} Identifier
-	 */
-	public Road(Long id) {
-		super(id, "", 1, "#ffffff");
-	}
-	
-	/**
-	 * Constructor identifier only
-	 * @param id {@code String} Identifier
-	 */
-	public Road(String id) {
-		super(id, "", 1, "#ffffff");
+	@Override
+	public String toString() {
+		return "[Name" + this.name + ", Thickness: " + this.thickness + ",Color: " + this.color + "]";
 	}
 
 }
