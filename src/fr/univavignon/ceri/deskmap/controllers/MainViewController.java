@@ -2,6 +2,8 @@ package fr.univavignon.ceri.deskmap.controllers;
 
 import java.io.File;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
@@ -257,7 +259,7 @@ public class MainViewController implements Initializable {
 			
 			// Download all the cities of the country
 			QueriesLoading.downloadCities(queryCities);
-			
+
 			// Load all the cities of the country
 			QueriesLoading.loadCities();
 			
@@ -614,6 +616,7 @@ public class MainViewController implements Initializable {
 		this.fetchAllContentCity(city);			
 		
 		// Parse the JSON file as Java Objects
+		// TODO: 7,25300 seconds - To optimize
 		Map.loadCityAsObject(city);
 		
 		// Render all the objects of the canvas

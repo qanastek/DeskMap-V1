@@ -3,6 +3,8 @@ package fr.univavignon.ceri.deskmap;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -129,15 +131,18 @@ public class Map {
 	 * @author Yanis Labrak
 	 */
 	public static void loadCityAsObject(String city) throws org.json.simple.parser.ParseException {
-		
+
 		// Load all the nodes
+		// 2.74400 seconds
 		Map.loadNodes(city);
 		
 		// Draw Landuse, Natural, Leisure, Amenity, Highways and Building
-		Map.loadWays(city);
+		// 1.79200 seconds
+		Map.loadWays(city);	
 
 		// Load all the relations
-		Map.loadRelations(city);	
+		// 2.59000 seconds
+		Map.loadRelations(city);
 	}
 	
 	/**
@@ -181,7 +186,9 @@ public class Map {
         // Read the cache for the Map
         try (FileReader reader = new FileReader(city.toLowerCase() + "Map.json"))
         {
+
             //Read JSON file
+        	// TODO: Too slow 2.25s
             Object obj = jsonParser.parse(reader);
  
             JSONObject main = (JSONObject) obj;
@@ -210,8 +217,7 @@ public class Map {
 					MainViewController.map.addNode(node);
 				}	
 				
-		    }
- 
+		    } 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
