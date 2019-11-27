@@ -624,11 +624,14 @@ public class MainViewController implements Initializable {
 		Map.width = this.canvasMap.getWidth();
 		Map.height = this.canvasMap.getHeight();
 		
+		// Draw all ways
+		Draw.drawWays(this.gc);
+		
 		// Draw Nodes
 //		Draw.drawNodes(this.gc);
 		
-		// Draw all ways
-		Draw.drawWays(this.gc);
+		// Draw cities name
+//		Draw.drawRoadName(this.gc);
 	}
 	
 	/**

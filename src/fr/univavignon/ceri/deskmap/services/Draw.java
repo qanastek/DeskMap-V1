@@ -65,14 +65,14 @@ public class Draw {
 		    
 		    Node node = Map.nodes.get(key);
 		    
-		    gc.setFill(Color.GREEN);
-    		gc.setStroke(Color.BLUE);
+		    gc.setFill(Color.BLACK);
+    		gc.setStroke(Color.BLACK);
     		
     		// Coordinate after processing
     		List<Double> coordinates = Node.toPixel(node.lat, node.lon);
     		
     		Double x = coordinates.get(0);
-    		Double y = coordinates.get(1);
+    		Double y = Map.height - coordinates.get(1);
     		
     		gc.fillOval(x, y, 1, 1);
 			
