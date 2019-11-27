@@ -244,6 +244,14 @@ public class MainViewController implements Initializable {
 				this.renderMap();
 			});
 			
+			this.canvasMap.addEventHandler(MouseEvent.MOUSE_DRAGGED, 
+			new EventHandler<MouseEvent>() {
+				@Override
+				public void handle(MouseEvent e) {
+					System.out.println("X:" + e.getX() + ",Y:" + e.getY());
+				}
+			});
+			
 			// Build the query to fetch all the cities of the country
 			String queryCities = QueriesBuilding.buildFetchCitiesQuery("France");
 			
@@ -624,11 +632,11 @@ public class MainViewController implements Initializable {
 		Map.width = this.canvasMap.getWidth();
 		Map.height = this.canvasMap.getHeight();
 		
-		// Draw Nodes
-//		Draw.drawNodes(this.gc);
-		
 		// Draw all ways
 		Draw.drawWays(this.gc);
+		
+		// Draw Nodes
+		Draw.drawNodes(this.gc);
 	}
 	
 	/**
