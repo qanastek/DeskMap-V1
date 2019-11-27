@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.univavignon.ceri.deskmap.Map;
+import fr.univavignon.ceri.deskmap.models.GeoData;
 import fr.univavignon.ceri.deskmap.models.Node;
 import fr.univavignon.ceri.deskmap.models.Way;
 import fr.univavignon.ceri.deskmap.models.line.Line;
@@ -55,26 +56,56 @@ public class Draw {
 	}
 	
 	/**
-	 * Draw all the {@code Nodes} on the {@code Canvas}
+	 * drawRoadName
 	 * @param gc {@code GraphicsContext}
-	 * @author Yanis Labrak
+	 * @author Capdepon
 	 */
-	public static void drawNodes(GraphicsContext gc) {
+	public static void drawRoadName(GraphicsContext gc) {
 		
-		for (Long key : Map.nodes.keySet()) {
+		for (Long key : Map.mapContent.keySet()) {
 		    
-		    Node node = Map.nodes.get(key);
+		    GeoData item = Map.mapContent.get(key);
 		    
-		    gc.setFill(Color.GREEN);
-    		gc.setStroke(Color.BLUE);
-    		
-    		// Coordinate after processing
-    		List<Double> coordinates = Node.toPixel(node.lat, node.lon);
-    		
-    		Double x = coordinates.get(0);
-    		Double y = coordinates.get(1);
-    		
-    		gc.fillOval(x, y, 1, 1);
+		    if (item instanceof Road) {
+		    	
+		    	Road r = (Road) item;
+		    	
+		    	if (r.getType().equals("primary")) {
+		    		
+		    		List<Long> allNodes = r.getNodes();
+		    		
+		    		System.out.println("ici");
+		    		
+		    		System.out.println(r.getJunction());
+		    		
+		    		if (allNodes.size() >= 3 && (r.getJunction() == null || r.getJunction().isEmpty())) {	
+		    			
+		    		System.out.println("Pas crash");
+		    		
+			    		Long idMiddleNode = allNodes.get((allNodes.size() / 2));
+			    		Node MiddleNode = Map.nodes.get(idMiddleNode);
+			    		
+			    		gc.setLineWidth(2.0);
+					    gc.setFill(Color.WHITE);
+					    gc.setStroke(Color.WHITE);
+					    
+					    List<Double> coordinates = Node.toPixel(MiddleNode.lat, MiddleNode.lon);
+					    Double x = coordinates.get(0);
+					    Double y = Map.height - coordinates.get(1);
+					    
+					    gc.fillText(r.getName(), x, y);
+			            gc.strokeText(r.getName(), x, y);
+			            
+					    gc.setFill(Color.BLACK);
+					    gc.setStroke(Color.BLACK);
+			            
+			            gc.fillOval(x, y, 5, 5);
+		    			
+					}
+					
+				}
+				
+			}
 			
 		}
 	}
