@@ -106,7 +106,7 @@
                      <children>
                         <AnchorPane fx:id="canvasPane" layoutX="149.0" layoutY="128.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Canvas fx:id="canvasMap" height="572.0" onScroll="#canvasScrolling" width="937.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <Canvas fx:id="canvasMap" height="572.0" onMousePressed="#drag" onMouseReleased="#drop" onScroll="#canvasScrolling" width="937.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <rotationAxis>
                                     <Point3D />
                                  </rotationAxis></Canvas>

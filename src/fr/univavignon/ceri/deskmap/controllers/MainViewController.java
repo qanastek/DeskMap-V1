@@ -4,6 +4,8 @@ import java.io.File;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
@@ -639,7 +641,7 @@ public class MainViewController implements Initializable {
 		Draw.drawWays(this.gc);
 		
 		// Draw Nodes
-		Draw.drawNodes(this.gc);
+//		Draw.drawNodes(this.gc);
 	}
 	
 	/**
@@ -843,6 +845,38 @@ public class MainViewController implements Initializable {
 	{
 		this.splitPane.setDividerPositions(0.29);
 	}
+
+    /**
+     * @param event
+     */
+    @FXML
+    void drag(MouseEvent event) {    	
+    	System.out.println("FROM X:" + event.getSceneX());
+    	Map.xDelta = event.getSceneX();
+    	System.out.println("FROM Y:" + event.getSceneY());
+    	Map.yDelta = event.getSceneY();
+    }
+
+    /**
+     * @param event
+     */
+    @FXML
+    void drop(MouseEvent event) {
+    	
+    	Map.xDelta = event.getSceneX() - Map.xDelta;
+    	Map.yDelta = event.getSceneY() - Map.yDelta;
+    	
+    	Map.longitude += Map.xDelta * 3;
+    	Map.latitude -=  Map.yDelta / 1000000000d;
+    	
+    	Instant start = Instant.now();
+    	
+		this.renderMap();
+		
+		Instant finish = Instant.now();
+		double timeElapsed = Duration.between(start, finish).toMillis();
+		System.out.println(timeElapsed / 1000 + "s");
+    }
 	
 	/**
 	 * Auto-complete for the {@code FROM} comboBox

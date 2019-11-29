@@ -105,7 +105,7 @@ public class Node {
 		// Longitude in pixel for the canvas
 		lon = posHorizontal * ratioWidthPixel;
 		
-		return Arrays.asList(lon,lat);
+		return Arrays.asList(lon, lat);
 	}
 		
 	@Override

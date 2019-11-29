@@ -101,6 +101,16 @@ public class Map {
 	public static Double longitude = 0.0;
 	
 	/**
+	 * Drag and drop X axis delta
+	 */
+	public static Double xDelta = 0.0;
+	
+	/**
+	 * Drag and drop Y axis delta
+	 */
+	public static Double yDelta = 0.0;
+	
+	/**
 	 * All the GeoData to load
 	 */
 	public static HashMap<Long,GeoData> mapContent = new HashMap<Long,GeoData>();
