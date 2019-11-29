@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import DeskMapExceptions.CannotReachServerException;
 import fr.univavignon.ceri.deskmap.Map;
 import fr.univavignon.ceri.deskmap.config.Settings;
+import fr.univavignon.ceri.deskmap.models.Bbox;
 import fr.univavignon.ceri.deskmap.models.Street;
 import fr.univavignon.ceri.deskmap.models.geopoint.City;
 import fr.univavignon.ceri.deskmap.services.Draw;
@@ -54,6 +55,8 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	private Canvas canvasMap;
+	@FXML
+	private Canvas canvasNodes;
 	
 	/**
 	 * Name of the city
@@ -191,6 +194,7 @@ public class MainViewController implements Initializable {
 	 * GraphicsContext for the canvas
 	 */
 	private GraphicsContext gc;
+	private GraphicsContext gcNodes;
 	
 	/**
 	 * Automatically started when the program start
@@ -203,6 +207,7 @@ public class MainViewController implements Initializable {
 		
 		// Get the graphics context of the canvas
 		this.gc = this.canvasMap.getGraphicsContext2D();
+		this.gcNodes = this.canvasNodes.getGraphicsContext2D();
 		
 		// Link the value of the scale to the Text object
 		this.scaleValue.textProperty().bind(Map.scaleMeter.asString());
@@ -633,15 +638,30 @@ public class MainViewController implements Initializable {
 		
 		// Clear the canvas before draw
 		this.canvasMap.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
+		this.canvasNodes.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
 		
 		Map.width = this.canvasMap.getWidth();
 		Map.height = this.canvasMap.getHeight();
 		
 		// Draw all ways
 		Draw.drawWays(this.gc);
+	}
+	
+	@FXML
+	void showNodesArround(MouseEvent event) {
+		
+		Bbox bbox = new Bbox(
+			event.getX() - 10,
+			event.getX() + 10,
+			event.getY() - 10,
+			event.getY() + 10
+		);
+		
+		// Clear canvas
+		this.canvasNodes.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
 		
 		// Draw Nodes
-//		Draw.drawNodes(this.gc);
+		Draw.drawNodes(this.gcNodes, bbox);
 	}
 	
 	/**
@@ -869,13 +889,7 @@ public class MainViewController implements Initializable {
     	Map.longitude += Map.xDelta * 3;
     	Map.latitude -=  Map.yDelta / 1000000000d;
     	
-    	Instant start = Instant.now();
-    	
 		this.renderMap();
-		
-		Instant finish = Instant.now();
-		double timeElapsed = Duration.between(start, finish).toMillis();
-		System.out.println(timeElapsed / 1000 + "s");
     }
 	
 	/**

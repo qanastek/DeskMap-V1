@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.univavignon.ceri.deskmap.Map;
+import fr.univavignon.ceri.deskmap.models.Bbox;
 import fr.univavignon.ceri.deskmap.models.Node;
 import fr.univavignon.ceri.deskmap.models.Way;
 import fr.univavignon.ceri.deskmap.models.line.Line;
@@ -59,22 +60,27 @@ public class Draw {
 	 * @param gc {@code GraphicsContext}
 	 * @author Yanis Labrak
 	 */
-	public static void drawNodes(GraphicsContext gc) {
+	public static void drawNodes(GraphicsContext gc, Bbox bbox) {
+		
+		System.out.println(Map.scale);
 		
 		for (Long key : Map.nodes.keySet()) {
 		    
 		    Node node = Map.nodes.get(key);
 		    
-		    gc.setFill(Color.BLACK);
-    		gc.setStroke(Color.BLACK);
-    		
     		// Coordinate after processing
     		List<Double> coordinates = Node.toPixel(node.lat, node.lon);
     		
     		Double x = coordinates.get(0);
     		Double y = Map.height - coordinates.get(1);
-    		
-    		gc.fillOval(x, y, 1, 1);
+	    		
+		    if (x < bbox.topRight && x > bbox.topLeft && y > bbox.bottomLeft && y < bbox.bottomRight) {
+
+			    gc.setFill(Color.BLACK);
+	    		gc.setStroke(Color.BLACK);
+	    		gc.fillOval(x, y, Map.scale/5, Map.scale/5);
+	    		
+			}
 			
 		}
 	}
