@@ -2,12 +2,17 @@ package fr.univavignon.ceri.deskmap.controllers;
 
 import java.io.File;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 
 import DeskMapExceptions.CannotReachServerException;
 import fr.univavignon.ceri.deskmap.Map;
 import fr.univavignon.ceri.deskmap.config.Settings;
+import fr.univavignon.ceri.deskmap.models.Bbox;
 import fr.univavignon.ceri.deskmap.models.Street;
 import fr.univavignon.ceri.deskmap.models.geopoint.City;
 import fr.univavignon.ceri.deskmap.services.Draw;
@@ -34,6 +39,7 @@ import javafx.scene.control.TextArea;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
@@ -50,6 +56,8 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	private Canvas canvasMap;
+	@FXML
+	private Canvas canvasNodes;
 	
 	/**
 	 * Name of the city
@@ -187,6 +195,7 @@ public class MainViewController implements Initializable {
 	 * GraphicsContext for the canvas
 	 */
 	private GraphicsContext gc;
+	private GraphicsContext gcNodes;
 	
 	/**
 	 * Automatically started when the program start
@@ -199,6 +208,7 @@ public class MainViewController implements Initializable {
 		
 		// Get the graphics context of the canvas
 		this.gc = this.canvasMap.getGraphicsContext2D();
+		this.gcNodes = this.canvasNodes.getGraphicsContext2D();
 		
 		// Link the value of the scale to the Text object
 		this.scaleValue.textProperty().bind(Map.scaleMeter.asString());
@@ -244,12 +254,20 @@ public class MainViewController implements Initializable {
 				this.renderMap();
 			});
 			
+//			this.canvasMap.addEventHandler(MouseEvent.MOUSE_DRAGGED, 
+//			new EventHandler<MouseEvent>() {
+//				@Override
+//				public void handle(MouseEvent e) {
+//					System.out.println("X:" + e.getX() + ",Y:" + e.getY());
+//				}
+//			});
+			
 			// Build the query to fetch all the cities of the country
 			String queryCities = QueriesBuilding.buildFetchCitiesQuery("France");
 			
 			// Download all the cities of the country
 			QueriesLoading.downloadCities(queryCities);
-			
+
 			// Load all the cities of the country
 			QueriesLoading.loadCities();
 			
@@ -358,7 +376,7 @@ public class MainViewController implements Initializable {
 			String bbox = OSM.bboxCalc(
 					Double.parseDouble(coordinates[0]),
 					Double.parseDouble(coordinates[1])
-			);
+			).toString();
 			
 			this.addStateBar("BBox created");
 			
@@ -606,6 +624,7 @@ public class MainViewController implements Initializable {
 		this.fetchAllContentCity(city);			
 		
 		// Parse the JSON file as Java Objects
+		// TODO: 7,25300 seconds - To optimize
 		Map.loadCityAsObject(city);
 		
 		// Render all the objects of the canvas
@@ -620,15 +639,30 @@ public class MainViewController implements Initializable {
 		
 		// Clear the canvas before draw
 		this.canvasMap.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
+		this.canvasNodes.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
 		
 		Map.width = this.canvasMap.getWidth();
 		Map.height = this.canvasMap.getHeight();
 		
-		// Draw Nodes
-//		Draw.drawNodes(this.gc);
-		
 		// Draw all ways
 		Draw.drawWays(this.gc);
+	}
+	
+	@FXML
+	void showNodesArround(MouseEvent event) {
+		
+		Bbox bbox = new Bbox(
+			event.getX() - 10,
+			event.getX() + 10,
+			event.getY() - 10,
+			event.getY() + 10
+		);
+		
+		// Clear canvas
+		this.canvasNodes.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
+		
+		// Draw Nodes
+		Draw.drawNodes(this.gcNodes, bbox);
 	}
 	
 	/**
@@ -832,6 +866,38 @@ public class MainViewController implements Initializable {
 	{
 		this.splitPane.setDividerPositions(0.29);
 	}
+
+    /**
+     * @param event
+     */
+    @FXML
+    void drag(MouseEvent event) {    	
+    	if (event.getButton() == MouseButton.PRIMARY) {
+        	Map.xDelta = event.getSceneX();
+        	Map.yDelta = event.getSceneY();
+			System.out.println("LEFT");	
+		}
+    }
+
+    /**
+     * @param event
+     */
+    @FXML
+    void drop(MouseEvent event) {
+    	
+		if (event.getButton() == MouseButton.PRIMARY) {
+			
+			Map.xDelta = event.getSceneX() - Map.xDelta;
+	    	Map.yDelta = event.getSceneY() - Map.yDelta;
+	    	
+	    	Map.longitude += Map.xDelta * 3;
+	    	Map.latitude -=  Map.yDelta / 1000000000d;
+	    	
+			this.renderMap();	
+			System.out.println("LEFT DROP");	
+			
+		}		
+    }
 	
 	/**
 	 * Auto-complete for the {@code FROM} comboBox

@@ -105,11 +105,26 @@ public class Node {
 		// Longitude in pixel for the canvas
 		lon = posHorizontal * ratioWidthPixel;
 		
-		return Arrays.asList(lon,lat);
+		return Arrays.asList(lon, lat);
 	}
 		
 	@Override
 	public String toString() {
 		return "[Id: " + this.id + ", Lat: " + this.lat + ", Lon: " + this.lon + "]";
+	}
+
+	/**
+	 * @param bbox
+	 * @return
+	 */
+	public boolean in(Bbox bbox) {
+		
+		if (bbox.topLeft < this.lon && this.lon < bbox.topRight) {
+			if (bbox.bottomLeft < this.lat && this.lat < bbox.topLeft) {
+				System.out.println("Dedant");
+				return true;
+			}
+		}
+		return false;
 	}
 }

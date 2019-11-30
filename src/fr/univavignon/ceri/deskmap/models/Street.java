@@ -17,6 +17,16 @@ public class Street {
 	public String name;
 	
 	/**
+	 * Latitude of the street {@code Double}
+	 */
+	public Double lat;
+
+	/**
+	 * Longitude of the street {@code Double}
+	 */
+	public Double lon;
+	
+	/**
 	 * @param id {@code String} Identifier
 	 * @param name {@code String} name
 	 * @author Yanis Labrak
