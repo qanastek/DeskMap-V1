@@ -62,8 +62,6 @@ public class Draw {
 	 */
 	public static void drawNodes(GraphicsContext gc, Bbox bbox) {
 		
-		System.out.println(Map.scale);
-		
 		for (Long key : Map.nodes.keySet()) {
 		    
 		    Node node = Map.nodes.get(key);

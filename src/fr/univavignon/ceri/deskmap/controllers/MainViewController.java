@@ -39,6 +39,7 @@ import javafx.scene.control.TextArea;
 
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
@@ -871,10 +872,11 @@ public class MainViewController implements Initializable {
      */
     @FXML
     void drag(MouseEvent event) {    	
-    	System.out.println("FROM X:" + event.getSceneX());
-    	Map.xDelta = event.getSceneX();
-    	System.out.println("FROM Y:" + event.getSceneY());
-    	Map.yDelta = event.getSceneY();
+    	if (event.getButton() == MouseButton.PRIMARY) {
+        	Map.xDelta = event.getSceneX();
+        	Map.yDelta = event.getSceneY();
+			System.out.println("LEFT");	
+		}
     }
 
     /**
@@ -883,13 +885,18 @@ public class MainViewController implements Initializable {
     @FXML
     void drop(MouseEvent event) {
     	
-    	Map.xDelta = event.getSceneX() - Map.xDelta;
-    	Map.yDelta = event.getSceneY() - Map.yDelta;
-    	
-    	Map.longitude += Map.xDelta * 3;
-    	Map.latitude -=  Map.yDelta / 1000000000d;
-    	
-		this.renderMap();
+		if (event.getButton() == MouseButton.PRIMARY) {
+			
+			Map.xDelta = event.getSceneX() - Map.xDelta;
+	    	Map.yDelta = event.getSceneY() - Map.yDelta;
+	    	
+	    	Map.longitude += Map.xDelta * 3;
+	    	Map.latitude -=  Map.yDelta / 1000000000d;
+	    	
+			this.renderMap();	
+			System.out.println("LEFT DROP");	
+			
+		}		
     }
 	
 	/**
