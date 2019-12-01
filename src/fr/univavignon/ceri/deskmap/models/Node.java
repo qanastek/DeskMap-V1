@@ -125,8 +125,9 @@ public class Node {
 	}
 
 	/**
-	 * @param bbox
-	 * @return
+	 * Check if the node is in the bbox
+	 * @param bbox {@code Bbox} The area
+	 * @return {@code Boolean}
 	 */
 	public boolean in(Bbox bbox) {
 		

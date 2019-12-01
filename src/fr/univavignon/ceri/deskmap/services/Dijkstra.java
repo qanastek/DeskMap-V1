@@ -2,13 +2,29 @@ package fr.univavignon.ceri.deskmap.services;
 
 import fr.univavignon.ceri.deskmap.models.Node;
 
+/**
+ * @author Zheng Zihao
+ */
 public class Dijkstra {
-	private static Node start = null;
-	private static Node end = null;
 	
+	/**
+	 * Departure coordinates
+	 */
+	public static Node START = null;
+	
+	/**
+	 * Arrival coordinates
+	 */
+	public static Node END = null;
+	
+	/**
+	 * @param from {@code Node}
+	 * @param to {@code Node}
+	 * @author Zheng Zihao
+	 */
 	public Dijkstra(Node from, Node to) {
 
-		start = from;
-		end = to;
+		Dijkstra.START = from;
+		Dijkstra.END = to;
 	}
 }

@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -26,7 +24,6 @@ import DeskMapExceptions.CannotReachServerException;
 import fr.univavignon.ceri.deskmap.controllers.MainViewController;
 import fr.univavignon.ceri.deskmap.models.Street;
 import fr.univavignon.ceri.deskmap.models.geopoint.City;
-import javafx.collections.FXCollections;
 
 /**
  * All the functions which is used for loading and downloading the queries results
@@ -71,13 +68,14 @@ public abstract class QueriesLoading {
 	}	
 	
 	/**
-	 * Get the query result directlly
+	 * Get the query result directly
 	 * @param query {@code String} Query to send to the OSM API
 	 * @throws CannotReachServerException Exception thrown when the server cannot be reached
+	 * @return {@code JSONObject} The full object which contain all the results
+	 * @throws IOException Thrown when the file is missing
+	 * @throws MalformedURLException Thrown when the {@code URL} isn't complete
+	 * @throws ParseException Thrown when the {@code JSONObject} cannot be parse
 	 * @author Yanis Labrak
-	 * @throws IOException 
-	 * @throws MalformedURLException 
-	 * @throws ParseException 
 	 */
 	public static JSONObject getQueryResult(String query) throws CannotReachServerException, MalformedURLException, IOException, ParseException {
 		
@@ -167,7 +165,14 @@ public abstract class QueriesLoading {
 	 */
 	public static void downloadStreets(City city, String query) throws CannotReachServerException {
 		
-		final String STREET_FILE = city.name.replaceAll("\\s+","").toLowerCase() + ".csv";
+
+		String STREET_FILE = city.name;
+		STREET_FILE = STREET_FILE.replaceAll("\\.", "\\_");
+		STREET_FILE = STREET_FILE.replaceAll("\\/", "\\_");
+		STREET_FILE = STREET_FILE.replaceAll("\\s+","");
+		STREET_FILE = STREET_FILE.toLowerCase();
+		STREET_FILE = STREET_FILE + ".csv";
+		
 		System.out.println(STREET_FILE);
 		
 		File f = new File(STREET_FILE);

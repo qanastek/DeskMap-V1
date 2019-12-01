@@ -17,6 +17,8 @@ public class Trajet {
 	
 	/**
 	 * @return Distance between two nodes
+	 * @param from {@code Point2D}
+	 * @param to {@code Point2D}
 	 * @author ZHENG Zihao
 	 */
 	public static Double calculeDistance(Point2D from, Point2D to) {		
@@ -25,7 +27,9 @@ public class Trajet {
 	
 	/**
 	 * Get the center point between the departure and arrival
-	 * @return 
+	 * @param from {@code Point2D} The departure
+	 * @param to {@code Point2D} The arrival
+	 * @return {@code Point2D} The center point
 	 */
 	public static Point2D centreAdresse(Point2D from, Point2D to) {
 		
@@ -46,16 +50,25 @@ public class Trajet {
 
 	}
 	
+	/**
+	 * @param n {@code Node}
+	 * @return {@code List<Node>}
+	 */
 	public static List<Node> getNeighbors(Node n){
+		
 		List<Node> neighbors = new ArrayList<Node>();
 		
 		
 //		this.afficheNode(n);
 //		this.afficheNearNode();
-		//Research the neighbour of the node
+		// Research the neighbors of the node
 		return neighbors;
 	}
 	
+	/**
+	 * @param n {@code Node}
+	 * @return {@code Node}
+	 */
 	public static Node getMinimNode(Set<Node> n) {
 		Node minimumNode = null;
 		

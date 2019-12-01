@@ -12,7 +12,14 @@ import fr.univavignon.ceri.deskmap.models.Node;
  */
 public class City extends GeoPoint {
 	
+	/**
+	 * Country of the city
+	 */
 	public String country;
+	
+	/**
+	 * State of the city
+	 */
 	public String state;
 	
 	/**
@@ -54,7 +61,7 @@ public class City extends GeoPoint {
 	
 	/**
 	 * Check if the city is a real one.
-	 * @param city {@code String} Name of the city
+	 * @param cityFrom {@code City} The city
 	 * @return {@code City} if found else {@code null}
 	 * @author Yanis Labrak
 	 */

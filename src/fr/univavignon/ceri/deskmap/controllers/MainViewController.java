@@ -3,13 +3,8 @@ package fr.univavignon.ceri.deskmap.controllers;
 import java.io.File;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Iterator;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -29,7 +24,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Side;
 import javafx.scene.control.TextField;
 
 import javafx.scene.control.Slider;
@@ -38,8 +32,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 
 import javafx.scene.input.KeyCode;
@@ -61,6 +53,10 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	private Canvas canvasMap;
+	
+	/**
+	 * Node canvas
+	 */
 	@FXML
 	private Canvas canvasNodes;
 	
@@ -341,14 +337,14 @@ public class MainViewController implements Initializable {
 	
 	/**
 	 * Make the objects for the map
-	 * @param cityName {@code String} Name of the city
+	 * @param city {@code City} The city
 	 * @throws Exception If the coordinates wasn't found
 	 * @throws CannotReachServerException Exception thrown when the server cannot be reached
 	 * @author Yanis Labrak
 	 */
 	private void fetchAllContentCity(City city) throws Exception, CannotReachServerException {
 		
-		System.out.println("City loaded -------:" + city.name + "," + city.point);
+		System.out.println("City loaded: " + city.name + "," + city.point);
 		
 		try {
 			// Fetch the coordinates of the city
@@ -373,22 +369,21 @@ public class MainViewController implements Initializable {
 			// Make the query for getting the full map
 			String query = QueriesBuilding.fullMapQuery(bbox);
 			
-			final String CITIES_FILE = city.name.replaceAll("\\s+","").toLowerCase() + "Map.json";
+			String CITIES_FILE = city.name
+			.replaceAll("\\.", "\\_")
+			.replaceAll("\\/", "\\_")
+			.replaceAll("\\s+","")
+			.toLowerCase() + "Map.json";
+			
 			System.out.println("File name: " + CITIES_FILE);
 			
 			File f = new File(CITIES_FILE);
-			
-			long startTime = System.nanoTime();
 			
 			// If the file doesn't exist
 			if (!f.exists()) {
 				this.addStateBar("File not found !");
 				QueriesLoading.laodQueryInFile(query, CITIES_FILE);	
 			}
-			
-			// How long the query take to be totally downloaded
-			long endTime = System.nanoTime();
-			this.addStateBar("Duration: " + TimeUnit.SECONDS.convert(endTime - startTime, TimeUnit.NANOSECONDS) + " seconds");
 			
 		} 
 		catch (CannotReachServerException e) {
@@ -465,17 +460,62 @@ public class MainViewController implements Initializable {
 	
 	/**
 	 * Check if the input is a letter
-	 * @param event {@code KeyEvent} The input character
 	 * @author Quentin Capdepon
 	 */
-	@FXML
-	public void checkInputIsLetter(KeyEvent event)
-    {		
-		char value = event.getCharacter().charAt(0);
+	public void checkInputCity()
+    {
 		
-		if (value != ' ' && value != '-' && !Character.isLetter(value)) {
-			event.consume();
+		String currentCityName = this.cityName.getEditor().getText();
+		
+		// If is empty
+		if (currentCityName.length() == 0) {
+			return;
 		}
+		
+		int idLast = currentCityName.length() > 1 ? currentCityName.length() - 1 : 0;
+		char value = currentCityName.charAt(idLast);
+		
+		if (currentCityName.length() >= 1) {
+			
+			// If it currently looks like GPS coordinates
+			if (currentCityName.matches(".*\\d.*")) {
+				
+				long countComma = currentCityName.chars().filter(ch -> ch == ',').count();
+				
+				if ((value != ',' && !Character.isDigit(value)) || countComma > 3) {
+
+					System.out.println(this.cityName.getEditor().getText());
+					
+					// Delete the new char
+					this.cityName.getEditor().setText(
+						currentCityName.substring(0, this.cityName.getEditor().getCaretPosition() - 1)
+						+
+						currentCityName.substring(this.cityName.getEditor().getCaretPosition())
+					);
+					this.cityName.getEditor().positionCaret(currentCityName.length() - 1);
+					
+					System.out.println(this.cityName.getEditor().getText());
+					
+				}
+				
+			} else {
+				
+				if (value != ' ' && value != '-' && !Character.isLetter(value)) {
+					
+					// Delete the new char
+					this.cityName.getEditor().setText(
+						currentCityName.substring(0, this.cityName.getEditor().getCaretPosition() - 1)
+						+
+						currentCityName.substring(this.cityName.getEditor().getCaretPosition())
+					);
+					this.cityName.getEditor().positionCaret(currentCityName.length() - 1);
+					
+				}
+				
+			}
+			
+		}
+		
     }
 	
 	/**
@@ -614,6 +654,13 @@ public class MainViewController implements Initializable {
 	 */
 	private void renderCityMap(City city) throws Exception, CannotReachServerException {
 		
+		// Sanitize the city name
+		city.name = city.name
+		.replaceAll("\\.", "\\_")
+		.replaceAll("\\/", "\\_")
+		.replaceAll("\\s+","")
+		.toLowerCase();
+		
 		// Fetch everything we need to display the map			
 		this.fetchAllContentCity(city);
 		
@@ -642,6 +689,11 @@ public class MainViewController implements Initializable {
 		Draw.drawWays(this.gc);
 	}
 	
+	/**
+	 * Draw all {@code Node}'s in a specific area
+	 * @param event {@code MouseEvent}
+	 * @author Yanis Labrak
+	 */
 	@FXML
 	void showNodesArround(MouseEvent event) {
 		
@@ -669,6 +721,8 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void KeyPressCity(KeyEvent event) throws Exception, CannotReachServerException {
 		
+		this.checkInputCity();
+		
 		try {
 			
 			// If it's a moving key continue
@@ -680,48 +734,66 @@ public class MainViewController implements Initializable {
 			// If the field isn't empty
 			if (!this.cityName.getEditor().getText().isEmpty()) {
 
-				this.disableAllUnderCity();
-				
-				// Clear the current list of city
-				MainViewController.listCitySorted.clear();
-				
-				if (this.cityName.getEditor().getText().length() >= 3) {
+					this.disableAllUnderCity();
 					
-					String nominatimUrl = "http://photon.komoot.de/api/?q=" + URLEncoder.encode("'" + this.cityName.getEditor().getText() + "'", "UTF-8");
-					JSONObject loadedQuery = QueriesLoading.getQueryResult(nominatimUrl);
-					JSONArray items = (JSONArray) loadedQuery.get("features");
+					// Clear the current list of city
+					MainViewController.listCitySorted.clear();
 					
-					Iterator<JSONObject> i = items.iterator();
-					
-			        while (i.hasNext()) {
-			        	JSONObject item = (JSONObject) i.next();
-			        	
-			        	JSONObject properties = (JSONObject) item.get("properties");
-			        	
-			        	JSONObject geometry = (JSONObject) item.get("geometry");
-						JSONArray coordinates = (JSONArray) geometry.get("coordinates");
-			        	
-						Long osm_id = (Long) properties.get("osm_id");
-			            Double lat = (Double) coordinates.get(1);
-			            Double lon = (Double) coordinates.get(0);
-			            String country = (String) properties.get("country");
-			            String name = (String) properties.get("name");
-			            String state = (String) properties.get("state");
-			            String osm_value = (String) properties.get("osm_value");
-			            
-			            if (osm_value.equals("city") || osm_value.equals("village")) {	
-				        	City c = new City(osm_id.toString(), lat, lon, name, state, country);
-							MainViewController.listCitySorted.add(c);				
-						}
-			        }
+					if (this.cityName.getEditor().getText().length() >= 3) {
+						
+						Boolean isCoordinate = this.cityName.getEditor().getText().matches(".*\\d.*");
+						String nominatimUrl = null; 
+						
+						// If the field contain digits make a reverse city research
+						if (isCoordinate) {
+							
+							// http://photon.komoot.de/reverse?lon=4.8059012&lat=43.9492493
+							
+							String[] coordinates = this.cityName.getEditor().getText().split(", ");
 
-					this.cityName.setItems(MainViewController.listCitySorted);
-					this.cityName.show();
-				}
-				
-				this.fromName.show();
-				this.cityButton.setDisable(false);
-				this.resetBtn.setDisable(false);
+							String lon = coordinates[1].replaceAll(",",".");
+							String lat = coordinates[0].replaceAll("\\s+","").replaceAll(",",".");
+			
+							nominatimUrl = "http://photon.komoot.de/reverse?lon=" + lon + "&lat=" + lat;
+							
+						} else {						
+							nominatimUrl = "http://photon.komoot.de/api/?q=" + URLEncoder.encode("'" + this.cityName.getEditor().getText() + "'", "UTF-8");
+						}
+						
+						JSONObject loadedQuery = QueriesLoading.getQueryResult(nominatimUrl);							
+						JSONArray items = (JSONArray) loadedQuery.get("features");
+						Iterator<JSONObject> i = items.iterator();
+						
+				        while (i.hasNext()) {
+				        	
+				        	JSONObject item = (JSONObject) i.next();
+				        	
+				        	JSONObject properties = (JSONObject) item.get("properties");
+				        	
+				        	JSONObject geometry = (JSONObject) item.get("geometry");
+							JSONArray coordinates = (JSONArray) geometry.get("coordinates");
+				        	
+							Long osm_id = (Long) properties.get("osm_id");
+				            Double lat = (Double) coordinates.get(1);
+				            Double lon = (Double) coordinates.get(0);
+				            String country = (String) properties.get("country");
+				            String name = (String) properties.get("name");
+				            String state = (String) properties.get("state");
+				            String osm_value = (String) properties.get("osm_value");
+				            
+				            if (isCoordinate || osm_value.equals("city") || osm_value.equals("village")) {	
+					        	City c = new City(osm_id.toString(), lat, lon, name, state, country);
+								MainViewController.listCitySorted.add(c);				
+							}
+				        }
+	
+						this.cityName.setItems(MainViewController.listCitySorted);
+						this.cityName.show();
+					}
+					
+					this.fromName.show();
+					this.cityButton.setDisable(false);
+					this.resetBtn.setDisable(false);
 			}
 			else {
 				
@@ -890,7 +962,8 @@ public class MainViewController implements Initializable {
 	}
 
     /**
-     * @param event
+     * Handle the drag event on the canvas
+     * @param event {@code MouseEvent}
      */
     @FXML
     void drag(MouseEvent event) {    	
@@ -902,7 +975,8 @@ public class MainViewController implements Initializable {
     }
 
     /**
-     * @param event
+     * Handle the drop event on the canvas
+     * @param event {@code MouseEvent}
      */
     @FXML
     void drop(MouseEvent event) {
