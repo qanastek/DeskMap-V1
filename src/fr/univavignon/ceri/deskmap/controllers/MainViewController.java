@@ -619,7 +619,7 @@ public class MainViewController implements Initializable {
 		
 		// Parse the JSON file as Java Objects
 		// TODO: 7,25300 seconds - To optimize
-		Map.loadCityAsObject(city.name);
+		Map.loadCityAsObject(city.name.replaceAll("\\s+","").toLowerCase());
 		
 		// Render all the objects of the canvas
 		this.renderMap();
