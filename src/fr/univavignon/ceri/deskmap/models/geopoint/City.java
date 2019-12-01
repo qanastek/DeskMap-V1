@@ -12,6 +12,9 @@ import fr.univavignon.ceri.deskmap.models.Node;
  */
 public class City extends GeoPoint {
 	
+	public String country;
+	public String state;
+	
 	/**
 	 * Main constructor
 	 * @param id {@code String} Identifier
@@ -25,6 +28,22 @@ public class City extends GeoPoint {
 	}
 	
 	/**
+	 * Main constructor
+	 * @param id {@code String} Identifier
+	 * @param lat {@code Double} Latitude
+	 * @param lon {@code Double} Longitude
+	 * @param name {@code String} Name of the city
+	 * @param country {@code String} name of the country
+	 * @param state {@code String} name of the state
+	 * @author Yanis Labrak
+	 */
+	public City(String id, Double lat, Double lon, String name, String country, String state) {
+		super(id, name,new Node(Long.parseLong(id),lat,lon));
+		this.country = country;
+		this.state = state;
+	}
+	
+	/**
 	 * Copy constructor
 	 * @param city {@code City} Another City object
 	 * @author Mohamed BEN YAMNA
@@ -35,16 +54,16 @@ public class City extends GeoPoint {
 	
 	/**
 	 * Check if the city is a real one.
-	 * @param cityName {@code String} Name of the city
+	 * @param city {@code String} Name of the city
 	 * @return {@code City} if found else {@code null}
 	 * @author Yanis Labrak
 	 */
-	public static City isInListCity(String cityName) {
+	public static City isInListCity(City cityFrom) {
 		
 		// For each cities
 		for (City city : MainViewController.listCity) {
 					
-			if (!city.name.isEmpty() && city.name.toLowerCase().equals(cityName.toLowerCase())) {
+			if (!city.name.isEmpty() && city.name.toLowerCase().equals(cityFrom.getName().toLowerCase())) {
 				System.out.println("Inside: " + city.name.toLowerCase());
 				return city;
 			}
@@ -95,5 +114,10 @@ public class City extends GeoPoint {
 		} catch(Exception e) {
 			return null;
 		}		
+	}
+
+	@Override
+	public String toString() {
+		return this.name + ", " + this.state + ", " + this.country;
 	}
 }

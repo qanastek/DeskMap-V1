@@ -2,12 +2,17 @@ package fr.univavignon.ceri.deskmap.controllers;
 
 import java.io.File;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import DeskMapExceptions.CannotReachServerException;
 import fr.univavignon.ceri.deskmap.Map;
@@ -63,7 +68,7 @@ public class MainViewController implements Initializable {
 	 * Name of the city
 	 */
 	@FXML
-	private TextField cityName;
+	private ComboBox<City> cityName;
 	
 	/**
 	 * Start house number
@@ -142,12 +147,6 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	private SplitPane splitPane;
-
-	/**
-	 * The auto-complete menu for the city field
-	 */
-	@FXML
-    private ContextMenu menuCity;
 	
 	/**
 	 * The {@code Pane} which contain the {@code Canvas}
@@ -167,11 +166,6 @@ public class MainViewController implements Initializable {
 	public static ObservableList<City> listCity;
 	
 	/**
-	 * The observable variable for the text field {@code cityName}
-	 */
-	public static ObservableList<MenuItem> listCitySorted;
-	
-	/**
 	 * The default list of streets for a specific city
 	 */
 	public static ObservableList<Street> listStreetName = FXCollections.observableArrayList();
@@ -180,6 +174,11 @@ public class MainViewController implements Initializable {
 	 * The observable variable for the {@code FROM} comboBox
 	 */
 	public static ObservableList<Street> listStreetNameSortedFrom = FXCollections.observableArrayList();
+	
+	/**
+	 * The observable variable for the {@code City} comboBox
+	 */
+	public static ObservableList<City> listCitySorted = FXCollections.observableArrayList();
 	
 	/**
 	 * The observable variable for the {@code TO} comboBox
@@ -195,6 +194,10 @@ public class MainViewController implements Initializable {
 	 * GraphicsContext for the canvas
 	 */
 	private GraphicsContext gc;
+	
+	/**
+	 * GraphicsContext for the nodes canvas
+	 */
 	private GraphicsContext gcNodes;
 	
 	/**
@@ -224,6 +227,7 @@ public class MainViewController implements Initializable {
 			// Render the default city
 			this.renderCityMap(Settings.DEFAULT_CITY);
 			
+			// When the canvas width change
 			this.canvasPane.widthProperty().addListener((obs, oldVal, newVal) -> {
 				
 				Double size;
@@ -239,6 +243,7 @@ public class MainViewController implements Initializable {
 				this.renderMap();
 			});
 
+			// When the canvas height change
 			this.canvasPane.heightProperty().addListener((obs, oldVal, newVal) -> {
 				
 				Double size;
@@ -253,23 +258,6 @@ public class MainViewController implements Initializable {
 				this.canvasMap.setWidth(size);
 				this.renderMap();
 			});
-			
-//			this.canvasMap.addEventHandler(MouseEvent.MOUSE_DRAGGED, 
-//			new EventHandler<MouseEvent>() {
-//				@Override
-//				public void handle(MouseEvent e) {
-//					System.out.println("X:" + e.getX() + ",Y:" + e.getY());
-//				}
-//			});
-			
-			// Build the query to fetch all the cities of the country
-			String queryCities = QueriesBuilding.buildFetchCitiesQuery("France");
-			
-			// Download all the cities of the country
-			QueriesLoading.downloadCities(queryCities);
-
-			// Load all the cities of the country
-			QueriesLoading.loadCities();
 			
 		} catch (CannotReachServerException e) {
 			this.addStateBar("Server cannot be reached !");
@@ -358,19 +346,21 @@ public class MainViewController implements Initializable {
 	 * @throws CannotReachServerException Exception thrown when the server cannot be reached
 	 * @author Yanis Labrak
 	 */
-	private void fetchAllContentCity(String cityName) throws Exception, CannotReachServerException {
+	private void fetchAllContentCity(City city) throws Exception, CannotReachServerException {
+		
+		System.out.println("City loaded -------:" + city.name + "," + city.point);
 		
 		try {
 			// Fetch the coordinates of the city
-			String cityCoordinate = City.getCityCoordinates(cityName);
-			
-			this.addStateBar("City coordinates find");
-			
-			if (cityCoordinate == null) {
-				System.err.println("cityCoordinate wasn't found !");
-			}
+			String cityCoordinate = city.point.lat + "|" + city.point.lon;
 			
 			String[] coordinates = cityCoordinate.split("\\|");
+			
+			if (coordinates.length <= 0) {
+				System.err.println("cityCoordinate wasn't found !");
+			} else {
+				this.addStateBar("City coordinates find");
+			}
 			
 			// Make the bbox
 			String bbox = OSM.bboxCalc(
@@ -383,7 +373,7 @@ public class MainViewController implements Initializable {
 			// Make the query for getting the full map
 			String query = QueriesBuilding.fullMapQuery(bbox);
 			
-			final String CITIES_FILE = cityName + "Map.json";
+			final String CITIES_FILE = city.name.replaceAll("\\s+","").toLowerCase() + "Map.json";
 			System.out.println("File name: " + CITIES_FILE);
 			
 			File f = new File(CITIES_FILE);
@@ -416,7 +406,7 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	public void Reset(ActionEvent event) {
-		this.cityName.clear();
+		this.cityName.getSelectionModel().clearSelection();
 		this.cityButton.setDisable(true);
 		
 		this.fromNumber.setDisable(true);
@@ -445,7 +435,7 @@ public class MainViewController implements Initializable {
 	 * @author Quentin Capdepon
 	 */
 	private void checkAllFields() {
-		if (this.cityName.getText().isEmpty() ||
+		if (this.cityName.getSelectionModel().isEmpty() ||
 			this.fromNumber.getText().isEmpty() ||
 			this.toNumber.getText().isEmpty() ||
 			this.fromName.getSelectionModel().getSelectedIndex() < 0 ||
@@ -539,39 +529,44 @@ public class MainViewController implements Initializable {
 	public void setCity(ActionEvent event) throws Exception, CannotReachServerException
 	{
 		// If the city name isn't known
-		if (!this.cityName.getText().isEmpty()) {
+		if (!this.cityName.getSelectionModel().isEmpty()) {
 			
-			this.addStateBar("Search for " + this.cityName.getText());
+			// Align center
+			Map.latitude = 0.0;
+			Map.longitude = 0.0;
+
+			// Initialize
+			Map.scale = 1.0;
+			
+			this.addStateBar("Search for " + this.cityName.getSelectionModel().getSelectedItem());
 			
 			// Load streets etc ... In the way to all the user to make a path research
 			try {
 
-				// Check if the city exists
-				City theCity = City.isInListCity(this.cityName.getText());
+				Boolean theCityExist = this.fromName.getSelectionModel().isEmpty();
 				
 				// If the city exist
-				if (theCity != null) {
+				if (theCityExist != false) {
 					
-					// Hide the auto-complete menu
-					this.menuCity.hide();
+					City city = MainViewController.listCitySorted.get(this.cityName.getSelectionModel().getSelectedIndex());
 
 					// Fetch, Load and Render the map for this city
-					this.renderCityMap(this.cityName.getText());
+					this.renderCityMap(city);
 					
 					// Build the query for getting all the streets of a city
-					String streetQuery = QueriesBuilding.buildFetchStreetsQuery(new City(theCity));
+					String streetQuery = QueriesBuilding.buildFetchStreetsQuery(city);
 					
 					// Download the streets
-					QueriesLoading.downloadStreets(theCity, streetQuery);
+					QueriesLoading.downloadStreets(city, streetQuery);
 					
-				    this.addStateBar("Streets of " + theCity.name + " downloaded");
+				    this.addStateBar("Streets of " + city.name + " downloaded");
 					
 					// Load them inside comboBox's
-					QueriesLoading.loadStreets(theCity);
+					QueriesLoading.loadStreets(city);
 				    
-				    this.addStateBar("Streets of " + theCity.name + " loaded");
+				    this.addStateBar("Streets of " + city.name + " loaded");
 					
-					if (!this.cityName.getText().isEmpty()) {
+					if (!this.cityName.getSelectionModel().isEmpty()) {
 						
 						// Reset the fields
 						this.fromNumber.clear();
@@ -593,7 +588,8 @@ public class MainViewController implements Initializable {
 					}
 					
 				} else {
-					this.addStateBar(this.cityName.getText() + " doesn't exist !");
+					City c = MainViewController.listCitySorted.get(this.cityName.getSelectionModel().getSelectedIndex());
+					this.addStateBar(c.name + " doesn't exist !");
 				}
 				
 			}
@@ -616,16 +612,14 @@ public class MainViewController implements Initializable {
 	 * @throws Exception If the coordinates wasn't found
 	 * @author Yanis Labrak
 	 */
-	private void renderCityMap(String city) throws Exception, CannotReachServerException {
-		
-		city = city.toLowerCase();
+	private void renderCityMap(City city) throws Exception, CannotReachServerException {
 		
 		// Fetch everything we need to display the map			
-		this.fetchAllContentCity(city);			
+		this.fetchAllContentCity(city);
 		
 		// Parse the JSON file as Java Objects
 		// TODO: 7,25300 seconds - To optimize
-		Map.loadCityAsObject(city);
+		Map.loadCityAsObject(city.name);
 		
 		// Render all the objects of the canvas
 		this.renderMap();
@@ -677,62 +671,90 @@ public class MainViewController implements Initializable {
 		
 		try {
 			
-			// When the ENTER key is pressed
-			if (event.getCode() == KeyCode.ENTER) {
-				this.setCity(new ActionEvent());
+			// If it's a moving key continue
+			if (event.getCode() == KeyCode.UP || event.getCode() == KeyCode.DOWN || event.getCode() == KeyCode.ENTER) {
+				event.consume();
+				return;
 			}
 			
-			// Clear the current list of city
-			MainViewController.listCitySorted.clear();
-			this.menuCity.getItems().clear();
-			
 			// If the field isn't empty
-			if (!this.cityName.getText().isEmpty()) {	
-									
-				// Check if contains a part of the word
-				for (City city : MainViewController.listCity) {					
-					if (MainViewController.listCitySorted.size() == 10) {
-						continue;
-					}
-					else if (city.name.toLowerCase().contains(this.cityName.getText())) {
-						
-						MainViewController.listCitySorted.add(new MenuItem(city.name));
-					}
-				}
+			if (!this.cityName.getEditor().getText().isEmpty()) {
 
-				// Set the list to the menu
-				this.menuCity.getItems().addAll(MainViewController.listCitySorted);
+				this.disableAllUnderCity();
 				
-				// Display the auto-complete under the field
-				this.menuCity.show(this.cityName, Side.BOTTOM, 0, 0);
+				// Clear the current list of city
+				MainViewController.listCitySorted.clear();
 				
+				if (this.cityName.getEditor().getText().length() >= 3) {
+					
+					String nominatimUrl = "http://photon.komoot.de/api/?q=" + URLEncoder.encode("'" + this.cityName.getEditor().getText() + "'", "UTF-8");
+					JSONObject loadedQuery = QueriesLoading.getQueryResult(nominatimUrl);
+					JSONArray items = (JSONArray) loadedQuery.get("features");
+					
+					Iterator<JSONObject> i = items.iterator();
+					
+			        while (i.hasNext()) {
+			        	JSONObject item = (JSONObject) i.next();
+			        	
+			        	JSONObject properties = (JSONObject) item.get("properties");
+			        	
+			        	JSONObject geometry = (JSONObject) item.get("geometry");
+						JSONArray coordinates = (JSONArray) geometry.get("coordinates");
+			        	
+						Long osm_id = (Long) properties.get("osm_id");
+			            Double lat = (Double) coordinates.get(1);
+			            Double lon = (Double) coordinates.get(0);
+			            String country = (String) properties.get("country");
+			            String name = (String) properties.get("name");
+			            String state = (String) properties.get("state");
+			            String osm_value = (String) properties.get("osm_value");
+			            
+			            if (osm_value.equals("city") || osm_value.equals("village")) {	
+				        	City c = new City(osm_id.toString(), lat, lon, name, state, country);
+							MainViewController.listCitySorted.add(c);				
+						}
+			        }
+
+					this.cityName.setItems(MainViewController.listCitySorted);
+					this.cityName.show();
+				}
+				
+				this.fromName.show();
 				this.cityButton.setDisable(false);
 				this.resetBtn.setDisable(false);
 			}
 			else {
 				
-				// Hide the auto-complete
-				this.menuCity.hide();
-				
 				this.cityButton.setDisable(true);
 				
-				this.fromNumber.setDisable(true);
-				this.fromName.setDisable(true);
-				this.toNumber.setDisable(true);
-				this.toName.setDisable(true);
-				
-				this.fromNumber.clear();
-				this.fromName.getSelectionModel().clearSelection();
-				this.toNumber.clear();
-				this.toName.getSelectionModel().clearSelection();
-				
-				this.searchBtn.setDisable(true);
-				this.resetBtn.setDisable(true);
+				this.disableAllUnderCity();
 			}
 			
 		} catch (CannotReachServerException e) {
 			this.addStateBar("Server cannot be reached !");
 		}
+	}
+	
+	/**
+	 * Disable all the fields under the city field
+	 */
+	void disableAllUnderCity() {
+		
+		this.fromName.hide();
+		this.toName.hide();
+		
+		this.fromNumber.setDisable(true);
+		this.fromName.setDisable(true);
+		this.toNumber.setDisable(true);
+		this.toName.setDisable(true);
+		
+		this.fromNumber.clear();
+		this.fromName.getSelectionModel().clearSelection();
+		this.toNumber.clear();
+		this.toName.getSelectionModel().clearSelection();
+		
+		this.searchBtn.setDisable(true);
+		this.resetBtn.setDisable(true);
 	}
 	
 	/**

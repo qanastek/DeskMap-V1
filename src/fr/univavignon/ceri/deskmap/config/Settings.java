@@ -1,5 +1,7 @@
 package fr.univavignon.ceri.deskmap.config;
 
+import fr.univavignon.ceri.deskmap.models.geopoint.City;
+
 /**
  * This class represent all the settings of the software
  * @author Yanis Labrak
@@ -9,7 +11,7 @@ public final class Settings {
 	/**
 	 * The default city draw when the software start
 	 */
-	public static final String DEFAULT_CITY = "Avignon";
+	public static final City DEFAULT_CITY = new City("1836027948", 43.9492493, 4.8059012, "Avignon");
 
 	/**
 	 * Max scale of the canvas

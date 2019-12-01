@@ -194,7 +194,7 @@ public class Map {
         JSONParser jsonParser = new JSONParser();
          
         // Read the cache for the Map
-        try (FileReader reader = new FileReader(city.toLowerCase() + "Map.json"))
+        try (FileReader reader = new FileReader(city.replaceAll("\\s+","").toLowerCase() + "Map.json"))
         {
 
             //Read JSON file

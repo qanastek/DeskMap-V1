@@ -71,7 +71,7 @@
 3630966|Passage National
 3630968|Villa Nieuport
 3630969|Rue Eugène Oudiné
-3838029|Rue de la Fayette
+3838029|Rue La Fayette
 3839423|Rue de Dunkerque
 3867659|Boulevard Marguerite de Rochechouart
 3867660|Boulevard de Clichy
@@ -90,7 +90,6 @@
 4018033|Rue Jacques Ibert
 4018034|Rue de Courcelles
 4018037|Rue Royale
-4018038|Place de la Madeleine
 4018041|Boulevard des Italiens
 4018042|Avenue de l'Opéra
 4018043|Rue des Pyramides
@@ -420,7 +419,6 @@
 4040664|Rue du Cotentin
 4040665|Boulevard Pasteur
 4040667|Place Raoul Dautry
-4040668|Rue Jean Zay
 4040669|Rue Vercingétorix
 4040670|Rue Alain
 4041051|
@@ -769,7 +767,6 @@
 4236184|Rue Rondelet
 4236185|Impasse Erard
 4236186|Rue Érard
-4236188|Rue Chaligny
 4236192|Avenue de Corbera
 4236193|Passage Abel Leblanc
 4236198|Rue Charles Bossut
@@ -785,7 +782,7 @@
 4251021|Rue Saint-Honoré
 4251022|Place de la Concorde
 4251023|Rue Duphot
-4251024|Rue Duphot
+4251024|Place de la Madeleine
 4251027|Rue de Mondovi
 4251031|Rue Volney
 4251033|Rue Daunou
@@ -883,7 +880,7 @@
 4262840|Passage de la Visitation
 4262843|Rue de la Chaise
 4262844|Rue de Varenne
-4262845|Rue Récamier
+4262845|Rue Juliette Récamier
 4262848|Rue Perronet
 4262851|Rue du Sabot
 4262852|Place Jean-Paul Sartre et Simone de Beauvoir
@@ -1070,7 +1067,6 @@
 4430602|Route des Tribunes
 4430605|Allée du Bord de l'Eau
 4430609|Carrefour des Tribunes
-4430612|Carrefour du Bout des Lacs
 4430614|Chemin de Ceinture du Lac Inférieur
 4433292|Rue Le Regrattier
 4433293|Rue Primatice
@@ -1253,7 +1249,7 @@
 4527529|Rue Saint-Bon
 4527530|Rue Nicolas Flamel
 4527532|Rue de la Verrerie
-4527537|Rue Berger
+4527537|Rue Aubry le Boucher
 4527538|Rue du Cloître Saint-Merri
 4527539|Rue des Juges Consuls
 4527540|Rue Brisemiche
@@ -1466,7 +1462,7 @@
 5097010|Rue Dosne
 5097021|Rue de Pomereu
 5097023|Place du Chancelier Adenauer
-5097024|Rue de Général Appert
+5097024|Rue du Général Appert
 5097030|Villa de la Faisanderie
 5097035|Rue Benouville
 5097045|Rue Mérimée
@@ -2311,7 +2307,7 @@
 8412416|Rue de Turin
 8412417|Rue de Liège
 8412423|Rue de Bucarest
-8412424|Rue d'Edimbourg
+8412424|Rue d'Édimbourg
 8412426|Rue de Madrid
 8412433|Rue Portalis
 8412435|Rue de Stockholm
@@ -2694,7 +2690,7 @@
 10663803|Rue Muller
 10663819|Rue Feutrier
 10663850|Rue Poulet
-10663861|Place Jeanne Bohec
+10663861|
 10663887|Rue de Sofia
 10663892|Rue Belhomme
 10663903|Rue Seveste
@@ -2893,14 +2889,14 @@
 12709381|Rue Gager-Gabillot
 12709741|Rue d'Alleray
 12709935|Rue Platon
-12709957|Rue Vigée-Lebrun
+12709957|Rue Élisabeth Vigée-Le-Brun
 12709992|Rue Anselme Payen
 12710101|Rue de l'Armorique
 12710289|Rue d'Arsonval
 12710384|Rue Henri Duchène
 12710491|Cité Thuré
 12711223|Avenue Félix Faure
-12711328|Rue Leblanc
+12711328|Place Robert Guillemard
 12711487|Rue Vasco de Gama
 12712013|Rue Jean Maridor
 12712063|Rue Théodore Deck
@@ -3714,6 +3710,9 @@
 14647716|Rue de l'Abbé Groult
 14647847|Passage Dombasle
 14781113|
+14781115|Rue Fructidor
+14781117|Rue La Fontaine
+14781118|Rue Fructidor
 14781126|Place des Nations Unies
 14784943|Avenue Sainte-Eugénie
 14785193|Rue Jobbé-Duval
@@ -6761,7 +6760,7 @@
 22690644|Rue des Chaufourniers
 22690649|Rue Henri Murger
 22696928|Rue Duphot
-22696929|Boulevard de la Madeleine
+22696929|Place de la Madeleine
 22698075|Rue Cambon
 22698653|
 22698665|Avenue J.C. Cave
@@ -6905,7 +6904,6 @@
 22820300|Rue Jussieu
 22822719|Rue Proudhon
 22870389|Rue de l'Estrapade
-22873959|
 22874580|Place de la République de Panama
 22874652|Rue Bouchut
 22874654|Rue Valentin Haüy
@@ -7002,7 +7000,6 @@
 22902227|Rue Mongenot
 22909500|Rue Marie Laurencin
 22909517|Promenade Plantée
-22909524|Promenade Plantée
 22909525|Promenade Plantée
 22909526|Promenade Plantée
 22909530|Promenade Plantée
@@ -7091,7 +7088,7 @@
 22957049|Pont d'Austerlitz
 22957050|Pont d'Austerlitz
 22957060|Boulevard de la Bastille
-22964641|Pont Sully
+22964641|Pont de Sully
 22964675|
 22972089|Pont Louis-Philippe
 22972090|Pont Louis-Philippe
@@ -7498,7 +7495,7 @@
 23699898|Cité Paradis
 23700336|Avenue de Lowendal
 23700342|Avenue de Lowendal
-23700358|Avenue de Lowendal
+23700358|promenade Yehudi Menuhin
 23703969|Rue des Lombards
 23703970|Rue Saint-Denis
 23706674|Rue Rampon
@@ -8143,7 +8140,6 @@
 24593801|Rue de Compiègne
 24595845|Rue Marceau
 24595870|Rue René Binet
-24595875|Rue Jean Cocteau
 24595877|Avenue de la Porte des Poissonniers
 24595944|Rue du Professeur Gosset
 24595968|Rue du Professeur Gosset
@@ -8274,7 +8270,7 @@
 24675923|Rue Baron Le Roy
 24675928|
 24675949|Quai de Bercy
-24675954|
+24675954|Quai de Bercy
 24675958|Quai de Bercy
 24675959|Quai de Bercy
 24675960|Quai de Bercy
@@ -8304,7 +8300,7 @@
 24677110|Avenue Charles de Foucauld
 24677126|Route des Fortifications
 24677136|Square Louis Gentil
-24677167|
+24677167|Rue Édouard Lartet
 24677287|Rue Roger Bissière
 24677288|Square de la Salamandre
 24677327|Rue des Rasselins
@@ -8401,8 +8397,8 @@
 24765425|Avenue Raphaël
 24765432|Allée des Fortifications
 24765479|
-24780770|
-24780771|
+24780770|Avenue de la Porte d'Auteuil
+24780771|Route de Boulogne à Passy
 24780864|Avenue de la Porte d'Auteuil
 24781090|
 24781091|Allée de la Reine Marguerite
@@ -8527,10 +8523,10 @@
 24944190|
 24944197|Rue du Faubourg Saint-Honoré
 24944206|
-24944212|
+24944212|Avenue de Friedland
 24944221|Avenue de Friedland
 24944224|Place Georges Guillaumin
-24944226|
+24944226|Avenue de Friedland
 24970368|Avenue Ruysdaël
 24970386|Rue Corvetto
 24978850|
@@ -8881,7 +8877,7 @@
 26007606|Route de la Plaine
 26070648|Rue Hector Malot
 26118404|Rue du Commandant René Mouchotte
-26118908|Avenue de Bel-Air
+26118908|Avenue Anna Politkovskaïa
 26203137|Rue Jongkind
 26203144|
 26203148|
@@ -9025,7 +9021,7 @@
 26954015|Rue Saint-Fiacre
 26954077|Rue Boy-Zelenski
 26975126|Rue Bellini
-27013679|Rue de Général Appert
+27013679|Rue du Général Appert
 27067642|Avenue de Saint-Cloud
 27067668|Boulevard Lannes
 27067683|Boulevard Lannes
@@ -9144,7 +9140,7 @@
 27447955|Impasse de Lévis
 27447959|Rue de la Terrasse
 27447962|Villa de la Terrasse
-27465317|Rue de Chateaubriand
+27465317|Rue Chateaubriand
 27465334|Cité Odiot
 27465359|
 27465367|
@@ -9497,7 +9493,7 @@
 28604427|
 28604502|Rue Lavoisier
 28604566|Rue Chauveau-Lagarde
-28604588|
+28604588|Boulevard Malesherbes
 28604591|Boulevard Malesherbes
 28604597|Boulevard Malesherbes
 28604610|Passage de la Madeleine
@@ -9654,6 +9650,7 @@
 29076756|Rue Scandicci
 29078161|Accès Parking Montparnasse Raspail
 29078163|Sortie Parking Montparnasse Raspail
+29081851|Rue La Fontaine
 29081860|Rue La Fontaine
 29082183|
 29082299|Boulevard Périphérique Extérieur
@@ -9761,7 +9758,7 @@
 29402347|
 29402350|Rue du Général Archinard
 29402351|Rue Édouard Lartet
-29402353|
+29402353|Rue Édouard Lartet
 29404410|Rue Livingstone
 29404412|Rue Lamarck
 29408574|Rue la Vieuville
@@ -9966,7 +9963,7 @@
 30145785|Avenue Courteline
 30145790|Boulevard de la Guyane
 30145855|
-30146303|
+30146303|Rue Édouard Lartet
 30146318|
 30146424|Rue Hamelin
 30146553|Villa Carnot
@@ -10064,7 +10061,7 @@
 30276274|Boulevard de la Guyane
 30277032|Avenue de Saint-Maurice
 30277364|Chaussée de l'Étang
-30277437|Avenue de Bel-Air
+30277437|Avenue Anna Politkovskaïa
 30277474|Avenue Pasteur
 30277742|Route de la Tourelle
 30326966|Rue Tourlaque
@@ -10234,6 +10231,7 @@
 30919138|
 30919511|Rue du Val de Marne
 30919791|Rue de Freiberg
+30919877|
 30919910|
 30919923|
 30920007|Avenue Pierre de Coubertin
@@ -10553,7 +10551,6 @@
 32662035|Rue Ernest Hemingway
 32662297|
 32662529|Rue Lecourbe
-32662536|Rue Leblanc
 32664861|Rue du Hameau
 32664900|Square Auguste Chabrières
 32664970|Rue de la Croix Nivert
@@ -10670,7 +10667,7 @@
 32876751|Voie Georges Pompidou
 32876835|Cours Albert 1er
 32877048|Avenue Dutuit
-32879654|Place Clemenceau
+32879654|Place Clémenceau
 32879774|Avenue de Selves
 32879779|Avenue de Selves
 32879931|Impasse d'Antin
@@ -10680,7 +10677,6 @@
 32880668|
 32903024|Avenue Edward Tuck
 32903025|Avenue Edward Tuck
-32903058|Avenue Charles Girault
 32915601|Boulevard Périphérique Extérieur
 32915610|Boulevard Périphérique Intérieur
 32915612|Boulevard Périphérique Intérieur
@@ -10922,7 +10918,6 @@
 34856134|Rue Réaumur
 34856163|Boulevard de Strasbourg
 34856164|Rue Saint-Laurent
-34856219|Rue Sibour
 34856443|Rue Vavin
 34856532|Rue de Condé
 34856538|Rue Saint-Sulpice
@@ -11138,7 +11133,6 @@
 35802065|Coulée Verte René Dumont
 35802066|Coulée Verte René Dumont
 35802068|La Coulée Verte René Dumont
-35802070|Coulée Verte René Dumont
 35802271|Coulée Verte René-Dumont
 35802272|Coulée Verte René-Dumont
 35805749|Rue du Cambodge
@@ -11258,10 +11252,8 @@
 36902537|
 36902620|Route de la Pyramide
 36902666|Avenue de Gravelle
-36902764|Avenue de la Pépinière
 36903879|
 36903881|
-36910856|
 36910864|
 36910867|La Coulée Verte
 36910970|Route Bourbon
@@ -11414,7 +11406,7 @@
 37189043|Rue de Tanger
 37189263|Rue de Tanger
 37189604|Place de l'Île de la Réunion
-37189638|
+37189638|Place des Antilles
 37189648|Boulevard de Charonne
 37189672|Boulevard de Picpus
 37189943|Quai de la Rapée
@@ -11509,7 +11501,6 @@
 37716363|Rue de Lagny
 37718467|Avenue de Paris
 37775876|Boulevard Haussmann
-37775878|Boulevard Malesherbes
 37776167|Rue La Boétie
 37776168|Rue de Miromesnil
 37776277|Rue du Faubourg Saint-Honoré
@@ -11851,7 +11842,7 @@
 42785533|
 42785534|
 42837510|Passage Commun P/12
-42980044|Avenue de Bel-Air
+42980044|
 43020657|Rue Jacques-Henri Lartigue
 43025072|Boulevard de Port-Royal
 43025073|Boulevard de Port-Royal
@@ -12601,8 +12592,8 @@
 51926451|Rue Nationale
 51954491|Promenade Plantée
 51954492|
-51954494|Promenade Plantée
-51954495|Promenade Plantée
+51954494|
+51954495|
 51979703|Bonham Street
 51979704|Lamar Road
 51983074|Rue André Messager
@@ -13109,12 +13100,9 @@
 54180065|
 54181171|Passage Commun A/1
 54186291|Boulevard Malesherbes
-54186292|
-54186293|
 54186294|
 54186295|
 54186296|Boulevard de la Madeleine
-54186297|
 54186298|
 54186300|Boulevard de la Madeleine
 54187323|
@@ -13146,7 +13134,7 @@
 54566965|Rue Louis Le Grand
 54566966|
 54566975|
-54566984|
+54566984|Allée Andrée Jacob
 54566985|
 54568029|Rue du Jour
 54568684|
@@ -13592,7 +13580,6 @@
 58177348|Esplanade Habib Bourguiba
 58177349|
 58177350|
-58177351|
 58177352|
 58177353|
 58177354|
@@ -13812,8 +13799,6 @@
 61062357|Place du Général Stefanik
 61091416|Rue Agar
 61091418|
-61091420|
-61091422|
 61093952|Rue Scheffer
 61094057|Rue Freycinet
 61094060|Rue Albert Sorel
@@ -13879,7 +13864,6 @@
 62117447|Rue Richard Lenoir
 62117448|Passage Bullourde
 62117449|Passage Salarnier
-62117450|Rue Godefroy Cavaignac
 62119434|Rue Gaby Sylvia
 62119435|Impasse des Primevères
 62119436|Allée Verte
@@ -14184,7 +14168,7 @@
 66765047|
 66767132|Rue Étienne Marcel
 66767514|
-66767515|
+66767515|Port de la Conférence
 66767516|
 66767519|
 66767521|
@@ -14602,7 +14586,7 @@
 69692219|Route de la Ferme
 69692221|Place de l'Alma
 69692222|Avenue George V
-69692223|Place Maria Callas
+69692223|Place Diana
 69692224|
 69692225|
 69692226|
@@ -14622,7 +14606,6 @@
 70187676|
 70187679|
 70187682|Sortie Parking Étoile Friedland
-70187695|
 70191936|Rue du 8 Mai 1945
 70191938|Place des Nations Unies
 70192446|
@@ -14895,7 +14878,6 @@
 76742833|Rue d'Annam
 76742834|Rue de l'Adjudant Réau
 76742835|Rue Victor Dejeante
-76742836|Rue Orfila
 76742837|Rue du Surmelin
 76742838|Rue du Surmelin
 76742839|Rue Le Vau
@@ -14942,7 +14924,6 @@
 77441343|
 77441345|
 77441347|
-77441349|
 77441352|
 77441356|
 77441359|
@@ -15059,7 +15040,7 @@
 78548961|
 78548962|
 78548964|
-79084223|Olympiades
+79084223|Olympiades sortie 3
 79084943|Dalle des Olympiades
 79088060|Port de Montebello
 79088061|Port de la Tournelle
@@ -15608,7 +15589,6 @@
 84678761|Place Denfert-Rochereau
 84678762|Avenue Denfert-Rochereau
 84678763|Place Denfert-Rochereau
-84686440|Rue Lecourbe
 84686442|Place Balard
 84686443|Rue de Vouillé
 84686444|Boulevard Victor
@@ -15643,7 +15623,6 @@
 84865091|Boulevard de Grenelle
 84865092|
 84865093|Place de l'Opéra
-84865097|Place Robert Guillemard
 84865098|
 84865099|Boulevard de Grenelle
 84865100|Avenue de Suffren
@@ -16505,7 +16484,7 @@
 99084430|Boulevard Périphérique Extérieur
 99084432|Rue Escoffier
 99197897|
-99247774|
+99247774|Avenue de la Porte d'Auteuil
 99572491|
 99577102|
 99577104|
@@ -16589,7 +16568,6 @@
 101433808|Passage de la Vierge
 101433809|Passage Jean Nicot
 101433810|Avenue Bosquet
-101533329|Rue Aubry le Boucher
 101533330|Rue des Lombards
 101533331|Rue de la Reynie
 101533439|Rue Rambuteau
@@ -18054,7 +18032,6 @@
 123387392|Cour d'Alsace Lorraine
 123387393|Impasse Mousset
 123387394|Place Maurice de Fontenay
-123387395|Rue d'Artagnan
 123387396|Square Saint-Charles
 123387397|
 123389297|Avenue Lucien Descaves
@@ -18404,7 +18381,6 @@
 132760931|Boulevard Murat
 132760932|Boulevard Murat
 132760962|Place de la Porte d'Auteuil
-132799697|
 132799698|
 132799700|
 132799701|
@@ -18970,14 +18946,13 @@
 144787382|
 144787383|
 144788166|
-144788168|Promenade Plantée
+144788168|
 144788169|
 144788170|
 144788172|
-144788174|Promenade Plantée
 144789268|
 144789276|
-144789280|
+144789280|Boulevard Soult
 144871415|
 144886269|Place Augusta Holmes
 145170156|Rue de Tanger
@@ -19986,9 +19961,9 @@
 164863238|
 164886539|
 164886540|
-164886541|
+164886541|Place Saint-Estèphe
 164886542|Quai de la Rapée
-164886543|
+164886543|Place Saint-Estèphe
 164886545|
 164886546|Quai de Bercy
 164932124|Rue Louis Delaporte
@@ -20077,7 +20052,6 @@
 165489019|
 165496295|
 165496296|
-165496299|
 165496301|
 165496303|
 165496304|
@@ -20662,7 +20636,6 @@
 172859125|Rue Magendie
 172859126|Rue des Tanneries
 172871878|
-172871879|
 172948767|Avenue de New York
 172948768|Pont de Bir Hakeim
 172948769|Pont de Bir Hakeim
@@ -20933,8 +20906,6 @@
 180564223|
 180564224|
 180668564|
-180814602|Rue Sorbier
-180814605|Rue Sorbier
 180826340|Rue du Disque
 180833814|
 180833815|
@@ -21357,7 +21328,7 @@
 190626987|Place de la Concorde
 190626988|Avenue de Marigny
 190626989|Avenue de Marigny
-190627542|
+190627542|Avenue de Friedland
 190627543|Avenue de Friedland
 190627546|Place Charles de Gaulle
 190629448|Boulevard de Montmorency
@@ -22513,7 +22484,7 @@
 223098649|
 223098650|
 223098651|
-223098652|
+223098652|Avenue de Saint-Cloud
 223099217|
 223099218|
 223099219|
@@ -22624,7 +22595,6 @@
 224868784|Boulevard de la Chapelle
 224868787|Boulevard de la Villette
 224868788|Boulevard de la Villette
-224868791|
 224868793|
 224883155|Boulevard Ney
 224883156|Boulevard Ney
@@ -23010,8 +22980,6 @@
 232983668|
 232983669|
 232983670|
-232983671|
-232983672|
 232990530|
 232990532|
 233034529|
@@ -23817,7 +23785,6 @@
 242706657|Place Geneviève de Gaulle Anthonioz
 242710417|Place Albert Londres
 242824940|
-242824941|
 242824943|
 242860534|
 242860535|
@@ -24672,7 +24639,6 @@
 255109299|Avenue Ledru-Rollin
 255109300|Boulevard Richard Lenoir
 255109301|Boulevard Richard Lenoir
-255109302|Rue Moufle
 255109303|Rue Saint-Bernard
 255109304|Rue de Charonne
 255109305|Rue du Chemin Vert
@@ -25137,7 +25103,6 @@
 273240593|
 273449650|
 273456900|
-273585696|Rue Claude Decaen
 273585708|Rue de la Voûte
 273585713|Rue du Rendez-Vous
 273585717|
@@ -25200,7 +25165,7 @@
 276801958|
 276801959|
 276801960|
-276801961|
+276801961|Boulevard Soult
 276801962|
 276801963|
 276801964|
@@ -25226,7 +25191,6 @@
 276874783|
 276967751|
 276967752|
-277455492|Boulevard de Bercy
 277517274|
 277517275|
 277517276|
@@ -25587,8 +25551,6 @@
 283081739|
 283200971|Villa Sonatine
 283200973|Villa Toccata
-283215896|
-283215898|
 283302983|
 283302984|
 283311507|
@@ -25793,8 +25755,8 @@
 289531724|
 289531726|
 289531728|La Coulée Verte René Dumont
-289531729|
-289531731|La Coulée Verte
+289531729|Rue Édouard Lartet
+289531731|Rue Édouard Lartet
 289531733|
 289531736|
 289622508|Square La Champmeslé
@@ -25940,7 +25902,7 @@
 294799043|Rue Corvisart
 294799047|Rue Vergniaud
 294799052|Rue de Rivoli
-294799058|
+294799058|Port de la Conférence
 294804933|Boulevard de Bercy
 294804936|Place de Catalogne
 294804937|Place des Martyrs Juifs du Vélodrome
@@ -25984,7 +25946,6 @@
 295403454|Avenue Paul Vaillant-Couturier
 295403458|
 295403459|
-295403461|
 295403462|
 295434556|
 295849985|Rue Carlos Fuentes
@@ -26070,7 +26031,7 @@
 299046917|
 299046918|
 299047028|
-299063446|Route de Sèvres à Neuilly
+299063446|
 299268507|
 299268508|
 299268509|
@@ -26393,10 +26354,7 @@
 304970496|Rue d'Oradour-sur-Glane
 304980159|
 305044551|Accès Parking Madeleine Tronchet
-305044552|
-305044553|
-305044554|
-305044555|
+305044553|Place de la Madeleine
 305120115|
 305120116|
 305120117|
@@ -27484,7 +27442,6 @@
 320306404|Quai B
 320321407|
 320322031|
-320322032|
 320323384|
 320327917|
 320327918|
@@ -27572,7 +27529,6 @@
 321791100|
 321927930|
 321927931|
-321927932|
 321927933|
 321927934|
 321965606|
@@ -28162,7 +28118,7 @@
 342329354|
 342590615|Boulevard Jean Jaurès
 342604173|Place Martin Nadaud
-342604174|
+342604174|Rue Orfila
 342739930|Allée du Capitaine Dronne
 342739934|Allée du Capitaine Dronne
 342739938|Allée du Capitaine Dronne
@@ -28540,14 +28496,8 @@
 357483715|
 357483717|
 357483723|
-357497256|
 357497257|Promenade Rosemonde Pujol
 357497258|
-357497259|
-357497260|
-357497262|
-357497263|
-357500436|
 357500439|Boulevard Pereire
 357500446|
 357500456|
@@ -28563,6 +28513,7 @@
 357833995|
 357907781|
 358296672|
+358296848|Place Alice Guy
 358296849|
 358296850|
 358600076|
@@ -28655,7 +28606,7 @@
 362310461|Boulevard de Grenelle
 362310462|Boulevard de Grenelle
 362310463|Rue Cler
-362310464|Rue Duphot
+362310464|Place de la Madeleine
 362310465|Rue Royale
 362310467|Rue de Maubeuge
 362455807|Avenue de Flandre
@@ -28698,7 +28649,6 @@
 362885189|
 362885190|
 362885191|
-362885192|
 362885193|
 362885194|
 362885196|Boulevard Périphérique Extérieur
@@ -29076,10 +29026,8 @@
 366829390|Rue de Bercy
 366829394|
 366836544|Rue Jorge Semprún
-366836545|Voie DP/12
 366836546|
 366836550|
-366836551|
 366836552|
 366942719|
 366942720|
@@ -29482,7 +29430,6 @@
 374058317|Place de la Madeleine
 374058318|Place de la Madeleine
 374059571|Place de la Madeleine
-374059572|Place de la Madeleine
 374059573|Place de la Madeleine
 374061776|Rue Germain Pilon
 374096841|
@@ -29750,7 +29697,6 @@
 380108763|
 380108764|
 380108766|
-380108767|
 380108768|
 380110900|
 380110901|
@@ -29804,11 +29750,11 @@
 381213294|
 381213295|
 381307715|Passage Susan Sontag
-381308325|Place Jeanne Bohec
-381308330|Place Jeanne Bohec
+381308325|
+381308330|
 381308333|Rue Myrha
-381309595|Place Jeanne Bohec
-381309596|Place Jeanne Bohec
+381309595|
+381309596|
 381310699|Place Robert Verdier
 381310700|Rue Marcadet
 381310701|Place Robert Verdier
@@ -29932,7 +29878,6 @@
 386398172|
 386398173|
 386398174|
-386398175|
 386398176|
 386508717|
 386508718|
@@ -30233,7 +30178,7 @@
 393196430|
 393196431|
 393280108|
-393280109|
+393280109|Quai Saint-Bernard
 393476197|
 393476198|
 393476199|
@@ -31635,7 +31580,6 @@
 426162816|
 426162817|
 426296783|
-426749894|Voie Bh/16
 426749895|Allée des Fortifications
 426760164|
 426760166|
@@ -31816,7 +31760,6 @@
 430446098|
 430446099|
 430446100|
-430446101|
 430446102|
 430446103|
 430446104|
@@ -31879,8 +31822,7 @@
 431985873|
 431985875|
 431985876|
-431992740|
-431992741|
+431992740|Place de la Madeleine
 431992742|
 431992743|
 431992744|
@@ -31935,7 +31877,7 @@
 435060261|Quai d'Ivry
 435060264|
 435191984|
-435191985|
+435191985|Promenade Cleews Vellay
 435191986|
 435191987|
 435191988|
@@ -32183,21 +32125,20 @@
 443995232|
 443995233|
 444338515|
-444338516|
+444338516|Port des Champs-Élysées
 444338517|
 444338518|
-444338519|
+444338519|Port des Champs-Élysées
 444338520|
 444338521|
-444338522|
+444338522|Port des Champs-Élysées
 444338523|
 444338524|
 444338525|
-444338526|
 444338527|
-444338528|
-444338529|
-444338530|
+444338528|Port des Champs-Élysées
+444338529|Port des Champs-Élysées
+444338530|Port des Champs-Élysées
 444338531|Cours Albert 1er
 444338532|
 444342115|Quai Aimé Césaire
@@ -32270,7 +32211,6 @@
 446551848|
 447294908|Passage des Voûtes
 447294909|Passage des Voûtes
-447294910|Passage des Voûtes
 447294911|Passage des Voûtes
 447627179|
 447627180|
@@ -32554,7 +32494,6 @@
 454292879|
 454292880|
 454292882|
-454292883|Quai Branly
 454292884|Quai Branly
 454292886|Quai d'Orsay
 454292887|
@@ -33283,7 +33222,6 @@
 484925506|
 484925508|
 485538782|
-485538783|
 485538784|
 485538787|
 485538788|
@@ -33379,7 +33317,6 @@
 490476867|Voie P4
 490476869|Piste Chantier R7
 490694671|Boulevard des Invalides
-490745671|
 490748418|
 490748419|
 490966721|
@@ -33678,7 +33615,7 @@
 505899716|
 505935716|Rue Saint-Antoine
 506006521|Boulevard Henri IV
-506006522|Pont Sully
+506006522|Pont de Sully
 506006523|Pont de Sully
 506006524|Rue Saint-Louis en l'Île
 506006525|Boulevard Henri IV
@@ -33906,7 +33843,7 @@
 515928027|Place de la Porte de Montreuil
 515928031|Rue de Paris
 515928035|Avenue Léon Gaumont
-515928037|Rue Claude Erignac
+515928037|Rue Claude Érignac
 516115778|
 516115779|
 516413082|Quai de l'Hôtel de Ville
@@ -33940,11 +33877,9 @@
 516982826|Rue Marie Laurencin
 516982827|Boulevard Soult
 516982828|Rue Rottembourg
-516982829|Promenade Plantée
 516982830|Rue de la Vega
 516982831|Avenue Daumesnil
 516982832|Rue Rottembourg
-516982833|Promenade Plantée
 516982834|
 516982835|Place Édouard Renard
 516982836|Rue de Montempoivre
@@ -34484,6 +34419,7 @@
 543855164|
 543855165|
 543914989|Avenue du Trône
+544158231|
 544158234|Passerelle du Cambodge
 544201427|Rue Navier
 544201428|Rue Navier
@@ -34774,11 +34710,11 @@
 552566851|Rue Charras
 552576964|Rue de l'Ingénieur Robert Keller
 553009771|Rue de la République
+553043498|Avenue Paul Vaillant-Couturier
 553046098|Square Pasteur
 553046099|Square Pasteur
 553050764|Avenue Paul Vaillant-Couturier
 553051355|Rue du Val de Marne
-553227561|Place des Martyrs de la Résistance de la Porte de Sèvres
 553236109|Rue de Fleurus
 553236110|Rue Duguay-Trouin
 553237947|Avenue des Gobelins
@@ -35422,7 +35358,7 @@
 568765063|
 568765064|
 569249746|Rue de l'Amiral Hamelin
-569249747|Avenue Kléber
+569249747|
 569249748|Avenue Kléber
 569249749|Avenue Kléber
 569249750|Avenue Kléber
@@ -35629,7 +35565,6 @@
 573577568|Avenue de la Bourdonnais
 573814820|Rue Raoul Dufy
 573814821|Rue des Partants
-573814822|Rue Orfila
 574197005|Chemin du Pavillon d'Armenonville
 574197006|
 574197007|Allée Saint-Denis
@@ -36226,7 +36161,7 @@
 584175498|
 584175499|
 584214162|
-584214164|
+584214164|Rue Jeanne Jugan
 584214165|
 584214166|
 584214167|
@@ -36373,7 +36308,6 @@
 585327075|Boulevard Suchet
 585327079|
 585327080|
-585327081|Allée des Fortifications
 585327082|Allée des Fortifications
 585380551|
 585380553|
@@ -37031,7 +36965,6 @@
 603841549|
 603841550|
 603841551|
-604528567|Boulevard Malesherbes
 604650985|
 604651201|Avenue Georges Lafenestre
 604675750|Rue du Cherche-Midi
@@ -37432,8 +37365,6 @@
 617614005|
 617614006|
 617614007|
-617614008|Route de La Muette à Neuilly
-617614009|Route de La Muette à Neuilly
 617614010|
 617614011|
 617614012|
@@ -38003,7 +37934,7 @@
 627264261|
 627264262|
 627267004|Parvis Notre-Dame - Place Jean-Paul II
-627267006|
+627267006|Parvis Notre-Dame - Place Jean-Paul II
 627267007|Parvis Notre-Dame - Place Jean-Paul II
 627267008|Parvis Notre-Dame - Place Jean-Paul II
 627267009|Parvis Notre-Dame - Place Jean-Paul II
@@ -38642,7 +38573,6 @@
 637192954|
 637192955|
 637192957|
-637192958|
 637192959|
 637192960|
 637192961|
@@ -39163,7 +39093,6 @@
 648288279|Avenue de la Porte des Poissonniers
 648288280|Avenue de la Porte des Poissonniers
 648288281|Avenue de la Porte des Poissonniers
-648288852|
 648289149|Place d'Israël
 648289150|Avenue de Wagram
 648289151|Avenue de Villiers
@@ -39701,7 +39630,7 @@
 663774523|Rue Jean de Beauvais
 663774524|Rue Jean de Beauvais
 663779759|
-663779760|Rue de Passy
+663779760|Rue de Poissy
 663831418|Rue Rouget de Lisle
 663976191|Avenue de la Porte de Châtillon
 663984122|Rue de Javel
@@ -39903,7 +39832,7 @@
 667480395|
 667495940|Boulevard Ney
 667495941|Porte de Clignancourt
-667508053|Rue Leblanc
+667508053|Place Robert Guillemard
 667642381|
 667642382|
 667642387|
@@ -39960,7 +39889,7 @@
 668206659|Boulevard de Belleville
 668207162|Boulevard de Ménilmontant
 668208930|Place des Antilles
-668210012|
+668210012|Rue de Lagny
 668235514|Boulevard Henri IV
 668235515|Boulevard Morland
 668237354|Boulevard Saint-Germain
@@ -40357,7 +40286,6 @@
 673062632|Avenue Corentin Cariou
 673062635|Avenue de Flandre
 673067194|
-673086798|Boulevard de Charonne
 673086800|Place de la Nation
 673086801|Place de la Nation
 673090415|
@@ -40433,7 +40361,7 @@
 673603422|Boulevard Saint-Michel
 673616498|
 673635139|Place Denfert-Rochereau
-673649333|
+673649333|Rue de Constantine
 673649334|Rue de Grenelle
 673649337|Rue de Constantine
 673649340|Boulevard des Invalides
@@ -40497,7 +40425,6 @@
 674225998|Boulevard Vincent Auriol
 674228072|Quai de la Gare
 674229998|Avenue de France
-674240277|Boulevard Diderot
 674240278|Rue Chaligny
 674242640|Avenue Daumesnil
 674247833|Place Valhubert
@@ -40622,7 +40549,6 @@
 677322538|
 677322540|
 677582661|Rue La Fayette
-677582663|Rue de Provence
 677615151|
 677615152|
 677641345|Place Michel Audiard
@@ -40665,7 +40591,6 @@
 678136625|Rue de Sèvres
 678136626|Rue de Sèvres
 678151252|
-678301074|Boulevard de Clichy
 678302493|Rue Saint-Honoré
 678302494|Rue du Louvre
 678378854|
@@ -40683,7 +40608,7 @@
 678449133|
 678449135|Rue Tristan Tzara
 678450732|Pont Charles de Gaulle
-678452030|
+678452030|Rue La Fayette
 678452402|Rue du Château Landon
 678453336|
 678490052|
@@ -40734,7 +40659,6 @@
 679274250|Boulevard Bessières
 679274253|Rue Pouchet
 679307953|Avenue Gambetta
-679311039|Rue Pelleport
 679313283|Avenue Gambetta
 679372355|
 679372356|
@@ -40880,7 +40804,6 @@
 680451641|
 680592047|Boulevard Mortier
 680631511|Route de la Pyramide
-680667381|Place Françoise Dorin
 680761561|
 680761563|
 680761566|
@@ -41033,6 +40956,7 @@
 682428069|
 682428070|
 682428071|
+682471311|
 682471312|Boulevard Garibaldi
 682471313|Boulevard Garibaldi
 682471314|Boulevard Garibaldi
@@ -41042,7 +40966,6 @@
 682528002|Rue de Bagnolet
 682534807|
 682534808|
-682691774|
 682691775|
 682691776|
 682691807|
@@ -41100,7 +41023,7 @@
 682936832|Boulevard de Picpus
 682936833|Boulevard de Charonne
 682936834|Boulevard de Picpus
-682936835|
+682936835|Place des Antilles
 682936836|Rue de Lagny
 682936837|Rue de Lagny
 682936838|Rue des Grands Champs
@@ -41152,7 +41075,6 @@
 683095541|
 683095542|Rue de la Réunion
 683102744|Rue Raymond Losserand
-683121677|
 683121681|
 683121706|
 683121708|
@@ -41160,13 +41082,13 @@
 683238071|
 683302156|
 683302157|
-683304588|Rue Ordener
+683304588|Rue Riquet
 683304589|Boulevard Vincent Auriol
 683310544|
 683310546|
 683310548|
 683310550|
-683310552|Route de Sèvres à Neuilly
+683310552|
 683347671|Place du Pont Neuf
 683347672|Quai des Orfèvres
 683347673|Pont Neuf
@@ -41318,7 +41240,6 @@
 685727037|Place de l'Abbé Georges Hénocque
 685727038|Place de l'Abbé Georges Hénocque
 685727426|Place Coluche
-685728182|
 685733511|Rue André Joineau
 685774238|Quai Branly
 685775350|
@@ -41365,7 +41286,6 @@
 686329627|Avenue du Président Wilson
 686330505|Boulevard de Clichy
 686330523|Place Pigalle
-686330786|Boulevard de Clichy
 686331405|Boulevard de Clichy
 686455453|Place d'Italie
 686479654|Rue Robert Esnault-Pelterie
@@ -41597,9 +41517,9 @@
 689291450|
 689291451|Place Marguerite de Navarre
 689295590|Place Marguerite de Navarre
-689295591|
+689295591|Place Marguerite de Navarre
 689296410|Place Sainte-Opportune
-689297128|
+689297128|Rue des Halles
 689385093|Boulevard de Sébastopol
 689475118|Boulevard Soult
 689475179|Boulevard Soult
@@ -42167,7 +42087,7 @@
 702262558|
 702262559|
 702262561|
-702262565|
+702262565|Boulevard Berthier
 702262566|
 702262568|
 702421278|
@@ -42181,7 +42101,6 @@
 702545815|
 702547229|
 702547233|
-702623047|Allée Yvette Guilbert
 702624433|Rue Haxo
 702626036|Quai du Nord
 702626078|
@@ -42430,7 +42349,6 @@
 706026244|Boulevard Haussmann
 706026245|Boulevard Haussmann
 706026246|Boulevard Haussmann
-706058156|
 706149309|
 706156701|
 706156702|
@@ -42681,7 +42599,7 @@
 712565732|
 712565733|
 712565734|
-712634796|
+712634796|Rue de Lagny
 713276516|
 713279349|
 713419043|
@@ -42742,8 +42660,6 @@
 715728435|Promenade Gilberte Brossolette
 715776012|
 715776013|
-715776014|
-715776015|
 715780701|
 715781709|
 716053689|
@@ -42793,7 +42709,6 @@
 718974230|Place de la Porte Maillot
 718974231|Place de la Porte Maillot
 718974232|
-718974233|Boulevard de l'Amiral Bruix
 718974234|
 718974235|Place de la Porte Maillot
 718974236|Place de la Porte Maillot
@@ -42906,7 +42821,7 @@
 721666158|
 721719380|Rue Bobillot
 721725303|
-721762819|
+721762819|Rue de la Poterne des Peupliers
 722144833|
 722144834|
 722150153|
@@ -43012,7 +42927,6 @@
 724522052|
 724522053|
 724522054|
-724574852|Place Jan Karski
 724607602|Quai de Bercy
 724688962|
 724688963|
@@ -43354,9 +43268,9 @@
 732156797|
 732156798|
 732257067|
-732282806|
-732282807|
-732282808|
+732282806|Rue des Tapisseries
+732282807|Rue des Tapisseries
+732282808|Rue des Tapisseries
 732282809|
 732282810|
 732282811|
@@ -43436,8 +43350,6 @@
 733266357|Rue Jacques Destrée
 733272552|
 733272553|Rue du Faubourg Saint-Antoine
-733272554|
-733272555|
 733272556|Boulevard Richard Lenoir
 733272557|Boulevard Beaumarchais
 733272558|Boulevard Richard Lenoir
@@ -43454,8 +43366,6 @@
 733324000|Place d'Italie
 733429536|Rue de Saint-Quentin
 733476800|Allée Neus Català
-733476801|Place Louise-Catherine Breslau et Madeleine Zillhardt
-733476802|Place Louise-Catherine Breslau et Madeleine Zillhardt
 733523056|Rue de Lancry
 733523057|Rue du Château d'Eau
 733559124|
@@ -43528,8 +43438,6 @@
 734533922|
 734533923|
 734533924|
-734602910|Place Ovida Delect
-734602911|Place Harvey Milk
 734743697|
 734743698|
 734743699|
@@ -43596,7 +43504,6 @@
 736511627|
 736513564|
 736525812|
-736565741|
 736567087|
 736567088|
 736567089|
@@ -43611,3 +43518,662 @@
 737068310|
 737068311|
 737157986|
+737657786|Place de la Madeleine
+737657787|
+737658800|
+737658801|
+737671181|Place de la Madeleine
+737683051|Place de la Concorde
+737945377|
+737945378|
+737945379|
+738116003|
+738116004|Rue Froidevaux
+738141504|Rue du Temple
+738173200|
+738251357|
+738251358|
+738261639|
+738261640|
+738261641|
+738453186|Rue Jean Zay
+738453187|Rue Jean Zay
+738453188|Rue Jean Zay
+738488781|
+738488782|
+738488783|
+738488784|Rue Fernand Widal
+738488785|
+738488786|
+738488787|
+738488788|
+738488789|Boulevard Masséna
+738525382|
+738525383|
+738535884|
+738812830|
+738812831|
+738812832|
+738812833|
+738812834|
+738812835|
+738812836|
+738812837|
+738812838|
+738812839|
+738812840|
+738812841|
+738812842|
+738812843|
+738812844|
+738812845|
+738812846|
+738812847|
+738812848|
+738812849|
+738812850|
+738812851|
+738812852|
+738812853|
+738812854|
+738812855|
+738812856|
+738812857|
+738812858|
+738812859|
+738812860|
+738812861|
+738812862|
+738812863|
+738812864|
+738812865|
+738812866|
+738812867|
+738812868|
+738814264|
+738814265|
+738814266|
+738834859|Rue Traversière
+738913607|Avenue des Champs-Élysées
+738914252|Rue des Archives
+738928740|
+738928741|
+738928742|
+738931432|
+738973777|Place Raoul Dautry
+738973779|
+738973781|
+738973782|
+738973783|
+738973784|
+738973785|
+738973786|
+738973787|
+738973788|
+738973789|
+738986896|
+738986897|Place Mazagran
+738986898|Place Mazagran
+738986899|
+738986900|
+738986901|
+738986902|
+738986903|
+738986904|
+738986905|
+739055031|Cours des Maréchaux
+739055032|Cours des Maréchaux
+739055033|Route Circulaire
+739099723|Allée Yvette Guilbert
+739100722|
+739100723|
+739100724|
+739109838|Rue Le Brun
+739109839|Rue Jules Breton
+739109840|Rue Jules Breton
+739119858|Boulevard de Bercy
+739119859|Boulevard de Bercy
+739119860|Rue Van Gogh
+739505213|Rue Saint-Marc
+739560428|Boulevard Malesherbes
+739561213|Place de la Madeleine
+739905777|
+739905778|
+739905779|
+739905780|
+739905781|
+739905782|
+739905783|
+739905784|
+739921861|
+739922037|
+740494265|
+740494266|Boulevard de la Chapelle
+740637799|
+740817479|Place de la Bastille
+740817480|Place de la Bastille
+740818880|Place de la Bastille
+740818881|Boulevard Richard Lenoir
+740818882|Rue du Faubourg Saint-Antoine
+740818883|
+740819455|Rue Saint-Antoine
+740819456|
+741320510|
+741320511|
+741651299|Place Anne-Marie Carrière
+741651545|
+741700323|Allée Eveline Garnier
+741739401|Chemin de Ceinture du Lac Inférieur
+741739402|Carrefour du Bout des Lacs
+741739403|Carrefour du Bout des Lacs
+741739404|Route de La Muette à Neuilly
+741769338|Rue Fernand Widal
+741830415|
+741830416|
+741909879|Avenue de la Porte d'Auteuil
+741909880|Avenue de Saint-Cloud
+741956956|
+741956957|Route de la Grande Cascade
+741956958|Route de la Grande Cascade
+742205524|Avenue de la Pépinière
+742319536|Rue Quentin Bauchart
+742319537|Rue François-Ier
+742319538|Rue François-Ier
+742319539|Rue François-Ier
+742320469|Rue Vernet
+742323151|Rue Marbeuf
+742330573|
+742330574|
+742412501|Boulevard de Vaugirard
+742429009|
+742429010|
+742448672|Place des Martyrs de la Résistance de la Porte de Sèvres
+742448673|Place des Martyrs de la Résistance de la Porte de Sèvres
+742520114|Rue Louise Bourgeois
+742537914|
+742614919|Rue Ordener
+742614920|Rue de la Chapelle
+742631534|
+742631535|
+742631536|
+742637518|Rue Jean-Baptiste Berlier
+742657445|Cours de Vincennes
+742657446|Cours de Vincennes
+742810953|Place Robert Guillemard
+742810954|Rue Lecourbe
+742810955|Rue Leblanc
+742810956|Rue Lecourbe
+742810957|Place Robert Guillemard
+742828681|
+742828682|
+742828683|Boulevard de la Guyane
+742828684|
+742828685|
+742828686|
+742828687|Boulevard de la Guyane
+742828688|
+742828689|
+742828690|
+742858317|
+742859240|Promenade Plantée
+742859244|
+742859245|
+742859246|
+742859247|
+742859248|
+742859249|
+742859250|
+742859251|Coulée Verte René Dumont
+742859252|Coulée Verte René Dumont
+742859253|
+742859254|
+742859255|Promenade Plantée
+742859256|Boulevard Soult
+742870512|Rue de Sainte-Hélène
+742870513|Rue de la Poterne des Peupliers
+742870514|Rue de la Poterne des Peupliers
+742870515|Rue de la Poterne des Peupliers
+742870516|Rue de la Poterne des Peupliers
+742874805|
+742882599|Rue de Montempoivre
+742882600|Rue de Montempoivre
+742882601|Rue de Montempoivre
+742882602|Rue de Montempoivre
+742882603|Avenue Émile Laurent
+742888320|
+742888321|
+742888322|
+742888323|
+742888324|
+742888325|
+742888326|
+742888327|
+742888328|
+742888329|
+742888330|
+742888331|
+742888332|
+742888333|
+742888334|
+742888335|
+742888336|
+742888337|
+742888338|
+742888339|
+742888340|
+742888341|
+742888342|
+742888343|
+742888344|
+742888345|
+742888346|
+742888347|
+742888348|
+742888349|
+742888352|Promenade Plantée
+742888353|
+742888356|
+742897795|Avenue des Terroirs de France
+742897796|
+742897797|
+742897798|
+742897799|
+742897801|
+742897805|
+742897806|
+742897807|
+742897811|Rue de Bercy
+742959924|Rue d'Artagnan
+742959925|Rue d'Artagnan
+742959926|Rue d'Artagnan
+742959927|Rue d'Artagnan
+742959928|
+742971756|
+742971757|
+742971758|
+742971759|
+742971760|
+742987896|
+742988380|Rue du 8 Mai 1945
+742988381|Rue du 8 Mai 1945
+743150530|
+743150531|
+743150532|
+743150536|
+743150537|Rue Louis Armand
+743150538|Rue Louis Armand
+743150539|Rue Louis Armand
+743150540|Rue Henry Farman
+743150541|Place des Martyrs de la Résistance de la Porte de Sèvres
+743150542|Place des Martyrs de la Résistance de la Porte de Sèvres
+743150543|
+743161478|Rue Leblanc
+743291613|Rue des Filles Saint-Thomas
+743291614|
+743357024|Avenue de l'Opéra
+743357025|Rue Daunou
+743357027|Rue Thérèse
+743549676|
+743683080|
+743687624|
+743687625|
+743687626|
+743687627|
+743687628|
+743689393|
+743689394|
+743708655|
+743710757|
+743712322|
+743712323|
+743713407|
+743713408|Rue Louis Blanc
+743754296|Rue de Bercy
+743754297|Rue de Bercy
+744246507|
+744251058|
+744430744|Rue d'Arcueil
+744430745|
+744515450|Rue Bobillot
+744540920|
+744566714|
+744566715|
+744566716|
+744589483|
+744624940|Place August Strindberg
+744633330|Place Justin Godart
+744678347|Boulevard de Charonne
+744678348|Rue de Provence
+744678349|Boulevard de Clichy
+744678350|Rue des Tapisseries
+744678351|Rue des Tapisseries
+744678352|Rue des Tapisseries
+744678353|Rue des Tapisseries
+744678354|Rue des Tapisseries
+744689981|Place Farhat Hached
+744694665|Rue du Caire
+744695381|Place Mazagran
+744695382|Place Mazagran
+744744226|Avenue de Flandre
+744835294|Petit-Pont - Cardinal Lustiger
+744836811|Parvis des 260 Enfants
+744885702|Rue du Père Corentin
+744894315|
+744903649|Place Serge Poliakoff
+744928060|Rue des Bois
+744928061|Rue du Pré Saint-Gervais
+744928062|Rue du Pré Saint-Gervais
+744932278|Rue de Cléry
+744933862|Rue Rochambeau
+744933863|Rue Mayran
+745003897|Boulevard de la Chapelle
+745003898|Boulevard de la Chapelle
+745003899|Rue Louis Blanc
+745003900|Place Jan Karski
+745003901|Rue d'Abbeville
+745003902|Rue Bochart de Saron
+745003903|Rue Rodier
+745003904|Rue de Dunkerque
+745003905|Rue de Dunkerque
+745015955|
+745016985|Rue Saint-Jacques
+745066891|Avenue René Coty
+745230164|
+745253228|
+745256557|Rue des Pirogues de Bercy
+745256558|
+745311211|Place de Colombie
+745311212|Avenue de Saint-Cloud
+745311213|Avenue de Saint-Cloud
+745328768|Rue Modigliani
+745380747|Rue Chaligny
+745380748|Boulevard Diderot
+745393224|
+745393225|
+745634940|Rue de Constantine
+745733840|Avenue de la Porte d'Italie
+745733851|
+745733852|
+745733853|
+745733854|
+745733855|
+745733856|
+745733857|
+745733861|
+745733862|
+745733863|
+745733864|
+745733865|
+745733866|
+745733867|
+745733869|
+745733870|
+745733871|
+745733872|
+745733873|
+745733874|
+745733875|
+745733876|
+745733887|
+745733890|
+745733891|
+745900245|
+745900246|
+745900247|
+745970382|Rue Moufle
+745976882|Avenue du Maréchal Franchet d'Esperey
+745986718|Rue Richomme
+745990390|Rue Vauvenargues
+746144576|
+746144577|
+746144578|
+746188521|
+746188522|
+746188523|
+746188526|
+746188527|
+746188528|
+746188532|
+746188533|
+746188534|
+746188535|
+746188536|
+746188537|
+746188542|
+746188557|
+746188558|
+746188563|
+746188564|
+746188569|
+746188582|
+746188583|
+746188585|
+746188595|
+746188596|
+746188607|
+746188626|
+746188644|
+746188650|Trail de Paris West Extension
+746188651|Trail de Paris West Extension
+746188736|
+746188742|
+746188786|
+746188802|"Martin Luther King, Junior Drive"
+746188803|
+746188812|
+746188815|
+746188816|
+746188817|
+746188818|
+746273771|
+746273772|
+746273773|
+746273774|
+746273775|
+746273776|
+746273777|
+746277874|
+746277875|
+746277876|
+746422914|Rue Cambon
+746422915|Rue Saint-Honoré
+746566700|Passage Jean Beausire
+746566701|Passage Jean Beausire
+746566702|Passage Jean Beausire
+746566703|Passage Jean Beausire
+746593299|
+746593300|
+746593306|
+746610338|
+746610339|
+746610340|
+746610341|Quai Branly
+746627283|
+746646690|Rue La Fayette
+746646691|Rue La Fayette
+746646692|Rue La Fayette
+746653302|
+746653303|
+746653304|
+746653320|
+746653321|
+746653322|
+746653323|
+746653324|
+746653325|
+746653326|
+746653327|
+746653328|
+746653329|
+746653330|
+746653332|
+746653333|Rue Francis de Croisset
+746661723|Rue Toulouse-Lautrec
+746695198|Boulevard Malesherbes
+746695199|
+746695200|Rue Tronchet
+746887239|
+746887240|
+746887241|
+746887242|
+746887243|
+746887244|
+746925188|
+747286490|Rue d'Arcueil
+747292477|Rue du Faubourg Saint-Honoré
+747292478|Avenue Matignon
+747293583|
+747295110|
+747295111|
+747299050|Avenue Charles Girault
+747316682|Boulevard de l'Amiral Bruix
+747319597|Rue de Provence
+747319598|Rue La Fayette
+747319599|
+747319600|Rue de Provence
+747320102|Rue de Provence
+747441432|
+747441433|
+747441434|
+747441440|
+747441441|
+747441442|
+747441443|
+747441444|
+747441445|
+747441446|
+747441447|
+747441448|
+747680831|
+747680832|
+747680833|
+747680834|
+747680835|
+747680836|
+747680837|
+747680838|
+747680839|
+747680840|
+747680841|
+747680842|
+747680843|
+747680844|
+747680845|
+747680846|
+747680847|
+747681500|
+747681501|
+747727785|
+747727786|
+747727787|Rue Sorbier
+747727788|Rue Sorbier
+747727789|Rue Élisa Borey
+747727790|Rue Élisa Borey
+747727791|Rue Sorbier
+747729844|
+747729845|
+747729846|
+747745772|Rue Boissière
+747745773|Rue Lauriston
+747745774|Rue Boissière
+747749368|
+747783902|Rue Oudinot
+747783903|Boulevard des Invalides
+747783904|Boulevard des Invalides
+747787712|Rue de Sèvres
+747788755|Rue Paul Valéry
+747788756|Rue Lauriston
+747788757|Rue Paul Valéry
+747792135|Rue Saint-Didier
+747817945|Rue Balzac
+747817946|
+747817947|Avenue de Friedland
+747817948|Avenue de Friedland
+747817949|Rue Washington
+747817950|Rue Washington
+747817951|
+747817952|
+747817953|
+747817954|
+747817955|
+747818841|
+747818842|
+747824354|
+747824355|
+747833487|
+747833488|
+747947388|Rue Riquet
+748376828|
+748636352|
+748636354|
+748636365|Rue Hélène Jakubowicz
+748636366|Rue de l'Orme
+748636467|
+748636468|
+748636469|
+748636470|
+748636471|
+748658028|Rue Gay-Lussac
+748659381|Boulevard de Courcelles
+748667611|
+748668556|
+748668557|
+748668558|
+748705046|Rue de Tolbiac
+748705047|Rue de Tolbiac
+748705048|Rue de Tolbiac
+748857368|
+748865369|Quai d'Orsay
+748865370|Pont de la Concorde
+749228629|Passage des Jacobins
+749228630|Passage des Jacobins
+749228631|
+749228632|
+749236372|
+749239565|
+749239566|Place de la Concorde
+749267024|
+749267025|
+749267026|
+749267027|
+749267028|
+749267029|
+749271898|Rue Louis Blanc
+749271899|Rue Louis Blanc
+749292631|Rue des Mûriers
+749293447|Rue du Télégraphe
+749298081|Rue de la Tombe Issoire
+749298082|Rue de la Tombe Issoire
+749298083|Rue de la Tombe Issoire
+749355255|Rue de l'Amiral d'Estaing
+749356689|Rue de Lübeck
+749434750|Place de Colombie
+749534060|Rue Marmontel
+749534061|Rue Marmontel
+749622104|Avenue Mozart
+749622105|Rue Jean de La Fontaine
+749625787|Rue de Boulainvilliers
+749625788|Avenue Raphaël
+749729318|Place de la Concorde
+749853601|Rue de la Pépinière
+749884185|Route de Bourbon
+749884186|
+750283348|
+750373242|
+750380808|Avenue Bugeaud
+750382992|Rue Péclet
+750390665|Boulevard de Grenelle
+750489694|
+750523898|Rue du Général-Foy
+750657589|Rue des Belles Feuilles
+750657590|Rue des Belles Feuilles
+750663319|Rue de la Faisanderie
+750663320|Rue Dufrénoy
+750880204|Rue de Trévise
+750955513|
+751075725|Boulevard Malesherbes
+751107098|
+751107099|
+751107100|
+751162725|
+751162726|

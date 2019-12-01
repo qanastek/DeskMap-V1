@@ -8,33 +8,6 @@ import fr.univavignon.ceri.deskmap.models.geopoint.City;
  * @author Yanis Labrak
  */
 public abstract class QueriesBuilding {
-	
-
-	/**
-	 * Send the HTTP GET request to the Overpass API
-	 * Get all the city from a specific country
-	 * @param country {@code String} Country name
-	 * @throws Exception {@code no informations}
-	 * @return {@code String} The query
-	 * @author Yanis Labrak
-	 * @author Zheng Zhiao
-	 */
-	public static String buildFetchCitiesQuery(String country) throws Exception {
-
-		OSM queryOverpass = new OSM();
-		
-		queryOverpass.output("csv", "::id,::lat,::lon,name", false, "|");
-		queryOverpass.area(country);
-		queryOverpass.start();
-		queryOverpass.node("place", "city");
-		queryOverpass.node("place", "town");
-		queryOverpass.way("place");
-		queryOverpass.out();
-		
-		String query = queryOverpass.toString();
-		
-		return query;
-	}
 		
 	/**
 	 * Fetch all the cities from the API inside a file

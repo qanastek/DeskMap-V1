@@ -12,7 +12,7 @@ public abstract class GeoPoint extends GeoData {
 	/**
 	 * Node which represent the location
 	 */
-	protected Node point;
+	public Node point;
 
 	/**
 	 * Constructor

@@ -37,6 +37,17 @@ public class Node {
 		this.lat = lat;
 		this.lon = lon;
 	}
+	
+	/**
+	 * Constructor
+	 * @param lat {@code Double} Latitude
+	 * @param lon {@code Double} Longitude
+	 */
+	public Node(Double lat, Double lon) {
+		this.id = null;
+		this.lat = lat;
+		this.lon = lon;
+	}
 
 	/**
 	 * @param id {@code String} Identifier

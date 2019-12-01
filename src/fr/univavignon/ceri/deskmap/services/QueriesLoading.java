@@ -4,12 +4,23 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import DeskMapExceptions.CannotReachServerException;
 import fr.univavignon.ceri.deskmap.controllers.MainViewController;
@@ -35,6 +46,8 @@ public abstract class QueriesLoading {
 		System.out.println("Cache creation");
 		
 		try {
+			System.out.println("Query: " + query);
+			System.out.println("Output: " + outputName);
 			
 			// Make the URL
 			URL queryUrl = new URL(query);
@@ -56,37 +69,39 @@ public abstract class QueriesLoading {
 			throw new CannotReachServerException();
 		}
 	}	
-
-	/**
-	 * Download the cities of a country
-	 * @param query {@code String} The query
-	 * @throws CannotReachServerException Exception thrown when the server cannot be reached
-	 * @author Yanis Labrak
-	 */
-	public static void downloadCities(String query) throws CannotReachServerException {	
-		
-		final String CITIES_FILE = "cities.csv";
-		
-		System.out.println("Query created: " + query);
-		
-		File f = new File(CITIES_FILE);
-		
-		if (!f.exists()) {
-			System.out.println("File not found !");
-			QueriesLoading.laodQueryInFile(query, CITIES_FILE);	
-		}
-	}
 	
 	/**
-	 * Load the cities of the country
-	 * @throws Exception Throw an exception if we cannot read the cities
+	 * Get the query result directlly
+	 * @param query {@code String} Query to send to the OSM API
+	 * @throws CannotReachServerException Exception thrown when the server cannot be reached
 	 * @author Yanis Labrak
+	 * @throws IOException 
+	 * @throws MalformedURLException 
+	 * @throws ParseException 
 	 */
-	public static void loadCities() throws Exception {
+	public static JSONObject getQueryResult(String query) throws CannotReachServerException, MalformedURLException, IOException, ParseException {
 		
-		// Load the cities from the file		
-		MainViewController.listCity = FXCollections.observableArrayList(QueriesLoading.parseCities());
-		MainViewController.listCitySorted = FXCollections.observableArrayList();		
+	    InputStream is = new URL(query).openStream();
+	     
+	    try {
+	    	BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+	    	
+			StringBuilder sb = new StringBuilder();
+			
+			int cp;			
+			while ((cp = rd.read()) != -1) {
+				sb.append((char) cp);
+			}
+			
+			JSONParser parser = new JSONParser();
+			JSONObject json = (JSONObject) parser.parse(sb.toString());
+			
+			return json;
+	      
+	    } finally {
+	      is.close();
+	    }
+	    
 	}
 	
 	/**
@@ -152,7 +167,8 @@ public abstract class QueriesLoading {
 	 */
 	public static void downloadStreets(City city, String query) throws CannotReachServerException {
 		
-		final String STREET_FILE = city.name + ".csv";
+		final String STREET_FILE = city.name.replaceAll("\\s+","").toLowerCase() + ".csv";
+		System.out.println(STREET_FILE);
 		
 		File f = new File(STREET_FILE);
 		
@@ -194,7 +210,7 @@ public abstract class QueriesLoading {
 		try {
 			
 			// Open a stream for the file which contain all the streets
-			BufferedReader buffer = new BufferedReader(new FileReader(city.name + ".csv"));
+			BufferedReader buffer = new BufferedReader(new FileReader(city.name.replaceAll("\\s+","").toLowerCase() + ".csv"));
 					
 		    String line;
 		    
