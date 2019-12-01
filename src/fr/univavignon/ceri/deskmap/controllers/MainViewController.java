@@ -658,8 +658,7 @@ public class MainViewController implements Initializable {
 		city.name = city.name
 		.replaceAll("\\.", "\\_")
 		.replaceAll("\\/", "\\_")
-		.replaceAll("\\s+","")
-		.toLowerCase();
+		.replaceAll("\\s+","");
 		
 		// Fetch everything we need to display the map			
 		this.fetchAllContentCity(city);

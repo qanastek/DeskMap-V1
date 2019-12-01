@@ -164,14 +164,14 @@ public abstract class QueriesLoading {
 	 * @author Yanis Labrak
 	 */
 	public static void downloadStreets(City city, String query) throws CannotReachServerException {
-		
 
-		String STREET_FILE = city.name;
-		STREET_FILE = STREET_FILE.replaceAll("\\.", "\\_");
-		STREET_FILE = STREET_FILE.replaceAll("\\/", "\\_");
-		STREET_FILE = STREET_FILE.replaceAll("\\s+","");
-		STREET_FILE = STREET_FILE.toLowerCase();
-		STREET_FILE = STREET_FILE + ".csv";
+		System.out.println("//////////////////////: " + city);
+
+		String STREET_FILE = city.name
+		.replaceAll("\\.", "\\_")
+		.replaceAll("\\/", "\\_")
+		.replaceAll("\\s+","")
+		.toLowerCase() + ".csv";
 		
 		System.out.println(STREET_FILE);
 		
