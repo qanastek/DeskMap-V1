@@ -369,11 +369,10 @@ public class MainViewController implements Initializable {
 			// Make the query for getting the full map
 			String query = QueriesBuilding.fullMapQuery(bbox);
 			
-			String CITIES_FILE = city.name
+			String CITIES_FILE = URLEncoder.encode(city.name
 			.replaceAll("\\.", "\\_")
 			.replaceAll("\\/", "\\_")
-			.replaceAll("\\s+","")
-			.toLowerCase() + "Map.json";
+			.toLowerCase(), "UTF-8") + "Map.json";
 			
 			System.out.println("File name: " + CITIES_FILE);
 			
@@ -655,17 +654,16 @@ public class MainViewController implements Initializable {
 	private void renderCityMap(City city) throws Exception, CannotReachServerException {
 		
 		// Sanitize the city name
-		city.name = city.name
+		city.name = URLEncoder.encode(city.name
 		.replaceAll("\\.", "\\_")
-		.replaceAll("\\/", "\\_")
-		.replaceAll("\\s+","");
+		.replaceAll("\\/", "\\_"), "UTF-8");
 		
 		// Fetch everything we need to display the map			
 		this.fetchAllContentCity(city);
 		
 		// Parse the JSON file as Java Objects
 		// TODO: 7,25300 seconds - To optimize
-		Map.loadCityAsObject(city.name.replaceAll("\\s+","").toLowerCase());
+		Map.loadCityAsObject(URLEncoder.encode(city.name, "UTF-8").toLowerCase());
 		
 		// Render all the objects of the canvas
 		this.renderMap();

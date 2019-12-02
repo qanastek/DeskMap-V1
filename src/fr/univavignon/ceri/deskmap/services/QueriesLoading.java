@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
@@ -163,15 +164,14 @@ public abstract class QueriesLoading {
 	 * @throws CannotReachServerException Exception thrown when the server cannot be reached
 	 * @author Yanis Labrak
 	 */
-	public static void downloadStreets(City city, String query) throws CannotReachServerException {
+	public static void downloadStreets(City city, String query) throws Exception, CannotReachServerException {
 
 		System.out.println("//////////////////////: " + city);
 
-		String STREET_FILE = city.name
+		String STREET_FILE = URLEncoder.encode(city.name
 		.replaceAll("\\.", "\\_")
 		.replaceAll("\\/", "\\_")
-		.replaceAll("\\s+","")
-		.toLowerCase() + ".csv";
+		.toLowerCase(), "UTF-8") + ".csv";
 		
 		System.out.println(STREET_FILE);
 		
@@ -214,8 +214,13 @@ public abstract class QueriesLoading {
 		
 		try {
 			
+			String STREET_FILE = URLEncoder.encode(city.name
+			.replaceAll("\\.", "\\_")
+			.replaceAll("\\/", "\\_")
+			.toLowerCase(), "UTF-8") + ".csv";
+			
 			// Open a stream for the file which contain all the streets
-			BufferedReader buffer = new BufferedReader(new FileReader(city.name.replaceAll("\\s+","").toLowerCase() + ".csv"));
+			BufferedReader buffer = new BufferedReader(new FileReader(STREET_FILE));
 					
 		    String line;
 		    
