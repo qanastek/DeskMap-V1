@@ -19,8 +19,10 @@ public class Trajet {
 	 * @return Distance between two nodes
 	 * @author ZHENG Zihao
 	 */
-	public static Double calculeDistance(Point2D from, Point2D to) {		
-		return Math.sqrt(Math.pow((from.getX() - to.getX()), 2) + Math.pow((from.getY() - to.getY()), 2));
+	public static Double calculeDistance(Point2D from, Point2D to) {
+		// It is about 111.12 kilometers per degree
+		
+		return 111.12 * Math.sqrt(Math.pow((from.getX() - to.getX()), 2) + Math.pow((from.getY() - to.getY()), 2));
 	}
 	
 	/**
@@ -28,9 +30,9 @@ public class Trajet {
 	 * @return 
 	 */
 	public static Point2D centreAdresse(Point2D from, Point2D to) {
-		
-		Double x = Math.abs(from.getX() - to.getX());
-		Double y = Math.abs(from.getY() - to.getY());
+		// Longitude and latitude of the middle point
+		Double x = Math.abs(from.getX() + to.getX()) / 2;
+		Double y = Math.abs(from.getY() + to.getY()) / 2;
 		
 		return new Point2D(x, y);
 	}
@@ -75,8 +77,8 @@ public class Trajet {
 
 		Set<Node> nodes;
 				
-		Point2D from = new Point2D(43.94728, 4.80997);
-		Point2D to = new Point2D(43.94626, 4.81048);
+		Point2D from = new Point2D(43.94746, 4.81214);
+		Point2D to = new Point2D(43.94631, 4.81151);
 		
 		Double distance = Trajet.calculeDistance(from, to);
 		Point2D centre = Trajet.centreAdresse(from, to);
