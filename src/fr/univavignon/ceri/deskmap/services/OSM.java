@@ -124,6 +124,16 @@ public class OSM {
 	}
 	
 	/**
+	 * Add a kind of node to fetch with bbox
+	 * @param lon {@code double} longitude
+	 * @param lat {@code String} latitude
+	 * @author Zheng zihao
+	 */
+	public void node(double lon, double lat) {
+		this.query += "[out:json];(way(around:5.0," + lon + "," + lat + "););out body;>;out skel qt;";
+	}
+	
+	/**
 	 * <u>Example:</u> {@code way("amenity", "post_box");}
 	 * @param key {@code String} Key
 	 * @param value {@code String} Value

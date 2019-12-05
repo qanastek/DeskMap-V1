@@ -27,6 +27,21 @@ public class Node {
 	public Double lon;
 	
 	/**
+	 * the movement cost to move from the starting point to a given square on the grid, 
+	 * following the path generated to get there.
+	 */
+	public double g;
+	
+	/**
+	 * the estimated movement cost to move from that given square on the grid to the final destination
+	 */
+	public double h;
+	
+	/**
+	 * parent of node
+	 */
+	public Node parent;
+	/**
 	 * Constructor
 	 * @param id {@code String} Identifier
 	 * @param lat {@code Double} Latitude
@@ -36,6 +51,23 @@ public class Node {
 		this.id = Long.parseLong(id);
 		this.lat = lat;
 		this.lon = lon;
+	}
+	
+	/**
+	 * Constructor
+	 * @param id {@code String} Identifier
+	 * @param lat {@code Double} Latitude
+	 * @param lon {@code Double} Longitude
+	 * @param g {@code Double} Path
+	 * @param h {@code Double} Cost of movement
+	 */
+	public Node(String id, Double lat, Double lon, double g, double h,Node parent) {
+		this.id = Long.parseLong(id);
+		this.lat = lat;
+		this.lon = lon;
+		this.g = g;
+		this.h = h;
+		this.parent = parent;
 	}
 
 	/**
@@ -48,6 +80,17 @@ public class Node {
 		this.lat = lat;
 		this.lon = lon;
 	}
+	
+	// Compare by f value (g + h)
+    /**
+     * Compare by f value (g + h)
+     * @param o type noed
+     * @return d
+     */
+    public int compareTo(Object o) {
+        Node that = (Node) o;
+        return (int)((this.g + this.h) - (that.g + that.h));
+    }
 	
 	/**
 	 * Transform the geographical coordinates into canvas coordinates
