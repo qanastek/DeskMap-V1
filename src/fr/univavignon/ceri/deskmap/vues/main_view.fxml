@@ -65,18 +65,18 @@
                               </HBox>
                               <HBox minHeight="0.0" minWidth="0.0" prefHeight="50.0" prefWidth="214.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Button fx:id="resetBtn" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="23.0" layoutY="142.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#Reset" prefHeight="39.0" prefWidth="125.0" style="-fx-background-color: #8799ff;" text="RESET" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="142.0" HBox.hgrow="ALWAYS">
+                                    <Button fx:id="searchBtn" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="153.0" layoutY="142.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#searching" prefHeight="39.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="SEARCH" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="153.0" AnchorPane.topAnchor="142.0" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font name="Roboto Medium" size="21.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="resetBtn" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="23.0" layoutY="142.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#Reset" prefHeight="39.0" prefWidth="125.0" style="-fx-background-color: #8799ff;" text="STOP" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="142.0" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font name="Roboto Medium" size="21.0" />
                                        </font>
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>
-                                    </Button>
-                                    <Button fx:id="searchBtn" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="153.0" layoutY="142.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#searching" prefHeight="39.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="SEARCH" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="153.0" AnchorPane.topAnchor="142.0" HBox.hgrow="ALWAYS">
-                                       <font>
-                                          <Font name="Roboto Medium" size="21.0" />
-                                       </font>
                                     </Button>
                                  </children>
                                  <padding>
