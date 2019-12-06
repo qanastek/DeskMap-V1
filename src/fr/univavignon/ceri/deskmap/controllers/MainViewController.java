@@ -5,6 +5,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -220,8 +221,14 @@ public class MainViewController implements Initializable {
 		
 		try {
 			
-			// Render the default city
-			this.renderCityMap(Settings.DEFAULT_CITY);
+			// Async load of the map
+			CompletableFuture.runAsync(() -> {
+				try {
+					this.renderCityMap(Settings.DEFAULT_CITY);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			});
 			
 			// When the canvas width change
 			this.canvasPane.widthProperty().addListener((obs, oldVal, newVal) -> {
@@ -255,8 +262,6 @@ public class MainViewController implements Initializable {
 				this.renderMap();
 			});
 			
-		} catch (CannotReachServerException e) {
-			this.addStateBar("Server cannot be reached !");
 		} catch (Exception e) {
 			System.err.println(e);
 		} 
@@ -589,8 +594,17 @@ public class MainViewController implements Initializable {
 					
 					City city = MainViewController.listCitySorted.get(this.cityName.getSelectionModel().getSelectedIndex());
 
-					// Fetch, Load and Render the map for this city
-					this.renderCityMap(city);
+//					// Fetch, Load and Render the map for this city
+//					this.renderCityMap(city);
+					
+					CompletableFuture.runAsync(() -> {
+						try {
+							// Fetch, Load and Render the map for this city
+							this.renderCityMap(city);
+						} catch (Exception e) {
+							System.out.println(e);
+						}
+					});
 					
 					// Build the query for getting all the streets of a city
 					String streetQuery = QueriesBuilding.buildFetchStreetsQuery(city);
@@ -602,7 +616,7 @@ public class MainViewController implements Initializable {
 					
 					// Load them inside comboBox's
 					QueriesLoading.loadStreets(city);
-				    
+					
 				    this.addStateBar("Streets of " + city.name + " loaded");
 					
 					if (!this.cityName.getSelectionModel().isEmpty()) {
@@ -651,22 +665,28 @@ public class MainViewController implements Initializable {
 	 * @throws Exception If the coordinates wasn't found
 	 * @author Yanis Labrak
 	 */
-	private void renderCityMap(City city) throws Exception, CannotReachServerException {
+	private void renderCityMap(City city) {
 		
-		// Sanitize the city name
-		city.name = URLEncoder.encode(city.name
-		.replaceAll("\\.", "\\_")
-		.replaceAll("\\/", "\\_"), "UTF-8");
+		try {
+			
+			// Sanitize the city name
+			city.name = URLEncoder.encode(city.name
+			.replaceAll("\\.", "\\_")
+			.replaceAll("\\/", "\\_"), "UTF-8");
+			
+			// Fetch everything we need to display the map		
+			this.fetchAllContentCity(city);
+			
+			// Parse the JSON file as Java Objects
+			// TODO: 7,25300 seconds - To optimize
+			Map.loadCityAsObject(URLEncoder.encode(city.name, "UTF-8").toLowerCase());
+			
+			// Render all the objects of the canvas
+			this.renderMap();
 		
-		// Fetch everything we need to display the map			
-		this.fetchAllContentCity(city);
-		
-		// Parse the JSON file as Java Objects
-		// TODO: 7,25300 seconds - To optimize
-		Map.loadCityAsObject(URLEncoder.encode(city.name, "UTF-8").toLowerCase());
-		
-		// Render all the objects of the canvas
-		this.renderMap();
+		} catch (Exception | CannotReachServerException e) {
+			System.out.println(e);
+		}
 	}
 	
 	/**
