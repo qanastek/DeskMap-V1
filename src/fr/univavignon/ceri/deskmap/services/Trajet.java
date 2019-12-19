@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import fr.univavignon.ceri.deskmap.Map;
 import fr.univavignon.ceri.deskmap.models.Bbox;
 import fr.univavignon.ceri.deskmap.models.Node;
 import javafx.geometry.Point2D;
-
+import fr.univavignon.ceri.deskmap.services.AStar;
 
 /**
  * @author Labrak Yanis
@@ -52,6 +53,8 @@ public class Trajet {
 		List<Node> neighbors = new ArrayList<Node>();
 		
 		
+		
+		
 //		this.afficheNode(n);
 //		this.afficheNearNode();
 		//Research the neighbour of the node
@@ -75,17 +78,25 @@ public class Trajet {
 	
 	public static void main(String[] args) {	
 
-		Set<Node> nodes;
-				
-		Point2D from = new Point2D(43.94746, 4.81214);
-		Point2D to = new Point2D(43.94631, 4.81151);
+//		Set<Node> nodes;
+//				
+//		Point2D from = new Point2D(43.94746, 4.81214);
+//		Point2D to = new Point2D(43.94631, 4.81151);
+//		
+//		Double distance = Trajet.calculeDistance(from, to);
+//		Point2D centre = Trajet.centreAdresse(from, to);
+//		Bbox b = Trajet.generateBbox(centre);
+//		
+//		System.out.println(distance);
+//		System.out.println(centre);
+//		System.out.println(b);
+		List<Node> tmp;
+		Long debutNode = new Long(309628735);
+		Long finNode = new Long(309628731);
 		
-		Double distance = Trajet.calculeDistance(from, to);
-		Point2D centre = Trajet.centreAdresse(from, to);
-		Bbox b = Trajet.generateBbox(centre);
-		
-		System.out.println(distance);
-		System.out.println(centre);
-		System.out.println(b);
+		System.out.println(Map.nodes.get(debutNode).lat);
+//		AStar a = new AStar(debutNode, Map.nodes.get(debutNode).lat, Map.nodes.get(debutNode).lon);
+//		tmp = a.findPathTo(Map.nodes.get(finNode).lat, Map.nodes.get(finNode).lon);
+//		System.out.println(tmp);
 	}
 }

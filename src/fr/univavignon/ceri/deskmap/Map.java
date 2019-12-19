@@ -108,6 +108,7 @@ public class Map {
 	 */
 	public static HashMap<Long, Node> nodes = new HashMap<Long, Node>();
 	
+	
 	/**
 	 * Constructor
 	 * @author Mohamed BEN YAMNA
@@ -205,7 +206,7 @@ public class Map {
 						(Double) item.get("lat"),
 						(Double) item.get("lon")
 					);
-					
+					//System.out.println(item.get("id"));
 					// Add it to the HashMap of Nodes
 					MainViewController.map.addNode(node);
 				}	
@@ -242,8 +243,10 @@ public class Map {
 			// Read it
 			String nodeId = it.next().toString();
 			
+			
 			// Add the id to the nodes list of the water
 			entity.addNode(nodeId);
+			
 		}
 		
 		// Add the Building
@@ -270,6 +273,7 @@ public class Map {
 			
 			Iterator<?> iterator = elements.iterator();
 			
+			int i = 0;
 			// For each JSON elements
 			while (iterator.hasNext()) {	
 				
@@ -282,7 +286,7 @@ public class Map {
 				if (type.toLowerCase().equals("way")) {
 					
 					// Fetch tags
-					JSONObject tags = (JSONObject) item.get("tags");
+					JSONObject tags = (JSONObject) item.get("tags");				
 					
 					Region entity;
 					

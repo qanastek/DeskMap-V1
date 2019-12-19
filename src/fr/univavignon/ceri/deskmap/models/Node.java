@@ -61,8 +61,8 @@ public class Node {
 	 * @param g {@code Double} Path
 	 * @param h {@code Double} Cost of movement
 	 */
-	public Node(String id, Double lat, Double lon, double g, double h,Node parent) {
-		this.id = Long.parseLong(id);
+	public Node(Long id, Double lat, Double lon, double g, double h,Node parent) {
+		this.id = id;
 		this.lat = lat;
 		this.lon = lon;
 		this.g = g;

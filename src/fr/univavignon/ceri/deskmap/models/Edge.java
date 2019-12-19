@@ -13,22 +13,25 @@ public class Edge {
         this.weight = weight;
     }
 
+    /**
+     * @return id of way
+     */
     public String getId() {
-        return id;
+        return this.id;
     }
     public Node getDestination() {
-        return destination;
+        return this.destination;
     }
 
     public Node getSource() {
-        return source;
+        return this.source;
     }
     public int getWeight() {
-        return weight;
+        return this.weight;
     }
 
     @Override
     public String toString() {
-        return source + " " + destination;
+        return this.source + " " + this.destination;
     }
 }
