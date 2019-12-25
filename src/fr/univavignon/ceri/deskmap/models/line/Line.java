@@ -32,6 +32,14 @@ public class Line extends GeoData {
 	public void addNode(String id) {
 		this.nodes.add(Long.parseLong(id));
 	}
+
+	/**
+	 * Add a {@code Node} reference in this {@code Line}
+	 * @param id {@code Long} Identifier of the {@code Node}
+	 */
+	public void addNode(Long id) {
+		this.nodes.add(id);		
+	}
 	
 	/**
 	 * Get the thickness of the line

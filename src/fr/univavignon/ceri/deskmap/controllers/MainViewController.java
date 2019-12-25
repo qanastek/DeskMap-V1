@@ -341,11 +341,14 @@ public class MainViewController implements Initializable {
 			System.out.println("Invalid starting adress");
 		}
 		else if (toNumber.isEmpty() || toName) {
-			System.out.println("Invalid destination adress");
+			System.out.println("Invalid destination address");
 		}
 		else {
 			this.addStateBar("Searching for the best path");			
 			this.addMapPath(fromNumber + " " + this.fromName.getSelectionModel().getSelectedItem() + " -> " + toNumber + " " + this.toName.getSelectionModel().getSelectedItem());
+			
+			// Draw the path
+			Draw.drawPath(this.gc);
 		}
 	}
 	
@@ -690,6 +693,8 @@ public class MainViewController implements Initializable {
 			// TODO: 7,25300 seconds - To optimize
 			Map.loadCityAsObject(URLEncoder.encode(city.name, "UTF-8").toLowerCase());
 			
+			Map.state = true;
+			
 			// Render all the objects of the canvas
 			this.renderMap();
 		
@@ -713,6 +718,10 @@ public class MainViewController implements Initializable {
 		
 		// Draw all ways
 		Draw.drawWays(this.gc);
+		
+		if (Map.state) {
+			Draw.drawPath(this.gc);
+		}
 	}
 	
 	/**
@@ -722,6 +731,9 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	void showNodesArround(MouseEvent event) {
+		
+		// If the map isn't totally loaded
+		if (Map.state == false) { return; }
 		
 		Bbox bbox = new Bbox(
 			event.getX() - 10,
@@ -757,12 +769,24 @@ public class MainViewController implements Initializable {
 		MenuItem copy = new MenuItem("Lat: " + closest.lat);
 		MenuItem paste = new MenuItem("Lon: " + closest.lon);
 		
-		contextMenu.getItems().addAll(cut, copy, paste);
+		MenuItem from = new MenuItem("Set as departure");
+		MenuItem to = new MenuItem("Set as arrival");
 		
-		cut.setOnAction(new EventHandler<ActionEvent>() {			
+		contextMenu.getItems().addAll(cut, copy, paste, from, to);
+		
+		// Departure
+		from.setOnAction(new EventHandler<ActionEvent>() {			
 			@Override
 			public void handle(ActionEvent event) {
-		        System.out.println("Cut...");				
+		        System.out.println("From");
+			}
+		});
+		
+		// Arrival
+		to.setOnAction(new EventHandler<ActionEvent>() {			
+			@Override
+			public void handle(ActionEvent event) {
+				System.out.println("To");
 			}
 		});
 		

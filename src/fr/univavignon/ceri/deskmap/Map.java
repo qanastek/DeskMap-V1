@@ -3,6 +3,7 @@ package fr.univavignon.ceri.deskmap;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -109,6 +110,15 @@ public class Map {
 	public static Double yDelta = 0.0;
 	
 	/**
+	 * Status of the {@code Map} :
+	 * <br>
+	 * {@code False} Not ready
+	 * <br>
+	 * {@code True} Ready
+	 */
+	public static boolean state = false;
+	
+	/**
 	 * All the GeoData to load
 	 */
 	public static HashMap<Long,GeoData> mapContent = new HashMap<Long,GeoData>();
@@ -117,6 +127,11 @@ public class Map {
 	 * All the nodes to load
 	 */
 	public static HashMap<Long, Node> nodes = new HashMap<Long, Node>();
+
+	/**
+	 * The path of the search
+	 */
+	public static ArrayList<Node> path = new ArrayList<Node>();
 	
 	/**
 	 * Constructor

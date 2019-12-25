@@ -9,6 +9,7 @@ import fr.univavignon.ceri.deskmap.models.Bbox;
 import fr.univavignon.ceri.deskmap.models.Node;
 import fr.univavignon.ceri.deskmap.models.Way;
 import fr.univavignon.ceri.deskmap.models.line.Line;
+import fr.univavignon.ceri.deskmap.models.line.Path;
 import fr.univavignon.ceri.deskmap.models.line.River;
 import fr.univavignon.ceri.deskmap.models.line.Road;
 import fr.univavignon.ceri.deskmap.models.region.Amenity;
@@ -312,6 +313,67 @@ public class Draw {
 				
 				// Draw the building
 				gc.fillPolygon(Draw.convertDoubles(x), Draw.convertDoubles(y), x.size());				
+			}			
+		}
+	}
+	
+	/**
+	 * Display the path on the map
+	 * @param nodes
+	 */
+	public static void drawPath(GraphicsContext gc) {
+		
+//		int j = 0;
+//		
+//		// Add content to the path
+//		for (Long key : Map.nodes.keySet()) {
+//			
+//			if (j == 6) { break; }
+//			
+//		    Node node = Map.nodes.get(key);
+//		    Map.path.add(node);
+//		    j++;
+//		}
+
+		Long n001 = 1674101738L;
+		Node n01 = Map.nodes.get(n001);
+		System.out.println(n01);
+
+		Long n002 = 657442L;
+		Node n02 = Map.nodes.get(n002);
+		System.out.println(n02);
+
+		Long n003 = 1674101978L;
+		Node n03 = Map.nodes.get(n003);
+		System.out.println(n03);
+
+		Long n004 = 1674102010L;
+		Node n04 = Map.nodes.get(n004);
+		System.out.println(n04);
+		
+	    Map.path.add(n01);
+	    Map.path.add(n02);
+	    Map.path.add(n03);
+	    Map.path.add(n04);
+	    
+	    System.out.println(Map.path);
+		
+		if (Map.path.size() < 2) {
+			System.err.println("Path too small !");
+		} else {
+			
+			// Draw each segment of the path
+			for (int i = 0; i < Map.path.size() - 1; i++) {
+				
+				Line segment = new Path();
+				
+				Long n0 = Map.path.get(i).id;
+				Long n1 = Map.path.get(i+1).id;
+				
+				segment.addNode(n0);
+				segment.addNode(n1);
+				
+				Draw.drawPropLine(gc, segment);
 			}			
 		}
 	}

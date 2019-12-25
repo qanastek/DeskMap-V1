@@ -39,6 +39,11 @@ public final class Settings {
 	public static final int LEVEL_1_ROAD_THICKNESS = 4;
 	
 	/**
+	 * Thickness of the PATH
+	 */
+	public static final int PATH = 4;
+	
+	/**
 	 * Thickness of the Trunk roads
 	 */
 	public static final int LEVEL_2_ROAD_THICKNESS = 3;

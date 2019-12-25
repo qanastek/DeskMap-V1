@@ -135,5 +135,10 @@ public final class Color {
 	 * Color of the Pedestrian roads
 	 */
 	public static final String PEDESTRIAN = "#dddde8";
+	
+	/**
+	 * Color of the path
+	 */
+	public static final String PATH = "#669df6";
 
 }
