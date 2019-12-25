@@ -464,7 +464,8 @@ public class Map {
 							JSONArray nodes;
 							Line entityRoad;
 							
-							entityRoad = new Road((Long) item.get("id"));
+							entityRoad = new Road((Long) item.get("id"));							
+							entityRoad.setName((String) tags.get("name"));
 							
 							// Read the 'nodes' array
 							nodes = (JSONArray) item.get("nodes");

@@ -3,7 +3,9 @@ package fr.univavignon.ceri.deskmap.controllers;
 import java.io.File;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 
@@ -14,8 +16,11 @@ import DeskMapExceptions.CannotReachServerException;
 import fr.univavignon.ceri.deskmap.Map;
 import fr.univavignon.ceri.deskmap.config.Settings;
 import fr.univavignon.ceri.deskmap.models.Bbox;
+import fr.univavignon.ceri.deskmap.models.GeoData;
+import fr.univavignon.ceri.deskmap.models.Node;
 import fr.univavignon.ceri.deskmap.models.Street;
 import fr.univavignon.ceri.deskmap.models.geopoint.City;
+import fr.univavignon.ceri.deskmap.models.line.Road;
 import fr.univavignon.ceri.deskmap.services.Draw;
 import fr.univavignon.ceri.deskmap.services.OSM;
 import fr.univavignon.ceri.deskmap.services.QueriesBuilding;
@@ -23,6 +28,7 @@ import fr.univavignon.ceri.deskmap.services.QueriesLoading;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
@@ -33,6 +39,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 
 import javafx.scene.input.KeyCode;
@@ -41,6 +49,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
@@ -729,6 +738,115 @@ public class MainViewController implements Initializable {
 	}
 	
 	/**
+	 * Get all the info's about the closest {@code Node} of the mouse when right click
+	 * @param event {@code MouseEvent}
+	 * @author Yanis Labrak
+	 */
+	@FXML
+	void getNodeInformations(MouseEvent event) {
+		
+		// Get THE closest Node
+		Node closest = this.getClosestNodes(event);
+		System.out.println(closest);
+		
+		// Print infos
+		
+		final ContextMenu contextMenu = new ContextMenu();
+		
+		MenuItem cut = new MenuItem("Id: " + closest.id);
+		MenuItem copy = new MenuItem("Lat: " + closest.lat);
+		MenuItem paste = new MenuItem("Lon: " + closest.lon);
+		
+		contextMenu.getItems().addAll(cut, copy, paste);
+		
+		cut.setOnAction(new EventHandler<ActionEvent>() {			
+			@Override
+			public void handle(ActionEvent event) {
+		        System.out.println("Cut...");				
+			}
+		});
+		
+		for (Long key : Map.mapContent.keySet()) {
+		    
+			GeoData g = Map.mapContent.get(key);
+			
+			if (g instanceof Road && ((Road) g).getNodes().contains(closest.id) && g.name != null) {
+				
+				System.out.println("Road:" + g.name);
+				
+				contextMenu.getItems().add(
+					new MenuItem(g.name)
+				);
+			}
+		}
+		
+        contextMenu.show(this.canvasPane, event.getScreenX(), event.getScreenY());
+	}
+	
+
+	/**
+	 * Get the closest {@code Node} of the mouse when right click
+	 * @param event {@code MouseEvent}
+	 * @author Yanis Labrak
+	 */
+	@FXML
+	Node getClosestNodes(MouseEvent event) {
+		
+		Bbox bbox = new Bbox(
+			event.getX() - 10,
+			event.getX() + 10,
+			event.getY() - 10,
+			event.getY() + 10
+		);
+
+		Node closest = null;
+		
+		// Get all nodes around
+		for (Long key : Map.nodes.keySet()) {
+		    
+		    Node node = Map.nodes.get(key);
+		    
+    		// Coordinate after processing
+    		List<Double> coordinates = Node.toPixel(node.lat, node.lon);
+    		
+    		Double x = coordinates.get(0);
+    		Double y = Map.height - coordinates.get(1);
+	    		
+		    if (x < bbox.topRight && x > bbox.topLeft && y > bbox.bottomLeft && y < bbox.bottomRight) {
+		    	
+		    	if (closest == null) {
+		    		closest = node;
+				}
+		    	else {
+		    		
+		    		Double distanceMouseNode = MainViewController.Distance(event.getX(), event.getY(), node.lon, node.lat);
+		    		Double distanceMouseClosest = MainViewController.Distance(event.getX(), event.getY(), closest.lon, closest.lat);
+
+					// Mouse.distance(node) < Mouse.distance(closest)
+					// closest = node
+		    		if (distanceMouseNode < distanceMouseClosest) {
+		    			closest = node;						
+					}
+				}	
+			}			
+		}
+		
+		return closest;
+	}
+
+    /**
+     * The distance between the two points
+     * @param x1
+     * @param y1
+     * @param x2
+     * @param y2
+     * @return {@code Double} The distance
+     */
+    static public double Distance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.sqrt(y2 - y1) + Math.sqrt(x2 - x1));
+    }
+	
+	/**
 	 * When a key is pressed inside {@code cityName}
 	 * @param event {@code KeyEvent} The key pressed
 	 * @throws CannotReachServerException Exception thrown when the server cannot be reached
@@ -989,6 +1107,11 @@ public class MainViewController implements Initializable {
         	Map.yDelta = event.getSceneY();
 			System.out.println("LEFT");	
 		}
+    	else if (event.getButton() == MouseButton.SECONDARY)
+        {
+    		System.out.println("right click");
+            this.getNodeInformations(event);
+        }
     }
 
     /**
