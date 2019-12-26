@@ -16,14 +16,11 @@ import fr.univavignon.ceri.deskmap.models.region.Highway;
  *
  */
 public class AStar {
-	/**
-	 * open list
-	 */
-	private final List<Node> open;
-	private final List<Node> close;
-	
-	private final List<Node> path;
+
+	private List<Node> path;
+	private List<Node> close;
 	private Node now;
+	
 	
 	/**
 	 * node start longitude
@@ -47,13 +44,42 @@ public class AStar {
      * @param diag	diagram
      */
     AStar(Long debut,Double xstart, Double ystart) {
-        this.open = new ArrayList<>();
-        this.close = new ArrayList<>();
-        this.path = new ArrayList<>();
+        this.path = new ArrayList<Node>();
+        this.close = new ArrayList<Node>();
         this.now = new Node(debut,xstart, ystart, 0, 0,null);
+        
+        
+        this.open = new ArrayList<>();
         this.xstart = xstart;
         this.ystart = ystart;
     }
+    
+    /**
+     * Working well
+     * @return
+     */
+	public ArrayList<Long> getNeithboors() {
+		
+		ArrayList<Long> around = new ArrayList<Long>();
+		
+		for (Long key : Map.mapContent.keySet()) {
+		    
+			GeoData g = Map.mapContent.get(key);
+			
+			if (g instanceof Road && ((Road) g).getNodes().contains(now.id) && g.name != null) {
+				
+				int index = ((Road) g).getNodes().indexOf(now.id);
+				int max = ((Road) g).getNodes().size()-1;
+				int before = index - 1 >= 0 ? index - 1 : 0;
+				int after = index + 1 <= max ? index + 1 : max;
+				
+				around.add(((Road) g).getNodes().get(before));
+				around.add(((Road) g).getNodes().get(after));
+			}
+		}
+		
+		return around;
+	}
 	
 	/**
 	 * @param xend destination lat
