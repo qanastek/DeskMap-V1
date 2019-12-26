@@ -10,6 +10,7 @@ import fr.univavignon.ceri.deskmap.Map;
 import fr.univavignon.ceri.deskmap.config.Settings;
 import fr.univavignon.ceri.deskmap.models.Street;
 import fr.univavignon.ceri.deskmap.models.geopoint.City;
+import fr.univavignon.ceri.deskmap.services.AStar;
 import fr.univavignon.ceri.deskmap.services.Draw;
 import fr.univavignon.ceri.deskmap.services.OSM;
 import fr.univavignon.ceri.deskmap.services.QueriesBuilding;
@@ -252,6 +253,10 @@ public class MainViewController implements Initializable {
 			
 			// Load all the cities of the country
 			QueriesLoading.loadCities();
+			
+
+			AStar a = new AStar();
+			System.out.println(a.findPath());
 			
 		} catch (CannotReachServerException e) {
 			this.addStateBar("Server cannot be reached !");
