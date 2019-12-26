@@ -335,40 +335,40 @@ public class Draw {
 //		    j++;
 //		}
 
-		Long n001 = 1674101738L;
-		Node n01 = Map.nodes.get(n001);
-		System.out.println(n01);
-
-		Long n002 = 657442L;
-		Node n02 = Map.nodes.get(n002);
-		System.out.println(n02);
-
-		Long n003 = 1674101978L;
-		Node n03 = Map.nodes.get(n003);
-		System.out.println(n03);
-
-		Long n004 = 1674102010L;
-		Node n04 = Map.nodes.get(n004);
-		System.out.println(n04);
-		
-	    Map.path.add(n01);
-	    Map.path.add(n02);
-	    Map.path.add(n03);
-	    Map.path.add(n04);
+//		Long n001 = 1674101738L;
+//		Node n01 = Map.nodes.get(n001);
+//		System.out.println(n01);
+//
+//		Long n002 = 657442L;
+//		Node n02 = Map.nodes.get(n002);
+//		System.out.println(n02);
+//
+//		Long n003 = 1674101978L;
+//		Node n03 = Map.nodes.get(n003);
+//		System.out.println(n03);
+//
+//		Long n004 = 1674102010L;
+//		Node n04 = Map.nodes.get(n004);
+//		System.out.println(n04);
+//		
+//	    Map.path.add(n01);
+//	    Map.path.add(n02);
+//	    Map.path.add(n03);
+//	    Map.path.add(n04);
 	    
-	    System.out.println(Map.path);
+//	    System.out.println(Map.path);
 		
-		if (Map.path.size() < 2) {
+		if (AStar.path.size() < 2) {
 			System.err.println("Path too small !");
 		} else {
 			
 			// Draw each segment of the path
-			for (int i = 0; i < Map.path.size() - 1; i++) {
+			for (int i = 0; i < AStar.path.size() - 1; i++) {
 				
 				Line segment = new Path();
 				
-				Long n0 = Map.path.get(i).id;
-				Long n1 = Map.path.get(i+1).id;
+				Long n0 = AStar.path.get(i).id;
+				Long n1 = AStar.path.get(i+1).id;
 				
 				segment.addNode(n0);
 				segment.addNode(n1);

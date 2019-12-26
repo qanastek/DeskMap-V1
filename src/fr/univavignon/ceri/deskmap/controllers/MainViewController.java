@@ -21,6 +21,7 @@ import fr.univavignon.ceri.deskmap.models.Node;
 import fr.univavignon.ceri.deskmap.models.Street;
 import fr.univavignon.ceri.deskmap.models.geopoint.City;
 import fr.univavignon.ceri.deskmap.models.line.Road;
+import fr.univavignon.ceri.deskmap.services.AStar;
 import fr.univavignon.ceri.deskmap.services.Draw;
 import fr.univavignon.ceri.deskmap.services.OSM;
 import fr.univavignon.ceri.deskmap.services.QueriesBuilding;
@@ -199,7 +200,7 @@ public class MainViewController implements Initializable {
 	/**
 	 * GraphicsContext for the canvas
 	 */
-	private GraphicsContext gc;
+	public static GraphicsContext gc;
 	
 	/**
 	 * GraphicsContext for the nodes canvas
@@ -234,6 +235,8 @@ public class MainViewController implements Initializable {
 			CompletableFuture.runAsync(() -> {
 				try {
 					this.renderCityMap(Settings.DEFAULT_CITY);
+					AStar a = new AStar();
+					System.out.println(a.findPath());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
