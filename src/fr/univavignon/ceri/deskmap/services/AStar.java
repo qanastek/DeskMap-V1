@@ -126,9 +126,33 @@ public class AStar {
 				
 				System.out.println(ban ? "true":"false");
 				
-				if (n.id == this.now.id || n.id == this.now.parent.id || ban) {
+				if (n.id == this.now.id) {
 					this.close.remove(i);
-					System.out.println("Deleted");
+
+					if (i <= 0) {
+						i=0;
+					} else {
+						i--;
+					}
+					System.out.println("Deleted now");
+				}
+				else if (n.id == this.now.parent.id) {
+					this.close.remove(i);
+					if (i <= 0) {
+						i=0;
+					} else {
+						i--;
+					}
+					System.out.println("Deleted parent");
+				}
+				else if (ban) {
+					this.close.remove(i);
+					if (i <= 0) {
+						i=0;
+					} else {
+						i--;
+					}
+					System.out.println("Deleted banned");
 				}
 				
 			}
@@ -183,16 +207,19 @@ public class AStar {
 
 			if (distance < bestDistance) {
 				
-				System.out.println("Node");
-				System.out.println(node);
-				
 				best = new NodePath(node);
 				best.distance = d1;
 				best.parent = this.now;
+				
 				bestDistance = distance;
 			}
 		}
-
+		
+		System.out.println("Best");
+		System.out.println(best);
+		System.out.println("Now");
+		System.out.println(this.now);
+		
 		return best;
 	}
 
@@ -223,9 +250,4 @@ public class AStar {
 			 * 
 			 * }
 			 */
-	
-	public static void main(String[] args) {
-		AStar a = new AStar();
-		System.out.println(a.findPath());
-	}
 }
