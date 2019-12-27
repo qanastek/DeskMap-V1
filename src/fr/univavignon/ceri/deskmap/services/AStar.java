@@ -2,6 +2,7 @@ package fr.univavignon.ceri.deskmap.services;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -15,10 +16,12 @@ import fr.univavignon.ceri.deskmap.models.Node;
 import fr.univavignon.ceri.deskmap.models.NodePath;
 import fr.univavignon.ceri.deskmap.models.line.Road;
 import fr.univavignon.ceri.deskmap.models.region.Highway;
+import javafx.scene.paint.Color;
 
 /**
- * @author zheng zihao
- *
+ * The A star algorithm
+ * @author Zheng Zihao
+ * @author Labrak Yanis
  */
 public class AStar {
 
@@ -27,8 +30,8 @@ public class AStar {
 	private List<NodePath> banned;
 
 	private NodePath now;
-	private Node departure = Map.nodes.get(Long.parseLong("4774738526"));
-	private Node arrival = Map.nodes.get(Long.parseLong("937548040"));
+	private Node departure = Map.nodes.get(Long.parseLong("937547866"));
+	private Node arrival = Map.nodes.get(Long.parseLong("2124880627"));
 
 	/**
 	 * node start longitude
@@ -58,10 +61,26 @@ public class AStar {
 		AStar.path = new ArrayList<NodePath>();
 		this.close = new ArrayList<Node>();
 		this.banned = new ArrayList<NodePath>();
+	}
+	
+	public void displayFromTo() {
+		this.displayPOI(this.departure); 
+		this.displayPOI(this.arrival); 
+	}
+	
+	public void displayPOI(Node node) {
+		
+		// Coordinate after processing
+		List<Double> coordinates = Node.toPixel(node.lat, node.lon);
+		
+		Double x = coordinates.get(0);
+		Double y = Map.height - coordinates.get(1);
 
-		// this.open = new ArrayList<>();
-		// this.xstart = xstart;
-		// this.ystart = ystart;
+	    MainViewController.gc.setFill(Color.RED);
+	    MainViewController.gc.setStroke(Color.RED);
+//		MainViewController.gc.fillOval(x, y, Map.scale/5, Map.scale/5);
+		MainViewController.gc.fillOval(x, y, 100,100);
+	    
 	}
 
 	/**
@@ -102,6 +121,8 @@ public class AStar {
 	 * @return path of node
 	 */
 	public List<NodePath> findPath() {
+		
+		System.out.println("/*START*/");
 
 		AStar.path.add(this.now);
 
@@ -110,73 +131,61 @@ public class AStar {
 
 		// If have parent
 		if (this.now.parent != null) {
-
-//			System.out.println(this.close);
 			
-			// Delete now
-			for (int i = 0; i < this.close.size(); i++) {
+			Iterator<Node> it = this.close.iterator();
+			
+			while (it.hasNext()) {
 				
+				Node n = it.next();
 				ban = false;
-				Node n = this.close.get(i);
 				
-				for (NodePath nodePath : banned) {
+				// Delete all banned
+				for (NodePath nodePath : this.banned) {
 					if (nodePath.id == this.now.id) {
 						ban = true;
+						break;
 					}
 				}
 				
+				System.out.println(ban ? "true ban" : "false ban");
 				
-				System.out.println(ban ? "true":"false");
-				
-				if (n.id == this.now.id) {
-					this.close.remove(i);
-
-					if (i <= 0) {
-						i=0;
-					} else {
-						i--;
-					}
-					System.out.println("Deleted now");
+				if (ban) {
+					it.remove();
 				}
-				else if (n.id == this.now.parent.id) {
-					this.close.remove(i);
-					if (i <= 0) {
-						i=0;
-					} else {
-						i--;
-					}
-					System.out.println("Deleted parent");
+				// Delete current Node
+				else if (n.id == this.now.parent.id || n.id == this.now.id) {
+					System.out.println("/// CLOSE START");
+					System.out.println(this.close);
+					System.out.println("/// CLOSE REMOVE");
+					it.remove();
+					System.out.println(this.close);
+					System.out.println("/// CLOSE END");
 				}
-				else if (ban) {
-					this.close.remove(i);
-					if (i <= 0) {
-						i=0;
-					} else {
-						i--;
-					}
-					System.out.println("Deleted banned");
-				}
-				
 			}
 		}
 
-		// If we have neighbours
+		// If we have neighbors
 		if (this.close.size() > 0) {
 
 			this.now = this.getCloser();
+			System.out.println("NowAfter");
+			System.out.println(this.now);
 
 			// If we reach the end
 			if (this.now.id == this.arrival.id) {
+				System.out.println("FINDED");
+				AStar.path.add(this.now);				
+				Draw.drawPath(MainViewController.gc);
 				return AStar.path;
 			}
 			
-			Draw.drawPath(MainViewController.gc);
+//			this.displayFromTo();
 			
-			try {
-				TimeUnit.SECONDS.sleep(1);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				TimeUnit.SECONDS.sleep(1);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
 			
 			// Not found but not blocked
 			this.findPath();
@@ -189,9 +198,15 @@ public class AStar {
 				return null;
 			}
 			
-			this.banned.add(this.now);
+			System.out.println("----- Ban S -----");
+			System.out.println(this.banned);
+			System.out.println("----- Ban E -----");
+
 			this.now = this.now.parent;
+			this.banned.add(this.now);
 			AStar.path.add(0, this.now);
+			Draw.drawPath(MainViewController.gc);
+			this.findPath();
 
 		}
 		
@@ -224,11 +239,14 @@ public class AStar {
 				bestDistance = distance;
 			}
 		}
-		
+		System.out.println("----------------");
 		System.out.println("Best");
 		System.out.println(best);
 		System.out.println("Now");
 		System.out.println(this.now);
+		System.out.println("Now Parent");
+		System.out.println(this.now.parent);
+		System.out.println("----------------");
 		
 		return best;
 	}
