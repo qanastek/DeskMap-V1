@@ -22,6 +22,7 @@ import javafx.scene.paint.Color;
  * The A star algorithm
  * @author Zheng Zihao
  * @author Labrak Yanis
+ * @author Ben Yamna Mohamed
  */
 public class AStar {
 
@@ -30,30 +31,9 @@ public class AStar {
 	private List<NodePath> banned;
 
 	private NodePath now;
-	private Node departure = Map.nodes.get(Long.parseLong("937547866"));
-	private Node arrival = Map.nodes.get(Long.parseLong("2124880627"));
+	private Node departure = Map.nodes.get(Long.parseLong("926350446"));
+	private Node arrival = Map.nodes.get(Long.parseLong("937057575"));
 
-	/**
-	 * node start longitude
-	 */
-	// private final Double xstart;
-
-	/**
-	 * node start latitude
-	 */
-	// private final Double ystart;
-
-	/**
-	 * node end longitude and latitude
-	 */
-	// private Double xend, yend;
-
-	/**
-	 * @param debut  id debut node
-	 * @param xstart longitude
-	 * @param ystart latitude
-	 * @param diag   diagram
-	 */
 	public AStar() {
 
 		this.now = new NodePath(this.departure);
