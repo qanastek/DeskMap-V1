@@ -26,6 +26,7 @@ import fr.univavignon.ceri.deskmap.services.Draw;
 import fr.univavignon.ceri.deskmap.services.OSM;
 import fr.univavignon.ceri.deskmap.services.QueriesBuilding;
 import fr.univavignon.ceri.deskmap.services.QueriesLoading;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -87,7 +88,7 @@ public class MainViewController implements Initializable {
 	 * Start street name
 	 */
 	@FXML
-	private ComboBox<Street> fromName;
+	private ComboBox<Road> fromName;
 	
 	/**
 	 * Destination house number
@@ -99,7 +100,7 @@ public class MainViewController implements Initializable {
 	 * Destination street name
 	 */
 	@FXML
-	private ComboBox<Street> toName;
+	private ComboBox<Road> toName;
 	
 	/**
 	 * Path
@@ -175,22 +176,22 @@ public class MainViewController implements Initializable {
 	/**
 	 * The default list of streets for a specific city
 	 */
-	public static ObservableList<Street> listStreetName = FXCollections.observableArrayList();
+	public static ObservableList<Road> listStreetName = FXCollections.observableArrayList();
 	
 	/**
 	 * The observable variable for the {@code FROM} comboBox
 	 */
-	public static ObservableList<Street> listStreetNameSortedFrom = FXCollections.observableArrayList();
+	public static ObservableList<Road> listStreetNameSortedFrom = FXCollections.observableArrayList();
+
+	/**
+	 * The observable variable for the {@code TO} comboBox
+	 */
+	public static ObservableList<Road> listStreetNameSortedTo = FXCollections.observableArrayList();
 	
 	/**
 	 * The observable variable for the {@code City} comboBox
 	 */
 	public static ObservableList<City> listCitySorted = FXCollections.observableArrayList();
-	
-	/**
-	 * The observable variable for the {@code TO} comboBox
-	 */
-	public static ObservableList<Street> listStreetNameSortedTo = FXCollections.observableArrayList();
 	
 	/**
 	 * The map instance which will contain all the objects to display
@@ -206,6 +207,15 @@ public class MainViewController implements Initializable {
 	 * GraphicsContext for the nodes canvas
 	 */
 	private GraphicsContext gcNodes;
+	
+	/**
+	 * Status
+	 * <br>
+	 * {@code False} : Stopped
+	 * <br>
+	 * {@code True} : Running
+	 */
+	public static boolean status = true;
 	
 	/**
 	 * Automatically started when the program start
@@ -228,15 +238,25 @@ public class MainViewController implements Initializable {
 		this.slider.setMin(Settings.MIN_SCALE);
 		this.slider.setMajorTickUnit(Settings.MAX_SCALE / 6);
 		this.slider.setMinorTickCount(Settings.MIN_SCALE);
+
+		// Assign both lists to their comboBox's
+		this.fromName.setItems(MainViewController.listStreetNameSortedFrom);
+		this.toName.setItems(MainViewController.listStreetNameSortedTo);
 		
 		try {
 			
 			// Async load of the map
-			CompletableFuture.runAsync(() -> {
+			Platform.runLater(() -> {
 				try {
+					
 					this.renderCityMap(Settings.DEFAULT_CITY);
+					
+					// Load all the streets
+					QueriesLoading.downloadStreets();
+					
 					AStar a = new AStar();
 					System.out.println(a.findPath());
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -277,10 +297,6 @@ public class MainViewController implements Initializable {
 		} catch (Exception e) {
 			System.err.println(e);
 		} 
-		
-		// Assign both lists to their comboBox's
-		this.fromName.setItems(MainViewController.listStreetNameSortedFrom);
-		this.toName.setItems(MainViewController.listStreetNameSortedTo);
 		
 	}
 	
@@ -333,6 +349,8 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void searching(ActionEvent event) throws Exception {
 		
+		MainViewController.status = true;
+		
 		// Get fields string values
 		String fromNumber = this.fromNumber.getText();
 		Boolean fromName = this.fromName.getSelectionModel().isEmpty();
@@ -347,11 +365,31 @@ public class MainViewController implements Initializable {
 			System.out.println("Invalid destination address");
 		}
 		else {
-			this.addStateBar("Searching for the best path");			
-			this.addMapPath(fromNumber + " " + this.fromName.getSelectionModel().getSelectedItem() + " -> " + toNumber + " " + this.toName.getSelectionModel().getSelectedItem());
+			this.addStateBar("Searching for the best path");
+			
+
+			Road from = MainViewController.listStreetNameSortedFrom.get(this.fromName.getSelectionModel().getSelectedIndex());
+			Node f = from.getMiddle();
+			
+			Road to = MainViewController.listStreetNameSortedTo.get(this.toName.getSelectionModel().getSelectedIndex());
+			Node t = to.getMiddle();
+			
+			this.addMapPath(fromNumber + " " + from + " -> " + toNumber + " " + to);
+
+			System.out.println(f);
+			System.out.println(t);
+
+//			Platform.runLater(() -> {
+			Runnable runnable = () -> { 
+				AStar a = new AStar(f,t);
+				System.out.println(a.findPath());
+			};
+			Thread tre = new Thread(runnable);
+			tre.start();
+//			});
 			
 			// Draw the path
-			Draw.drawPath(this.gc);
+//			Draw.drawPath(this.gc);
 		}
 	}
 	
@@ -420,6 +458,8 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	public void Reset(ActionEvent event) {
+		MainViewController.status = false;
+		
 		this.cityName.getSelectionModel().clearSelection();
 		this.cityButton.setDisable(true);
 		
@@ -587,6 +627,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void setCity(ActionEvent event) throws Exception, CannotReachServerException
 	{
+		
 		// If the city name isn't known
 		if (!this.cityName.getSelectionModel().isEmpty()) {
 			
@@ -612,27 +653,31 @@ public class MainViewController implements Initializable {
 //					// Fetch, Load and Render the map for this city
 //					this.renderCityMap(city);
 					
-					CompletableFuture.runAsync(() -> {
-						try {
-							// Fetch, Load and Render the map for this city
-							this.renderCityMap(city);
-						} catch (Exception e) {
-							System.out.println(e);
-						}
-					});
+					try {
+
+						MainViewController.status = true;
+						
+						// Fetch, Load and Render the map for this city
+						this.renderCityMap(city);
+						
+						QueriesLoading.downloadStreets();
+						
+					    this.addStateBar("Streets of " + city.name + " downloaded");
+					    
+					} catch (Exception e) {
+						System.out.println(e);
+					}
 					
 					// Build the query for getting all the streets of a city
-					String streetQuery = QueriesBuilding.buildFetchStreetsQuery(city);
+//					String streetQuery = QueriesBuilding.buildFetchStreetsQuery(city);
 					
 					// Download the streets
-					QueriesLoading.downloadStreets(city, streetQuery);
-					
-				    this.addStateBar("Streets of " + city.name + " downloaded");
+//					QueriesLoading.downloadStreets(city, streetQuery);
 					
 					// Load them inside comboBox's
-					QueriesLoading.loadStreets(city);
+//					QueriesLoading.loadStreets(city);
 					
-				    this.addStateBar("Streets of " + city.name + " loaded");
+//				    this.addStateBar("Streets of " + city.name + " loaded");
 					
 					if (!this.cityName.getSelectionModel().isEmpty()) {
 						
@@ -660,9 +705,6 @@ public class MainViewController implements Initializable {
 					this.addStateBar(c.name + " doesn't exist !");
 				}
 				
-			}
-			catch (CannotReachServerException e) {
-				this.addStateBar("Server cannot be reached !");
 			}
 			catch (NullPointerException e) {
 				this.addStateBar("No city found !");
@@ -1171,7 +1213,7 @@ public class MainViewController implements Initializable {
 	public void autoCompleteFrom(KeyEvent event) {
 		
 		// Current value of the comboBox {@code FROM} street
-		String current_value = this.fromName.getEditor().getText();	
+		String current_value = this.fromName.getEditor().getText().toLowerCase();
 		
 		// If the user write nothing
 		if (!current_value.isEmpty()) {
@@ -1191,12 +1233,13 @@ public class MainViewController implements Initializable {
 				// Don't read this character
 				event.consume();
 				
-			} else {
-
+			} else {		
+				
 				MainViewController.listStreetNameSortedFrom.clear();
 				
 				// Take the {@code street} which contain inside it name the current input
-				for (Street street : MainViewController.listStreetName) {					
+				for (Road street : MainViewController.listStreetName) {
+					
 					if (street.name.toLowerCase().contains(current_value)) {
 						MainViewController.listStreetNameSortedFrom.add(street);
 					}
@@ -1251,7 +1294,7 @@ public class MainViewController implements Initializable {
 				MainViewController.listStreetNameSortedTo.clear();
 				
 				// Take the street which contain inside it name the current input
-				for (Street street : MainViewController.listStreetName) {
+				for (Road street : MainViewController.listStreetName) {
 					if (street.name.toLowerCase().contains(current_value)) {
 						MainViewController.listStreetNameSortedTo.add(street);
 					}

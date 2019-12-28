@@ -22,9 +22,14 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import DeskMapExceptions.CannotReachServerException;
+import fr.univavignon.ceri.deskmap.Map;
 import fr.univavignon.ceri.deskmap.controllers.MainViewController;
+import fr.univavignon.ceri.deskmap.models.GeoData;
 import fr.univavignon.ceri.deskmap.models.Street;
 import fr.univavignon.ceri.deskmap.models.geopoint.City;
+import fr.univavignon.ceri.deskmap.models.line.Road;
+import fr.univavignon.ceri.deskmap.models.region.Landuse;
+import fr.univavignon.ceri.deskmap.models.region.Region;
 
 /**
  * All the functions which is used for loading and downloading the queries results
@@ -182,6 +187,56 @@ public abstract class QueriesLoading {
 		}
 	}
 	
+	public static void downloadStreets() {
+		
+		// Clear the current list of streets
+		MainViewController.listStreetName.clear();
+
+		System.out.println("Way before name: " + Map.mapContent.keySet().size());
+		
+		// Load all the street inside listStreetName
+		for (Long key : Map.mapContent.keySet()) {
+		    
+		    Object prop = Map.mapContent.get(key);
+		    
+		    if (prop instanceof Road) {		
+		    	
+		    	Road r = ((Road) prop);
+
+//	    		System.out.println("Before name");
+		    	if (r.name != null && !r.name.isEmpty() && !r.name.equals("")) {
+		    		
+		    		boolean present = false;
+		    		
+		    		for (Road rd : MainViewController.listStreetName) {
+		    			if (rd.name.equals(r.name)) {
+							present = true;
+						}
+					}
+		    		
+		    		if (present == false) {
+			    		MainViewController.listStreetName.add(r);
+					}
+		    		
+//		    		System.out.println("Name: " + r.name);
+//		    		System.out.println("Qts: " + MainViewController.listStreetName.size());
+				}		    	
+			}	
+		}
+			
+		MainViewController.listStreetNameSortedFrom.clear();
+		MainViewController.listStreetNameSortedFrom.addAll(MainViewController.listStreetName);
+		
+		MainViewController.listStreetNameSortedTo.clear();
+		MainViewController.listStreetNameSortedTo.addAll(MainViewController.listStreetName);
+		
+		System.out.println("Qts fromName: ");
+		System.out.println(MainViewController.listStreetNameSortedFrom.size());
+		
+		System.out.println("Qts toName: ");
+		System.out.println(MainViewController.listStreetNameSortedTo.size());
+	}
+	
 	/**
 	 * Load the streets of the city into the variables of the {@code comboBox}'s
 	 * @param city {@code City} The city for which we want to load all streets
@@ -192,7 +247,7 @@ public abstract class QueriesLoading {
 		
 		// Clear list and load the cities from the file	
 		MainViewController.listStreetName.clear();
-		MainViewController.listStreetName.addAll(QueriesLoading.parseStreets(city));
+//		MainViewController.listStreetName.addAll(QueriesLoading.parseStreets(city));
 		
 		MainViewController.listStreetNameSortedFrom.clear();
 		MainViewController.listStreetNameSortedFrom.addAll(MainViewController.listStreetName);
@@ -213,6 +268,8 @@ public abstract class QueriesLoading {
 		HashMap<String, Street> records = new HashMap<String, Street>();
 		
 		try {
+			
+			System.out.println("City name in parseStreets: " + city.name);
 			
 			String STREET_FILE = URLEncoder.encode(city.name
 			.replaceAll("\\.", "\\_")

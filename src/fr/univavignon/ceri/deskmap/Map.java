@@ -134,6 +134,16 @@ public class Map {
 	public static ArrayList<Node> path = new ArrayList<Node>();
 	
 	/**
+	 * Departure
+	 */
+	public static Node from = null;
+
+	/**
+	 * Arrival
+	 */
+	public static Node to = null;
+	
+	/**
 	 * Constructor
 	 * @author Mohamed BEN YAMNA
 	 */

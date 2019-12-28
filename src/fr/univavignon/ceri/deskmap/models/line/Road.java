@@ -1,5 +1,7 @@
 package fr.univavignon.ceri.deskmap.models.line;
 
+import fr.univavignon.ceri.deskmap.Map;
+import fr.univavignon.ceri.deskmap.models.Node;
 import fr.univavignon.ceri.deskmap.models.region.Highway;
 
 /**
@@ -49,6 +51,20 @@ public class Road extends Line implements Highway {
 	 */
 	public Road(String id) {
 		super(id, "", 1, "#ffffff");
+	}
+	
+	@Override
+	public String toString() {
+		return this.name;
+	}
+	
+	/**
+	 * Return the center of the {@code Road}
+	 * @return {@code Long} The {@code Node} identifier
+	 */
+	public Node getMiddle() {
+		int index = this.nodes.size() <= 2 ? 0 : this.nodes.size() / 2; 
+		return Map.nodes.get(this.nodes.get(index));
 	}
 
 }

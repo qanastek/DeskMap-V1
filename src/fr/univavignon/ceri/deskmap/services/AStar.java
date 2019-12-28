@@ -31,13 +31,36 @@ public class AStar {
 	private List<NodePath> banned;
 
 	private NodePath now;
-	private Node departure = Map.nodes.get(Long.parseLong("926350446"));
-	private Node arrival = Map.nodes.get(Long.parseLong("937057575"));
+	private Node departure;
+	private Node arrival;
 
+	/**
+	 * Constructor
+	 */
 	public AStar() {
+		
+		this.departure = Map.nodes.get(Long.parseLong("926350446"));
+		this.arrival = Map.nodes.get(Long.parseLong("937057575"));
 
 		this.now = new NodePath(this.departure);
 
+		AStar.path = new ArrayList<NodePath>();
+		this.close = new ArrayList<Node>();
+		this.banned = new ArrayList<NodePath>();
+	}
+	
+	/**
+	 * Constructor
+	 * @param from {@code Node} The departure {@code Node}
+	 * @param to {@code Node} The arrival {@code Node}
+	 */
+	public AStar(Node from, Node to) {
+		
+		this.departure = from;
+		this.arrival = to;
+
+		this.now = new NodePath(this.departure);
+		
 		AStar.path = new ArrayList<NodePath>();
 		this.close = new ArrayList<Node>();
 		this.banned = new ArrayList<NodePath>();
@@ -103,6 +126,11 @@ public class AStar {
 	public List<NodePath> findPath() {
 		
 		System.out.println("/*START*/");
+		
+		if (MainViewController.status == false) {
+			System.out.println("Process stoped !");
+			return null;
+		}
 
 		AStar.path.add(this.now);
 
@@ -127,19 +155,19 @@ public class AStar {
 					}
 				}
 				
-				System.out.println(ban ? "true ban" : "false ban");
+//				System.out.println(ban ? "true ban" : "false ban");
 				
 				if (ban) {
 					it.remove();
 				}
 				// Delete current Node
 				else if (n.id == this.now.parent.id || n.id == this.now.id) {
-					System.out.println("/// CLOSE START");
-					System.out.println(this.close);
-					System.out.println("/// CLOSE REMOVE");
+//					System.out.println("/// CLOSE START");
+//					System.out.println(this.close);
+//					System.out.println("/// CLOSE REMOVE");
 					it.remove();
-					System.out.println(this.close);
-					System.out.println("/// CLOSE END");
+//					System.out.println(this.close);
+//					System.out.println("/// CLOSE END");
 				}
 			}
 		}
@@ -148,8 +176,9 @@ public class AStar {
 		if (this.close.size() > 0) {
 
 			this.now = this.getCloser();
-			System.out.println("NowAfter");
-			System.out.println(this.now);
+			
+//			System.out.println("NowAfter");
+//			System.out.println(this.now);
 
 			// If we reach the end
 			if (this.now.id == this.arrival.id) {
@@ -166,7 +195,7 @@ public class AStar {
 //			} catch (InterruptedException e) {
 //				e.printStackTrace();
 //			}
-			
+//			
 			// Not found but not blocked
 			this.findPath();
 
@@ -178,9 +207,9 @@ public class AStar {
 				return null;
 			}
 			
-			System.out.println("----- Ban S -----");
-			System.out.println(this.banned);
-			System.out.println("----- Ban E -----");
+//			System.out.println("----- Ban S -----");
+//			System.out.println(this.banned);
+//			System.out.println("----- Ban E -----");
 
 			this.now = this.now.parent;
 			this.banned.add(this.now);
@@ -219,14 +248,15 @@ public class AStar {
 				bestDistance = distance;
 			}
 		}
-		System.out.println("----------------");
-		System.out.println("Best");
-		System.out.println(best);
-		System.out.println("Now");
-		System.out.println(this.now);
-		System.out.println("Now Parent");
-		System.out.println(this.now.parent);
-		System.out.println("----------------");
+		
+//		System.out.println("----------------");
+//		System.out.println("Best");
+//		System.out.println(best);
+//		System.out.println("Now");
+//		System.out.println(this.now);
+//		System.out.println("Now Parent");
+//		System.out.println(this.now.parent);
+//		System.out.println("----------------");
 		
 		return best;
 	}
