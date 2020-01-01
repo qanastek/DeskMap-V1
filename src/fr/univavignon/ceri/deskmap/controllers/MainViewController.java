@@ -468,8 +468,8 @@ public class MainViewController implements Initializable {
 			
 			// Make the bbox
 			String bbox = OSM.bboxCalc(
-					Double.parseDouble(coordinates[0]),
-					Double.parseDouble(coordinates[1])
+				Double.parseDouble(coordinates[0]),
+				Double.parseDouble(coordinates[1])
 			).toString();
 			
 			MainViewController.addStateBar("BBox created");
@@ -832,8 +832,8 @@ public class MainViewController implements Initializable {
 	}
 	
 	/**
-	 * Draw all {@code Node}'s arround the mouse in a specific area
-	 * @param event {@code MouseEvent}
+	 * Display on a secondary {@code Canvas} all the {@code Node}'s around the mouse cursor.
+	 * @param event {@code MouseEvent} The mouse event
 	 * @author Yanis Labrak
 	 */
 	@FXML
@@ -842,6 +842,7 @@ public class MainViewController implements Initializable {
 		// If the map isn't totally loaded
 		if (Map.state == false) { return; }
 		
+		// Define the area were the nodes will be shown.
 		Bbox bbox = new Bbox(
 			event.getX() - 10,
 			event.getX() + 10,

@@ -10,22 +10,22 @@ package fr.univavignon.ceri.deskmap.models;
 public class Bbox {
 	
 	/**
-	 * 
+	 * {@code Double} The lowest latitude
 	 */
 	public Double topLeft;
 	
 	/**
-	 * 
+	 * {@code Double} The highest latitude
 	 */
 	public Double topRight;
 	
 	/**
-	 * 
+	 * {@code Double} The lowest longitude
 	 */
 	public Double bottomLeft;
 	
 	/**
-	 * 
+	 * {@code Double} The highest longitude
 	 */
 	public Double bottomRight;
 
