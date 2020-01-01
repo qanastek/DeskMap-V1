@@ -99,11 +99,11 @@
                      <children>
                         <AnchorPane fx:id="canvasPane" layoutX="149.0" layoutY="128.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Canvas fx:id="canvasMap" height="572.0" onMouseMoved="#showNodesArround" onMousePressed="#drag" onMouseReleased="#drop" onScroll="#canvasScrolling" width="937.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <Canvas fx:id="canvasMap" height="572.0" onMouseMoved="#showNodesArround" onMousePressed="#mouseClick" onMouseReleased="#drop" onScroll="#canvasScrolling" width="937.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <rotationAxis>
                                     <Point3D />
                                  </rotationAxis></Canvas>
-                              <Canvas fx:id="canvasNodes" height="572.0" onMouseMoved="#showNodesArround" onMousePressed="#drag" onMouseReleased="#drop" onScroll="#canvasScrolling" width="937.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <Canvas fx:id="canvasNodes" height="572.0" onMouseMoved="#showNodesArround" onMousePressed="#mouseClick" onMouseReleased="#drop" onScroll="#canvasScrolling" width="937.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="16.0" layoutX="14.0" layoutY="409.0" stroke="WHITE" strokeType="INSIDE" width="104.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="14.0" />
                               <Line endX="50.0" layoutX="21.0" layoutY="411.0" stroke="GREY" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" />
                               <Text layoutX="98.0" layoutY="560.0" strokeType="OUTSIDE" strokeWidth="0.0" text="km" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="98.0">

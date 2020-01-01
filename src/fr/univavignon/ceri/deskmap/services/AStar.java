@@ -20,19 +20,41 @@ import javafx.scene.paint.Color;
 
 /**
  * The A star algorithm
- * @author Zheng Zihao
- * @author Labrak Yanis
  * @author Ben Yamna Mohamed
+ * @author Labrak Yanis
+ * @author Zheng Zihao
  */
 public class AStar {
-
-	public static List<NodePath> path;
-	private List<Node> close;
-	private List<NodePath> banned;
-
-	private NodePath now;
+	
+	/**
+	 * The departure of the path
+	 */
 	private Node departure;
+	
+	/**
+	 * The arrival of the path
+	 */
 	private Node arrival;
+
+	/**
+	 * The current position
+	 */
+	private NodePath now;
+
+	/**
+	 * The path
+	 */
+	public static List<NodePath> path;
+	
+	/**
+	 * The list of all the closest {@code Node}'s
+	 */
+	private List<Node> close;
+	
+	/**
+	 * All the banned {@code NodePath} were we cannot go anymore
+	 */
+	private List<NodePath> banned;
 
 	/**
 	 * Constructor
@@ -66,11 +88,18 @@ public class AStar {
 		this.banned = new ArrayList<NodePath>();
 	}
 	
+	/**
+	 * Display the departure and the arrival of the path
+	 */
 	public void displayFromTo() {
 		this.displayPOI(this.departure); 
 		this.displayPOI(this.arrival); 
 	}
 	
+	/**
+	 * Display on the map a point of interest
+	 * @param node {@code Node} The node to display
+	 */
 	public void displayPOI(Node node) {
 		
 		// Coordinate after processing
@@ -87,9 +116,8 @@ public class AStar {
 	}
 
 	/**
-	 * Working well
-	 * 
-	 * @return
+	 * Get all the neighbors were we can go on
+	 * @return {@code ArrayList<Node>} Were we can go on
 	 */
 	public ArrayList<Node> getNeithboors() {
 
@@ -119,13 +147,10 @@ public class AStar {
 	}
 
 	/**
-	 * @param xend destination lat
-	 * @param yend destination lon
+	 * Process and display in real time on the {@code Canvas} the path.
 	 * @return path of node
 	 */
 	public List<NodePath> findPath() {
-		
-		System.out.println("/*START*/");
 		
 		if (MainViewController.status == false) {
 			System.out.println("Process stoped !");
@@ -155,19 +180,12 @@ public class AStar {
 					}
 				}
 				
-//				System.out.println(ban ? "true ban" : "false ban");
-				
 				if (ban) {
 					it.remove();
 				}
 				// Delete current Node
 				else if (n.id == this.now.parent.id || n.id == this.now.id) {
-//					System.out.println("/// CLOSE START");
-//					System.out.println(this.close);
-//					System.out.println("/// CLOSE REMOVE");
 					it.remove();
-//					System.out.println(this.close);
-//					System.out.println("/// CLOSE END");
 				}
 			}
 		}
@@ -176,15 +194,18 @@ public class AStar {
 		if (this.close.size() > 0) {
 
 			this.now = this.getCloser();
-			
-//			System.out.println("NowAfter");
-//			System.out.println(this.now);
 
 			// If we reach the end
 			if (this.now.id == this.arrival.id) {
-				System.out.println("FINDED");
+
+				MainViewController.addMapPath("Path found !");
+				System.out.println("Path found !");
+				
 				AStar.path.add(this.now);				
 				Draw.drawPath(MainViewController.gc);
+				
+				System.out.println(AStar.path);
+				
 				return AStar.path;
 			}
 			
@@ -203,16 +224,19 @@ public class AStar {
 
 			// If blocked
 			if (this.now.id == this.departure.id) {
-				System.err.println("No path found !");
+				
+				MainViewController.addMapPath("No path found !");
+				System.out.println("Path no found !");
+				
+				// Clear the current path
+//				AStar.path.clear();
+				
 				return null;
 			}
-			
-//			System.out.println("----- Ban S -----");
-//			System.out.println(this.banned);
-//			System.out.println("----- Ban E -----");
 
 			this.now = this.now.parent;
 			this.banned.add(this.now);
+			
 			AStar.path.add(0, this.now);
 			Draw.drawPath(MainViewController.gc);
 			this.findPath();
@@ -223,6 +247,10 @@ public class AStar {
 
 	}
 
+	/**
+	 * Get the closest {@code NodePath} around the current position
+	 * @return {@code NodePath} The closest node around the current position
+	 */
 	private NodePath getCloser() {
 
 		Double bestDistance = Double.MAX_VALUE;
@@ -239,53 +267,66 @@ public class AStar {
 			d2 = this.distance(node, this.arrival);
 			distance = d1 + d2;
 
+			// If the distance is better
 			if (distance < bestDistance) {
 				
 				best = new NodePath(node);
 				best.distance = d1;
 				best.parent = this.now;
-				
 				bestDistance = distance;
+				best.setSteet();
 			}
 		}
-		
-//		System.out.println("----------------");
-//		System.out.println("Best");
-//		System.out.println(best);
-//		System.out.println("Now");
-//		System.out.println(this.now);
-//		System.out.println("Now Parent");
-//		System.out.println(this.now.parent);
-//		System.out.println("----------------");
 		
 		return best;
 	}
 
 	/**
-	 * @param id id node
+	 * Calculate the distance between two {@code Node}'s
+	 * @param n {@code Node} Departure
+	 * @param n1 {@code Node} Arrival
+	 * @return {@code Double} The distance
 	 */
 	public double distance(Node n, Node n1) {
 		return Math.sqrt(Math.pow((n1.lat - n.lat), 2) + Math.pow((n1.lon - n.lon), 2));
 	}
 
 	/**
-	 * @param id id node
-	 * @return ditance g
+	 * Calculate the distance between the current {@code Node} and the one in argument
+	 * @param id {@code Long} The {@code Node} identifier
+	 * @return distance {@code Double} The distance in meters
+	 * @author Zheng Zhiao
 	 */
-	public double calculerG(Long id) {
+	public double calculateG(Long id) {
 		// It is about 111.12 kilometers per degree
-		double g = 111.12 * Math.sqrt(Math.pow((this.now.lat - Map.nodes.get(id).lat), 2)
+		return 111.12 * Math.sqrt(Math.pow((this.now.lat - Map.nodes.get(id).lat), 2)
 				+ Math.pow((this.now.lon - Map.nodes.get(id).lon), 2));
-		return g;
 	}
-	/*
-	
-			 * public double calculerH(Long id) { double h = 111.12 *
-			 * Math.sqrt(Math.pow((this.xend - Map.nodes.get(id).lat), 2) +
-			 * Math.pow((this.yend - Map.nodes.get(id).lon), 2));
-			 * 
-			 * return h;
-			 * 
-			 * }
-			 */
+
+	/**
+	 * Display the informations about the length of the path and all the segments of It too.
+	 */
+	public static void getPathInformations() {
+		
+		Double totalDistance = 0.0;
+		
+		// For each segment
+		for (int i = 1; i < AStar.path.size() - 1; i++) {
+			
+			// Add to the total
+			totalDistance += AStar.path.get(i).getDistanceInMeters();
+			
+			// Display the segment informations
+			MainViewController.addMapPath(
+				AStar.path.get(i).street + " -> " +
+				AStar.path.get(i+1).street + " : " + 
+				AStar.path.get(i+1).getDistanceInMeters().toString() + " m"
+			);
+		}
+		
+		totalDistance = Math.floor(totalDistance * 100) / 100;
+		
+		// Print the total length of the path
+		MainViewController.addMapPath("Total length of the path: " + totalDistance.toString() + "m");		
+	}
 }

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Stack;
 import java.util.concurrent.CompletableFuture;
 
 import org.json.simple.JSONArray;
@@ -18,6 +19,7 @@ import fr.univavignon.ceri.deskmap.config.Settings;
 import fr.univavignon.ceri.deskmap.models.Bbox;
 import fr.univavignon.ceri.deskmap.models.GeoData;
 import fr.univavignon.ceri.deskmap.models.Node;
+import fr.univavignon.ceri.deskmap.models.NodePath;
 import fr.univavignon.ceri.deskmap.models.Street;
 import fr.univavignon.ceri.deskmap.models.geopoint.City;
 import fr.univavignon.ceri.deskmap.models.line.Road;
@@ -27,6 +29,9 @@ import fr.univavignon.ceri.deskmap.services.OSM;
 import fr.univavignon.ceri.deskmap.services.QueriesBuilding;
 import fr.univavignon.ceri.deskmap.services.QueriesLoading;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -168,6 +173,8 @@ public class MainViewController implements Initializable {
 	@FXML
     private Text scaleValue;
 	
+	private Stack<ContextMenu> stackContextMenu = new Stack<ContextMenu>();
+	
 	/**
 	 * List of {@code City}
 	 */
@@ -192,6 +199,16 @@ public class MainViewController implements Initializable {
 	 * The observable variable for the {@code City} comboBox
 	 */
 	public static ObservableList<City> listCitySorted = FXCollections.observableArrayList();
+	
+	/**
+	 * The observable variable for the bottom {@code TextArea}
+	 */
+	public static StringProperty textAreaBottom = new SimpleStringProperty("No logs...");
+	
+	/**
+	 * The observable variable for the left hand side {@code TextArea}
+	 */
+	public static StringProperty textAreaLeft = new SimpleStringProperty("Informations about the path...");
 	
 	/**
 	 * The map instance which will contain all the objects to display
@@ -242,6 +259,21 @@ public class MainViewController implements Initializable {
 		// Assign both lists to their comboBox's
 		this.fromName.setItems(MainViewController.listStreetNameSortedFrom);
 		this.toName.setItems(MainViewController.listStreetNameSortedTo);
+		
+		// Assign the observable to their text area
+		this.statusBar.textProperty().bind(textAreaBottom);
+		MainViewController.textAreaBottom.addListener((observable, oldValue, newValue) -> {			
+			// Auto scroll down
+			this.statusBar.selectPositionCaret(this.statusBar.getLength());
+			this.statusBar.deselect();
+        });
+		
+		this.mapPath.textProperty().bind(textAreaLeft);
+		MainViewController.textAreaLeft.addListener((observable, oldValue, newValue) -> {
+			// Auto scroll down
+			this.mapPath.selectPositionCaret(this.mapPath.getLength());
+			this.mapPath.deselect();
+        });
 		
 		try {
 			
@@ -305,19 +337,15 @@ public class MainViewController implements Initializable {
 	 * @param newLine {@code String} The line to add
 	 * @author Quentin Capdepon
 	 */
-	protected void addStateBar(String newLine) {
+	public static void addStateBar(String newLine) {
 		
 		// If its empty
-		if (this.statusBar.getText().equals("No logs...")) {
-			this.statusBar.setText(newLine);
+		if (MainViewController.textAreaBottom.get().equals("No logs...")) {
+			MainViewController.textAreaBottom.set(newLine);
 		} else {
 			// Add to the next line
-			this.statusBar.setText(this.statusBar.getText() + '\n' + newLine);
+			MainViewController.textAreaBottom.set(MainViewController.textAreaBottom.get() + '\n' + newLine);
 		}
-		
-		// Auto scroll down
-		this.statusBar.selectPositionCaret(this.statusBar.getLength());
-		this.statusBar.deselect();
 	}
 	
 	/**
@@ -325,19 +353,23 @@ public class MainViewController implements Initializable {
 	 * @param newLine {@code String} The line to add
 	 * @author Quentin Capdepon
 	 */
-	protected void addMapPath(String newLine) {
+	public static void addMapPath(String newLine) {		
 		
 		// If its empty
-		if (this.mapPath.getText().equals("Informations about the path...")) {
-			this.mapPath.setText(newLine);
+		if (MainViewController.textAreaLeft.get().equals("Informations about the path...")) {
+			MainViewController.textAreaLeft.set(newLine);
 		} else {
 			// Add to the next line
-			this.mapPath.setText(this.mapPath.getText() + '\n' + newLine);
+			MainViewController.textAreaLeft.set(MainViewController.textAreaLeft.get() + '\n' + newLine);
 		}
-		
-		// Auto scroll down
-		this.mapPath.selectPositionCaret(this.statusBar.getLength());
-		this.mapPath.deselect();
+	}
+	
+	/**
+	 * Clear informations of the path {@code textArea}
+	 * @author Quentin Capdepon
+	 */
+	public static void clearMapPathTextArea() {	
+		MainViewController.textAreaLeft.set("Informations about the path...");
 	}
 	
 	/**
@@ -380,9 +412,12 @@ public class MainViewController implements Initializable {
 			System.out.println(t);
 
 //			Platform.runLater(() -> {
-			Runnable runnable = () -> { 
+			Runnable runnable = () -> {
 				AStar a = new AStar(f,t);
-				System.out.println(a.findPath());
+				a.findPath();
+				renderMap();
+				AStar.getPathInformations();		
+				
 			};
 			Thread tre = new Thread(runnable);
 			tre.start();
@@ -638,7 +673,7 @@ public class MainViewController implements Initializable {
 			// Initialize
 			Map.scale = 1.0;
 			
-			this.addStateBar("Search for " + this.cityName.getSelectionModel().getSelectedItem());
+			MainViewController.addStateBar("Search for " + this.cityName.getSelectionModel().getSelectedItem());
 			
 			// Load streets etc ... In the way to all the user to make a path research
 			try {
@@ -655,14 +690,18 @@ public class MainViewController implements Initializable {
 					
 					try {
 
+						// Can continuous to run
 						MainViewController.status = true;
+						
+						// Clear the current path
+						AStar.path.clear();
 						
 						// Fetch, Load and Render the map for this city
 						this.renderCityMap(city);
 						
 						QueriesLoading.downloadStreets();
 						
-					    this.addStateBar("Streets of " + city.name + " downloaded");
+					    MainViewController.addStateBar("Streets of " + city.name + " downloaded");
 					    
 					} catch (Exception e) {
 						System.out.println(e);
@@ -770,7 +809,7 @@ public class MainViewController implements Initializable {
 	}
 	
 	/**
-	 * Draw all {@code Node}'s in a specific area
+	 * Draw all {@code Node}'s arround the mouse in a specific area
 	 * @param event {@code MouseEvent}
 	 * @author Yanis Labrak
 	 */
@@ -804,9 +843,7 @@ public class MainViewController implements Initializable {
 		
 		// Get THE closest Node
 		Node closest = this.getClosestNodes(event);
-		System.out.println(closest);
-		
-		// Print infos
+//		System.out.println(closest);
 		
 		final ContextMenu contextMenu = new ContextMenu();
 		
@@ -849,6 +886,7 @@ public class MainViewController implements Initializable {
 			}
 		}
 		
+		this.stackContextMenu.push(contextMenu);
         contextMenu.show(this.canvasPane, event.getScreenX(), event.getScreenY());
 	}
 	
@@ -946,7 +984,7 @@ public class MainViewController implements Initializable {
 					if (this.cityName.getEditor().getText().length() >= 3) {
 						
 						Boolean isCoordinate = this.cityName.getEditor().getText().matches(".*\\d.*");
-						String nominatimUrl = null; 
+						String nominatimUrl = null;
 						
 						// If the field contain digits make a reverse city research
 						if (isCoordinate) {
@@ -1170,17 +1208,29 @@ public class MainViewController implements Initializable {
      * @param event {@code MouseEvent}
      */
     @FXML
-    void drag(MouseEvent event) {    	
-    	if (event.getButton() == MouseButton.PRIMARY) {
+    void mouseClick(MouseEvent event) {
+    	
+    	// Drag
+    	if (event.getButton() == MouseButton.PRIMARY)
+    	{
+//			System.out.println("LEFT CLICK");
         	Map.xDelta = event.getSceneX();
         	Map.yDelta = event.getSceneY();
-			System.out.println("LEFT");	
 		}
+    	// Get information on the closest node
     	else if (event.getButton() == MouseButton.SECONDARY)
         {
-    		System.out.println("right click");
+//			System.out.println("RIGHT CLICK");
+			
+    		if (!this.stackContextMenu.isEmpty()) {
+        		this.stackContextMenu
+        		.pop()
+        		.hide();
+			}
+    		
             this.getNodeInformations(event);
         }
+    	
     }
 
     /**

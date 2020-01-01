@@ -4,30 +4,32 @@ import java.util.Arrays;
 import java.util.List;
 
 import fr.univavignon.ceri.deskmap.Map;
+import fr.univavignon.ceri.deskmap.models.line.Road;
 
 /**
- * A class which represent the structure of an OSM Node
+ * A class which represent the structure of an OSM Node for the path
  * @author Mohamed BEN YAMNA
  */
 public class NodePath extends Node {
 	
 	/**
-	 * Distance before
+	 * Distance from the last {@code Node} to this one
 	 */
-	public Double distance=0.0;
+	public Double distance = 0.0;
 	
 	/**
-	 * parent of nodes
+	 * Parent of {@code Node}
 	 */
 	public NodePath parent = null;
+	
+	/**
+	 * Street name
+	 */
+	public String street = "";
 
 	/**
 	 * Constructor
-	 * @param id {@code String} Identifier
-	 * @param lat {@code Double} Latitude
-	 * @param lon {@code Double} Longitude
-	 * @param distance 
-	 * @param parent 
+	 * @param n {@code Node} Base {@code Node}
 	 */
 	public NodePath(Node n) {
 		super(n.id, n.lat, n.lon);
@@ -38,8 +40,8 @@ public class NodePath extends Node {
 	 * @param id {@code String} Identifier
 	 * @param lat {@code Double} Latitude
 	 * @param lon {@code Double} Longitude
-	 * @param distance 
-	 * @param parent 
+	 * @param distance {@code Double} Distance from the last {@code Node} to this one
+	 * @param parent {@code NodePath} Parent
 	 */
 	public NodePath(Long id, Double lat, Double lon, Double distance, NodePath parent) {
 		super(id, lat, lon);
@@ -48,5 +50,38 @@ public class NodePath extends Node {
 		this.lon = lon;
 		this.distance = distance;
 		this.parent = parent;
+	}
+
+	/**
+	 * Set the street name of the {@code NodePath}
+	 */
+	public void setSteet() {
+		
+		// Get the street name of the node
+		for (GeoData g : Map.mapContent.values()) {
+			
+			// If its a Road
+			if (g instanceof Road) {
+				
+				Road r = ((Road) g);
+				
+				// If this Road contain the Node
+				if (r.getNodes().contains(this.id)) {
+					
+					// Get this name
+					this.street = r.name;
+					break;
+				}
+			}
+		}
+		
+	}
+
+	/**
+	 * Get the distance in meters
+	 * @return {@code Double} The distance
+	 */
+	public Double getDistanceInMeters() {
+		return Math.floor((this.distance * 90000) * 100) / 100;
 	}
 }

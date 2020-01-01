@@ -318,8 +318,8 @@ public class Draw {
 	}
 	
 	/**
-	 * Display the path on the map
-	 * @param nodes
+	 * Display the path on the {@code Map} {@code Canvas}
+	 * @param gc {@code GraphicsContext} Were we want to print the path
 	 */
 	public static void drawPath(GraphicsContext gc) {
 		
