@@ -56,6 +56,7 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	private Canvas canvasMap;
+	
 	@FXML
 	private Canvas canvasNodes;
 	
@@ -374,8 +375,8 @@ public class MainViewController implements Initializable {
 			
 			// Make the bbox
 			String bbox = OSM.bboxCalc(
-					Double.parseDouble(coordinates[0]),
-					Double.parseDouble(coordinates[1])
+				Double.parseDouble(coordinates[0]),
+				Double.parseDouble(coordinates[1])
 			).toString();
 			
 			this.addStateBar("BBox created");
@@ -648,9 +649,14 @@ public class MainViewController implements Initializable {
 		Draw.drawWays(this.gc);
 	}
 	
+	/**
+	 * Display on a secondary {@code Canvas} all the {@code Node}'s around the mouse cursor.
+	 * @param event {@code MouseEvent} The mouse event
+	 */
 	@FXML
 	void showNodesArround(MouseEvent event) {
 		
+		// Define the area were the nodes will be shown.
 		Bbox bbox = new Bbox(
 			event.getX() - 10,
 			event.getX() + 10,
