@@ -58,7 +58,8 @@ public class Draw {
 	
 	/**
 	 * Draw all the {@code Nodes} on the {@code Canvas}
-	 * @param gc {@code GraphicsContext}
+	 * @param gc {@code GraphicsContext} The canvas
+	 * @param bbox {@code Bbox} The {@code Bbox} where the {@code Node}'s need to be for being displayed
 	 * @author Yanis Labrak
 	 */
 	public static void drawNodes(GraphicsContext gc, Bbox bbox) {
@@ -320,6 +321,7 @@ public class Draw {
 	/**
 	 * Display the path on the {@code Map} {@code Canvas}
 	 * @param gc {@code GraphicsContext} Were we want to print the path
+	 * @author Capdepon Quentin
 	 */
 	public static void drawPath(GraphicsContext gc) {
 		

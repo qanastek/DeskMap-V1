@@ -1,22 +1,15 @@
 package fr.univavignon.ceri.deskmap.services;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -24,12 +17,7 @@ import org.json.simple.parser.ParseException;
 import DeskMapExceptions.CannotReachServerException;
 import fr.univavignon.ceri.deskmap.Map;
 import fr.univavignon.ceri.deskmap.controllers.MainViewController;
-import fr.univavignon.ceri.deskmap.models.GeoData;
-import fr.univavignon.ceri.deskmap.models.Street;
-import fr.univavignon.ceri.deskmap.models.geopoint.City;
 import fr.univavignon.ceri.deskmap.models.line.Road;
-import fr.univavignon.ceri.deskmap.models.region.Landuse;
-import fr.univavignon.ceri.deskmap.models.region.Region;
 
 /**
  * All the functions which is used for loading and downloading the queries results

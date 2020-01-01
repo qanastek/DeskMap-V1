@@ -3,13 +3,10 @@ package fr.univavignon.ceri.deskmap.controllers;
 import java.io.File;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Stack;
-import java.util.concurrent.CompletableFuture;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -19,8 +16,6 @@ import fr.univavignon.ceri.deskmap.config.Settings;
 import fr.univavignon.ceri.deskmap.models.Bbox;
 import fr.univavignon.ceri.deskmap.models.GeoData;
 import fr.univavignon.ceri.deskmap.models.Node;
-import fr.univavignon.ceri.deskmap.models.NodePath;
-import fr.univavignon.ceri.deskmap.models.Street;
 import fr.univavignon.ceri.deskmap.models.geopoint.City;
 import fr.univavignon.ceri.deskmap.models.line.Road;
 import fr.univavignon.ceri.deskmap.services.AStar;
@@ -28,10 +23,8 @@ import fr.univavignon.ceri.deskmap.services.Draw;
 import fr.univavignon.ceri.deskmap.services.OSM;
 import fr.univavignon.ceri.deskmap.services.QueriesBuilding;
 import fr.univavignon.ceri.deskmap.services.QueriesLoading;
-import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -57,7 +50,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
@@ -174,6 +166,9 @@ public class MainViewController implements Initializable {
 	@FXML
     private Text scaleValue;
 	
+	/**
+	 * This stack contain all the {@code ContextMenu} present on the screen
+	 */
 	private Stack<ContextMenu> stackContextMenu = new Stack<ContextMenu>();
 	
 	/**
@@ -245,7 +240,7 @@ public class MainViewController implements Initializable {
 		System.out.println("Initialize");
 		
 		// Get the graphics context of the canvas
-		this.gc = this.canvasMap.getGraphicsContext2D();
+		MainViewController.gc = this.canvasMap.getGraphicsContext2D();
 		this.gcNodes = this.canvasNodes.getGraphicsContext2D();
 		
 		// Link the value of the scale to the Text object
@@ -292,6 +287,9 @@ public class MainViewController implements Initializable {
 						
 						// Load all the streets
 						QueriesLoading.loadStreets();
+						
+						// Ready
+						Map.state = true;
 						
 						AStar a = new AStar();
 						System.out.println(a.findPath());
@@ -408,7 +406,7 @@ public class MainViewController implements Initializable {
 			System.out.println("Invalid destination address");
 		}
 		else {
-			this.addStateBar("Searching for the best path");
+			MainViewController.addStateBar("Searching for the best path");
 			
 
 			Road from = MainViewController.listStreetNameSortedFrom.get(this.fromName.getSelectionModel().getSelectedIndex());
@@ -417,7 +415,7 @@ public class MainViewController implements Initializable {
 			Road to = MainViewController.listStreetNameSortedTo.get(this.toName.getSelectionModel().getSelectedIndex());
 			Node t = to.getMiddle();
 			
-			this.addMapPath(fromNumber + " " + from + " -> " + toNumber + " " + to);
+			MainViewController.addMapPath(fromNumber + " " + from + " -> " + toNumber + " " + to);
 
 			System.out.println(f);
 			System.out.println(t);
@@ -465,7 +463,7 @@ public class MainViewController implements Initializable {
 			if (coordinates.length <= 0) {
 				System.err.println("cityCoordinate wasn't found !");
 			} else {
-				this.addStateBar("City coordinates find");
+				MainViewController.addStateBar("City coordinates find");
 			}
 			
 			// Make the bbox
@@ -474,7 +472,7 @@ public class MainViewController implements Initializable {
 					Double.parseDouble(coordinates[1])
 			).toString();
 			
-			this.addStateBar("BBox created");
+			MainViewController.addStateBar("BBox created");
 			
 			// Make the query for getting the full map
 			String query = QueriesBuilding.fullMapQuery(bbox);
@@ -490,13 +488,13 @@ public class MainViewController implements Initializable {
 			
 			// If the file doesn't exist
 			if (!f.exists()) {
-				this.addStateBar("File not found !");
+				MainViewController.addStateBar("File not found !");
 				QueriesLoading.laodQueryInFile(query, CITIES_FILE);	
 			}
 			
 		} 
 		catch (CannotReachServerException e) {
-			this.addStateBar("Server cannot be reached !");
+			MainViewController.addStateBar("Server cannot be reached !");
 		}
 		catch (Exception e) {
 			System.err.println(e);
@@ -533,7 +531,7 @@ public class MainViewController implements Initializable {
 		MainViewController.listStreetNameSortedFrom.clear();
 		MainViewController.listStreetNameSortedTo.clear();
 		
-		this.addStateBar("Fields reseted");
+		MainViewController.addStateBar("Fields reseted");
 	}
 	
 	/**
@@ -766,12 +764,12 @@ public class MainViewController implements Initializable {
 					
 				} else {
 					City c = MainViewController.listCitySorted.get(this.cityName.getSelectionModel().getSelectedIndex());
-					this.addStateBar(c.name + " doesn't exist !");
+					MainViewController.addStateBar(c.name + " doesn't exist !");
 				}
 				
 			}
 			catch (NullPointerException e) {
-				this.addStateBar("No city found !");
+				MainViewController.addStateBar("No city found !");
 			}
 		}
 		else {
@@ -782,8 +780,6 @@ public class MainViewController implements Initializable {
 	/**
 	 * Fetch, Load and Render the map for this city
 	 * @param city {@code String} City to render
-	 * @throws CannotReachServerException Throw this exception when the server cannot be reached
-	 * @throws Exception If the coordinates wasn't found
 	 * @author Yanis Labrak
 	 */
 	private void renderCityMap(City city) {
@@ -818,18 +814,20 @@ public class MainViewController implements Initializable {
 	 */
 	private void renderMap() {
 		
-		// Clear the canvas before draw
-		this.canvasMap.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
-		this.canvasNodes.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
-		
-		Map.width = this.canvasMap.getWidth();
-		Map.height = this.canvasMap.getHeight();
-		
-		// Draw all ways
-		Draw.drawWays(this.gc);
-		
-		if (Map.state) {
-			Draw.drawPath(this.gc);
+		if (Map.state == true) {
+			
+			// Clear the canvas before draw
+			this.canvasMap.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
+			this.canvasNodes.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
+			
+			Map.width = this.canvasMap.getWidth();
+			Map.height = this.canvasMap.getHeight();
+			
+			// Draw all ways
+			Draw.drawWays(MainViewController.gc);
+			
+			// Draw the path
+			Draw.drawPath(MainViewController.gc);
 		}
 	}
 	
@@ -919,6 +917,7 @@ public class MainViewController implements Initializable {
 	/**
 	 * Get the closest {@code Node} of the mouse when right click
 	 * @param event {@code MouseEvent}
+	 * @return {@code Node} The {@code Node}
 	 * @author Yanis Labrak
 	 */
 	@FXML
@@ -968,10 +967,10 @@ public class MainViewController implements Initializable {
 
     /**
      * The distance between the two points
-     * @param x1
-     * @param y1
-     * @param x2
-     * @param y2
+     * @param x1 {@code Double} X coordinate of the first point
+     * @param y1 {@code Double} Y coordinate of the first point
+     * @param x2 {@code Double} X coordinate of the second point
+     * @param y2 {@code Double} Y coordinate of the second point
      * @return {@code Double} The distance
      */
     static public double Distance(double x1, double y1, double x2, double y2) {
@@ -979,7 +978,7 @@ public class MainViewController implements Initializable {
     }
 	
 	/**
-	 * When a key is pressed inside {@code cityName}
+	 * When a key is pressed on {@code cityName}
 	 * @param event {@code KeyEvent} The key pressed
 	 * @throws CannotReachServerException Exception thrown when the server cannot be reached
 	 * @throws Exception Throw a exception when the city doesn't exists
@@ -1070,7 +1069,7 @@ public class MainViewController implements Initializable {
 			}
 			
 		} catch (CannotReachServerException e) {
-			this.addStateBar("Server cannot be reached !");
+			MainViewController.addStateBar("Server cannot be reached !");
 		}
 	}
 	
@@ -1231,6 +1230,7 @@ public class MainViewController implements Initializable {
     /**
      * Handle the drag event on the canvas
      * @param event {@code MouseEvent}
+     * @author Labrak Yanis
      */
     @FXML
     void mouseClick(MouseEvent event) {
@@ -1322,7 +1322,7 @@ public class MainViewController implements Initializable {
 				
 				// If no result
 				if (MainViewController.listStreetNameSortedFrom.size() <= 0) {
-					this.addStateBar("Unknown start street");
+					MainViewController.addStateBar("Unknown start street");
 				} else {
 					this.toName.hide();
 					this.fromName.show();
@@ -1377,7 +1377,7 @@ public class MainViewController implements Initializable {
 				
 				// If no result
 				if (MainViewController.listStreetNameSortedTo.size() <= 0) {
-					this.addStateBar("Unknown destination street");
+					MainViewController.addStateBar("Unknown destination street");
 				} else {
 					this.fromName.hide();
 					this.toName.show();

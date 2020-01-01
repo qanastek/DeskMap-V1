@@ -1,21 +1,14 @@
 package fr.univavignon.ceri.deskmap.services;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.concurrent.TimeUnit;
-
 import fr.univavignon.ceri.deskmap.Map;
 import fr.univavignon.ceri.deskmap.controllers.MainViewController;
 import fr.univavignon.ceri.deskmap.models.GeoData;
 import fr.univavignon.ceri.deskmap.models.Node;
 import fr.univavignon.ceri.deskmap.models.NodePath;
 import fr.univavignon.ceri.deskmap.models.line.Road;
-import fr.univavignon.ceri.deskmap.models.region.Highway;
 import javafx.scene.paint.Color;
 
 /**
@@ -58,6 +51,8 @@ public class AStar {
 
 	/**
 	 * Constructor
+	 * @author Zihao Zheng
+	 * @author Mohamed Ben Yamna
 	 */
 	public AStar() {
 		
@@ -75,6 +70,8 @@ public class AStar {
 	 * Constructor
 	 * @param from {@code Node} The departure {@code Node}
 	 * @param to {@code Node} The arrival {@code Node}
+	 * @author Zihao Zheng
+	 * @author Mohamed Ben Yamna
 	 */
 	public AStar(Node from, Node to) {
 		
@@ -90,6 +87,7 @@ public class AStar {
 	
 	/**
 	 * Display the departure and the arrival of the path
+	 * @author Yanis Labrak
 	 */
 	public void displayFromTo() {
 		this.displayPOI(this.departure); 
@@ -99,6 +97,7 @@ public class AStar {
 	/**
 	 * Display on the map a point of interest
 	 * @param node {@code Node} The node to display
+	 * @author Yanis Labrak
 	 */
 	public void displayPOI(Node node) {
 		
@@ -118,6 +117,8 @@ public class AStar {
 	/**
 	 * Get all the neighbors were we can go on
 	 * @return {@code ArrayList<Node>} Were we can go on
+	 * @author Zihao Zheng
+	 * @author Mohamed Ben Yamna
 	 */
 	public ArrayList<Node> getNeithboors() {
 
@@ -128,9 +129,9 @@ public class AStar {
 
 			GeoData g = Map.mapContent.get(key);
 
-			if (g instanceof Road && ((Road) g).getNodes().contains(now.id) && g.name != null) {
+			if (g instanceof Road && ((Road) g).getNodes().contains(this.now.id) && g.name != null) {
 
-				int index = ((Road) g).getNodes().indexOf(now.id);
+				int index = ((Road) g).getNodes().indexOf(this.now.id);
 				int max = ((Road) g).getNodes().size() - 1;
 				int before = index - 1 >= 0 ? index - 1 : 0;
 				int after = index + 1 <= max ? index + 1 : max;
@@ -149,6 +150,8 @@ public class AStar {
 	/**
 	 * Process and display in real time on the {@code Canvas} the path.
 	 * @return path of node
+	 * @author Zihao Zheng
+	 * @author Mohamed Ben Yamna
 	 */
 	public List<NodePath> findPath() {
 		
@@ -204,7 +207,7 @@ public class AStar {
 				AStar.path.add(this.now);				
 				Draw.drawPath(MainViewController.gc);
 				
-				System.out.println(AStar.path);
+//				System.out.println(AStar.path);
 				
 				return AStar.path;
 			}
@@ -250,6 +253,8 @@ public class AStar {
 	/**
 	 * Get the closest {@code NodePath} around the current position
 	 * @return {@code NodePath} The closest node around the current position
+	 * @author Zihao Zheng
+	 * @author Mohamed Ben Yamna
 	 */
 	private NodePath getCloser() {
 
@@ -286,6 +291,8 @@ public class AStar {
 	 * @param n {@code Node} Departure
 	 * @param n1 {@code Node} Arrival
 	 * @return {@code Double} The distance
+	 * @author Zihao Zheng
+	 * @author Mohamed Ben Yamna
 	 */
 	public double distance(Node n, Node n1) {
 		return Math.sqrt(Math.pow((n1.lat - n.lat), 2) + Math.pow((n1.lon - n.lon), 2));
@@ -295,7 +302,8 @@ public class AStar {
 	 * Calculate the distance between the current {@code Node} and the one in argument
 	 * @param id {@code Long} The {@code Node} identifier
 	 * @return distance {@code Double} The distance in meters
-	 * @author Zheng Zhiao
+	 * @author Zihao Zheng
+	 * @author Mohamed Ben Yamna
 	 */
 	public double calculateG(Long id) {
 		// It is about 111.12 kilometers per degree
@@ -305,6 +313,7 @@ public class AStar {
 
 	/**
 	 * Display the informations about the length of the path and all the segments of It too.
+	 * @author Capdepon Quentin
 	 */
 	public static void getPathInformations() {
 		

@@ -1,14 +1,12 @@
 package fr.univavignon.ceri.deskmap.models;
 
-import java.util.Arrays;
-import java.util.List;
-
 import fr.univavignon.ceri.deskmap.Map;
 import fr.univavignon.ceri.deskmap.models.line.Road;
 
 /**
  * A class which represent the structure of an OSM Node for the path
- * @author Mohamed BEN YAMNA
+ * @author Zihao Zheng
+ * @author Mohamed Ben Yamna
  */
 public class NodePath extends Node {
 	
@@ -30,6 +28,8 @@ public class NodePath extends Node {
 	/**
 	 * Constructor
 	 * @param n {@code Node} Base {@code Node}
+	 * @author Zihao Zheng
+	 * @author Mohamed Ben Yamna
 	 */
 	public NodePath(Node n) {
 		super(n.id, n.lat, n.lon);
@@ -42,6 +42,8 @@ public class NodePath extends Node {
 	 * @param lon {@code Double} Longitude
 	 * @param distance {@code Double} Distance from the last {@code Node} to this one
 	 * @param parent {@code NodePath} Parent
+	 * @author Zihao Zheng
+	 * @author Mohamed Ben Yamna
 	 */
 	public NodePath(Long id, Double lat, Double lon, Double distance, NodePath parent) {
 		super(id, lat, lon);
@@ -80,6 +82,9 @@ public class NodePath extends Node {
 	/**
 	 * Get the distance in meters
 	 * @return {@code Double} The distance
+	 * @author Zihao Zheng
+	 * @author Mohamed Ben Yamna
+	 * @author Yanis Labrak
 	 */
 	public Double getDistanceInMeters() {
 		return Math.floor((this.distance * 90000) * 100) / 100;
