@@ -39,7 +39,7 @@
                               </HBox>
                               <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TextField fx:id="fromNumber" disable="true" layoutX="23.0" layoutY="57.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#checkInputFrom" prefHeight="31.0" prefWidth="125.0" promptText="N° Rue Départ" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="57.0" HBox.hgrow="ALWAYS">
+                                    <TextField fx:id="fromNumber" disable="true" layoutX="23.0" layoutY="57.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#checkAllComboBox" onKeyTyped="#checkInputFrom" prefHeight="31.0" prefWidth="125.0" promptText="N° Rue Départ" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="57.0" HBox.hgrow="ALWAYS">
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>
@@ -52,7 +52,7 @@
                               </HBox>
                               <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TextField fx:id="toNumber" disable="true" layoutX="23.0" layoutY="17.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#checkInputTo" prefHeight="31.0" prefWidth="125.0" promptText="N° Rue D'arrivé" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="98.0" HBox.hgrow="ALWAYS">
+                                    <TextField fx:id="toNumber" disable="true" layoutX="23.0" layoutY="17.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#checkAllComboBox" onKeyTyped="#checkInputTo" prefHeight="31.0" prefWidth="125.0" promptText="N° Rue D'arrivé" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="23.0" AnchorPane.topAnchor="98.0" HBox.hgrow="ALWAYS">
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>

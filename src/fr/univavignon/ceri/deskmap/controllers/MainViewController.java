@@ -34,6 +34,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableStringValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -278,21 +279,31 @@ public class MainViewController implements Initializable {
 		try {
 			
 			// Async load of the map
-			Platform.runLater(() -> {
-				try {
+//			Platform.runLater(() -> {
+//			});
+			
+			Task<Void> task = new Task<Void>() {
+		        @Override
+		        protected Void call() throws Exception {
+
+					try {
+						
+						renderCityMap(Settings.DEFAULT_CITY);
+						
+						// Load all the streets
+						QueriesLoading.loadStreets();
+						
+						AStar a = new AStar();
+						System.out.println(a.findPath());
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					
-					this.renderCityMap(Settings.DEFAULT_CITY);
-					
-					// Load all the streets
-					QueriesLoading.downloadStreets();
-					
-					AStar a = new AStar();
-					System.out.println(a.findPath());
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			});
+					return null;
+		        }
+		    };
+		    new Thread(task).start();
 			
 			// When the canvas width change
 			this.canvasPane.widthProperty().addListener((obs, oldVal, newVal) -> {
@@ -412,16 +423,22 @@ public class MainViewController implements Initializable {
 			System.out.println(t);
 
 //			Platform.runLater(() -> {
-			Runnable runnable = () -> {
-				AStar a = new AStar(f,t);
-				a.findPath();
-				renderMap();
-				AStar.getPathInformations();		
-				
-			};
-			Thread tre = new Thread(runnable);
-			tre.start();
-//			});
+//			Runnable runnable = () -> {
+//			};
+//			Thread tre = new Thread(runnable);
+//			tre.start();
+			
+			Task<Void> task = new Task<Void>() {
+		        @Override
+		        protected Void call() throws Exception {
+		        	AStar a = new AStar(f,t);
+					a.findPath();
+					renderMap();
+					AStar.getPathInformations();
+					return null;
+		        }
+		    };
+		    new Thread(task).start();
 			
 			// Draw the path
 //			Draw.drawPath(this.gc);
@@ -620,6 +637,9 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void checkInputFrom(KeyEvent event) {
 		
+		// Clear the path text area
+		MainViewController.clearMapPathTextArea();
+		
 		// Check if the input key is a integer
 		this.checkInputIsInteger(event);
 		
@@ -649,6 +669,11 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	public void checkAllComboBox(ActionEvent event) {
+		
+		// Clear the path text area
+		MainViewController.clearMapPathTextArea();
+		
+		// Checl all the fields
 		this.checkAllFields();
 	}
 	
@@ -699,7 +724,7 @@ public class MainViewController implements Initializable {
 						// Fetch, Load and Render the map for this city
 						this.renderCityMap(city);
 						
-						QueriesLoading.downloadStreets();
+						QueriesLoading.loadStreets();
 						
 					    MainViewController.addStateBar("Streets of " + city.name + " downloaded");
 					    

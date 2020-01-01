@@ -308,6 +308,8 @@ public class AStar {
 	 */
 	public static void getPathInformations() {
 		
+		MainViewController.clearMapPathTextArea();
+		
 		Double totalDistance = 0.0;
 		
 		// For each segment
