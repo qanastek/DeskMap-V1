@@ -272,36 +272,34 @@ public class MainViewController implements Initializable {
         });
 		
 		try {
-			
-			// Async load of the map
-//			Platform.runLater(() -> {
-//			});
-			
-			Task<Void> task = new Task<Void>() {
-		        @Override
-		        protected Void call() throws Exception {
+		    
+			Runnable task = new Runnable()
+	        {
+				@Override
+				public void run() {
+		    		
+		    		try {
+		    			
+		    			renderCityMap(Settings.DEFAULT_CITY);
+		    			
+		    			// Load all the streets
+		    			QueriesLoading.loadStreets();
+		    			
+		    			// Ready
+		    			Map.state = true;
+		    			
+		    			AStar a = new AStar();
+		    			System.out.println(a.findPath());
+		    			
+		    		} catch (Exception e) {
+		    			e.printStackTrace();
+		    		}
 
-					try {
-						
-						renderCityMap(Settings.DEFAULT_CITY);
-						
-						// Load all the streets
-						QueriesLoading.loadStreets();
-						
-						// Ready
-						Map.state = true;
-						
-						AStar a = new AStar();
-						System.out.println(a.findPath());
-						
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					
-					return null;
 		        }
-		    };
-		    new Thread(task).start();
+	        };
+	        Thread backgroundThread = new Thread(task);
+	        backgroundThread.setDaemon(true);
+	        backgroundThread.start();
 			
 			// When the canvas width change
 			this.canvasPane.widthProperty().addListener((obs, oldVal, newVal) -> {
@@ -416,27 +414,20 @@ public class MainViewController implements Initializable {
 			Node t = to.getMiddle();
 			
 			MainViewController.addMapPath(fromNumber + " " + from + " -> " + toNumber + " " + to);
-
-			System.out.println(f);
-			System.out.println(t);
-
-//			Platform.runLater(() -> {
-//			Runnable runnable = () -> {
-//			};
-//			Thread tre = new Thread(runnable);
-//			tre.start();
-			
-			Task<Void> task = new Task<Void>() {
-		        @Override
-		        protected Void call() throws Exception {
+		    
+			Runnable task = new Runnable()
+	        {
+				@Override
+				public void run() {
 		        	AStar a = new AStar(f,t);
 					a.findPath();
 					renderMap();
 					AStar.getPathInformations();
-					return null;
 		        }
-		    };
-		    new Thread(task).start();
+	        };
+	        Thread backgroundThread = new Thread(task);
+	        backgroundThread.setDaemon(true);
+	        backgroundThread.start();
 			
 			// Draw the path
 //			Draw.drawPath(this.gc);
@@ -866,7 +857,7 @@ public class MainViewController implements Initializable {
 	void getNodeInformations(MouseEvent event) {
 		
 		// Get THE closest Node
-		Node closest = this.getClosestNodes(event);
+		Node closest = this.getClosestRoadNodes(event);
 //		System.out.println(closest);
 		
 		final ContextMenu contextMenu = new ContextMenu();
@@ -885,6 +876,25 @@ public class MainViewController implements Initializable {
 			@Override
 			public void handle(ActionEvent event) {
 		        System.out.println("From");
+
+		        // Get the street name of the node
+				for (GeoData g : Map.mapContent.values()) {
+					
+					// If its a Road
+					if (g instanceof Road) {
+						
+						Road r = ((Road) g);
+						
+						// If this Road contain the Node
+						if (r.getNodes().contains(closest.id)) {
+							
+							// Add the road to the comboBox
+							MainViewController.listStreetNameSortedFrom.add(r);
+							fromName.setValue(r);
+							break;
+						}
+					}
+				}
 			}
 		});
 		
@@ -893,6 +903,25 @@ public class MainViewController implements Initializable {
 			@Override
 			public void handle(ActionEvent event) {
 				System.out.println("To");
+				
+				// Get the street name of the node
+				for (GeoData g : Map.mapContent.values()) {
+					
+					// If its a Road
+					if (g instanceof Road) {
+						
+						Road r = ((Road) g);
+						
+						// If this Road contain the Node
+						if (r.getNodes().contains(closest.id)) {
+							
+							// Add the road to the comboBox
+							MainViewController.listStreetNameSortedTo.add(r);
+							toName.setValue(r);
+							break;
+						}
+					}
+				}
 			}
 		});
 		
@@ -945,6 +974,58 @@ public class MainViewController implements Initializable {
     		Double y = Map.height - coordinates.get(1);
 	    		
 		    if (x < bbox.topRight && x > bbox.topLeft && y > bbox.bottomLeft && y < bbox.bottomRight) {
+		    	
+		    	if (closest == null) {
+		    		closest = node;
+				}
+		    	else {
+		    		
+		    		Double distanceMouseNode = MainViewController.Distance(event.getX(), event.getY(), node.lon, node.lat);
+		    		Double distanceMouseClosest = MainViewController.Distance(event.getX(), event.getY(), closest.lon, closest.lat);
+
+					// Mouse.distance(node) < Mouse.distance(closest)
+					// closest = node
+		    		if (distanceMouseNode < distanceMouseClosest) {
+		    			closest = node;						
+					}
+				}	
+			}			
+		}
+		
+		return closest;
+	}
+	
+
+	/**
+	 * Get the closest {@code Road} {@code Node} of the mouse when right click
+	 * @param event {@code MouseEvent}
+	 * @return {@code Node} The {@code Node}
+	 * @author Yanis Labrak
+	 */
+	@FXML
+	Node getClosestRoadNodes(MouseEvent event) {
+		
+		Bbox bbox = new Bbox(
+			event.getX() - 10,
+			event.getX() + 10,
+			event.getY() - 10,
+			event.getY() + 10
+		);
+
+		Node closest = null;
+		
+		// Get all nodes around
+		for (Long key : Map.nodes.keySet()) {
+		    
+		    Node node = Map.nodes.get(key);
+		    
+    		// Coordinate after processing
+    		List<Double> coordinates = Node.toPixel(node.lat, node.lon);
+    		
+    		Double x = coordinates.get(0);
+    		Double y = Map.height - coordinates.get(1);
+	    		
+		    if (x < bbox.topRight && x > bbox.topLeft && y > bbox.bottomLeft && y < bbox.bottomRight && node.isRoad() == true) {
 		    	
 		    	if (closest == null) {
 		    		closest = node;
@@ -1239,15 +1320,20 @@ public class MainViewController implements Initializable {
     	// Drag
     	if (event.getButton() == MouseButton.PRIMARY)
     	{
-//			System.out.println("LEFT CLICK");
+    		// Hide the previous ContextMenu
+    		if (!this.stackContextMenu.isEmpty()) {
+        		this.stackContextMenu
+        		.pop()
+        		.hide();
+			}
+    		
         	Map.xDelta = event.getSceneX();
         	Map.yDelta = event.getSceneY();
 		}
     	// Get information on the closest node
     	else if (event.getButton() == MouseButton.SECONDARY)
         {
-//			System.out.println("RIGHT CLICK");
-			
+			// Hide the previous ContextMenu
     		if (!this.stackContextMenu.isEmpty()) {
         		this.stackContextMenu
         		.pop()

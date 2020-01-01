@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import fr.univavignon.ceri.deskmap.Map;
+import fr.univavignon.ceri.deskmap.models.line.Road;
 
 /**
  * A class which represent the structure of an OSM Node
@@ -131,5 +132,34 @@ public class Node {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Return If the node is inside a {@code Road} or not.
+	 * @return 
+	 * {@code True} If is a {@code Node} inside a {@code Road} 
+	 * <br>
+	 * {@code False} If is not a {@code Node} inside a {@code Road} 
+	 */
+	public boolean isRoad() {
+		
+		for (GeoData g : Map.mapContent.values()) {
+			
+			// If its a Road
+			if (g instanceof Road) {
+				
+				Road r = ((Road) g);
+				
+				// If this Road contain the Node
+				if (r.getNodes().contains(this.id)) {
+					
+					// Get this name
+					return true;
+				}
+			}
+		}
+		
+		return false;
+		
 	}
 }
