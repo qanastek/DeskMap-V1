@@ -41,7 +41,9 @@ Here is the procedure to install this software :
 2. You need to have at least the version 1.8 of JavaSE
 3. Run the software
 4. Enter the city in which you want to make the path calculation
-5. Enter the start and the end address of your route
+5. Enter the departure and the arrival of your route thanks to :
+   * The two text fields or
+   * The set departure/arrival option in the informations menu when you right click on the map.
 6. Press start
 
 The project wiki (put a hyperlink) contains detailed instructions regarding how to use the software.

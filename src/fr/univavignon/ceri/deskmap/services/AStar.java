@@ -241,7 +241,7 @@ public class AStar {
 			this.banned.add(this.now);
 			
 			AStar.path.add(0, this.now);
-			Draw.drawPath(MainViewController.gc);
+//			Draw.drawPath(MainViewController.gc);
 			this.findPath();
 
 		}

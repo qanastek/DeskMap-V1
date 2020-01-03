@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import fr.univavignon.ceri.deskmap.Map;
+import fr.univavignon.ceri.deskmap.models.line.Road;
 
 /**
  * A class which represent the structure of an OSM Node
@@ -50,6 +51,7 @@ public class Node {
 	}
 
 	/**
+	 * Constructor
 	 * @param id {@code String} Identifier
 	 * @param lat {@code Double} Latitude
 	 * @param lon {@code Double} Longitude
@@ -89,21 +91,10 @@ public class Node {
 		
 		// Set the map scale value on the screen
 		Map.scaleMeter.set((int) (50 * ratioWidthPixel));
-
-//		System.out.println(Map.bottom + " " + Map.top + " " + Map.left + " " + Map.right);
-//		43.89 43.96 4.75 4.85
-//		System.out.println(lat + " " + lon);
-		
-//		left_side  bottom  right_side  top
-//		4.75       43.89   4.85        43.96
 		
 		// Latitude
-//		Double posVertical = x * latMeters -  Map.topLeft *latMeters;
-//		Double posVertical = (lat - Map.bottom) * latMeters;
 		Double posVertical = (lat - Map.bottom) * latMeters;
 		// Longitude
-//		Double posHorizontal = y * lonMeters -  Map.bottomLeft * lonMeters;
-//		Double posHorizontal = (lon - Map.left) * lonMeters;
 		Double posHorizontal = (lon - Map.left) * lonMeters;
 		
 		// Move the node of X in latitude
@@ -125,9 +116,12 @@ public class Node {
 	}
 
 	/**
-	 * Check if the node is in the bbox
-	 * @param bbox {@code Bbox} The area
-	 * @return {@code Boolean}
+	 * Check If the {@code Node} is inside the {@code Bbox} area.
+	 * @param bbox {@code Bbox} The area were the {@code Node} need to be
+	 * @return
+	 * {@code True} If inside the {@code Bbox}
+	 * <br>
+	 * {@code False} If not inside the {@code bbox}
 	 */
 	public boolean in(Bbox bbox) {
 		
@@ -138,5 +132,34 @@ public class Node {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Return If the node is inside a {@code Road} or not.
+	 * @return 
+	 * {@code True} If is a {@code Node} inside a {@code Road} 
+	 * <br>
+	 * {@code False} If is not a {@code Node} inside a {@code Road} 
+	 */
+	public boolean isRoad() {
+		
+		for (GeoData g : Map.mapContent.values()) {
+			
+			// If its a Road
+			if (g instanceof Road) {
+				
+				Road r = ((Road) g);
+				
+				// If this Road contain the Node
+				if (r.getNodes().contains(this.id)) {
+					
+					// Get this name
+					return true;
+				}
+			}
+		}
+		
+		return false;
+		
 	}
 }
