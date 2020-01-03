@@ -819,6 +819,9 @@ public class MainViewController implements Initializable {
 			
 			// Draw the path
 			Draw.drawPath(MainViewController.gc);
+			
+			// Draw the names of the streets		
+			Draw.drawStreetsName(MainViewController.gc);
 		}
 	}
 	
@@ -1186,6 +1189,8 @@ public class MainViewController implements Initializable {
 	public void zoomIn(ActionEvent event) {
 		
 		if (Map.scale * Settings.ZOOMING_SCALE <= Settings.MAX_SCALE) {		
+			
+			System.out.println(Map.scale);
 			
 			Map.scale *= Settings.ZOOMING_SCALE;
 			

@@ -5,7 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.univavignon.ceri.deskmap.Map;
+import fr.univavignon.ceri.deskmap.controllers.MainViewController;
 import fr.univavignon.ceri.deskmap.models.Bbox;
+import fr.univavignon.ceri.deskmap.models.GeoData;
 import fr.univavignon.ceri.deskmap.models.Node;
 import fr.univavignon.ceri.deskmap.models.Way;
 import fr.univavignon.ceri.deskmap.models.line.Line;
@@ -23,6 +25,8 @@ import fr.univavignon.ceri.deskmap.models.region.SchoolAmenity;
 import fr.univavignon.ceri.deskmap.models.region.Structure;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 /**
  * @author Yanis Labrak
@@ -56,6 +60,38 @@ public class Draw {
 		
 	}
 	
+	/**
+	 * @param gc
+	 */
+	public static void drawStreetsName(GraphicsContext gc) {
+		
+		for (GeoData g: Map.mapContent.values()) {
+			
+			if (g instanceof Road && Map.scale > 5) {
+				
+				Node center = ((Road) g).getMiddle();
+				
+	    		// Coordinate after processing
+	    		List<Double> coordinates = Node.toPixel(center.lat, center.lon);
+	    		
+	    		int fontSize = 6;
+	    		
+	    		Double x = coordinates.get(0);
+	    		Double y = Map.height - coordinates.get(1);
+	    		
+//	    		Double angle = ((Road) g).getAngle();
+
+	            gc.setLineWidth(1.0);
+	            gc.setFill(Color.BLACK);
+	            gc.setFont(new Font("Verdana", fontSize));
+	    		gc.fillText(((Road) g).name, x, y);
+				
+			}
+			
+		}
+		
+	}
+
 	/**
 	 * Draw all the {@code Nodes} on the {@code Canvas}
 	 * @param gc {@code GraphicsContext} The canvas

@@ -67,4 +67,33 @@ public class Road extends Line implements Highway {
 		return Map.nodes.get(this.nodes.get(index));
 	}
 
+	/**
+	 * Return the angle of the {@code Road}
+	 * @return {@code Integer} The angle
+	 */
+	public Double getAngle() {
+		
+		Long startId = this.nodes.get(0);
+		Long endId = this.nodes.get(this.nodes.size() - 1);
+		
+		Node start = Map.nodes.get(startId);
+		Node end = Map.nodes.get(endId);
+		
+		Double ex = start.lat;
+		Double ey = start.lon;
+		
+		Double cx = end.lat;
+		Double cy = end.lon;
+
+		Double dy = ey - cy;
+		Double dx = ex - cx;
+		
+		Double theta = Math.atan2(dy, dx);
+		theta *= 180 / Math.PI;
+		
+		if (theta < 0) theta = 360 + theta;
+		
+		return theta;
+	}
+
 }
