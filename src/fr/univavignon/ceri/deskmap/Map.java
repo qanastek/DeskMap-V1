@@ -487,7 +487,7 @@ public class Map {
 							
 							Iterator<?> it;
 							JSONArray nodes;
-							Line entityRoad;
+							Road entityRoad;
 							
 							entityRoad = new Road((Long) item.get("id"));							
 							entityRoad.setName((String) tags.get("name"));
@@ -505,6 +505,12 @@ public class Map {
 								
 								// Add the id to the nodes list of the GolfCourse
 								entityRoad.addNode(nodeId);
+							}
+							
+							if ((String) tags.get("junction") != null) {
+								entityRoad.setJunction((String) tags.get("junction"));
+							} else {
+								entityRoad.setJunction(null);
 							}
 							
 							switch ((String) tags.get("highway")) {

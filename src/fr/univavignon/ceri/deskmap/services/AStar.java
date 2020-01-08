@@ -131,7 +131,7 @@ public class AStar {
 
 			if (g instanceof Road && ((Road) g).getNodes().contains(this.now.id) && g.name != null) {
 
-				int index = ((Road) g).getNodes().indexOf(this.now.id);
+				int index = ((Road) g).getNodes().indexOf(this.now.id) >= 0 ? ((Road) g).getNodes().indexOf(this.now.id) : 0;
 				int max = ((Road) g).getNodes().size() - 1;
 				int before = index - 1 >= 0 ? index - 1 : 0;
 				int after = index + 1 <= max ? index + 1 : max;
@@ -212,15 +212,6 @@ public class AStar {
 				return AStar.path;
 			}
 			
-//			this.displayFromTo();
-			
-//			try {
-//				TimeUnit.SECONDS.sleep(1);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//			
-			// Not found but not blocked
 			this.findPath();
 
 		} else {
@@ -229,12 +220,14 @@ public class AStar {
 			if (this.now.id == this.departure.id) {
 				
 				MainViewController.addMapPath("No path found !");
+				
 				System.out.println("Path no found !");
 				
 				// Clear the current path
-//				AStar.path.clear();
+				AStar.path.clear();
+				MainViewController.clearMapPathTextArea();
 				
-				return null;
+				return AStar.path;
 			}
 
 			this.now = this.now.parent;
@@ -246,7 +239,7 @@ public class AStar {
 
 		}
 		
-		return null;
+		return AStar.path;
 
 	}
 

@@ -67,14 +67,14 @@ public class Draw {
 		
 		for (GeoData g: Map.mapContent.values()) {
 			
-			if (g instanceof Road && Map.scale > 5) {
+			if (Map.scale > 5 && g instanceof Road && ((Road) g).getNodes().size() > 3) {
 				
 				Node center = ((Road) g).getMiddle();
 				
 	    		// Coordinate after processing
 	    		List<Double> coordinates = Node.toPixel(center.lat, center.lon);
 	    		
-	    		int fontSize = 6;
+	    		int fontSize = (int) (1 * Map.scale / 1.5);
 	    		
 	    		Double x = coordinates.get(0);
 	    		Double y = Map.height - coordinates.get(1);
@@ -361,7 +361,7 @@ public class Draw {
 	 */
 	public static void drawPath(GraphicsContext gc) {
 		
-		if (AStar.path.size() < 2) {
+		if (AStar.path.size() < 2 || AStar.path == null || AStar.path.isEmpty()) {
 			System.err.println("Path too small !");
 		} else {
 			

@@ -9,6 +9,8 @@ import fr.univavignon.ceri.deskmap.models.region.Highway;
  */
 public class Road extends Line implements Highway {
 
+	private String junction;
+
 	/**
 	 * Constructor
 	 * @param id {@code String} Identifier
@@ -94,6 +96,22 @@ public class Road extends Line implements Highway {
 		if (theta < 0) theta = 360 + theta;
 		
 		return theta;
+	}
+
+	/**
+	 * Setter for junction
+	 * @param junction {@code String}
+	 */
+	public void setJunction(String junction) {
+		this.junction = junction;
+	}
+
+	/**
+	 * Getter junction
+	 * @return {@code String} The junction
+	 */
+	public String getJunction() {
+		return this.getJunction();
 	}
 
 }
