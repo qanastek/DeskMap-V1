@@ -288,18 +288,6 @@ public class AStar {
 	}
 
 	/**
-	 * Calculate the distance between the current {@code Node} and the one in argument
-	 * @param id {@code Long} The {@code Node} identifier
-	 * @return distance {@code Double} The distance in meters
-	 * @author Mohamed Ben Yamna
-	 */
-	public double calculateG(Long id) {
-		// It is about 111.12 kilometers per degree
-		return 111.12 * Math.sqrt(Math.pow((this.now.lat - Map.nodes.get(id).lat), 2)
-				+ Math.pow((this.now.lon - Map.nodes.get(id).lon), 2));
-	}
-
-	/**
 	 * Display the informations about the length of the path and all the segments of It too.
 	 * @author Capdepon Quentin
 	 */

@@ -310,51 +310,6 @@ public class Draw {
 	}
 	
 	/**
-	 * Draw all the relations on the {@code Canvas}
-	 * @param gc {@code GraphicsContext} The canvas 
-	 * @author Yanis Labrak
-	 */
-	public static void drawRelations(GraphicsContext gc) {
-		for (Long key : Map.mapContent.keySet()) {
-			
-			Object prop = Map.mapContent.get(key);
-			
-			if (prop instanceof Way) {
-				
-				List<Long> nodes = ((Way) prop).getNodes();
-				
-				if (((Way) prop).getColor() != null) {
-					gc.setFill(Color.web(((Way) prop).getColor()));
-					gc.setStroke(Color.web(((Way) prop).getColor()));					
-				} else {
-					gc.setFill(Color.BLACK);
-					gc.setStroke(Color.BLACK);					
-				}			
-				
-				
-				List<Double> x = new ArrayList<Double>();
-				List<Double> y = new ArrayList<Double>();
-				
-				// For each node id
-				for (Long nodeId : nodes) {
-					
-					// Get the correspondent node
-					Node node = Map.nodes.get(nodeId);
-					
-					// Coordinate after processing
-					List<Double> coordinates = Node.toPixel(node.lat, node.lon);
-					
-					x.add(coordinates.get(0));
-					y.add(coordinates.get(1));
-				}
-				
-				// Draw the building
-				gc.fillPolygon(Draw.convertDoubles(x), Draw.convertDoubles(y), x.size());				
-			}			
-		}
-	}
-	
-	/**
 	 * Display the path on the {@code Map} {@code Canvas}
 	 * @param gc {@code GraphicsContext} Were we want to print the path
 	 * @author Capdepon Quentin

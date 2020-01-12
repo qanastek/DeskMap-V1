@@ -127,21 +127,6 @@ public class Map {
 	 * All the nodes to load
 	 */
 	public static HashMap<Long, Node> nodes = new HashMap<Long, Node>();
-
-	/**
-	 * The path of the search
-	 */
-	public static ArrayList<Node> path = new ArrayList<Node>();
-	
-	/**
-	 * Departure
-	 */
-	public static Node from = null;
-
-	/**
-	 * Arrival
-	 */
-	public static Node to = null;
 	
 	/**
 	 * Constructor
