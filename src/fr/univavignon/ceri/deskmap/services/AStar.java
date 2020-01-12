@@ -117,7 +117,6 @@ public class AStar {
 	/**
 	 * Get all the neighbors were we can go on
 	 * @return {@code ArrayList<Node>} Were we can go on
-	 * @author Zihao Zheng
 	 * @author Mohamed Ben Yamna
 	 */
 	public ArrayList<Node> getNeithboors() {
@@ -151,7 +150,6 @@ public class AStar {
 	 * Process and display in real time on the {@code Canvas} the path.
 	 * @return path of node
 	 * @author Zihao Zheng
-	 * @author Mohamed Ben Yamna
 	 */
 	public List<NodePath> findPath() {
 		
@@ -246,7 +244,6 @@ public class AStar {
 	/**
 	 * Get the closest {@code NodePath} around the current position
 	 * @return {@code NodePath} The closest node around the current position
-	 * @author Zihao Zheng
 	 * @author Mohamed Ben Yamna
 	 */
 	private NodePath getCloser() {
@@ -284,7 +281,6 @@ public class AStar {
 	 * @param n {@code Node} Departure
 	 * @param n1 {@code Node} Arrival
 	 * @return {@code Double} The distance
-	 * @author Zihao Zheng
 	 * @author Mohamed Ben Yamna
 	 */
 	public double distance(Node n, Node n1) {
@@ -295,7 +291,6 @@ public class AStar {
 	 * Calculate the distance between the current {@code Node} and the one in argument
 	 * @param id {@code Long} The {@code Node} identifier
 	 * @return distance {@code Double} The distance in meters
-	 * @author Zihao Zheng
 	 * @author Mohamed Ben Yamna
 	 */
 	public double calculateG(Long id) {
