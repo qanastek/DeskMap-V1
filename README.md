@@ -52,7 +52,7 @@ The project Wiki (put a hyperlink) contains detailed instructions regarding how 
 ## Dependencies
 
 The project relies on the following libraries:
-* json-simple : This library was used to parse the JSON data received from the OSM API server (available in JavaEE)
+* Json-Simple : This library was used to parse the JSON data received from the OSM API server (available in JavaEE)
 
 And the following services:
 * Open Street Map: This service was used for fetching the geographical data needed for this project
