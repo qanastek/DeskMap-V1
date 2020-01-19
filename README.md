@@ -46,7 +46,7 @@ Here is the procedure to install this software :
    * The set departure/arrival option in the informations menu when you right click on the map.
 6. Press start
 
-The project wiki (put a hyperlink) contains detailed instructions regarding how to use the software.
+The project Wiki (put a hyperlink) contains detailed instructions regarding how to use the software.
 
 
 ## Dependencies
