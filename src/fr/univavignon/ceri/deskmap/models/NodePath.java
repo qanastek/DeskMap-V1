@@ -57,7 +57,7 @@ public class NodePath extends Node {
 	/**
 	 * Set the street name of the {@code NodePath}
 	 */
-	public void setSteet() {
+	public void setStreet() {
 		
 		// Get the street name of the node
 		for (GeoData g : Map.mapContent.values()) {

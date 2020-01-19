@@ -269,7 +269,7 @@ public class AStar {
 				best.distance = d1;
 				best.parent = this.now;
 				bestDistance = distance;
-				best.setSteet();
+				best.setStreet();
 			}
 		}
 		
