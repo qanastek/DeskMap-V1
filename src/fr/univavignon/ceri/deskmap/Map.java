@@ -3,7 +3,6 @@ package fr.univavignon.ceri.deskmap;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -17,7 +16,6 @@ import fr.univavignon.ceri.deskmap.controllers.MainViewController;
 import fr.univavignon.ceri.deskmap.models.GeoData;
 import fr.univavignon.ceri.deskmap.models.Node;
 import fr.univavignon.ceri.deskmap.models.Way;
-import fr.univavignon.ceri.deskmap.models.line.Line;
 import fr.univavignon.ceri.deskmap.models.line.Road;
 import fr.univavignon.ceri.deskmap.models.region.Building;
 import fr.univavignon.ceri.deskmap.models.region.Cemetery;

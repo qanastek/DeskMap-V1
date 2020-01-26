@@ -3,12 +3,15 @@ package fr.univavignon.ceri.deskmap.services;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import fr.univavignon.ceri.deskmap.Map;
 import fr.univavignon.ceri.deskmap.controllers.MainViewController;
 import fr.univavignon.ceri.deskmap.models.GeoData;
 import fr.univavignon.ceri.deskmap.models.Node;
 import fr.univavignon.ceri.deskmap.models.NodePath;
 import fr.univavignon.ceri.deskmap.models.line.Road;
+import javafx.application.Platform;
 import javafx.scene.paint.Color;
 
 /**
@@ -121,14 +124,18 @@ public class AStar {
 	 */
 	public ArrayList<Node> getNeithboors() {
 
-		this.close.clear();
+		if (this.close != null && this.close.size() > 0) {
+//			this.close.clear();
+			this.close = new ArrayList<Node>();
+		}
+		
 		ArrayList<Node> around = new ArrayList<Node>();
 
 		for (Long key : Map.mapContent.keySet()) {
 
 			GeoData g = Map.mapContent.get(key);
 
-			if (g instanceof Road && ((Road) g).getNodes().contains(this.now.id) && g.name != null) {
+			if (this.now != null && g instanceof Road && ((Road) g).getNodes().contains(this.now.id) && g.name != null) {
 
 				int index = ((Road) g).getNodes().indexOf(this.now.id) >= 0 ? ((Road) g).getNodes().indexOf(this.now.id) : 0;
 				int max = ((Road) g).getNodes().size() - 1;
@@ -151,7 +158,7 @@ public class AStar {
 	 * @return path of node
 	 * @author Zihao Zheng
 	 */
-	public List<NodePath> findPath() {
+	public List<NodePath> oldFindPath() {
 		
 		if (MainViewController.status == false) {
 			System.out.println("Process stoped !");
@@ -239,6 +246,124 @@ public class AStar {
 		
 		return AStar.path;
 
+	}
+	
+	/**
+	 * Process and display in real time on the {@code Canvas} the path.
+	 * @return path of node
+	 * @author Zihao Zheng
+	 */
+	public List<NodePath> findPath() {
+		
+		while (MainViewController.status != false) {
+
+//			Platform.runLater(()->{
+//				MainViewController.renderMap();
+//			});
+			
+//			System.out.println(AStar.path.size());
+//			System.out.println(AStar.path);
+//			System.out.println("Now: " + this.now);
+//			System.out.println("Close: " + this.close);
+//			System.out.println("Size: " + this.close.size());
+			AStar.path.add(this.now);
+			
+			this.close = this.getNeithboors();
+			boolean ban;
+			
+			// If have parent
+			if (this.now.parent != null) {
+				
+				Iterator<Node> it = this.close.iterator();
+				
+				while (it.hasNext()) {
+					
+					Node n = it.next();
+					ban = false;
+					
+					// Check if already banned
+					for (NodePath nodePath : this.banned) {
+						if (nodePath.id == this.now.id) {
+							ban = true;
+							break;
+						}
+					}
+					
+					if (ban) {
+						it.remove();
+					}
+					// Delete current Node
+					else if (n.id == this.now.parent.id || n.id == this.now.id) {
+						it.remove();
+					}
+					else {
+						
+						// If the node has been already visited
+						for (NodePath nodeVisited : AStar.path) {
+							if (n.id == nodeVisited.id) {
+//								System.out.println("--------------------------DELETE");
+								it.remove();
+								break;
+							}							
+						}						
+					}
+				}
+			}
+			
+			// If we have neighbors
+			if (this.close.size() > 0) {
+				
+				this.now = this.getCloser();
+				
+				// If we reach the end
+				if (this.now.id == this.arrival.id) {
+					
+					MainViewController.addMapPath("Path found !");
+					System.out.println("Path found !");
+					
+					AStar.path.add(this.now);				
+					Draw.drawPath(MainViewController.gc);
+					
+//					System.out.println(AStar.path);
+					
+					return AStar.path;
+				}
+
+				continue;
+				
+			}
+			
+			// If blocked without nodes around
+			if (this.now.id == this.departure.id) {
+				
+				// Clear the current path
+				AStar.path.clear();
+				MainViewController.clearMapPathTextArea();
+				
+				MainViewController.addMapPath("No path found !");
+				System.out.println("Path no found !");
+				
+				// Cela retourne null
+				return AStar.path;
+			}
+			
+			// Else go back
+//			System.out.println("Now before parent:" + this.now);
+			this.banned.add(this.now);
+			this.now = this.now.parent;
+//			System.out.println("Now after parent:" + this.now);
+			
+			AStar.path.add(0, this.now);
+			continue;
+		}
+		
+		if (MainViewController.status == false) {
+			System.out.println("Process stoped !");
+			return null;
+		}
+		
+		return AStar.path;
+		
 	}
 
 	/**

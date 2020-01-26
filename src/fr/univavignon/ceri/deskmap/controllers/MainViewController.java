@@ -23,15 +23,16 @@ import fr.univavignon.ceri.deskmap.services.Draw;
 import fr.univavignon.ceri.deskmap.services.OSM;
 import fr.univavignon.ceri.deskmap.services.QueriesBuilding;
 import fr.univavignon.ceri.deskmap.services.QueriesLoading;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Point2D;
 import javafx.scene.control.TextField;
 
 import javafx.scene.control.Slider;
@@ -63,6 +64,8 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
 	private Canvas canvasMap;
+	
+	public static Point2D canvasMapSize;
 	
 	/**
 	 * Node canvas
@@ -219,7 +222,7 @@ public class MainViewController implements Initializable {
 	/**
 	 * GraphicsContext for the nodes canvas
 	 */
-	private GraphicsContext gcNodes;
+	public static GraphicsContext gcNodes;
 	
 	/**
 	 * Status
@@ -241,7 +244,7 @@ public class MainViewController implements Initializable {
 		
 		// Get the graphics context of the canvas
 		MainViewController.gc = this.canvasMap.getGraphicsContext2D();
-		this.gcNodes = this.canvasNodes.getGraphicsContext2D();
+		MainViewController.gcNodes = this.canvasNodes.getGraphicsContext2D();
 		
 		// Link the value of the scale to the Text object
 		this.scaleValue.textProperty().bind(Map.scaleMeter.asString());
@@ -272,34 +275,56 @@ public class MainViewController implements Initializable {
         });
 		
 		try {
+			
+			Platform.runLater(()->{
+	    		try {
+	    			
+	    			renderCityMap(Settings.DEFAULT_CITY);
+	    			
+	    			// Load all the streets
+	    			QueriesLoading.loadStreets();
+	    			
+	    			// Ready
+	    			Map.state = true;
+	    			
+	    			AStar a = new AStar();
+	    			System.out.println(a.findPath());
+	    			
+	    		} catch (Exception e) {
+	    			e.printStackTrace();
+	    		}
+			});
 		    
-			Runnable task = new Runnable()
-	        {
-				@Override
-				public void run() {
-		    		
-		    		try {
-		    			
-		    			renderCityMap(Settings.DEFAULT_CITY);
-		    			
-		    			// Load all the streets
-		    			QueriesLoading.loadStreets();
-		    			
-		    			// Ready
-		    			Map.state = true;
-		    			
-		    			AStar a = new AStar();
-		    			System.out.println(a.findPath());
-		    			
-		    		} catch (Exception e) {
-		    			e.printStackTrace();
-		    		}
-
-		        }
-	        };
-	        Thread backgroundThread = new Thread(task);
-	        backgroundThread.setDaemon(true);
-	        backgroundThread.start();
+//			Task<Void> task = new Task<Void>()
+//	        {
+//				@Override
+//				public Void call() {
+//		    		
+//		    		try {
+//		    			
+//		    			renderCityMap(Settings.DEFAULT_CITY);
+//		    			
+//		    			// Load all the streets
+//		    			QueriesLoading.loadStreets();
+//		    			
+//		    			// Ready
+//		    			Map.state = true;
+//		    			
+//		    			AStar a = new AStar();
+//		    			System.out.println(a.findPath());
+//		    			
+//		    		} catch (Exception e) {
+//		    			e.printStackTrace();
+//		    		}
+//		    		
+//					return null;
+//
+//		        }
+//	        };
+//	        new Thread(task).start();
+//	        Thread backgroundThread = new Thread(task);
+//	        backgroundThread.start();
+//	        backgroundThread.setDaemon(true);
 			
 			// When the canvas width change
 			this.canvasPane.widthProperty().addListener((obs, oldVal, newVal) -> {
@@ -314,7 +339,8 @@ public class MainViewController implements Initializable {
 				
 				this.canvasMap.setHeight(size);
 				this.canvasMap.setWidth(size);
-				this.renderMap();
+				MainViewController.canvasMapSize = new Point2D(size, size);
+				MainViewController.renderMap();
 			});
 
 			// When the canvas height change
@@ -330,7 +356,8 @@ public class MainViewController implements Initializable {
 				
 				this.canvasMap.setHeight(size);
 				this.canvasMap.setWidth(size);
-				this.renderMap();
+				MainViewController.canvasMapSize = new Point2D(size, size);
+				MainViewController.renderMap();
 			});
 			
 		} catch (Exception e) {
@@ -389,18 +416,23 @@ public class MainViewController implements Initializable {
 	public void searching(ActionEvent event) throws Exception {
 		
 		MainViewController.status = true;
+
+		this.resetBtn.setDisable(false);
 		
 		// Get fields string values
 		String fromNumber = this.fromNumber.getText();
-		Boolean fromName = this.fromName.getSelectionModel().isEmpty();
+		Boolean fromNameEmpty = this.fromName.getSelectionModel().isEmpty();
 		
 		String toNumber = this.toNumber.getText();
-		Boolean toName = this.toName.getSelectionModel().isEmpty();
+		Boolean toNameEmpty = this.toName.getSelectionModel().isEmpty();
 		
-		if (fromNumber.isEmpty() || fromName) {
+//		fromNumber.isEmpty() || fromName
+//		toNumber.isEmpty() ||  toName
+		
+		if (fromNameEmpty) {
 			System.out.println("Invalid starting adress");
 		}
-		else if (toNumber.isEmpty() || toName) {
+		else if (toNameEmpty) {
 			System.out.println("Invalid destination address");
 		}
 		else {
@@ -414,20 +446,30 @@ public class MainViewController implements Initializable {
 			Node t = to.getMiddle();
 			
 			MainViewController.addMapPath(fromNumber + " " + from + " -> " + toNumber + " " + to);
+			
+			Platform.runLater(()->{
+	        	AStar a = new AStar(f,t);
+				a.findPath();
+				renderMap();
+				AStar.getPathInformations();
+			});
 		    
-			Runnable task = new Runnable()
-	        {
-				@Override
-				public void run() {
-		        	AStar a = new AStar(f,t);
-					a.findPath();
-					renderMap();
-					AStar.getPathInformations();
-		        }
-	        };
-	        Thread backgroundThread = new Thread(task);
-	        backgroundThread.setDaemon(true);
-	        backgroundThread.start();
+//			Task<Void> task = new Task<Void>()
+//	        {
+//
+//				@Override
+//				protected Void call() throws Exception {
+//		        	AStar a = new AStar(f,t);
+//					a.findPath();
+//					renderMap();
+//					AStar.getPathInformations();
+//					return null;
+//				}
+//	        };
+//	        new Thread(task).start();
+//	        Thread backgroundThread = new Thread(task);
+//	        backgroundThread.setDaemon(true);
+//	        backgroundThread.start();
 			
 			// Draw the path
 //			Draw.drawPath(this.gc);
@@ -501,26 +543,28 @@ public class MainViewController implements Initializable {
 	public void Reset(ActionEvent event) {
 		MainViewController.status = false;
 		
-		this.cityName.getSelectionModel().clearSelection();
-		this.cityButton.setDisable(true);
+//		this.cityName.getSelectionModel().clearSelection();
+//		this.cityButton.setDisable(true);
 		
-		this.fromNumber.setDisable(true);
-		this.fromName.setDisable(true);
-		this.toNumber.setDisable(true);
-		this.toName.setDisable(true);
+//		this.fromNumber.setDisable(true);
+//		this.fromName.setDisable(true);
+//		this.toNumber.setDisable(true);
+//		this.toName.setDisable(true);
 		
-		this.fromName.getSelectionModel().clearSelection();
-		this.toName.getSelectionModel().clearSelection();
+//		this.fromName.getSelectionModel().clearSelection();
+//		this.toName.getSelectionModel().clearSelection();
 		
-		this.toNumber.clear();
-		this.fromNumber.clear();
+//		this.toNumber.clear();
+//		this.fromNumber.clear();
 		
-		this.searchBtn.setDisable(true);
+		this.searchBtn.setDisable(false);
 		this.resetBtn.setDisable(true);
 		
-		MainViewController.listStreetName.clear();
-		MainViewController.listStreetNameSortedFrom.clear();
-		MainViewController.listStreetNameSortedTo.clear();
+		MainViewController.renderMap();
+		
+//		MainViewController.listStreetName.clear();
+//		MainViewController.listStreetNameSortedFrom.clear();
+//		MainViewController.listStreetNameSortedTo.clear();
 		
 		MainViewController.addStateBar("Fields reseted");
 	}
@@ -530,9 +574,11 @@ public class MainViewController implements Initializable {
 	 * @author Quentin Capdepon
 	 */
 	private void checkAllFields() {
+		
+//		this.fromNumber.getText().isEmpty() ||
+//		this.toNumber.getText().isEmpty() ||
+		
 		if (this.cityName.getSelectionModel().isEmpty() ||
-			this.fromNumber.getText().isEmpty() ||
-			this.toNumber.getText().isEmpty() ||
 			this.fromName.getSelectionModel().getSelectedIndex() < 0 ||
 			this.toName.getSelectionModel().getSelectedIndex() < 0
  		) {
@@ -792,7 +838,7 @@ public class MainViewController implements Initializable {
 			Map.state = true;
 			
 			// Render all the objects of the canvas
-			this.renderMap();
+			MainViewController.renderMap();
 		
 		} catch (Exception | CannotReachServerException e) {
 			System.out.println(e);
@@ -803,16 +849,16 @@ public class MainViewController implements Initializable {
 	 * Render all the objects of the canvas
 	 * @author Yanis Labrak
 	 */
-	private void renderMap() {
+	public static void renderMap() {
 		
 		if (Map.state == true) {
 			
 			// Clear the canvas before draw
-			this.canvasMap.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
-			this.canvasNodes.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
+			MainViewController.gc.clearRect(0, 0, MainViewController.canvasMapSize.getX(), MainViewController.canvasMapSize.getY());
+			MainViewController.gcNodes.clearRect(0, 0, MainViewController.canvasMapSize.getX(), MainViewController.canvasMapSize.getY());
 			
-			Map.width = this.canvasMap.getWidth();
-			Map.height = this.canvasMap.getHeight();
+			Map.width = MainViewController.canvasMapSize.getX();
+			Map.height = MainViewController.canvasMapSize.getY();
 			
 			// Draw all ways
 			Draw.drawWays(MainViewController.gc);
@@ -845,10 +891,10 @@ public class MainViewController implements Initializable {
 		);
 		
 		// Clear canvas
-		this.canvasNodes.getGraphicsContext2D().clearRect(0, 0, this.canvasMap.getWidth(), this.canvasMap.getHeight());
+		this.canvasNodes.getGraphicsContext2D().clearRect(0, 0, MainViewController.canvasMapSize.getX(), MainViewController.canvasMapSize.getY());
 		
 		// Draw Nodes
-		Draw.drawNodes(this.gcNodes, bbox);
+		Draw.drawNodes(MainViewController.gcNodes, bbox);
 	}
 	
 	/**
@@ -1196,7 +1242,7 @@ public class MainViewController implements Initializable {
 			
 			this.slider.setValue(Map.scale);
 			
-			this.renderMap();			
+			MainViewController.renderMap();			
 		}
 	}
 	
@@ -1208,7 +1254,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	private void zoomInSlider(MouseEvent event) {		
 		Map.scale = Math.pow(2, this.slider.getValue());
-		this.renderMap();
+		MainViewController.renderMap();
 		
 	}
 	
@@ -1226,7 +1272,7 @@ public class MainViewController implements Initializable {
 			
 			this.slider.setValue(Map.scale);
 			
-			this.renderMap();
+			MainViewController.renderMap();
 		}
 	}
 	
@@ -1256,7 +1302,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void left(ActionEvent event) {
 		Map.longitude += Settings.HORI_MOVE_DIST;
-		this.renderMap();
+		MainViewController.renderMap();
 	}
 	
 	/**
@@ -1267,7 +1313,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void right(ActionEvent event) {
 		Map.longitude -= Settings.HORI_MOVE_DIST;
-		this.renderMap();
+		MainViewController.renderMap();
 	}
 	
 	/**
@@ -1278,7 +1324,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void up(ActionEvent event) {
 		Map.latitude -= Settings.VERT_MOVE_DIST;
-		this.renderMap();
+		MainViewController.renderMap();
 	}
 	
 	/**
@@ -1289,7 +1335,7 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void down(ActionEvent event) {
 		Map.latitude += Settings.VERT_MOVE_DIST;
-		this.renderMap();
+		MainViewController.renderMap();
 	}
 	
 	/**
@@ -1365,7 +1411,7 @@ public class MainViewController implements Initializable {
 	    	Map.longitude += Map.xDelta * 3;
 	    	Map.latitude -=  Map.yDelta / 1000000000d;
 	    	
-			this.renderMap();	
+			MainViewController.renderMap();	
 			System.out.println("LEFT DROP");	
 			
 		}		

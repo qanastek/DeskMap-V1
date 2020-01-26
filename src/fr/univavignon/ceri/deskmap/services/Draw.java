@@ -5,11 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.univavignon.ceri.deskmap.Map;
-import fr.univavignon.ceri.deskmap.controllers.MainViewController;
 import fr.univavignon.ceri.deskmap.models.Bbox;
 import fr.univavignon.ceri.deskmap.models.GeoData;
 import fr.univavignon.ceri.deskmap.models.Node;
-import fr.univavignon.ceri.deskmap.models.Way;
 import fr.univavignon.ceri.deskmap.models.line.Line;
 import fr.univavignon.ceri.deskmap.models.line.Path;
 import fr.univavignon.ceri.deskmap.models.line.River;
@@ -26,7 +24,6 @@ import fr.univavignon.ceri.deskmap.models.region.Structure;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 /**
  * @author Yanis Labrak
@@ -61,7 +58,7 @@ public class Draw {
 	}
 	
 	/**
-	 * @param gc
+	 * @param gc {@code GraphicsContext}
 	 */
 	public static void drawStreetsName(GraphicsContext gc) {
 		

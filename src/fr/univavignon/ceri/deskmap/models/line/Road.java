@@ -9,6 +9,9 @@ import fr.univavignon.ceri.deskmap.models.region.Highway;
  */
 public class Road extends Line implements Highway {
 
+	/**
+	 * Does it is a junction
+	 */
 	private String junction;
 
 	/**
