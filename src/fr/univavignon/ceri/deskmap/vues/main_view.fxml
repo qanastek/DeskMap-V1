@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="782.0" prefWidth="1328.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.deskmap.controllers.MainViewController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="859.0" prefWidth="1328.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.univavignon.ceri.deskmap.controllers.MainViewController">
    <children>
-      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="585.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.85" orientation="VERTICAL" prefHeight="585.0" prefWidth="1022.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
             <SplitPane fx:id="splitPane" dividerPositions="0.29" prefHeight="455.0" prefWidth="1022.0">
               <items>
@@ -63,9 +63,31 @@
                                     <Insets left="15.0" right="15.0" top="10.0" />
                                  </padding>
                               </HBox>
+                              <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <ComboBox fx:id="calculMode" disable="true" editable="true" layoutX="155.0" layoutY="98.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#checkAllComboBox" onKeyReleased="#autoCompleteTo" prefHeight="0.0" prefWidth="130.0" promptText="Mode calcul" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="98.0" HBox.hgrow="ALWAYS" />
+                                    <ComboBox fx:id="transportMode" disable="true" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#checkAllComboBox" onKeyReleased="#autoCompleteTo" prefHeight="31.0" prefWidth="113.0" promptText="Mode transport" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" HBox.hgrow="ALWAYS" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="15.0" right="15.0" top="10.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0">
+                                 <children>
+                                    <CheckBox fx:id="correspondance" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Correspondance" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                    <CheckBox fx:id="sens" mnemonicParsing="false" text="Sens" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                       <HBox.margin>
+                                          <Insets left="50.0" />
+                                       </HBox.margin>
+                                    </CheckBox>
+                                 </children>
+                                 <padding>
+                                    <Insets left="15.0" right="15.0" top="10.0" />
+                                 </padding>
+                              </HBox>
                               <HBox minHeight="0.0" minWidth="0.0" prefHeight="50.0" prefWidth="214.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Button fx:id="searchBtn" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="153.0" layoutY="142.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#searching" prefHeight="39.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="SEARCH" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="153.0" AnchorPane.topAnchor="142.0" HBox.hgrow="ALWAYS">
+                                    <Button fx:id="searchBtn" alignment="CENTER" contentDisplay="CENTER" disable="true" layoutX="153.0" layoutY="142.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#searching" prefHeight="39.0" prefWidth="140.0" style="-fx-background-color: #8799ff;" text="SEARCH" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="153.0" AnchorPane.topAnchor="142.0" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font name="Roboto Medium" size="21.0" />
                                        </font>
@@ -83,12 +105,47 @@
                                     <Insets left="15.0" right="15.0" top="10.0" />
                                  </padding>
                               </HBox>
-                              <HBox prefHeight="271.0" prefWidth="292.0" style="-fx-pref-width: 100%;" VBox.vgrow="ALWAYS">
+                              <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                                 <padding>
+                                    <Insets left="15.0" right="15.0" top="10.0" />
+                                 </padding>
                                  <children>
-                                    <TextArea fx:id="mapPath" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="271.0" prefWidth="320.0" text="Informations about the path..." HBox.hgrow="ALWAYS" />
+                                    <ComboBox fx:id="lignes" disable="true" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#checkAllComboBox" onKeyReleased="#autoCompleteTo" prefHeight="36.0" prefWidth="138.0" promptText="Ligne(s) Transport" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" HBox.hgrow="ALWAYS" />
+                                    <Button fx:id="displayTC" alignment="CENTER" contentDisplay="CENTER" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#searching" prefHeight="35.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="Afficher" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="hideTC" alignment="CENTER" contentDisplay="CENTER" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#searching" prefHeight="35.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="Cacher" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="140.0" prefWidth="381.0" style="-fx-pref-width: 100%;" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <TextArea fx:id="mapPath" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefWidth="351.0" text="Informations about the path..." HBox.hgrow="ALWAYS" />
                                  </children>
                                  <padding>
-                                    <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+                                    <Insets left="15.0" right="15.0" top="10.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <Button fx:id="exportXML" alignment="CENTER" contentDisplay="CENTER" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#exportXML" prefHeight="35.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="Exporter" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="importXML" alignment="CENTER" contentDisplay="CENTER" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#importXML" prefHeight="35.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="Importer" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="15.0" left="15.0" right="15.0" top="10.0" />
                                  </padding>
                               </HBox>
                            </children>

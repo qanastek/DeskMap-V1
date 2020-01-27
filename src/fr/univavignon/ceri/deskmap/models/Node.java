@@ -28,6 +28,11 @@ public class Node {
 	public Double lon;
 	
 	/**
+	 * {@code Boolean} Does it is a bus station
+	 */
+	public Boolean busStation;
+	
+	/**
 	 * Constructor
 	 * @param id {@code String} Identifier
 	 * @param lat {@code Double} Latitude

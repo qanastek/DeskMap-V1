@@ -22,8 +22,12 @@ import fr.univavignon.ceri.deskmap.models.region.Region;
 import fr.univavignon.ceri.deskmap.models.region.SchoolAmenity;
 import fr.univavignon.ceri.deskmap.models.region.Structure;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import src.fr.univavignon.ceri.application.GuiController;
+import src.fr.univavignon.ceri.application.config.Textures;
+import src.fr.univavignon.ceri.application.services.Draw;
 
 /**
  * @author Yanis Labrak
@@ -87,6 +91,38 @@ public class Draw {
 			
 		}
 		
+	}
+
+	/**
+	 * Draw all the bus stations on the {@code Canvas}
+	 * @param gc {@code GraphicsContext} The canvas
+	 * @author Yanis Labrak
+	 */
+	public static void drawBusStations(GraphicsContext gc) {
+		
+		for (Long key : Map.busStations.keySet()) {
+		    
+		    Node node = Map.busStations.get(key);
+		    
+    		// Coordinate after processing
+    		List<Double> coordinates = Node.toPixel(node.lat, node.lon);
+    		
+    		Double x = coordinates.get(0);
+    		Double y = Map.height - coordinates.get(1);
+
+//		    gc.setFill(Color.BLACK);
+//    		gc.setStroke(Color.BLACK);
+//    		gc.fillOval(x, y, 10, 10);
+			
+			gc.drawImage(
+				new Image(Draw.class.getResourceAsStream(fr.univavignon.ceri.deskmap.config.Textures.BUS_STATION)),
+				x,
+				y,
+				10,
+				10
+			);
+			
+		}
 	}
 
 	/**

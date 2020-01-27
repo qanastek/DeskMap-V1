@@ -127,6 +127,11 @@ public class Map {
 	public static HashMap<Long, Node> nodes = new HashMap<Long, Node>();
 	
 	/**
+	 * All the bus stations
+	 */
+	public static HashMap<Long, Node> busStations = new HashMap<Long, Node>();
+	
+	/**
 	 * Constructor
 	 * @author Mohamed BEN YAMNA
 	 */
@@ -177,6 +182,15 @@ public class Map {
 	 */
 	public void addNode(Node node) {
 		Map.nodes.put(node.id, node);
+	}
+
+	/**
+	 * Add a {@code Node} inside the {@code HashMap} bus station
+	 * @param node The {@code Node} to add
+	 * @author Mohamed BEN YAMNA
+	 */
+	public void addBusStation(Node node) {
+		Map.busStations.put(node.id, node);
 	}
 	
 	/**
@@ -229,8 +243,22 @@ public class Map {
 						(Double) item.get("lon")
 					);
 					
+					JSONObject tags = (JSONObject) item.get("tags");
+					
+					if (tags != null) {
+						
+						String highway = (String) tags.get("highway");						
+						
+						if (highway != null && highway.equals("bus_stop")) {
+							MainViewController.map.addBusStation(node);
+							continue;
+						}
+						
+					}
+
 					// Add it to the HashMap of Nodes
 					MainViewController.map.addNode(node);
+					
 				}	
 				
 		    } 

@@ -12,6 +12,11 @@ public final class Color {
 	public static final String YELLOW = "#ffff00";
 	
 	/**
+	 * Color of the bus stations
+	 */
+	public static final String BUS_STOP = "#aadaff";
+	
+	/**
 	 * Color of the WATER area
 	 */
 	public static final String WATER = "#aadaff";

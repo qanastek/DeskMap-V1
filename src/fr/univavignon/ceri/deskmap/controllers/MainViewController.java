@@ -16,6 +16,9 @@ import fr.univavignon.ceri.deskmap.config.Settings;
 import fr.univavignon.ceri.deskmap.models.Bbox;
 import fr.univavignon.ceri.deskmap.models.GeoData;
 import fr.univavignon.ceri.deskmap.models.Node;
+import fr.univavignon.ceri.deskmap.models.Modes.CalculMode;
+import fr.univavignon.ceri.deskmap.models.Modes.TransportLine;
+import fr.univavignon.ceri.deskmap.models.Modes.TransportMode;
 import fr.univavignon.ceri.deskmap.models.geopoint.City;
 import fr.univavignon.ceri.deskmap.models.line.Road;
 import fr.univavignon.ceri.deskmap.services.AStar;
@@ -40,6 +43,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -65,6 +69,9 @@ public class MainViewController implements Initializable {
 	@FXML
 	private Canvas canvasMap;
 	
+	/**
+	 * The size of the canvas
+	 */
 	public static Point2D canvasMapSize;
 	
 	/**
@@ -168,6 +175,60 @@ public class MainViewController implements Initializable {
 	 */
 	@FXML
     private Text scaleValue;
+
+    /**
+     * Calculation modes selection
+     */
+    @FXML
+    private ComboBox<CalculMode> calculMode;
+
+    /**
+     * Transport modes selection
+     */
+    @FXML
+    private ComboBox<TransportMode> transportMode;
+    
+    /**
+     * Reference all the bus and tramway lines
+     */
+    @FXML
+    private ComboBox<TransportLine> lignes;
+    
+    /**
+     * Display the transports lines
+     */
+    @FXML
+    private Button displayTC;
+    
+    /**
+     * Hide the transports lines
+     */
+    @FXML
+    private Button hideTC;
+
+    /**
+     * Correspondance or not
+     */
+    @FXML
+    private CheckBox correspondance;
+
+    /**
+     * Both sens or not
+     */
+    @FXML
+    private CheckBox sens;
+
+    /**
+     * Export to XML
+     */
+    @FXML
+    private Button exportXML;
+
+    /**
+     * Import to XML
+     */
+    @FXML
+    private Button importXML;
 	
 	/**
 	 * This stack contain all the {@code ContextMenu} present on the screen
@@ -868,6 +929,9 @@ public class MainViewController implements Initializable {
 			
 			// Draw the names of the streets		
 			Draw.drawStreetsName(MainViewController.gc);
+			
+			// Draw bus stations
+			Draw.drawBusStations(gc);
 		}
 	}
 	
@@ -1528,4 +1592,22 @@ public class MainViewController implements Initializable {
 			MainViewController.listStreetNameSortedTo.setAll(MainViewController.listStreetName);
 		}
 	}
+
+    /**
+     * Export as XML
+     * @param event {@code ActionEvent}
+     */
+    @FXML
+    void exportXML(ActionEvent event) {
+
+    }
+
+    /**
+     * Import as XML
+     * @param event {@code ActionEvent}
+     */
+    @FXML
+    void importXML(ActionEvent event) {
+
+    }
 }

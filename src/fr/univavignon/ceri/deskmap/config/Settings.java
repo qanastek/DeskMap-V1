@@ -11,7 +11,7 @@ public final class Settings {
 	/**
 	 * The default city draw when the software start
 	 */
-	public static final City DEFAULT_CITY = new City("1836027948", 43.9492493, 4.8059012, "Avignon");
+	public static final City DEFAULT_CITY = new City("26686572", 47.4739884, -0.5515588, "Angers");
 
 	/**
 	 * Max scale of the canvas

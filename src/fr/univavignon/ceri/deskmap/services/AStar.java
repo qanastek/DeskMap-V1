@@ -59,8 +59,8 @@ public class AStar {
 	 */
 	public AStar() {
 		
-		this.departure = Map.nodes.get(Long.parseLong("926350446"));
-		this.arrival = Map.nodes.get(Long.parseLong("937057575"));
+		this.departure = Map.nodes.get(Long.parseLong("2006280968"));
+		this.arrival = Map.nodes.get(Long.parseLong("32320483"));
 
 		this.now = new NodePath(this.departure);
 
