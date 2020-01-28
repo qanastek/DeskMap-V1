@@ -25,9 +25,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import src.fr.univavignon.ceri.application.GuiController;
-import src.fr.univavignon.ceri.application.config.Textures;
-import src.fr.univavignon.ceri.application.services.Draw;
 
 /**
  * @author Yanis Labrak
