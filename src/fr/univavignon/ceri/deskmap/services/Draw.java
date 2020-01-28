@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.univavignon.ceri.deskmap.Map;
+import fr.univavignon.ceri.deskmap.controllers.MainViewController;
 import fr.univavignon.ceri.deskmap.models.Bbox;
 import fr.univavignon.ceri.deskmap.models.GeoData;
 import fr.univavignon.ceri.deskmap.models.Node;
@@ -62,7 +63,13 @@ public class Draw {
 	 * @param gc {@code GraphicsContext}
 	 */
 	public static void drawStreetsName(GraphicsContext gc) {
+
+		int fontSize = (int) (1 * Map.scale / 1.5);
 		
+        gc.setLineWidth(1.0);
+        gc.setFill(Color.BLACK);
+        gc.setFont(new Font("Verdana", fontSize));
+        
 		for (GeoData g: Map.mapContent.values()) {
 			
 			if (Map.scale > 5 && g instanceof Road && ((Road) g).getNodes().size() > 3) {
@@ -70,19 +77,14 @@ public class Draw {
 				Node center = ((Road) g).getMiddle();
 				
 	    		// Coordinate after processing
-	    		List<Double> coordinates = Node.toPixel(center.lat, center.lon);
-	    		
-	    		int fontSize = (int) (1 * Map.scale / 1.5);
+	    		List<Double> coordinates = Node.toPixel(center.lat, center.lon);	    		
 	    		
 	    		Double x = coordinates.get(0);
 	    		Double y = Map.height - coordinates.get(1);
-	    		
-//	    		Double angle = ((Road) g).getAngle();
-
-	            gc.setLineWidth(1.0);
-	            gc.setFill(Color.BLACK);
-	            gc.setFont(new Font("Verdana", fontSize));
-	    		gc.fillText(((Road) g).name, x, y);
+			    
+			    if (Bbox.isContained(x, y, Bbox.bboxScreen)) {
+			    	gc.fillText(((Road) g).name, x, y);		    		
+			    }
 				
 			}
 			
@@ -106,20 +108,48 @@ public class Draw {
     		
     		Double x = coordinates.get(0);
     		Double y = Map.height - coordinates.get(1);
+    		
+		    if (Bbox.isContained(x, y, Bbox.bboxScreen)) {
+		    	
+		    	// Size of the icon
+		    	Double scale = Draw.busStationSize();
 
-//		    gc.setFill(Color.BLACK);
-//    		gc.setStroke(Color.BLACK);
-//    		gc.fillOval(x, y, 10, 10);
-			
-			gc.drawImage(
-				new Image(Draw.class.getResourceAsStream(fr.univavignon.ceri.deskmap.config.Textures.BUS_STATION)),
-				x,
-				y,
-				10,
-				10
-			);
+		    	// Draw the icon
+				gc.drawImage(
+					new Image(Draw.class.getResourceAsStream(fr.univavignon.ceri.deskmap.config.Textures.BUS_STATION)),
+					x,
+					y,
+					scale,
+					scale
+				);
+	    		
+			}
 			
 		}
+	}
+	
+	/**
+	 * Return the size of the busStation icon according to the level of zoom
+	 * @return {@code Double} The output size
+	 */
+	public static Double busStationSize() {
+		
+		// Zoom lvl 1
+		if (Map.scale < 28 && Map.scale > 14) {
+			return Map.scale / 1.1;
+		}
+		// Zoom lvl 2
+		else if (Map.scale < 14 && Map.scale > 7.4) {
+			return Map.scale * 2;
+		}
+		// Zoom lvl 3
+		else if (Map.scale < 7.4 && Map.scale > 1.2) {
+			return Map.scale * 5;
+		}
+		else {
+			return Map.scale * 10;
+		}
+		
 	}
 
 	/**
@@ -129,6 +159,9 @@ public class Draw {
 	 * @author Yanis Labrak
 	 */
 	public static void drawNodes(GraphicsContext gc, Bbox bbox) {
+
+	    gc.setFill(Color.BLACK);
+		gc.setStroke(Color.BLACK);
 		
 		for (Long key : Map.nodes.keySet()) {
 		    
@@ -140,10 +173,8 @@ public class Draw {
     		Double x = coordinates.get(0);
     		Double y = Map.height - coordinates.get(1);
 	    		
-		    if (x < bbox.topRight && x > bbox.topLeft && y > bbox.bottomLeft && y < bbox.bottomRight) {
+		    if (Bbox.isContained(x, y, bbox)) {
 
-			    gc.setFill(Color.BLACK);
-	    		gc.setStroke(Color.BLACK);
 	    		gc.fillOval(x, y, Map.scale/5, Map.scale/5);
 	    		
 			}
@@ -181,6 +212,7 @@ public class Draw {
 	 * @author Yanis Labrak
 	 */
 	public static void drawPropRegion(GraphicsContext gc, Region prop) {
+		
 		List<Long> nodes = prop.getNodes();
 		
 		gc.setFill(Color.web(prop.getColor()));
@@ -255,14 +287,18 @@ public class Draw {
 	 * @author Yanis Labrak
 	 */
 	public static void drawLayout1(GraphicsContext gc) {
+		
+		// The Canvas Bbox
+		Bbox bbox = Bbox.getBboxScreen();
+		
 		for (Long key : Map.mapContent.keySet()) {
 		    
 		    Object prop = Map.mapContent.get(key);
 		    
 		    if (prop instanceof Region) {		    	
-		    	if (prop instanceof Landuse) {		    		
+		    	if (prop instanceof Landuse) {
 			    	Draw.drawPropRegion(gc, (Region) prop);
-				}		    	
+	    		}
 			}			
 		}
 	}

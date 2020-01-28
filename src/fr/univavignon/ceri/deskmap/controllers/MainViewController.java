@@ -921,6 +921,9 @@ public class MainViewController implements Initializable {
 			Map.width = MainViewController.canvasMapSize.getX();
 			Map.height = MainViewController.canvasMapSize.getY();
 			
+			// Redefine the bbox of the canvas
+			Bbox.bboxScreen = Bbox.calculateBboxScreen();
+			
 			// Draw all ways
 			Draw.drawWays(MainViewController.gc);
 			

@@ -19,11 +19,15 @@ public class Node {
 	
 	/**
 	 * {@code Double} Earth latitude coordinate
+	 * <br>
+	 * Aka y
 	 */
 	public Double lat;
 	
 	/**
 	 * {@code Double} Earth longitude coordinate
+	 * <br>
+	 * Aka x
 	 */
 	public Double lon;
 	
@@ -65,6 +69,21 @@ public class Node {
 		this.id = id;
 		this.lat = lat;
 		this.lon = lon;
+	}
+	
+	/**
+	 * Return the node after conversion
+	 * @param node {@code Node} The {@code Node} which we want to convert
+	 * @return {@code Node} The {@code Node} after conversion
+	 */
+	public static Node toPixel(Node node) {
+		
+		List<Double> coordinates = Node.toPixel(node.lat, node.lon);
+
+		node.lon = coordinates.get(0);
+		node.lat = coordinates.get(1);
+		
+		return node;	
 	}
 	
 	/**
