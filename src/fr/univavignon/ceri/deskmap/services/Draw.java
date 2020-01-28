@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.univavignon.ceri.deskmap.Map;
-import fr.univavignon.ceri.deskmap.controllers.MainViewController;
 import fr.univavignon.ceri.deskmap.models.Bbox;
 import fr.univavignon.ceri.deskmap.models.GeoData;
 import fr.univavignon.ceri.deskmap.models.Node;
@@ -231,7 +230,7 @@ public class Draw {
     		List<Double> coordinates = Node.toPixel(node.lat, node.lon);
 
     		x.add(coordinates.get(0));
-    		y.add(Map.height - coordinates.get(1));
+    		y.add(Map.height - coordinates.get(1));   		
 		}
     	
     	// Draw the building
@@ -245,6 +244,7 @@ public class Draw {
 	 * @author Yanis Labrak
 	 */
 	public static void drawPropLine(GraphicsContext gc, Line prop) {
+		
 		List<Long> nodes = prop.getNodes();
 		
 		gc.setFill(Color.web(prop.getColor()));
@@ -287,9 +287,6 @@ public class Draw {
 	 * @author Yanis Labrak
 	 */
 	public static void drawLayout1(GraphicsContext gc) {
-		
-		// The Canvas Bbox
-		Bbox bbox = Bbox.getBboxScreen();
 		
 		for (Long key : Map.mapContent.keySet()) {
 		    

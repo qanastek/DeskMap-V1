@@ -180,19 +180,19 @@ public class MainViewController implements Initializable {
      * Calculation modes selection
      */
     @FXML
-    private ComboBox<CalculMode> calculMode;
+    private ComboBox<CalculMode> calculMode = new ComboBox<CalculMode>();
 
     /**
      * Transport modes selection
      */
     @FXML
-    private ComboBox<TransportMode> transportMode;
+    private ComboBox<TransportMode> transportMode = new ComboBox<TransportMode>();
     
     /**
      * Reference all the bus and tramway lines
      */
     @FXML
-    private ComboBox<TransportLine> lignes;
+    private ComboBox<TransportLine> lignes = new ComboBox<TransportLine>();
     
     /**
      * Display the transports lines
@@ -1611,6 +1611,36 @@ public class MainViewController implements Initializable {
      */
     @FXML
     void importXML(ActionEvent event) {
+
+    }
+
+    /**
+     * Change the state of the correspondence
+     * @param event {@code ActionEvent}
+     */
+    @FXML
+    void correspondance(ActionEvent event) {
+    	
+    	if (this.correspondance.isSelected()) {
+			System.out.println("Selected !");
+		} else {
+			System.out.println("Unselected !");
+		}
+
+    }
+    
+    /**
+     * Change the state of the oneway
+     * @param event {@code ActionEvent}
+     */
+    @FXML
+    void sens(ActionEvent event) {
+    	
+    	if (this.sens.isSelected()) {
+			System.out.println("Selected !");
+		} else {
+			System.out.println("Unselected !");
+		}
 
     }
 }

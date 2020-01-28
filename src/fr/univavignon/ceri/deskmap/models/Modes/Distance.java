@@ -7,6 +7,6 @@ package fr.univavignon.ceri.deskmap.models.Modes;
  * @author Yanis Labrak
  *
  */
-public interface TransportMode {
+public class Distance extends CalculMode {
 
 }

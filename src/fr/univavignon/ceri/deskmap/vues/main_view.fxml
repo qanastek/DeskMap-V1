@@ -74,8 +74,8 @@
                               </HBox>
                               <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0">
                                  <children>
-                                    <CheckBox fx:id="correspondance" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Correspondance" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS" />
-                                    <CheckBox fx:id="sens" mnemonicParsing="false" text="Sens" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                    <CheckBox fx:id="correspondance" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#correspondance" text="Correspondance" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                                    <CheckBox fx:id="sens" mnemonicParsing="false" onAction="#sens" text="Sens" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
                                        <HBox.margin>
                                           <Insets left="50.0" />
                                        </HBox.margin>

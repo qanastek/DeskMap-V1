@@ -3,15 +3,12 @@ package fr.univavignon.ceri.deskmap.services;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import fr.univavignon.ceri.deskmap.Map;
 import fr.univavignon.ceri.deskmap.controllers.MainViewController;
 import fr.univavignon.ceri.deskmap.models.GeoData;
 import fr.univavignon.ceri.deskmap.models.Node;
 import fr.univavignon.ceri.deskmap.models.NodePath;
 import fr.univavignon.ceri.deskmap.models.line.Road;
-import javafx.application.Platform;
 import javafx.scene.paint.Color;
 
 /**

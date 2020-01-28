@@ -33,6 +33,9 @@ public class Bbox {
 	 */
 	public Double bottomRight;
 	
+	/**
+	 * Bounding box of the canvas according to the screen size
+	 */
 	public static Bbox bboxScreen;
 
 	/**
