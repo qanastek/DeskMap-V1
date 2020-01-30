@@ -65,8 +65,8 @@
                               </HBox>
                               <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <ComboBox fx:id="calculMode" disable="true" editable="true" layoutX="155.0" layoutY="98.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#checkAllComboBox" onKeyReleased="#autoCompleteTo" prefHeight="0.0" prefWidth="130.0" promptText="Mode calcul" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="98.0" HBox.hgrow="ALWAYS" />
-                                    <ComboBox fx:id="transportMode" disable="true" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#checkAllComboBox" onKeyReleased="#autoCompleteTo" prefHeight="31.0" prefWidth="113.0" promptText="Mode transport" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" HBox.hgrow="ALWAYS" />
+                                    <ComboBox fx:id="calculMode" editable="true" layoutX="155.0" layoutY="98.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#checkAllComboBox" onKeyReleased="#autoCompleteTo" prefHeight="0.0" prefWidth="130.0" promptText="Mode calcul" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="98.0" HBox.hgrow="ALWAYS" />
+                                    <ComboBox fx:id="transportMode" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#checkAllComboBox" onKeyReleased="#autoCompleteTo" prefHeight="31.0" prefWidth="113.0" promptText="Mode transport" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" HBox.hgrow="ALWAYS" />
                                  </children>
                                  <padding>
                                     <Insets left="15.0" right="15.0" top="10.0" />
@@ -110,13 +110,13 @@
                                     <Insets left="15.0" right="15.0" top="10.0" />
                                  </padding>
                                  <children>
-                                    <ComboBox fx:id="lignes" disable="true" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#checkAllComboBox" onKeyReleased="#autoCompleteTo" prefHeight="36.0" prefWidth="138.0" promptText="Ligne(s) Transport" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" HBox.hgrow="ALWAYS" />
-                                    <Button fx:id="displayTC" alignment="CENTER" contentDisplay="CENTER" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#searching" prefHeight="35.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="Afficher" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                    <ComboBox fx:id="lignes" editable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#checkAllComboBox" onKeyReleased="#autoCompleteTo" prefHeight="36.0" prefWidth="138.0" promptText="Ligne(s) Transport" style="-fx-background-color: #2d389f; -fx-text-inner-color: white;" HBox.hgrow="ALWAYS" />
+                                    <Button fx:id="displayTC" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#searching" prefHeight="35.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="Afficher" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="hideTC" alignment="CENTER" contentDisplay="CENTER" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#searching" prefHeight="35.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="Cacher" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                    <Button fx:id="hideTC" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#searching" prefHeight="35.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="Cacher" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -133,12 +133,12 @@
                               </HBox>
                               <HBox minHeight="0.0" minWidth="0.0" prefWidth="214.0" spacing="5.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <Button fx:id="exportXML" alignment="CENTER" contentDisplay="CENTER" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#exportXML" prefHeight="35.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="Exporter" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                    <Button fx:id="exportXML" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#exportXML" prefHeight="35.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="Exporter" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
                                     </Button>
-                                    <Button fx:id="importXML" alignment="CENTER" contentDisplay="CENTER" disable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#importXML" prefHeight="35.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="Importer" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                    <Button fx:id="importXML" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" mnemonicParsing="false" onAction="#importXML" prefHeight="35.0" prefWidth="113.0" style="-fx-background-color: #8799ff;" text="Importer" textAlignment="CENTER" textFill="WHITE" HBox.hgrow="ALWAYS">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
